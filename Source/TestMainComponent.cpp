@@ -1,8 +1,11 @@
-#include "TestMainComponent.h"
+#include "../Source/TestMainComponent.h"
+
+#include "SubComponentTest.h"
 
 //==============================================================================
 TestMainComponent::TestMainComponent():
-    random(juce::Random{})
+    random(juce::Random{}),
+    testPanel(std::make_unique<SubComponentTest>()) // Sigh
 {
     setSize(600, 400);
 
@@ -37,13 +40,15 @@ TestMainComponent::TestMainComponent():
     {
         if (sampleRate > 0)
         {
-            volume = volumeSlider.getValue();
+            volume = static_cast<float>(volumeSlider.getValue());
         }
     };
 
     addAndMakeVisible(volumeLabel);
     volumeLabel.setText("Volume: ", juce::dontSendNotification);
     volumeLabel.attachToComponent(&volumeSlider, true);
+
+    // addAndMakeVisible(*testPanel);
 }
 
 TestMainComponent::~TestMainComponent()
@@ -57,14 +62,14 @@ void TestMainComponent::prepareToPlay(const int samplesPerBlockExpected, const d
     message << "Preparing to play audio...\n";
     message << " samplesPerBlockExpected = " << samplesPerBlockExpected << "\n";
     message << " sampleRate = " << sampleRate;
-    juce::Logger::getCurrentLogger()->writeToLog (message);
+    juce::Logger::writeToLog(message);
 
     this->sampleRate = sampleRate;
 }
 
 void TestMainComponent::releaseResources()
 {
-    juce::Logger::getCurrentLogger()->writeToLog("Releasing resources");
+    juce::Logger::writeToLog("Releasing resources");
 }
 
 void TestMainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
@@ -80,7 +85,7 @@ void TestMainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bu
             currentFrequency = currentFrequency + frequencyIncrement;
             updateAngleDelta(currentFrequency);
 
-            float value = volume * std::sin(currentAngle);
+            auto value = static_cast<float>(volume * std::sin(currentAngle));
             currentAngle += angleDelta;
 
             leftBuffer[i] = value;
@@ -91,7 +96,7 @@ void TestMainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bu
     {
         for (int i = 0; i < bufferToFill.numSamples; i++)
         {
-            float value = volume * std::sin(currentAngle);
+            auto value = static_cast<float>(volume * std::sin(currentAngle));
             currentAngle += angleDelta;
 
             leftBuffer[i] = value;
@@ -119,6 +124,8 @@ void TestMainComponent::resized()
     auto sliderLeft = 120;
     frequencySlider.setBounds (sliderLeft, 20, getWidth() - sliderLeft - 10, 20);
     volumeSlider.setBounds (sliderLeft, 50, getWidth() - sliderLeft - 10, 20);
+
+    testPanel->setBounds(0, 100, getWidth(), getHeight() - 100);
 }
 
 void TestMainComponent::updateAngleDelta(double frequency)

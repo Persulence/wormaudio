@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "SubComponentTest.fwd.h"
 
 template <typename T>
 class SliderListenerImpl: public juce::SliderListener<T>
@@ -58,12 +59,14 @@ private:
     juce::Label volumeLabel;
     juce::Slider volumeSlider;
 
+    std::unique_ptr<SubComponentTest> testPanel;
+
     double sampleRate = 0;
     float volume = 0;
     double currentAngle = 0;
     double angleDelta = 0;
-    float targetFrequency = 0;
-    float currentFrequency = 0;
+    double targetFrequency = 0;
+    double currentFrequency = 0;
 };
 
 template<typename T>

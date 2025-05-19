@@ -65,7 +65,8 @@ target_include_directories(${GUI_TARGET}
 #target_sources(${GUI_TARGET}
 #        PRIVATE
 #        Source/Main.cpp
-#        Source/MainComponent.cpp)
+#        Source/MainComponent.cpp
+#)
 
 file(GLOB_RECURSE SourceFiles
         CONFIGURE_DEPENDS
