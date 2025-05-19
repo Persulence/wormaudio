@@ -1,0 +1,3 @@
+[submodule "Builds/LinuxMakefile/build/lib/JUCE"]
+	path = Builds/LinuxMakefile/build/lib/JUCE
+	url = https://github.com/juce-framework/JUCE
