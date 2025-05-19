@@ -49,7 +49,8 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TestMainComponent)
 
-    double sampleRate = 0;
+    void updateAngleDelta(double frequency);
+
     juce::Random random;
 
     juce::Label frequencyLabel;
@@ -57,9 +58,12 @@ private:
     juce::Label volumeLabel;
     juce::Slider volumeSlider;
 
+    double sampleRate = 0;
     float volume = 0;
     double currentAngle = 0;
     double angleDelta = 0;
+    float targetFrequency = 0;
+    float currentFrequency = 0;
 };
 
 template<typename T>

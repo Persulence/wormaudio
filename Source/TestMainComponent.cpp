@@ -19,10 +19,12 @@ TestMainComponent::TestMainComponent():
     {
         if (sampleRate > 0)
         {
-            auto cyclesPerSample = frequencySlider.getValue() / sampleRate;
-            angleDelta = cyclesPerSample * 2 * juce::MathConstants<double>::pi;
+            targetFrequency = frequencySlider.getValue();
+            updateAngleDelta(frequencySlider.getValue());
         }
     };
+    targetFrequency = frequencySlider.getValue();
+    currentFrequency = targetFrequency;
 
     addAndMakeVisible(frequencyLabel);
     frequencyLabel.setText("Frequency: ", juce::dontSendNotification);
@@ -62,7 +64,6 @@ void TestMainComponent::prepareToPlay(const int samplesPerBlockExpected, const d
 
 void TestMainComponent::releaseResources()
 {
-    std::cout << "release\n";
     juce::Logger::getCurrentLogger()->writeToLog("Releasing resources");
 }
 
@@ -70,19 +71,32 @@ void TestMainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bu
 {
     auto* leftBuffer = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
     auto* rightBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
-    for (int i = 0; i < bufferToFill.numSamples; i++)
+
+    if (!juce::approximatelyEqual(targetFrequency, currentFrequency))
     {
-        // const float value = random.nextFloat() * 0.25 - 0.125;
-        // sin(2pi n f T)
-        // float value = juce::
+        auto frequencyIncrement = (targetFrequency - currentFrequency) / bufferToFill.numSamples;
+        for (int i = 0; i < bufferToFill.numSamples; i++)
+        {
+            currentFrequency = currentFrequency + frequencyIncrement;
+            updateAngleDelta(currentFrequency);
 
-        float value = volume * std::sin(currentAngle);
-        currentAngle += angleDelta;
+            float value = volume * std::sin(currentAngle);
+            currentAngle += angleDelta;
 
-        leftBuffer[i] = value;
-        rightBuffer[i] = value;
-        // bufferToFill.buffer->setSample(0, i, value);
-        // bufferToFill.buffer->setSample(1, i, value);
+            leftBuffer[i] = value;
+            rightBuffer[i] = value;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < bufferToFill.numSamples; i++)
+        {
+            float value = volume * std::sin(currentAngle);
+            currentAngle += angleDelta;
+
+            leftBuffer[i] = value;
+            rightBuffer[i] = value;
+        }
     }
 }
 
@@ -105,4 +119,10 @@ void TestMainComponent::resized()
     auto sliderLeft = 120;
     frequencySlider.setBounds (sliderLeft, 20, getWidth() - sliderLeft - 10, 20);
     volumeSlider.setBounds (sliderLeft, 50, getWidth() - sliderLeft - 10, 20);
+}
+
+void TestMainComponent::updateAngleDelta(double frequency)
+{
+    double cyclesPerSample = frequency / sampleRate;
+    angleDelta = cyclesPerSample * 2 * juce::MathConstants<double>::pi;
 }
