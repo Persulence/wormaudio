@@ -69,44 +69,49 @@ void TestMainComponent::prepareToPlay(const int samplesPerBlockExpected, const d
     juce::Logger::writeToLog(message);
 
     this->sampleRate = sampleRate;
+
+    player->prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void TestMainComponent::releaseResources()
 {
+    player->releaseResources();
     juce::Logger::writeToLog("Releasing resources");
 }
 
 void TestMainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
 {
-    auto* leftBuffer = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
-    auto* rightBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
+    player->getNextAudioBlock(bufferToFill);
 
-    if (!juce::approximatelyEqual(targetFrequency, currentFrequency))
-    {
-        auto frequencyIncrement = (targetFrequency - currentFrequency) / bufferToFill.numSamples;
-        for (int i = 0; i < bufferToFill.numSamples; i++)
-        {
-            currentFrequency = currentFrequency + frequencyIncrement;
-            updateAngleDelta(currentFrequency);
+    // auto* leftBuffer = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
+    // auto* rightBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
 
-            auto value = static_cast<float>(volume * std::sin(currentAngle));
-            currentAngle += angleDelta;
-
-            leftBuffer[i] = value;
-            rightBuffer[i] = value;
-        }
-    }
-    else
-    {
-        for (int i = 0; i < bufferToFill.numSamples; i++)
-        {
-            auto value = static_cast<float>(volume * std::sin(currentAngle));
-            currentAngle += angleDelta;
-
-            leftBuffer[i] = value;
-            rightBuffer[i] = value;
-        }
-    }
+    // if (!juce::approximatelyEqual(targetFrequency, currentFrequency))
+    // {
+    //     auto frequencyIncrement = (targetFrequency - currentFrequency) / bufferToFill.numSamples;
+    //     for (int i = 0; i < bufferToFill.numSamples; i++)
+    //     {
+    //         currentFrequency = currentFrequency + frequencyIncrement;
+    //         updateAngleDelta(currentFrequency);
+    //
+    //         auto value = static_cast<float>(volume * std::sin(currentAngle));
+    //         currentAngle += angleDelta;
+    //
+    //         leftBuffer[i] = value;
+    //         rightBuffer[i] = value;
+    //     }
+    // }
+    // else
+    // {
+    //     for (int i = 0; i < bufferToFill.numSamples; i++)
+    //     {
+    //         auto value = static_cast<float>(volume * std::sin(currentAngle));
+    //         currentAngle += angleDelta;
+    //
+    //         leftBuffer[i] = value;
+    //         rightBuffer[i] = value;
+    //     }
+    // }
 }
 
 //==============================================================================

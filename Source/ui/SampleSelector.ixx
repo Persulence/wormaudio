@@ -19,10 +19,12 @@ public:
 
         addAndMakeVisible(play);
         play.setButtonText("Play");
+        play.setColour(juce::TextButton::buttonColourId, juce::Colours::teal);
         play.onClick = [this]{ playClicked(); };
 
         addAndMakeVisible(stop);
         stop.setButtonText("Stop");
+        stop.setColour(juce::TextButton::buttonColourId, juce::Colours::indianred);
         stop.onClick = [this] { stopClicked(); };
     }
 
@@ -64,12 +66,12 @@ private:
 
     void playClicked()
     {
-
+        samplePlayer->changeState(STARTING);
     }
 
     void stopClicked()
     {
-
+        samplePlayer->changeState(STOPPING);
     }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SampleSelector)

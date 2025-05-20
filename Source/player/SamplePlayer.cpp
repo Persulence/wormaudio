@@ -8,12 +8,12 @@ SamplePlayer::SamplePlayer()
 
 void SamplePlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
-
+    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void SamplePlayer::releaseResources()
 {
-
+    transportSource.releaseResources();
 }
 
 void SamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
