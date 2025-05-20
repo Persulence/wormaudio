@@ -2,25 +2,7 @@
 
 #include <JuceHeader.h>
 #include "SubComponentTest.fwd.h"
-
-template <typename T>
-class SliderListenerImpl: public juce::SliderListener<T>
-{
-public:
-    using Listener = std::function<void(int v)>;
-
-    SliderListenerImpl() = default;
-    ~SliderListenerImpl() override = default;
-
-    void addListener(Listener&& listener);
-
-private:
-    void sliderValueChanged(T *) override;
-    void sliderDragStarted(T *) override;
-    void sliderDragEnded(T *) override;
-
-    std::list<Listener> listeners;
-};
+#include "ui/SampleSelector.fwd.h"
 
 //==============================================================================
 
@@ -58,6 +40,7 @@ private:
     juce::Slider frequencySlider;
     juce::Label volumeLabel;
     juce::Slider volumeSlider;
+    // std::unique_ptr<SampleSelector> sampleSelector;
 
     std::unique_ptr<SubComponentTest> testPanel;
 
@@ -67,33 +50,4 @@ private:
     double angleDelta = 0;
     double targetFrequency = 0;
     double currentFrequency = 0;
-};
-
-template<typename T>
-void SliderListenerImpl<T>::addListener(Listener &&listener)
-{
-    listeners.emplace_back(std::move(listener));
-}
-
-template <typename T>
-void SliderListenerImpl<T>::sliderValueChanged(T* slider)
-{
-    std::cout << "Slider value changed to " << slider->getValue() << std::endl;
-    for (auto& listener : listeners)
-        listener(slider->getValue());
-}
-
-template <typename T>
-void SliderListenerImpl<T>::sliderDragStarted(T *slider)
-{
-}
-
-template <typename T>
-void SliderListenerImpl<T>::sliderDragEnded(T *slider)
-{
-}
-
-enum TransportState
-{
-
 };

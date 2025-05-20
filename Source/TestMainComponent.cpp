@@ -1,11 +1,13 @@
 #include "../Source/TestMainComponent.h"
 
 #include "SubComponentTest.h"
+// #include "ui/SampleSelector.h"
 
 //==============================================================================
 TestMainComponent::TestMainComponent():
     random(juce::Random{}),
-    testPanel(std::make_unique<SubComponentTest>()) // Sigh
+    // sampleSelector(std::make_unique<SampleSelector>()),
+    testPanel(std::make_unique<SubComponentTest>())
 {
     setSize(600, 400);
 
