@@ -12,7 +12,8 @@
 set(GUI_TARGET GuiAppExample)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
-set(CMAKE_CXX_COMPILER /usr/bin/clang++-19)
+set(CMAKE_CXX_COMPILER /usr/bin/clang++)
+#set(CMAKE_GENERATOR Ninja)
 
 cmake_minimum_required(VERSION 4.0)
 
@@ -89,9 +90,9 @@ target_sources("${GUI_TARGET}"
         PUBLIC
             FILE_SET CXX_MODULES
             FILES
-            Source/ui/mtest.ixx
+            ${ModuleFiles}
         PRIVATE
-        ${SourceFiles})
+            ${SourceFiles})
 
 set_property(TARGET ${GUI_TARGET} PROPERTY CXX_STANDARD 20)
 

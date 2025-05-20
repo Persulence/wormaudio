@@ -1,7 +1,8 @@
 #include "../Source/TestMainComponent.h"
 
 #include "SubComponentTest.h"
-#include "ui/SampleSelector.h"
+
+// import sample_selector;
 
 //==============================================================================
 TestMainComponent::TestMainComponent():
@@ -13,8 +14,8 @@ TestMainComponent::TestMainComponent():
 
     setAudioChannels(0, 2);
 
-    // auto openButton = juce::
-    // addAndMakeVisible(&openButton)
+    // addAndMakeVisible()
+
     addAndMakeVisible(frequencySlider);
     frequencySlider.setRange(50, 5000);
     frequencySlider.setTextValueSuffix(" Hz");

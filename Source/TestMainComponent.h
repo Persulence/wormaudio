@@ -2,7 +2,8 @@
 
 #include <JuceHeader.h>
 #include "SubComponentTest.fwd.h"
-#include "ui/SampleSelector.fwd.h"
+
+// import sample_selector;
 
 //==============================================================================
 
@@ -10,6 +11,8 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
+
+import sample_selector;
 
 class TestMainComponent  : public juce::AudioAppComponent
 {

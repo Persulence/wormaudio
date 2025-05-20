@@ -5,12 +5,12 @@ module;
 
 export module mtest;
 
-class C : juce::Component
+export class C : juce::Component
 {
 public:
     explicit C(const int _field): field(_field)
     {
-        // addAndMakeVisible(loadFile);
+        addAndMakeVisible(loadFile);
     }
 
     ~C() override = default;
@@ -22,5 +22,5 @@ public:
 
 private:
     int field;
-    // juce::TextButton loadFile;
+    juce::TextButton loadFile;
 };
