@@ -1,23 +1,23 @@
 module;
 
 // #include <iostream>
-// #include <JuceHeader.h>
+#include <JuceHeader.h>
 
 export module mtest;
 
-export class C
+class C : juce::Component
 {
 public:
-    explicit C(int field): field(field)
+    explicit C(const int _field): field(_field)
     {
         // addAndMakeVisible(loadFile);
     }
 
-    // ~C() override = default;
+    ~C() override = default;
 
-    void thingy()
+    void thingy() const
     {
-        // std::cout << "The field in question: " << field << std::endl;
+        std::cout << "The field in question: " << field << std::endl;
     }
 
 private:

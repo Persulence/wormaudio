@@ -11,6 +11,8 @@
 
 set(GUI_TARGET GuiAppExample)
 set(CMAKE_CXX_STANDARD 20)
+#set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
+set(CMAKE_CXX_COMPILER /usr/bin/clang++-19)
 
 cmake_minimum_required(VERSION 4.0)
 

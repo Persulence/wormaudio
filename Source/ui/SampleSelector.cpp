@@ -4,8 +4,7 @@
 import mtest;
 
 SampleSelector::SampleSelector()
+// c(C{123})
 {
-    auto c = C{123};
-
-    c.thingy();
+    // c.thingy();
 }

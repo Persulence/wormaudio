@@ -40,8 +40,8 @@ private:
     juce::Slider frequencySlider;
     juce::Label volumeLabel;
     juce::Slider volumeSlider;
-    // std::unique_ptr<SampleSelector> sampleSelector;
 
+    std::unique_ptr<SampleSelector> sampleSelector;
     std::unique_ptr<SubComponentTest> testPanel;
 
     double sampleRate = 0;
