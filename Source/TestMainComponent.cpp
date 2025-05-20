@@ -7,14 +7,15 @@
 //==============================================================================
 TestMainComponent::TestMainComponent():
     random(juce::Random{}),
-    sampleSelector(std::make_unique<SampleSelector>()),
+    player(std::make_shared<SamplePlayer>()),
+    sampleSelector(player),
     testPanel(std::make_unique<SubComponentTest>())
 {
     setSize(600, 400);
 
     setAudioChannels(0, 2);
 
-    // addAndMakeVisible()
+    addAndMakeVisible(sampleSelector);
 
     addAndMakeVisible(frequencySlider);
     frequencySlider.setRange(50, 5000);
@@ -128,7 +129,8 @@ void TestMainComponent::resized()
     frequencySlider.setBounds (sliderLeft, 20, getWidth() - sliderLeft - 10, 20);
     volumeSlider.setBounds (sliderLeft, 50, getWidth() - sliderLeft - 10, 20);
 
-    testPanel->setBounds(0, 100, getWidth(), getHeight() - 100);
+    // testPanel->setBounds(0, 100, getWidth(), getHeight() - 100);
+    sampleSelector.setBounds(0, 100, getWidth(), getHeight());
 }
 
 void TestMainComponent::updateAngleDelta(double frequency)

@@ -1,10 +1,19 @@
 #include "SamplePlayer.h"
 
-
 SamplePlayer::SamplePlayer()
 {
     formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
+}
+
+void SamplePlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
+{
+
+}
+
+void SamplePlayer::releaseResources()
+{
+
 }
 
 void SamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
