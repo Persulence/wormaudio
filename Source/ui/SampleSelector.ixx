@@ -2,10 +2,11 @@ module;
 
 #include <JuceHeader.h>
 
-#include "../player/SamplePlayer.fwd.h"
-#include "../player/SamplePlayer.h"
 
 export module sample_selector;
+
+import sample_player;
+import transport;
 
 export class SampleSelector : public juce::Component
 {
@@ -66,12 +67,40 @@ private:
 
     void playClicked()
     {
-        samplePlayer->changeState(STARTING);
+        changeState(STARTING);
     }
 
     void stopClicked()
     {
-        samplePlayer->changeState(STOPPING);
+        changeState(STOPPING);
+    }
+
+    void changeState(TransportState newState)
+    {
+        samplePlayer->changeState(newState);
+        switch (newState)
+        {
+            case STARTING:
+            {
+                play.setEnabled(false);
+                stop.setEnabled(false);
+            }
+            case PLAYING:
+            {
+                play.setEnabled(false);
+                stop.setEnabled(true);
+            }
+            case STOPPING:
+            {
+                stop.setEnabled(false);
+                play.setEnabled(false);
+            }
+            case STOPPED:
+            {
+                play.setEnabled(true);
+                stop.setEnabled(false);
+            }
+        }
     }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SampleSelector)

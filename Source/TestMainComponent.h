@@ -13,8 +13,7 @@
 */
 
 import sample_selector;
-
-class SamplePlayer;
+import sample_player;
 
 class TestMainComponent  : public juce::AudioAppComponent
 {
