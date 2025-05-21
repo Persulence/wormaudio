@@ -79,12 +79,12 @@ target_include_directories(${GUI_TARGET}
 
 file(GLOB_RECURSE ModuleFiles
         CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.ixx")
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/*.ixx")
 
 file(GLOB_RECURSE SourceFiles
         CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
 
 target_sources("${GUI_TARGET}"
         PUBLIC

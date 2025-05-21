@@ -1,4 +1,4 @@
-#include "../Source/TestMainComponent.h"
+#include "../src/TestMainComponent.h"
 
 #include "SubComponentTest.h"
 
