@@ -62,6 +62,8 @@ TestMainComponent::~TestMainComponent()
 
 void TestMainComponent::prepareToPlay(const int samplesPerBlockExpected, const double sampleRate)
 {
+    context = {samplesPerBlockExpected, sampleRate};
+
     juce::String message;
     message << "Preparing to play audio...\n";
     message << " samplesPerBlockExpected = " << samplesPerBlockExpected << "\n";

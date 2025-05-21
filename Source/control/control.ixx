@@ -30,12 +30,11 @@ namespace sm
 
         void logicTick(const ParameterLookup& parameters)
         {
-            for (auto& entry : entries)
+            for (auto& [node, transition] : entries)
             {
-                bool result = entry.transition.test(parameters);
-                if (result)
+                if (transition.test(parameters))
                 {
-                    entry.node->activate();
+                    // node.ac
                 }
             }
         }

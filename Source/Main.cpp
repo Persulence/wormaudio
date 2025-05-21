@@ -109,10 +109,11 @@ import ParameterLookup;
 import Element;
 import ElementTypes;
 import Node;
+import ElementInstanceManager;
 
 int main (int argc, char** argv)
 {
-    std::cout << "fack awff!" << std::endl;
+    std::cout << "Something terribly amusing" << std::endl;
     // S s = {"ooer", 1};
 
 //    ParameterLookup lookup;
@@ -121,10 +122,11 @@ int main (int argc, char** argv)
 //    transition.insertCondition(sm::Condition{sm::ThingCondition{}});
 //    bool val = transition.test(lookup);
 //    std::cout << "result: " << val << std::endl;
+    player::ElementInstanceManager manager;
 
     auto element = std::make_shared<element::ClipElement>();
     auto nodePtr = std::make_shared<sm::Node>();
     nodePtr->insertElement(element);
     auto ptr = createNodeInstance(nodePtr);
-    ptr->activate();
+    ptr->activate(manager);
 }

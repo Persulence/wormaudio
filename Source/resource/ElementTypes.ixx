@@ -6,6 +6,7 @@ export module ElementTypes;
 
 import Element;
 import ElementInstance;
+import AudioContext;
 
 namespace element
 {
@@ -13,26 +14,38 @@ namespace element
 
     class ClipElementInstance : public ElementInstance
     {
-//        std::shared_ptr<Buffer> buffer;
+
     public:
+        explicit ClipElementInstance(const player::AudioContext &context_):
+                ElementInstance(context_)
+        {
+
+        }
+
         ~ClipElementInstance() override = default;
 
-        virtual void activate() override
+        void start() override
         {
             playSound();
+        }
+
+        void stop() override
+        {
+            released = true;
         }
 
         void playSound()
         {
             std::cout << "Playing sound from a " << typeid(this).name() << "!\n";
         }
+
     };
 
     export class ClipElement : public Element
     {
-        std::shared_ptr<ElementInstance> createInstance() const override
+        [[nodiscard]] std::shared_ptr<ElementInstance> createInstance(player::AudioContext context) const override
         {
-            return std::make_shared<ClipElementInstance>();
+            return std::make_shared<ClipElementInstance>(context);
         }
     };
 }

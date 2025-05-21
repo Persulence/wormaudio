@@ -8,6 +8,7 @@ export module Node;
 
 import Element;
 import ElementInstance;
+import ElementInstanceContext;
 
 namespace sm
 {
@@ -21,7 +22,7 @@ namespace sm
         }
     };
 
-    // For now only one node subtype
+    // For now only one node type
     export class Node
     {
         std::vector<ElementEntry> elements_;
@@ -39,8 +40,8 @@ namespace sm
 
     export class NodeInstance
     {
-        std::shared_ptr<Node> parent;
-        std::vector<std::shared_ptr<element::ElementInstance>> instances;
+        const std::shared_ptr<Node> parent;
+        std::vector<element::ElementInstancePtr> instances;
 
     public:
         explicit NodeInstance(std::shared_ptr<Node> node):
@@ -49,14 +50,25 @@ namespace sm
 
         }
 
-        void activate()
+        void activate(element::ElementInstanceContext& context)
         {
             for (auto& entry : parent->elements())
             {
-                // Fine for oneshots
-                auto& ret = instances.emplace_back(entry->createInstance());
-                ret->activate();
+                // The node instance shares ownership of the element instance with the manager
+                auto instance = context.createInstance(*entry.value);
+                instances.emplace_back(instance);
+                instance->start();
             }
+        }
+
+        void deactivate(element::ElementInstanceContext& context)
+        {
+            for (const auto& instance : instances)
+            {
+                instance->stop();
+            }
+
+            instances.clear();
         }
     };
 

@@ -6,6 +6,7 @@ module;
 export module Element;
 
 import ElementInstance;
+import AudioContext;
 
 namespace element
 {
@@ -17,7 +18,7 @@ namespace element
     export class Element
     {
     public:
-        [[nodiscard]] virtual std::shared_ptr<ElementInstance> createInstance() const = 0;
+        [[nodiscard]] virtual std::shared_ptr<ElementInstance> createInstance(player::AudioContext) const = 0;
 
         virtual ~Element() = default;
     };
@@ -26,7 +27,6 @@ namespace element
     {
 
     };
-
 
 //    export template <class T> requires (std::convertible_to<Element&, T&>)
 //    ElementInstance createInstance(const T& element)
