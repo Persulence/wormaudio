@@ -1,5 +1,6 @@
 module;
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <variant>
@@ -10,64 +11,68 @@ import ParameterLookup;
 import Parameter;
 
 export template <class T>
-struct Condition
+struct ConditionBase
 {
     bool test(const ParameterLookup& pl) const
     {
-        return static_cast<T*>(this)->testImpl(pl);
+        return static_cast<const T*>(this)->testImpl(pl);
     }
 };
 
-export struct ParameterCondition : Condition<ParameterCondition>
+export struct ParameterCondition : ConditionBase<ParameterCondition>
 {
     std::string name;
     ParameterValue value;
 
-    bool testImpl(const ParameterLookup& pl) const
+    ParameterCondition(std::string&& name, ParameterValue value):
+        name(name),
+        value(value)
     {
+
+    }
+
+    [[nodiscard]] bool testImpl(const ParameterLookup& pl) const
+    {
+        std::cout << "testing parameter\n";
+
         auto current = pl.get(name).value;
         return current > value;
     }
 };
 
-export struct ThingCondition : Condition<ThingCondition>
+export struct ThingCondition : ConditionBase<ThingCondition>
 {
-
-};
-
-// export struct ThingCond
-
-using Thing = std::variant<Condition<ParameterCondition>, Condition<ThingCondition>>;
-
-struct Visitor
-{
-    void operator()(const int& i) const
+    bool testImpl(const ParameterLookup& pl) const
     {
-
-    }
-
-    void operator()(const bool& i) const
-    {
-
+        std::cout << "testing thing\n";
+        return false;
     }
 };
+
+template <class... T>
+using Thing = std::variant<T...>;
+
+export using Condition = Thing<ConditionBase<ParameterCondition>, ConditionBase<ThingCondition>>;
+// export using Condition = std::variant<ConditionBase<ParameterCondition>, ConditionBase<ThingCondition>>;
 
 export class Transition
 {
-    std::vector<Thing> things;
+    std::vector<Condition> things;
 
 public:
-    void insertCondition(Thing&& condition)
+    void insertCondition(Condition&& condition)
     {
         things.push_back(condition);
     }
 
-    bool test(const ParameterLookup& parameters) const
+    [[nodiscard]] bool test(const ParameterLookup& parameters) const
     {
         for (const auto& thing : things)
         {
-            Visitor visitor;
-            // std::visit(visitor, thing);
+            std::visit([&parameters](const auto& cmp)
+            {
+                cmp.test(parameters);
+            }, thing);
         }
 
         return false;

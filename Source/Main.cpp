@@ -102,4 +102,23 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (juce_testApplication)
+// START_JUCE_APPLICATION (juce_testApplication)
+
+import control;
+import ParameterLookup;
+
+int main (int argc, char** argv)
+{
+    std::cout << "fack awff!" << std::endl;
+    // S s = {"ooer", 1};
+
+    ParameterLookup lookup;
+
+    Transition transition;
+    transition.insertCondition(Condition{ParameterCondition("ooer", 123)});
+    transition.insertCondition(Condition{ThingCondition{}});
+    bool val = transition.test(lookup);
+
+    std::cout << "result: " << val << std::endl;
+
+}

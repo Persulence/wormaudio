@@ -5,9 +5,9 @@ module;
 
 export module control;
 
-import node;
+import Node;
 import ParameterLookup;
-import :Transition;
+export import :Transition;
 
 struct Entry
 {
@@ -31,8 +31,11 @@ public:
     {
         for (auto& entry : entries)
         {
-            auto& n = entry.node;
+            bool result = entry.transition.test(parameters);
+            if (result)
+            {
+                entry.node->activate();
+            }
         }
     }
 };
-
