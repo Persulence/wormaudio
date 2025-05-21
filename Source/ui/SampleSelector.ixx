@@ -2,6 +2,8 @@ module;
 
 #include <JuceHeader.h>
 
+#include <utility>
+
 export module sample_selector;
 
 import SamplePlayer;
@@ -12,9 +14,25 @@ namespace player
     export class SampleSelector : public juce::Component
     {
     public:
+        using Shutdown = std::function<void()>;
+        using Restart = std::function<void(int inputChannels, int outputChannels)>;
 
-        explicit SampleSelector(const std::shared_ptr<player::SamplePlayer> &samplePlayer):
-            samplePlayer(samplePlayer)
+    private:
+        Shutdown shutdown;
+        Restart restart;
+
+        juce::TextButton loadFile;
+        juce::TextButton play;
+        juce::TextButton stop;
+        std::shared_ptr<SamplePlayer> samplePlayer;
+
+        std::unique_ptr<juce::FileChooser> chooser;
+
+    public:
+        explicit SampleSelector(const std::shared_ptr<SamplePlayer> &samplePlayer, Shutdown shutdown_, Restart restart_):
+            samplePlayer(samplePlayer),
+            shutdown(std::move(shutdown_)),
+            restart(std::move(restart_))
         {
             addAndMakeVisible(loadFile);
             loadFile.setButtonText("Load file");
@@ -29,6 +47,8 @@ namespace player
             stop.setButtonText("Stop");
             stop.setColour(juce::TextButton::buttonColourId, juce::Colours::indianred);
             stop.onClick = [this] { stopClicked(); };
+
+            samplePlayer->setTransportCallback([this](auto state) { changeState(state); });
         }
 
         void resized() override
@@ -43,16 +63,11 @@ namespace player
         ~SampleSelector() override = default;
 
     private:
-        juce::TextButton loadFile;
-        juce::TextButton play;
-        juce::TextButton stop;
-        std::shared_ptr<player::SamplePlayer> samplePlayer;
-
-        std::unique_ptr<juce::FileChooser> chooser;
-
 
         void loadClicked()
         {
+            shutdown();
+            changeState(STOPPED);
             chooser = std::make_unique<juce::FileChooser> ("Select a Wave file to play...",
             juce::File {},
             "*.wav");
@@ -64,13 +79,14 @@ namespace player
                 if (file != juce::File {})
                 {
                     samplePlayer->setFile(std::move(file));
+                    restart(0, 2);
                 }
             });
         }
 
         void playClicked()
         {
-            changeState(player::STARTING);
+            changeState(STARTING);
         }
 
         void stopClicked()
@@ -80,30 +96,35 @@ namespace player
 
         void changeState(TransportState newState)
         {
-            samplePlayer->changeState(newState);
             switch (newState)
             {
                 case STARTING:
                 {
                     play.setEnabled(false);
                     stop.setEnabled(false);
+                    break;
                 }
                 case PLAYING:
                 {
                     play.setEnabled(false);
                     stop.setEnabled(true);
+                    break;
                 }
                 case STOPPING:
                 {
                     stop.setEnabled(false);
                     play.setEnabled(false);
+                    break;
                 }
                 case STOPPED:
                 {
                     play.setEnabled(true);
                     stop.setEnabled(false);
+                    break;
                 }
             }
+
+            samplePlayer->changeState(newState);
         }
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SampleSelector)

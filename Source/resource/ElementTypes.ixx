@@ -17,7 +17,7 @@ namespace element
 
     class ClipElementInstance : public ElementInstance
     {
-        player::SamplePlayer player;
+        player::SamplePlayer1 player;
 
     public:
         explicit ClipElementInstance(const player::AudioContext &context_):

@@ -2,16 +2,21 @@
 
 #include "SubComponentTest.h"
 
+import LeanSamplePlayer;
+
 using namespace player;
 
 //==============================================================================
 TestMainComponent::TestMainComponent():
     random(juce::Random{}),
-    player(std::make_shared<SamplePlayer>()),
-    sampleSelector(player),
+    player(std::make_shared<LeanSamplePlayer>()),
+    sampleSelector(player, [this]() { shutdownAudio(); },
+        [this](const int in, const int out) { setAudioChannels(in, out); }),
     testPanel(std::make_unique<SubComponentTest>())
 {
     setSize(600, 400);
+
+    // std::function<void(const TestMainComponent&)> f = std::bind(&TestMainComponent::shutdownAudio, this);
 
     setAudioChannels(0, 2);
 
@@ -139,6 +144,8 @@ void TestMainComponent::resized()
     // testPanel->setBounds(0, 100, getWidth(), getHeight() - 100);
     sampleSelector.setBounds(0, 100, getWidth(), getHeight());
 }
+
+void TestMainComponent::thing() {}
 
 void TestMainComponent::updateAngleDelta(double frequency)
 {

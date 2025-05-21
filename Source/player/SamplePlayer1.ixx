@@ -10,7 +10,15 @@ import transport;
 
 namespace player
 {
-    export class SamplePlayer : public juce::AudioSource, juce::ChangeListener
+    export class SamplePlayer : public juce::AudioSource
+    {
+    public:
+        virtual void setFile(juce::File&& file) = 0;
+        virtual void changeState(TransportState state) = 0;
+        virtual void setTransportCallback(TransportCallback callback) = 0;
+    };
+
+    export class SamplePlayer1 : public SamplePlayer, juce::ChangeListener
     {
         TransportState transportState = STOPPED;
         juce::AudioFormatManager formatManager;
@@ -20,13 +28,13 @@ namespace player
         TransportCallback changeCallback{[](TransportState){}};
 
     public:
-        SamplePlayer()
+        SamplePlayer1()
         {
             formatManager.registerBasicFormats();
             transportSource.addChangeListener(this);
         }
 
-        void setChangeListener(TransportCallback callback)
+        void setTransportCallback(TransportCallback callback) override
         {
             changeCallback = std::move(callback);
         }
@@ -52,7 +60,7 @@ namespace player
             transportSource.getNextAudioBlock(bufferToFill);
         }
 
-        void changeState(TransportState state)
+        void changeState(TransportState state) override
         {
             if (transportState != state)
             {
@@ -80,7 +88,7 @@ namespace player
             }
         }
 
-        void setFile(juce::File&& file)
+        void setFile(juce::File&& file) override
         {
             if (file != juce::File{})
             {
