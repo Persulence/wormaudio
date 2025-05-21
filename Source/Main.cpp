@@ -102,31 +102,35 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-// START_JUCE_APPLICATION (juce_testApplication)
+START_JUCE_APPLICATION (juce_testApplication)
 
-import control;
-import ParameterLookup;
-import Element;
-import ElementTypes;
-import Node;
-import ElementInstanceManager;
-
-int main (int argc, char** argv)
-{
-    std::cout << "Something terribly amusing" << std::endl;
-    // S s = {"ooer", 1};
-
-//    ParameterLookup lookup;
-//    sm::Transition transition;
-//    transition.insertCondition(sm::Condition{sm::ParameterCondition("ooer", 123)});
-//    transition.insertCondition(sm::Condition{sm::ThingCondition{}});
-//    bool val = transition.test(lookup);
-//    std::cout << "result: " << val << std::endl;
-    player::ElementInstanceManager manager;
-
-    auto element = std::make_shared<element::ClipElement>();
-    auto nodePtr = std::make_shared<sm::Node>();
-    nodePtr->insertElement(element);
-    auto ptr = createNodeInstance(nodePtr);
-    ptr->activate(manager);
-}
+// import control;
+// import ParameterLookup;
+// import Element;
+// import ElementTypes;
+// import Node;
+// import ElementInstanceManager;
+//
+// int main (int argc, char** argv)
+// {
+//     std::cout << "Something terribly amusing" << std::endl;
+//     // S s = {"ooer", 1};
+//
+// //    ParameterLookup lookup;
+// //    sm::Transition transition;
+// //    transition.insertCondition(sm::Condition{sm::ParameterCondition("ooer", 123)});
+// //    transition.insertCondition(sm::Condition{sm::ThingCondition{}});
+// //    bool val = transition.test(lookup);
+// //    std::cout << "result: " << val << std::endl;
+//
+//
+//     // player::ElementInstanceManager manager;
+//     //
+//     // auto file = juce::File{"./fridge=1-stereo.wav"};
+//     //
+//     // auto element = std::make_shared<element::ClipElement>(file);
+//     // auto nodePtr = std::make_shared<sm::Node>();
+//     // nodePtr->insertElement(element);
+//     // auto ptr = createNodeInstance(nodePtr);
+//     // ptr->activate(manager);
+// }

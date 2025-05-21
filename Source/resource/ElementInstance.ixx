@@ -1,3 +1,8 @@
+module;
+
+#include <memory>
+#include <JuceHeader.h>
+
 export module ElementInstance;
 
 import AudioContext;
@@ -25,7 +30,11 @@ namespace element
             return released;
         }
 
+        virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) = 0;
+
         virtual ~ElementInstance() = default;
     };
+
+    export using ElementInstancePtr = std::shared_ptr<ElementInstance>;
 }
 

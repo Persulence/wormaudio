@@ -2,95 +2,111 @@ module;
 
 #include <JuceHeader.h>
 
-export module sample_player;
+#include <utility>
+
+export module SamplePlayer;
 
 import transport;
 
-export class SamplePlayer : public juce::AudioSource, juce::ChangeListener
+namespace player
 {
-    TransportState transportState = STOPPED;
-    juce::AudioFormatManager formatManager;
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-    juce::AudioTransportSource transportSource;
-
-public:
-    SamplePlayer()
+    export class SamplePlayer : public juce::AudioSource, juce::ChangeListener
     {
-        formatManager.registerBasicFormats();
-        transportSource.addChangeListener(this);
-    }
+        TransportState transportState = STOPPED;
+        juce::AudioFormatManager formatManager;
+        std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+        juce::AudioTransportSource transportSource;
 
-    void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
-    {
-        transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    }
+        TransportCallback changeCallback{[](TransportState){}};
 
-    void releaseResources() override
-    {
-        transportSource.releaseResources();
-    }
-
-    void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
-    {
-        if (readerSource.get() == nullptr)
+    public:
+        SamplePlayer()
         {
-            bufferToFill.clearActiveBufferRegion();
-            return;
+            formatManager.registerBasicFormats();
+            transportSource.addChangeListener(this);
         }
 
-        transportSource.getNextAudioBlock(bufferToFill);
-    }
-
-    void changeState(TransportState state)
-    {
-        if (transportState != state)
+        void setChangeListener(TransportCallback callback)
         {
-            this->transportState = state;
-            switch (transportState)
+            changeCallback = std::move(callback);
+        }
+
+        void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
+        {
+            transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+        }
+
+        void releaseResources() override
+        {
+            transportSource.releaseResources();
+        }
+
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
+        {
+            if (readerSource == nullptr)
             {
-                case STOPPED:
-                    // stopButton.setEnabled (false);
-                    // playButton.setEnabled (true);
-                    transportSource.setPosition (0.0);
-                    break;
-                case STARTING:
-                    // playButton.setEnabled (false);
-                    transportSource.start();
-                    break;
-                case PLAYING:
-                    // stopButton.setEnabled (true);
-                    break;
-                case STOPPING:
-                    transportSource.stop();
-                    break;
+                bufferToFill.clearActiveBufferRegion();
+                return;
+            }
+
+            transportSource.getNextAudioBlock(bufferToFill);
+        }
+
+        void changeState(TransportState state)
+        {
+            if (transportState != state)
+            {
+                this->transportState = state;
+                switch (transportState)
+                {
+                    case STOPPED:
+                        // stopButton.setEnabled (false);
+                        // playButton.setEnabled (true);
+                        transportSource.setPosition (0.0);
+                        break;
+                    case STARTING:
+                        // playButton.setEnabled (false);
+                        transportSource.start();
+                        break;
+                    case PLAYING:
+                        // stopButton.setEnabled (true);
+                        break;
+                    case STOPPING:
+                        transportSource.stop();
+                        break;
+                }
+
+                changeCallback(transportState);
             }
         }
-    }
 
-    void setFile(juce::File&& file)
-    {
-        if (file != juce::File{})
+        void setFile(juce::File&& file)
         {
-            auto* reader = formatManager.createReaderFor(file);
-            if (reader != nullptr)
+            if (file != juce::File{})
             {
-                auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-                transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-                readerSource.reset(newSource.release());
+                auto* reader = formatManager.createReaderFor(file);
+                if (reader != nullptr)
+                {
+                    auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
+                    transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+                    readerSource.reset(newSource.release());
+                }
             }
         }
-    }
 
-private:
+    private:
 
-    void changeListenerCallback(juce::ChangeBroadcaster *source) override
-    {
-        if (source == &transportSource)
+        void changeListenerCallback(juce::ChangeBroadcaster *source) override
         {
-            if (transportSource.isPlaying())
-                changeState(PLAYING);
-            else
-                changeState(STOPPED);
+            if (source == &transportSource)
+            {
+                if (transportSource.isPlaying())
+                    changeState(PLAYING);
+                else
+                    changeState(STOPPED);
+
+            }
         }
-    }
-};
+    };
+}
+

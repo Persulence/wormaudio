@@ -2,106 +2,110 @@ module;
 
 #include <JuceHeader.h>
 
-
 export module sample_selector;
 
-import sample_player;
+import SamplePlayer;
 import transport;
 
-export class SampleSelector : public juce::Component
+namespace player
 {
-public:
-    explicit SampleSelector(const std::shared_ptr<SamplePlayer> &samplePlayer):
-        samplePlayer(samplePlayer)
+    export class SampleSelector : public juce::Component
     {
-        addAndMakeVisible(loadFile);
-        loadFile.setButtonText("Load file");
-        loadFile.onClick = [this]{ loadClicked(); };
+    public:
 
-        addAndMakeVisible(play);
-        play.setButtonText("Play");
-        play.setColour(juce::TextButton::buttonColourId, juce::Colours::teal);
-        play.onClick = [this]{ playClicked(); };
-
-        addAndMakeVisible(stop);
-        stop.setButtonText("Stop");
-        stop.setColour(juce::TextButton::buttonColourId, juce::Colours::indianred);
-        stop.onClick = [this] { stopClicked(); };
-    }
-
-    void resized() override
-    {
-        int bh = 20;
-        auto rect = getLocalBounds();
-        loadFile.setBounds(rect.removeFromTop(bh));
-        play.setBounds(rect.removeFromTop(bh));
-        stop.setBounds(rect.removeFromTop(bh));
-    }
-
-    ~SampleSelector() override = default;
-
-private:
-    juce::TextButton loadFile;
-    juce::TextButton play;
-    juce::TextButton stop;
-    std::shared_ptr<SamplePlayer> samplePlayer;
-
-    std::unique_ptr<juce::FileChooser> chooser;
-
-    void loadClicked()
-    {
-        chooser = std::make_unique<juce::FileChooser> ("Select a Wave file to play...",
-        juce::File {},
-        "*.wav");
-        auto chooserFlags = juce::FileBrowserComponent::openMode
-                            | juce::FileBrowserComponent::canSelectFiles;
-        chooser->launchAsync (chooserFlags, [this] (const juce::FileChooser& fc) // [8]
+        explicit SampleSelector(const std::shared_ptr<player::SamplePlayer> &samplePlayer):
+            samplePlayer(samplePlayer)
         {
-            auto file = fc.getResult();
-            if (file != juce::File {})
-            {
-                samplePlayer->setFile(std::move(file));
-            }
-        });
-    }
+            addAndMakeVisible(loadFile);
+            loadFile.setButtonText("Load file");
+            loadFile.onClick = [this]{ loadClicked(); };
 
-    void playClicked()
-    {
-        changeState(STARTING);
-    }
+            addAndMakeVisible(play);
+            play.setButtonText("Play");
+            play.setColour(juce::TextButton::buttonColourId, juce::Colours::teal);
+            play.onClick = [this]{ playClicked(); };
 
-    void stopClicked()
-    {
-        changeState(STOPPING);
-    }
+            addAndMakeVisible(stop);
+            stop.setButtonText("Stop");
+            stop.setColour(juce::TextButton::buttonColourId, juce::Colours::indianred);
+            stop.onClick = [this] { stopClicked(); };
+        }
 
-    void changeState(TransportState newState)
-    {
-        samplePlayer->changeState(newState);
-        switch (newState)
+        void resized() override
         {
-            case STARTING:
+            int bh = 20;
+            auto rect = getLocalBounds();
+            loadFile.setBounds(rect.removeFromTop(bh));
+            play.setBounds(rect.removeFromTop(bh));
+            stop.setBounds(rect.removeFromTop(bh));
+        }
+
+        ~SampleSelector() override = default;
+
+    private:
+        juce::TextButton loadFile;
+        juce::TextButton play;
+        juce::TextButton stop;
+        std::shared_ptr<player::SamplePlayer> samplePlayer;
+
+        std::unique_ptr<juce::FileChooser> chooser;
+
+
+        void loadClicked()
+        {
+            chooser = std::make_unique<juce::FileChooser> ("Select a Wave file to play...",
+            juce::File {},
+            "*.wav");
+            auto chooserFlags = juce::FileBrowserComponent::openMode
+                                | juce::FileBrowserComponent::canSelectFiles;
+            chooser->launchAsync (chooserFlags, [this] (const juce::FileChooser& fc) // [8]
             {
-                play.setEnabled(false);
-                stop.setEnabled(false);
-            }
-            case PLAYING:
+                auto file = fc.getResult();
+                if (file != juce::File {})
+                {
+                    samplePlayer->setFile(std::move(file));
+                }
+            });
+        }
+
+        void playClicked()
+        {
+            changeState(player::STARTING);
+        }
+
+        void stopClicked()
+        {
+            changeState(STOPPING);
+        }
+
+        void changeState(TransportState newState)
+        {
+            samplePlayer->changeState(newState);
+            switch (newState)
             {
-                play.setEnabled(false);
-                stop.setEnabled(true);
-            }
-            case STOPPING:
-            {
-                stop.setEnabled(false);
-                play.setEnabled(false);
-            }
-            case STOPPED:
-            {
-                play.setEnabled(true);
-                stop.setEnabled(false);
+                case STARTING:
+                {
+                    play.setEnabled(false);
+                    stop.setEnabled(false);
+                }
+                case PLAYING:
+                {
+                    play.setEnabled(false);
+                    stop.setEnabled(true);
+                }
+                case STOPPING:
+                {
+                    stop.setEnabled(false);
+                    play.setEnabled(false);
+                }
+                case STOPPED:
+                {
+                    play.setEnabled(true);
+                    stop.setEnabled(false);
+                }
             }
         }
-    }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SampleSelector)
-};
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SampleSelector)
+    };
+}

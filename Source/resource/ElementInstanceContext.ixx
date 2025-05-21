@@ -11,12 +11,10 @@ import AudioContext;
 
 namespace element
 {
-    export using ElementInstancePtr = std::shared_ptr<ElementInstance>;
-
     export class ElementInstanceContext
     {
     public:
-        virtual ElementInstancePtr createInstance(const element::Element& element) = 0;
+        virtual ElementInstancePtr createInstance(const Element& element) = 0;
 
         virtual ~ElementInstanceContext() = default;
     };

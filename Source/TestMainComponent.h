@@ -13,7 +13,7 @@
 */
 
 import sample_selector;
-import sample_player;
+import SamplePlayer;
 import AudioContext;
 
 class TestMainComponent  : public juce::AudioAppComponent
@@ -48,8 +48,8 @@ private:
     juce::Label volumeLabel;
     juce::Slider volumeSlider;
 
-    std::shared_ptr<SamplePlayer> player;
-    SampleSelector sampleSelector;
+    std::shared_ptr<player::SamplePlayer> player;
+    player::SampleSelector sampleSelector;
     std::unique_ptr<SubComponentTest> testPanel;
 
     double sampleRate = 0;

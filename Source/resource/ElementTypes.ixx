@@ -2,11 +2,14 @@ module;
 
 #include <JuceHeader.h>
 
+#include <utility>
+
 export module ElementTypes;
 
 import Element;
 import ElementInstance;
 import AudioContext;
+import SamplePlayer;
 
 namespace element
 {
@@ -14,6 +17,7 @@ namespace element
 
     class ClipElementInstance : public ElementInstance
     {
+        player::SamplePlayer player;
 
     public:
         explicit ClipElementInstance(const player::AudioContext &context_):
@@ -39,11 +43,24 @@ namespace element
             std::cout << "Playing sound from a " << typeid(this).name() << "!\n";
         }
 
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
+        {
+
+        }
     };
 
     export class ClipElement : public Element
     {
-        [[nodiscard]] std::shared_ptr<ElementInstance> createInstance(player::AudioContext context) const override
+        juce::File file;
+
+    public:
+        explicit ClipElement(juce::File file_):
+            file(std::move(file_))
+        {
+
+        }
+
+        [[nodiscard]] ElementInstancePtr createInstance(player::AudioContext context) const override
         {
             return std::make_shared<ClipElementInstance>(context);
         }

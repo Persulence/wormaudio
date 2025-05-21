@@ -2,7 +2,7 @@
 
 #include "SubComponentTest.h"
 
-// import sample_selector;
+using namespace player;
 
 //==============================================================================
 TestMainComponent::TestMainComponent():

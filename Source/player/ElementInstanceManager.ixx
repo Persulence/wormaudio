@@ -37,7 +37,7 @@ namespace player
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
         {
-
+            
         }
     };
 }

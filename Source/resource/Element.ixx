@@ -10,15 +10,11 @@ import AudioContext;
 
 namespace element
 {
-//    using ElementInstance = std::variant<
-//            ElementInstanceBase<ClipElement>
-//    >;
-
     // Elements are shared resources
     export class Element
     {
     public:
-        [[nodiscard]] virtual std::shared_ptr<ElementInstance> createInstance(player::AudioContext) const = 0;
+        [[nodiscard]] virtual ElementInstancePtr createInstance(player::AudioContext) const = 0;
 
         virtual ~Element() = default;
     };

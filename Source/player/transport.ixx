@@ -1,11 +1,19 @@
 module;
 
+#include <functional>
+
 export module transport;
 
-export enum TransportState
+namespace player
 {
-    STOPPED,
-    STARTING,
-    PLAYING,
-    STOPPING
-};
+    export enum TransportState
+    {
+        STOPPED,
+        STARTING,
+        PLAYING,
+        STOPPING
+    };
+
+    export using TransportCallback = std::function<void(TransportState)>;
+}
+
