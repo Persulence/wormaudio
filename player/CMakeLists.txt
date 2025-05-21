@@ -9,7 +9,7 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
-set(GUI_TARGET GuiAppExample)
+set(LIBRARY_TARGET player)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
 set(CMAKE_CXX_COMPILER /usr/bin/clang++)
@@ -21,7 +21,7 @@ cmake_minimum_required(VERSION 4.0)
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
 # directories, and the current project version. This is a standard CMake command.
 
-project(GUI_APP_EXAMPLE VERSION 0.0.1)
+project(PLAYER_LIBRARY VERSION 0.0.1)
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
@@ -30,9 +30,7 @@ project(GUI_APP_EXAMPLE VERSION 0.0.1)
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 # or
-#add_subdirectory(lib/JUCE)                    # If you've put JUCE in a subdirectory called JUCE
-
-add_subdirectory(player)
+add_subdirectory(../lib/JUCE build)
 
 # If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
 # to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
@@ -45,7 +43,7 @@ add_subdirectory(player)
 # `docs/CMake API.md` in the JUCE repo for the full list.
 
 # Sets cxx_std_17 somewhere
-#juce_add_gui_app(${GUI_TARGET}
+#juce_add_gui_app(${LIBRARY_TARGET}
 #        # VERSION ...                       # Set this if the app version is different to the project version
 #        # ICON_BIG ...                      # ICON_* arguments specify a path to an image file to use as an icon
 #        # ICON_SMALL ...
@@ -55,7 +53,7 @@ add_subdirectory(player)
 
 # Works with modules
 # TODO: Ensure that necessary JUCE properties are also set
-add_executable(${GUI_TARGET})
+add_library(${LIBRARY_TARGET})
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
@@ -63,15 +61,21 @@ add_executable(${GUI_TARGET})
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# juce_generate_juce_header(${GUI_TARGET})
+# juce_generate_juce_header(${LIBRARY_TARGET})
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
 # Finally, we supply a list of source files that will be built into the target. This is a standard
 # CMake command.
 
-target_include_directories(${GUI_TARGET}
-        PUBLIC JuceLibraryCode)
+target_include_directories(${LIBRARY_TARGET}
+        PUBLIC ../JuceLibraryCode)
+
+#target_sources(${LIBRARY_TARGET}
+#        PRIVATE
+#        Source/Main.cpp
+#        Source/MainComponent.cpp
+#)
 
 file(GLOB_RECURSE ModuleFiles
         CONFIGURE_DEPENDS
@@ -82,17 +86,17 @@ file(GLOB_RECURSE SourceFiles
         "src/*.cpp"
         "src/*.h")
 
-target_sources("${GUI_TARGET}"
+target_sources("${LIBRARY_TARGET}"
         PUBLIC
             FILE_SET CXX_MODULES
             FILES
             ${ModuleFiles}
-        PRIVATE
+        PUBLIC
             ${SourceFiles})
 
-set_property(TARGET ${GUI_TARGET} PROPERTY CXX_STANDARD 20)
+set_property(TARGET ${LIBRARY_TARGET} PROPERTY CXX_STANDARD 20)
 
-target_compile_features(${GUI_TARGET}
+target_compile_features(${LIBRARY_TARGET}
     PUBLIC
     cxx_std_20)
 
@@ -103,13 +107,13 @@ target_compile_features(${GUI_TARGET}
 # definitions will be visible both to your code, and also the JUCE module code, so for new
 # definitions, pick unique names that are unlikely to collide! This is a standard CMake command.
 
-target_compile_definitions(${GUI_TARGET}
+target_compile_definitions(${LIBRARY_TARGET}
         PRIVATE
         # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
         JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_gui_app` call
         JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
-        JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${GUI_TARGET},JUCE_PRODUCT_NAME>"
-        JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${GUI_TARGET},JUCE_VERSION>")
+        JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_PRODUCT_NAME>"
+        JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_VERSION>")
 
 # If your target needs extra binary assets, you can add them here. The first argument is the name of
 # a new static library target that will include all the binary resources. There is an optional
@@ -126,8 +130,7 @@ target_compile_definitions(${GUI_TARGET}
 # linked automatically. If we'd generated a binary data target above, we would need to link to it
 # here too. This is a standard CMake command.
 
-
-target_link_libraries(${GUI_TARGET}
+target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
         # GuiAppData            # If we'd created a binary data target, we'd link to it here
         juce::juce_audio_basics
@@ -142,7 +145,6 @@ target_link_libraries(${GUI_TARGET}
         juce::juce_gui_basics
 #        juce::juce_gui_extra
         PUBLIC
-        player
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags)

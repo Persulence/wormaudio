@@ -6,8 +6,8 @@ module;
 
 export module sample_selector;
 
-import SamplePlayer;
 import transport;
+import SamplePlayer;
 
 namespace player
 {
