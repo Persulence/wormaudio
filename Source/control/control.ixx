@@ -9,33 +9,36 @@ import Node;
 import ParameterLookup;
 export import :Transition;
 
-struct Entry
+namespace sm
 {
-// public:
-    std::shared_ptr<Node> node;
-    Transition transition;
-};
-
-export class TransitionTable
-{
-private:
-    std::vector<Entry> entries;
-
-public:
-    void insert(Entry&& entry)
+    struct Entry
     {
-        entries.push_back(std::move(entry));
-    }
+        std::shared_ptr<NodeInstance> node;
+        Transition transition;
+    };
 
-    void logicTick(const ParameterLookup& parameters)
+    export class TransitionTable
     {
-        for (auto& entry : entries)
+    private:
+        std::vector<Entry> entries;
+
+    public:
+        void insert(Entry&& entry)
         {
-            bool result = entry.transition.test(parameters);
-            if (result)
+            entries.push_back(std::move(entry));
+        }
+
+        void logicTick(const ParameterLookup& parameters)
+        {
+            for (auto& entry : entries)
             {
-                entry.node->activate();
+                bool result = entry.transition.test(parameters);
+                if (result)
+                {
+                    entry.node->activate();
+                }
             }
         }
-    }
-};
+    };
+}
+

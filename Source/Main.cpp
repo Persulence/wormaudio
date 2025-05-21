@@ -106,19 +106,25 @@ private:
 
 import control;
 import ParameterLookup;
+import Element;
+import ElementTypes;
+import Node;
 
 int main (int argc, char** argv)
 {
     std::cout << "fack awff!" << std::endl;
     // S s = {"ooer", 1};
 
-    ParameterLookup lookup;
+//    ParameterLookup lookup;
+//    sm::Transition transition;
+//    transition.insertCondition(sm::Condition{sm::ParameterCondition("ooer", 123)});
+//    transition.insertCondition(sm::Condition{sm::ThingCondition{}});
+//    bool val = transition.test(lookup);
+//    std::cout << "result: " << val << std::endl;
 
-    Transition transition;
-    transition.insertCondition(Condition{ParameterCondition("ooer", 123)});
-    transition.insertCondition(Condition{ThingCondition{}});
-    bool val = transition.test(lookup);
-
-    std::cout << "result: " << val << std::endl;
-
+    auto element = std::make_shared<element::ClipElement>();
+    auto nodePtr = std::make_shared<sm::Node>();
+    nodePtr->insertElement(element);
+    auto ptr = createNodeInstance(nodePtr);
+    ptr->activate();
 }
