@@ -3,15 +3,26 @@ module;
 #include <memory>
 #include <utility>
 #include <vector>
+#include "../util/class_util.h"
 
-export module Node;
+export module control:Node;
 
-import Element;
+import element;
 import ElementInstance;
-import ElementInstanceContext;
+
+import :Transition;
 
 namespace sm
 {
+    export class State;
+
+    export struct Transition1
+    {
+    public:
+        ConditionList conditions;
+        std::shared_ptr<State> nextState;
+    };
+
     export struct ElementEntry
     {
         std::shared_ptr<element::Element> value;
@@ -22,30 +33,48 @@ namespace sm
         }
     };
 
-    // For now only one node type
-    export class Node
+    // For now only one state type
+    export class State
     {
         std::vector<ElementEntry> elements_;
+        std::vector<Transition1> transitions;
+
     public:
+        using Ptr = std::shared_ptr<State>;
+
         void insertElement(const std::shared_ptr<element::Element>& entry)
         {
             elements_.emplace_back(entry);
+        }
+
+        void insertTransition(State::Ptr&& nextState)
+        {
+            transitions.emplace_back(sm::ConditionList{}, nextState);
         }
 
         const std::vector<ElementEntry>& elements()
         {
             return elements_;
         }
+
+        [[nodiscard]] const std::vector<Transition1>& getTransitions() const
+        {
+            return transitions;
+        }
     };
 
-    export class NodeInstance
+    export class StateInstance
     {
-        const std::shared_ptr<Node> parent;
+        std::shared_ptr<State> parent;
         std::vector<element::ElementInstancePtr> instances;
 
     public:
-        explicit NodeInstance(std::shared_ptr<Node> node):
-            parent(std::move(node))
+        // JUCE_DECLARE_NON_COPYABLE(NodeInstance)
+        StateInstance(StateInstance&&) = default;
+        StateInstance& operator=(StateInstance&&) = default;
+
+        explicit StateInstance(State::Ptr parent_):
+            parent(std::move(parent_))
         {
 
         }
@@ -72,8 +101,8 @@ namespace sm
         }
     };
 
-    export std::unique_ptr<NodeInstance> createNodeInstance(const std::shared_ptr<Node>& node)
+    export std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<State>& node)
     {
-        return std::make_unique<NodeInstance>(node);
+        return std::make_unique<StateInstance>(node);
     }
 }

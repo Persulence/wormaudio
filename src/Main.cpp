@@ -120,7 +120,7 @@ START_JUCE_APPLICATION (juce_testApplication)
 //     // S s = {"ooer", 1};
 //
 // //    ParameterLookup lookup;
-// //    sm::Transition transition;
+// //    sm::Transition1 transition;
 // //    transition.insertCondition(sm::Condition{sm::ParameterCondition("ooer", 123)});
 // //    transition.insertCondition(sm::Condition{sm::ThingCondition{}});
 // //    bool val = transition.test(lookup);

@@ -3,20 +3,20 @@ module;
 #include <variant>
 #include <memory>
 
-#include "juce_core/system/juce_PlatformDefs.h"
+#include "../util/class_util.h"
 
-export module Element;
+export module element;
 
 import ElementInstance;
 import AudioContext;
+
+export import :ElementInstanceContext;
 
 namespace element
 {
     // Elements are shared resources
     export class Element
     {
-        // JUCE_DECLARE_NON_COPYABLE(Element)
-
     public:
         Element() = default;
         JUCE_DECLARE_NON_COPYABLE(Element)

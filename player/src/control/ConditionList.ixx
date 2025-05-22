@@ -7,7 +7,7 @@ module;
 
 export module control:Transition;
 
-import ParameterLookup;
+import :ParameterLookup;
 import Parameter;
 
 namespace sm
@@ -56,7 +56,7 @@ namespace sm
 
     export using Condition = Thing<ConditionBase<ParameterCondition>, ConditionBase<ThingCondition>>;
 
-    export class Transition
+    export class ConditionList
     {
         std::vector<Condition> things;
 

@@ -4,8 +4,8 @@ module;
 
 export module Track;
 
+import element;
 import ElementInstance;
-import ElementInstanceContext;
 
 export class Track : public juce::AudioSource
 {

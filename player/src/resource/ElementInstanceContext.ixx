@@ -3,17 +3,21 @@ module;
 #include <vector>
 #include <memory>
 
-export module ElementInstanceContext;
+export module element:ElementInstanceContext;
 
-import Element;
 import ElementInstance;
 import AudioContext;
 
 namespace element
 {
+    export class Element;
+
     export class ElementInstanceContext
     {
     public:
+        ElementInstanceContext() = default;
+
+
         virtual ElementInstancePtr createInstance(const Element& element) = 0;
 
         virtual ~ElementInstanceContext() = default;

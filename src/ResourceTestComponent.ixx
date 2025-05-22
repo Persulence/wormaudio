@@ -7,7 +7,7 @@ export module ResourceTestComponent;
 import AudioContext;
 import ResourceLoader;
 import Resource;
-import Element;
+import element;
 import ElementTypes;
 import ElementInstance;
 

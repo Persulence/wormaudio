@@ -6,7 +6,7 @@ module;
 
 export module ElementTypes;
 
-import Element;
+import element;
 import ElementInstance;
 import AudioContext;
 import SamplePlayer;

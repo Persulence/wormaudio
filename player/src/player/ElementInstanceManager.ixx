@@ -4,9 +4,8 @@ module;
 
 export module ElementInstanceManager;
 
-import Element;
+import element;
 import ElementInstance;
-import ElementInstanceContext;
 import AudioContext;
 
 namespace player
