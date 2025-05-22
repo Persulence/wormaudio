@@ -6,19 +6,34 @@ export module event:EventInstance;
 
 import control;
 
+import :StateManager;
+import :Event;
+
 namespace event
 {
-    export class Event;
-    using EventPtr = std::shared_ptr<Event>;
-
     export class EventInstance
     {
-        EventPtr parent;
-        sm::TransitionTable::Ptr table;
-        // sm::NodeInstance currentState;
+        Event::Ptr parent;
+        StateManager stateManager;
 
     public:
         using Ptr = std::shared_ptr<EventInstance>;
+
+        explicit EventInstance(const Event::Ptr &parent_):
+            parent(parent_),
+            stateManager(StateManager(parent_->getDefinition()->getStates()))
+        {
+        }
+
+        void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)
+        {
+            stateManager.logicTick(parameters, context);
+        }
     };
+
+    EventInstance::Ptr Event::instantiate()
+    {
+        return std::make_shared<EventInstance>(this);
+    }
 }
 

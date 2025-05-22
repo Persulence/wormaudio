@@ -23,7 +23,8 @@ export class ResourceTestComponent : public juce::AudioAppComponent
     resource::Resource::Ptr testResource;
     player::ElementInstanceManager manager;
 
-    std::unique_ptr<event::StateManager> stateManager;
+    event::Event::Ptr event;
+    event::EventInstance::Ptr instance;
 
 public:
     ResourceTestComponent()
@@ -34,21 +35,26 @@ public:
 
         ResourceLoader::Ptr loader = std::make_shared<ResourceLoader>();
 
+        // Create a sample element from a lazy resource
         juce::File file = juce::File{"../fighter_attack.wav"};
         testResource = std::make_shared<Resource>(loader, file);
+        std::shared_ptr<Element> element = std::make_shared<ClipElement>(testResource);
 
         // Create some states
         State::Ptr initialState = std::make_shared<State>();
-        State::Ptr soundState = std::make_shared<State>();
-        std::shared_ptr<Element> element = std::make_shared<ClipElement>(testResource);
+        State::Ptr playState = std::make_shared<State>();
 
+
+        // Add a transition to the second state from the first state
+        initialState->insertTransition(Transition1{ConditionList{std::vector<Condition>{TrueCondition{}}}, playState});
         // Add an element to the second state
-        soundState->insertElement(element);
+        playState->insertElement(element);
 
-        initialState->insertTransition(Transition1{ConditionList{std::vector<Condition>{TrueCondition{}}}, soundState});
+        event = event::Event::create();
 
-        // Simulate instantiating the event
-        stateManager = std::make_unique<event::StateManager>(std::vector{initialState, soundState});
+        // Instantiate the event
+        event->getDefinition()->insert(initialState, playState);
+        instance = event->instantiate();
 
         setAudioChannels(0, 2);
     }
@@ -71,7 +77,7 @@ public:
         ParameterLookup lookup;
 
         // Do one logic tick
-        stateManager->logicTick(lookup, manager);
+        instance->logicTick(lookup, manager);
     }
 
     void releaseResources() override

@@ -54,7 +54,8 @@ namespace event
             }
 
             // TODO hmmm
-            currentState = entries.at(0).get();
+            if (!entries.empty())
+                currentState = entries.at(0).get();
         }
 
         void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)

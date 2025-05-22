@@ -10,35 +10,22 @@ import :Transition;
 
 namespace sm
 {
-    struct Entry
+    export class StateMachineDefinition
     {
-        StateInstance node;
-        ConditionList transition;
-    };
-
-    export class TransitionTable
-    {
-    private:
-        std::vector<Entry> entries;
+        std::vector<State::Ptr> states;
 
     public:
-        using Ptr = std::shared_ptr<TransitionTable>;
+        using Ptr = std::shared_ptr<StateMachineDefinition>;
 
-        void insert(Entry&& entry)
+        template <typename... T>
+        void insert(const T&... entries)
         {
-            entries.emplace_back(std::move(entry));
+            (states.push_back(entries),...);
         }
 
-        void logicTick(const ParameterLookup& parameters, element::ElementInstanceContext& context)
+        const std::vector<State::Ptr>& getStates()
         {
-
-            // for (auto& [node, transition] : entries)
-            // {
-            //     if (transition.test(parameters))
-            //     {
-            //         node.activate(context);
-            //     }
-            // }
+            return states;
         }
     };
 }
