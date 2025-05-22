@@ -10,10 +10,10 @@ export module io;
 
 namespace io
 {
-    export void readFile(const juce::File& file, juce::AudioFormatManager& formatManager, juce::AudioSampleBuffer& outputBuffer, float maxDuration)
+    export bool readFile(const juce::File& file, juce::AudioFormatManager& formatManager, juce::AudioSampleBuffer& outputBuffer, float maxDuration)
     {
         if (file == juce::File{})
-            return;
+            return false;
 
         const std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(file));
 
@@ -32,6 +32,8 @@ namespace io
                         true);
 
                 // setAudioChannels(0, reader->numChannels);
+
+                return true;
             }
             else
             {
@@ -39,7 +41,11 @@ namespace io
                 juce::String message = "file ";
                 message << file.getFullPathName() << " longer than " << maxDuration << "s";
                 juce::Logger::writeToLog(message);
+
+                return false;
             }
         }
+
+        return false;
     }
 }

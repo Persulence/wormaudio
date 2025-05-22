@@ -27,7 +27,7 @@ namespace element
     public:
         explicit ClipElementInstance(const player::AudioContext &context_, resource::ElementSampleBuffer::Ptr audio_):
                 ElementInstance(context_),
-                player(audio_)
+                player(std::move(audio_))
                 // audio(audio_)
         {
             player.prepareToPlay(audioContext.samplesPerBlock, audioContext.sampleRate);
@@ -42,12 +42,14 @@ namespace element
 
         void stop() override
         {
+            player.changeState(player::STOPPED);
             released = true;
         }
 
         void playSound()
         {
             std::cout << "Playing sound from a " << typeid(this).name() << "!\n";
+            player.changeState(player::PLAYING);
         }
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
@@ -58,12 +60,10 @@ namespace element
 
     export class ClipElement : public Element
     {
-        juce::File file;
         resource::Resource::Ptr resource;
 
     public:
-        explicit ClipElement(juce::File file_, resource::Resource::Ptr resource_):
-            file(std::move(file_)),
+        explicit ClipElement(resource::Resource::Ptr resource_):
             resource(std::move(resource_))
         {
         }

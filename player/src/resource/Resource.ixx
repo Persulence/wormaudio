@@ -4,7 +4,7 @@ module;
 
 export module Resource;
 
-import ResourceLoadContext;
+import ResourceLoader;
 import ElementSampleBuffer;
 
 namespace resource
@@ -23,6 +23,8 @@ namespace resource
         const ResourceLoader::Ptr loader;
 
         ElementSampleBuffer::Ptr buffer = nullptr;
+
+        JUCE_DECLARE_NON_COPYABLE(Resource)
 
     public:
         using Ptr = std::shared_ptr<Resource>;

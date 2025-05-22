@@ -9,6 +9,8 @@
 #include <JuceHeader.h>
 #include "TestMainComponent.h"
 
+import ResourceTestComponent;
+
 //==============================================================================
 class juce_testApplication  : public juce::JUCEApplication
 {
@@ -65,7 +67,8 @@ public:
                               DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new TestMainComponent(), true);
+            setContentOwned(new ResourceTestComponent(), true);
+            // setContentOwned (new TestMainComponent(), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);

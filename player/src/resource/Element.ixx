@@ -3,6 +3,8 @@ module;
 #include <variant>
 #include <memory>
 
+#include "juce_core/system/juce_PlatformDefs.h"
+
 export module Element;
 
 import ElementInstance;
@@ -13,7 +15,12 @@ namespace element
     // Elements are shared resources
     export class Element
     {
+        // JUCE_DECLARE_NON_COPYABLE(Element)
+
     public:
+        Element() = default;
+        JUCE_DECLARE_NON_COPYABLE(Element)
+
         [[nodiscard]] virtual ElementInstancePtr createInstance(player::AudioContext) const = 0;
 
         virtual ~Element() = default;
