@@ -6,68 +6,39 @@ export module LeanSamplePlayer;
 
 import SamplePlayer;
 import transport;
+import ElementSampleBuffer;
+import io;
+import AudioContext;
 
 namespace player
 {
-    export void readFile(const juce::File& file, juce::AudioFormatManager& formatManager, juce::AudioSampleBuffer& outputBuffer, float maxDuration)
-    {
-        if (file == juce::File{})
-            return;
-
-        const std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(file));
-
-        if (reader.get() != nullptr)
-        {
-            double duration = (reader->lengthInSamples / reader->sampleRate);
-            if (duration < maxDuration)
-            {
-                outputBuffer.setSize(reader->numChannels, reader->lengthInSamples);
-                reader->read(
-                    &outputBuffer,
-                    0,
-                    reader->lengthInSamples,
-                    0,
-                    true,
-                    true);
-
-                // setAudioChannels(0, reader->numChannels);
-            }
-            else
-            {
-                // handle the error that the file is 2 seconds or longer..
-                juce::String message = "file ";
-                message << file.getFullPathName() << " longer than " << maxDuration << "s";
-                juce::Logger::getCurrentLogger()->writeToLog(message);
-            }
-        }
-    }
-
     export class LeanSamplePlayer : public SamplePlayer
     {
-        juce::AudioSampleBuffer buffer;
+        resource::ElementSampleBuffer::Ptr buffer;
         juce::AudioFormatManager formatManager;
         TransportState transportState{STOPPED};
-        TransportCallback tranportCallback{[](TransportState){}};
+        TransportCallback transportCallback{[](TransportState){}};
+
+        AudioContext audioContext;
 
         int position{0};
 
     public:
 
-        LeanSamplePlayer()
+        explicit LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_):
+            buffer(std::move(buffer_))
         {
             formatManager.registerBasicFormats();
         }
 
-        void setFile(::juce::File &&file) override
+        void setFile(juce::File &&file) override
         {
-            readFile(file, formatManager, buffer, 40);
+            io::readFile(file, formatManager, *buffer, 40);
         }
-
-    private:
 
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
         {
-
+            audioContext = {samplesPerBlockExpected, sampleRate};
         }
 
         void releaseResources() override
@@ -77,7 +48,9 @@ namespace player
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
         {
-            auto numBufferChannels = buffer.getNumChannels();
+            const auto& ref = *buffer;
+
+            auto numBufferChannels = ref.getNumChannels();
             if (transportState != PLAYING || numBufferChannels == 0)
             {
                 bufferToFill.clearActiveBufferRegion();
@@ -89,13 +62,13 @@ namespace player
             auto outputSamplesOffset = bufferToFill.startSample;
             while (outputSamplesRemaining > 0)
             {
-                auto bufferSamplesRemaining = buffer.getNumSamples() - position;
-                auto samplesThisTime = juce::jmin (outputSamplesRemaining, bufferSamplesRemaining);
+                auto refSamplesRemaining = buffer->getNumSamples() - position;
+                auto samplesThisTime = juce::jmin (outputSamplesRemaining, refSamplesRemaining);
                 for (auto channel = 0; channel < numOutputChannels; ++channel)
                 {
                     bufferToFill.buffer->copyFrom(channel,
                         outputSamplesOffset,
-                        buffer,
+                        ref,
                         channel % numBufferChannels,
                         position,
                         samplesThisTime);
@@ -104,14 +77,14 @@ namespace player
                 outputSamplesOffset += samplesThisTime;
                 position += samplesThisTime;
 
-                if (position == buffer.getNumSamples())
+                if (position == ref.getNumSamples())
                     position = 0;
             }
         }
 
         void setTransportCallback(TransportCallback callback) override
         {
-            tranportCallback = callback;
+            transportCallback = callback;
         }
 
         void changeState(TransportState state) override
@@ -121,13 +94,13 @@ namespace player
                 case STARTING:
                 {
                     transportState = PLAYING;
-                    tranportCallback(transportState);
+                    transportCallback(transportState);
                     break;
                 }
                 case STOPPING:
                 {
                     transportState = STOPPED;
-                    tranportCallback(transportState);
+                    transportCallback(transportState);
                     break;
                 }
                 case PLAYING:
@@ -143,4 +116,5 @@ namespace player
             }
         }
     };
+
 }

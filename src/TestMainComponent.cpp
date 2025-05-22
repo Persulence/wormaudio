@@ -3,13 +3,14 @@
 #include "SubComponentTest.h"
 
 import LeanSamplePlayer;
+import ElementSampleBuffer;
 
 using namespace player;
 
 //==============================================================================
 TestMainComponent::TestMainComponent():
     random(juce::Random{}),
-    player(std::make_shared<LeanSamplePlayer>()),
+    player(std::make_shared<LeanSamplePlayer>(std::make_shared<resource::ElementSampleBuffer>())),
     sampleSelector(player, [this]() { shutdownAudio(); },
         [this](const int in, const int out) { setAudioChannels(in, out); }),
     testPanel(std::make_unique<SubComponentTest>())
@@ -29,7 +30,7 @@ TestMainComponent::TestMainComponent():
     frequencySlider.setSkewFactorFromMidPoint(frequencySlider.getValue());
     frequencySlider.onValueChange = [this]
     {
-        if (sampleRate > 0)
+        if (context.sampleRate > 0)
         {
             targetFrequency = frequencySlider.getValue();
             updateAngleDelta(frequencySlider.getValue());
@@ -47,7 +48,7 @@ TestMainComponent::TestMainComponent():
     volumeSlider.setTextValueSuffix(" ");
     volumeSlider.onValueChange = [this]
     {
-        if (sampleRate > 0)
+        if (context.sampleRate > 0)
         {
             volume = static_cast<float>(volumeSlider.getValue());
         }
@@ -65,19 +66,17 @@ TestMainComponent::~TestMainComponent()
     shutdownAudio();
 }
 
-void TestMainComponent::prepareToPlay(const int samplesPerBlockExpected, const double sampleRate)
+void TestMainComponent::prepareToPlay(const int samplesPerBlockExpected, const double sampleRate_)
 {
-    context = {samplesPerBlockExpected, sampleRate};
+    context = {samplesPerBlockExpected, sampleRate_};
 
     juce::String message;
     message << "Preparing to play audio...\n";
     message << " samplesPerBlockExpected = " << samplesPerBlockExpected << "\n";
-    message << " sampleRate = " << sampleRate;
+    message << " sampleRate = " << context.sampleRate;
     juce::Logger::writeToLog(message);
 
-    this->sampleRate = sampleRate;
-
-    player->prepareToPlay(samplesPerBlockExpected, sampleRate);
+    player->prepareToPlay(samplesPerBlockExpected, context.sampleRate);
 }
 
 void TestMainComponent::releaseResources()
@@ -127,7 +126,7 @@ void TestMainComponent::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    g.setFont(juce::Font {16.0f});
+    g.setFont(juce::Font {juce::FontOptions{16.0f}});
     g.setColour(juce::Colours::white);
     g.drawText("Hello there!", getLocalBounds(), juce::Justification::centred, true);
 }
@@ -145,10 +144,8 @@ void TestMainComponent::resized()
     sampleSelector.setBounds(0, 100, getWidth(), getHeight());
 }
 
-void TestMainComponent::thing() {}
-
 void TestMainComponent::updateAngleDelta(double frequency)
 {
-    double cyclesPerSample = frequency / sampleRate;
+    double cyclesPerSample = frequency / context.sampleRate;
     angleDelta = cyclesPerSample * 2 * juce::MathConstants<double>::pi;
 }

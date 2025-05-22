@@ -1,11 +1,13 @@
 module;
 
 #include <memory>
-#include <JuceHeader.h>
+
+#include <juce_audio_basics/juce_audio_basics.h>
 
 export module ElementInstance;
 
 import AudioContext;
+import SamplePlayer;
 
 namespace element
 {
@@ -19,7 +21,8 @@ namespace element
         explicit ElementInstance(const player::AudioContext &context_):
             audioContext(context_),
             released(false)
-        { }
+        {
+        }
 
         virtual void start() = 0;
 

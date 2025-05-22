@@ -1,6 +1,8 @@
 #pragma once
 
-#include <JuceHeader.h>
+// #include <JuceHeader.h>
+#include <juce_audio_formats/juce_audio_formats.h>
+#include <juce_audio_utils/juce_audio_utils.h>
 #include "SubComponentTest.fwd.h"
 
 // import sample_selector;
@@ -31,8 +33,6 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void thing();
-
 private:
     //==============================================================================
     // Your private member variables go here...
@@ -54,7 +54,6 @@ private:
     player::SampleSelector sampleSelector;
     std::unique_ptr<SubComponentTest> testPanel;
 
-    double sampleRate = 0;
     float volume = 0;
     double currentAngle = 0;
     double angleDelta = 0;
