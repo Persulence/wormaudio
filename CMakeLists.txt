@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
 set(CMAKE_CXX_COMPILER /usr/bin/clang++)
 #set(CMAKE_GENERATOR Ninja)
+set(CMAKE_LINKER_TYPE MOLD)
 
 cmake_minimum_required(VERSION 4.0)
 
