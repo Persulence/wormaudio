@@ -23,6 +23,8 @@ namespace player
 
         int position{0};
 
+        bool additive{true};
+
     public:
 
         explicit LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_):
@@ -60,18 +62,31 @@ namespace player
             auto numOutputChannels = bufferToFill.buffer->getNumChannels();
             auto outputSamplesRemaining = bufferToFill.numSamples;
             auto outputSamplesOffset = bufferToFill.startSample;
+
             while (outputSamplesRemaining > 0)
             {
                 auto refSamplesRemaining = buffer->getNumSamples() - position;
                 auto samplesThisTime = juce::jmin (outputSamplesRemaining, refSamplesRemaining);
                 for (auto channel = 0; channel < numOutputChannels; ++channel)
                 {
-                    bufferToFill.buffer->copyFrom(channel,
-                        outputSamplesOffset,
-                        ref,
-                        channel % numBufferChannels,
-                        position,
-                        samplesThisTime);
+                    if (additive)
+                    {
+                        bufferToFill.buffer->addFrom(channel,
+                            outputSamplesOffset,
+                            ref,
+                            channel % numBufferChannels,
+                            position,
+                            samplesThisTime);
+                    }
+                    else
+                    {
+                        bufferToFill.buffer->copyFrom(channel,
+                            outputSamplesOffset,
+                            ref,
+                            channel % numBufferChannels,
+                            position,
+                            samplesThisTime);
+                    }
                 }
                 outputSamplesRemaining -= samplesThisTime;
                 outputSamplesOffset += samplesThisTime;

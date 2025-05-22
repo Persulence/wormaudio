@@ -7,6 +7,7 @@ module;
 export module event:StateManager;
 
 import control;
+import element;
 
 namespace event
 {
@@ -27,11 +28,13 @@ namespace event
     export class StateManager
     {
         StateEntry* currentState = nullptr;
-        std::vector<StateEntry> entries;
+        std::vector<std::unique_ptr<StateEntry>> entries;
 
     public:
         explicit StateManager(const std::vector<sm::State::Ptr>& states)
         {
+            // TODO: simple handling for single-state instances
+
             // This abomination copies and converts the event graph into another graph.
             // Slightly concerned by the use of raw pointers.
 
@@ -51,11 +54,12 @@ namespace event
             }
 
             // TODO hmmm
-            currentState = &entries.at(0);
+            currentState = entries.at(0).get();
         }
 
-        void logicTick(const sm::ParameterLookup& parameters)
+        void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)
         {
+            auto prevState = currentState;
             if (currentState != nullptr)
             {
                 for (const auto& [conditions, nextState] : currentState->transitions)
@@ -65,6 +69,11 @@ namespace event
                         currentState = nextState;
                     }
                 }
+            }
+
+            if (currentState != nullptr && currentState != prevState)
+            {
+                currentState->instance->activate(context);
             }
         }
 
@@ -79,7 +88,10 @@ namespace event
             }
             else
             {
-                entry = &entries.emplace_back(std::make_unique<sm::StateInstance>(state), std::vector<Transition>{});
+                entry = entries.emplace_back(std::make_unique<StateEntry>(
+                    std::make_unique<sm::StateInstance>(state), std::vector<Transition>{}))
+                    .get();
+
                 map.emplace(state.get(), entry);
             }
 

@@ -16,9 +16,11 @@ namespace player
     {
         std::vector<ElementInstancePtr> active;
         AudioContext audioContext;
+
+        juce::AudioSampleBuffer accumulator;
     public:
 
-        ElementInstancePtr createInstance(const element::Element& element) override
+        ElementInstancePtr createInstance(const Element& element) override
         {
             // tODO: look into reusing identical instances
             return active.emplace_back(element.createInstance(audioContext));
@@ -27,6 +29,9 @@ namespace player
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
         {
             audioContext = {samplesPerBlockExpected, sampleRate};
+
+            // TODO: channels
+            accumulator = juce::AudioSampleBuffer(2, samplesPerBlockExpected);
         }
 
         void releaseResources() override
@@ -36,7 +41,12 @@ namespace player
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
         {
-            
+            for (auto& instance : active)
+            {
+                instance->getNextAudioBlock(bufferToFill);
+            }
+
+            // TODO tracks/buses
         }
     };
 }

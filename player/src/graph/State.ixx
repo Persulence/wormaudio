@@ -18,7 +18,10 @@ namespace sm
 
     export struct Transition1
     {
-    public:
+        Transition1(ConditionList conditions_, std::shared_ptr<State> nextState_):
+            conditions(std::move(conditions_)), nextState(std::move(nextState_))
+        { }
+
         ConditionList conditions;
         std::shared_ptr<State> nextState;
     };
@@ -47,9 +50,10 @@ namespace sm
             elements_.emplace_back(entry);
         }
 
-        void insertTransition(State::Ptr&& nextState)
+        void insertTransition(const Transition1& transition)
         {
-            transitions.emplace_back(sm::ConditionList{}, nextState);
+            transitions.emplace_back(transition);
+//            transitions.emplace_back(sm::ConditionList{}, nextState);
         }
 
         const std::vector<ElementEntry>& elements()

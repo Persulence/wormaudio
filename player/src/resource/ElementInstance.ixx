@@ -33,7 +33,7 @@ namespace element
             return released;
         }
 
-        virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) = 0;
+        virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToAdd) = 0;
 
         virtual ~ElementInstance() = default;
     };

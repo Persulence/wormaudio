@@ -52,9 +52,9 @@ namespace element
             player.changeState(player::PLAYING);
         }
 
-        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToAdd) override
         {
-            player.getNextAudioBlock(bufferToFill);
+            player.getNextAudioBlock(bufferToAdd);
         }
     };
 

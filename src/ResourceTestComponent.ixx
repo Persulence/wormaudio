@@ -10,6 +10,10 @@ import Resource;
 import element;
 import ElementTypes;
 import ElementInstance;
+import ElementInstanceManager;
+
+import control;
+import event;
 
 export class ResourceTestComponent : public juce::AudioAppComponent
 {
@@ -17,17 +21,34 @@ export class ResourceTestComponent : public juce::AudioAppComponent
 
     player::AudioContext audioContext;
     resource::Resource::Ptr testResource;
-    element::ElementInstancePtr elementInstance;
+    player::ElementInstanceManager manager;
+
+    std::unique_ptr<event::StateManager> stateManager;
 
 public:
     ResourceTestComponent()
     {
         using namespace resource;
+        using namespace sm;
+        using namespace element;
 
         ResourceLoader::Ptr loader = std::make_shared<ResourceLoader>();
 
         juce::File file = juce::File{"../fighter_attack.wav"};
         testResource = std::make_shared<Resource>(loader, file);
+
+        // Create some states
+        State::Ptr initialState = std::make_shared<State>();
+        State::Ptr soundState = std::make_shared<State>();
+        std::shared_ptr<Element> element = std::make_shared<ClipElement>(testResource);
+
+        // Add an element to the second state
+        soundState->insertElement(element);
+
+        initialState->insertTransition(Transition1{ConditionList{std::vector<Condition>{TrueCondition{}}}, soundState});
+
+        // Simulate instantiating the event
+        stateManager = std::make_unique<event::StateManager>(std::vector{initialState, soundState});
 
         setAudioChannels(0, 2);
     }
@@ -41,10 +62,16 @@ public:
     {
         audioContext = {samplesPerBlockExpected, sampleRate};
 
-        using namespace element;
-        std::shared_ptr<Element> element = std::make_shared<ClipElement>(testResource);
-        elementInstance = element->createInstance(audioContext);
-        elementInstance->start();
+        using namespace sm;
+        using namespace player;
+        using namespace event;
+
+        manager.prepareToPlay(samplesPerBlockExpected, sampleRate);
+
+        ParameterLookup lookup;
+
+        // Do one logic tick
+        stateManager->logicTick(lookup, manager);
     }
 
     void releaseResources() override
@@ -53,10 +80,7 @@ public:
 
     void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
     {
-        if (elementInstance != nullptr)
-        {
-            elementInstance->getNextAudioBlock(bufferToFill);
-        }
+        manager.getNextAudioBlock(bufferToFill);
     }
 
     void paint(juce::Graphics &g) override
