@@ -1,4 +1,3 @@
-
 #include "UiMainComponent.hpp"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -7,22 +6,6 @@ using namespace juce;
 
 namespace ui
 {
-    void Panel::paint(juce::Graphics &g)
-    {
-    }
-
-    void Panel::paintBackground(juce::Graphics &g) const
-    {
-        g.setColour(bg);
-        g.fillRect(getLocalBounds());
-    }
-
-    void Panel::paintBorder(juce::Graphics &g) const
-    {
-        g.setColour(fg);
-        g.drawRect(getLocalBounds(), 2);
-    }
-
     LeftPanel::LeftPanel()
     {
         addAndMakeVisible(fileBrowser);
@@ -80,7 +63,7 @@ namespace ui
         leftPanelBox.flexWrap = FlexBox::Wrap::noWrap;
         leftPanelBox.flexDirection = FlexBox::Direction::row;
         leftPanelBox.alignContent = FlexBox::AlignContent::stretch;
-        leftPanelBox.items.add(FlexItem(leftPanel).withMinWidth(leftHandle.currentPosition).withMinHeight(
+        leftPanelBox.items.add(FlexItem(leftPanel).withMinWidth(leftHandle.currentPosition - 10).withMinHeight(
                 static_cast<float>(getLocalBounds().getHeight())));
         leftPanelBox.items.add(leftHandle.asFlexItem().withMinHeight(
                 static_cast<float>(getLocalBounds().getHeight())));

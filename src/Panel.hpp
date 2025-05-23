@@ -16,7 +16,7 @@ namespace ui
         void paintBackground(juce::Graphics &g) const;
         void paintBorder(juce::Graphics &g) const;
 
-        juce::Colour fg{juce::Colours::grey};
-        juce::Colour bg{juce::Colours::darkgrey};
+        juce::Colour fg{juce::Colours::lightgrey};
+        juce::Colour bg{juce::Colours::grey};
     };
 }

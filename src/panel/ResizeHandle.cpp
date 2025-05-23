@@ -44,7 +44,7 @@ juce::FlexItem ResizeHandle::asFlexItem()
         {
             return FlexItem{*this}.withMinHeight(width);
         }
-        case Direction::VERTICAL:
+        default:
         {
             return FlexItem{*this}.withMinWidth(width);
         }

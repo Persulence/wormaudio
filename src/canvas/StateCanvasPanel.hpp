@@ -5,9 +5,16 @@
 
 namespace ui
 {
+    class StateNodeWidget;
+
     class StateCanvasPanel : public Panel
     {
+        std::vector<std::shared_ptr<StateNodeWidget>> stateNodes;
+
     public:
+        StateCanvasPanel();
+        void addNode(std::shared_ptr<StateNodeWidget> node);
+        void removeNode(std::shared_ptr<StateNodeWidget> node);
         void paint(juce::Graphics &g) override;
     };
 

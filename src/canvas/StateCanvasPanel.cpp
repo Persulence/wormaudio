@@ -1,9 +1,33 @@
 #include "StateCanvasPanel.hpp"
+#include "StateNodeWidget.hpp"
 
 using namespace juce;
 
 namespace ui
 {
+    StateCanvasPanel::StateCanvasPanel()
+    {
+        bg = Colours::darkgrey;
+
+        // Create a node for testing
+        const auto centre = getLocalBounds().getCentre();
+        addNode(StateNodeWidget::create(centre));
+    }
+
+    void StateCanvasPanel::addNode(std::shared_ptr<StateNodeWidget> node)
+    {
+        stateNodes.emplace_back(node);
+        addAndMakeVisible(*node);
+    }
+
+    void StateCanvasPanel::removeNode(std::shared_ptr<StateNodeWidget> node)
+    {
+        if (const auto in = std::ranges::find(stateNodes, node); in != stateNodes.end())
+        {
+            stateNodes.erase(in);
+        }
+    }
+
     void StateCanvasPanel::paint(juce::Graphics &g)
     {
         paintBackground(g);
