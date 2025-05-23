@@ -3,7 +3,7 @@ module;
 #include <memory>
 #include <vector>
 
-export module control:TransitionTable;
+export module control:StateMachineDefinition;
 
 import :Node;
 import :Transition;
@@ -28,4 +28,5 @@ namespace sm
             return states;
         }
     };
+
 }

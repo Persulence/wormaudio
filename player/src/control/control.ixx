@@ -5,7 +5,7 @@ export module control;
 
 export import :Node;
 export import :Transition;
-export import :TransitionTable;
+export import :StateMachineDefinition;
 export import :ParameterLookup;
 
 namespace sm

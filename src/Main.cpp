@@ -8,8 +8,9 @@
 
 #include <JuceHeader.h>
 #include "TestMainComponent.h"
+#include "UiMainComponent.hpp"
 
-import ResourceTestComponent;
+import ui;
 
 //==============================================================================
 class juce_testApplication  : public juce::JUCEApplication
@@ -67,7 +68,8 @@ public:
                               DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned(new ResourceTestComponent(), true);
+            setContentOwned(new ui::UiMainComponent(), true);
+            // setContentOwned(new ResourceTestComponent(), true);
             // setContentOwned (new TestMainComponent(), true);
 
            #if JUCE_IOS || JUCE_ANDROID
