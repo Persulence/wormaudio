@@ -5,7 +5,8 @@ using namespace juce;
 
 namespace ui
 {
-    StateCanvasPanel::StateCanvasPanel()
+    StateCanvasPanel::StateCanvasPanel():
+        connectionManager(std::make_shared<StateConnectionManager>(this))
     {
         bg = Colours::darkgrey;
 
@@ -13,7 +14,7 @@ namespace ui
         addNode();
     }
 
-    void StateCanvasPanel::addNode(std::shared_ptr<StateNodeWidget> node)
+    void StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget>& node)
     {
         stateNodes.emplace_back(node);
         addAndMakeVisible(*node);
@@ -22,10 +23,10 @@ namespace ui
     void StateCanvasPanel::addNode()
     {
         const auto centre = getLocalBounds().getCentre();
-        addNode(StateNodeWidget::create(centre));
+        addNode(StateNodeWidget::create(connectionManager, centre));
     }
 
-    void StateCanvasPanel::removeNode(std::shared_ptr<StateNodeWidget> node)
+    void StateCanvasPanel::removeNode(const std::shared_ptr<StateNodeWidget> &node)
     {
         if (const auto in = std::ranges::find(stateNodes, node); in != stateNodes.end())
         {
@@ -33,13 +34,15 @@ namespace ui
         }
     }
 
-    void StateCanvasPanel::paint(juce::Graphics &g)
+    void StateCanvasPanel::paint(Graphics &g)
     {
         paintBackground(g);
         paintBorder(g);
+
+        connectionManager->paint(g);
     }
 
-    void StateCanvasPanel::mouseDown(const juce::MouseEvent &event)
+    void StateCanvasPanel::mouseDown(const MouseEvent &event)
     {
         if (event.mods.isRightButtonDown())
         {
