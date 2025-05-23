@@ -25,12 +25,23 @@ namespace ui
 
     LeftPanel::LeftPanel()
     {
+        addAndMakeVisible(fileBrowser);
+        addAndMakeVisible(elementBrowser);
     }
 
     void LeftPanel::paint(juce::Graphics &g)
     {
-        paintBackground(g);
-        paintBorder(g);
+        // paintBackground(g);
+        // paintBorder(g);
+    }
+
+    void LeftPanel::resized()
+    {
+        FlexBox flexBox;
+        flexBox.flexDirection = FlexBox::Direction::column;
+        flexBox.items.add(FlexItem(fileBrowser).withFlex(100));
+        flexBox.items.add(FlexItem(elementBrowser).withFlex(100));
+        flexBox.performLayout(getLocalBounds());
     }
 
     UiMainComponent::UiMainComponent()
