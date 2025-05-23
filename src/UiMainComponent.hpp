@@ -24,7 +24,7 @@ namespace ui
         void resized() override;
     };
 
-    class UiMainComponent : public juce::Component
+class UiMainComponent : public juce::Component, public juce::DragAndDropContainer
     {
         LeftPanel leftPanel;
         CentrePanel centrePanel;

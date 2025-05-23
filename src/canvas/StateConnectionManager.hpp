@@ -17,15 +17,16 @@ namespace ui
         Point end;
 
         juce::Component* parent;
+//        juce::DragAndDropContainer* dragAndDrop;
 
     public:
         using Ptr = std::shared_ptr<StateConnectionManager>;
 
-        StateConnectionManager(juce::Component* parent);
+        explicit StateConnectionManager(juce::Component *parent_);
 
-        void startConnection(Point start);
-        void updateConnection(Point end);
-        void commitConnection(Point end);
+        void startConnection(Point start_);
+        void updateConnection(Point end_);
+        void commitConnection(Point end_);
 
         void paint(juce::Graphics& g) const;
     };

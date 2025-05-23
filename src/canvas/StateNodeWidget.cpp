@@ -35,13 +35,15 @@ namespace ui
 
     // ConnectionCreationBox
 
-    ConnectionCreationBox::ConnectionCreationBox(const StateConnectionManager::Ptr& manager_):
-        manager(std::move(manager_))
+    StateNodeWidget::ConnectionCreationBox::ConnectionCreationBox(StateNodeWidget* parent_,
+                                                                  StateConnectionManager::Ptr manager_) :
+        manager(std::move(manager_)),
+        parent(parent_)
     {
 
     }
 
-    void ConnectionCreationBox::paint(juce::Graphics &g)
+    void StateNodeWidget::ConnectionCreationBox::paint(juce::Graphics &g)
     {
         g.setColour(Colours::white);
         auto rect = getLocalBounds();
@@ -49,22 +51,35 @@ namespace ui
         g.fillRect(rect);
     }
 
-    void ConnectionCreationBox::mouseDown(const juce::MouseEvent &event)
+    void StateNodeWidget::ConnectionCreationBox::mouseDown(const juce::MouseEvent &event)
     {
         manager->startConnection(getCentrePos());
+//        manager->getDragAndDrop().startDragging(0, parent);
     }
 
-    void ConnectionCreationBox::mouseUp(const juce::MouseEvent &event)
+    void StateNodeWidget::ConnectionCreationBox::mouseUp(const juce::MouseEvent &event)
     {
         manager->commitConnection(localPointToGlobal(event.position));
     }
 
-    void ConnectionCreationBox::mouseDrag(const juce::MouseEvent &event)
+    void StateNodeWidget::ConnectionCreationBox::mouseDrag(const juce::MouseEvent &event)
     {
         manager->updateConnection(localPointToGlobal(event.position));
+
+        auto image = createComponentSnapshot (getLocalBounds(), true, (float) 0.5)
+                .convertedToFormat (Image::ARGB);
+        image.multiplyAllAlphas (0.6f);
+
+        DragAndDropContainer::findParentDragContainerFor(this)->startDragging(
+                0, parent,
+                image,
+                false,
+                nullptr,
+                nullptr
+                );
     }
 
-    juce::Point<float> ConnectionCreationBox::getCentrePos() const
+    juce::Point<float> StateNodeWidget::ConnectionCreationBox::getCentrePos() const
     {
         auto centre = localPointToGlobal(getLocalBounds().getCentre());
         return {static_cast<float>(centre.getX()), static_cast<float>(centre.getY())};
@@ -81,7 +96,7 @@ namespace ui
 
     StateNodeWidget::StateNodeWidget(const StateConnectionManager::Ptr &connectionManager_):
         header(StateNodeHeader{}),
-        connectionBox(connectionManager_)
+        connectionBox(ConnectionCreationBox{this, connectionManager_})
     {
         addAndMakeVisible(header);
         addAndMakeVisible(connectionBox);
@@ -91,7 +106,7 @@ namespace ui
     {
         g.setColour(Colours::grey);
         g.fillRect(getLocalBounds());
-        g.setColour(Colours::black);
+        g.setColour(borderCol);
         g.drawRect(getLocalBounds(), 1);
     }
 
@@ -125,5 +140,35 @@ namespace ui
     void StateNodeWidget::mouseUp(const juce::MouseEvent &event)
     {
         dragger.dragComponent(this, event, nullptr);
+    }
+
+    bool StateNodeWidget::isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    {
+        if (auto* other = dynamic_cast<StateNodeWidget*>(dragSourceDetails.sourceComponent.get()))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    void StateNodeWidget::itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    {
+        if (auto* other = dynamic_cast<StateNodeWidget*>(dragSourceDetails.sourceComponent.get()))
+        {
+            std::cout << "Dropped\n";
+        }
+
+        borderCol = Colours::black;
+    }
+
+    void StateNodeWidget::itemDragEnter(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    {
+        borderCol = Colours::red;
+    }
+
+    void StateNodeWidget::itemDragExit(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    {
+        borderCol = Colours::black;
     }
 }

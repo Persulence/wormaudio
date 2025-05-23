@@ -19,27 +19,12 @@ namespace ui
     };
 
 
-    class ConnectionCreationBox : public juce::Component
-    {
-        StateConnectionManager::Ptr manager;
-
-    public:
-        explicit ConnectionCreationBox(const StateConnectionManager::Ptr& manager);
-
-        void paint(juce::Graphics &g) override;
-        void mouseDown(const juce::MouseEvent &event) override;
-        void mouseUp(const juce::MouseEvent &event) override;
-        void mouseDrag(const juce::MouseEvent &event) override;
-
-        [[nodiscard]] juce::Point<float> getCentrePos() const;
-
-    };
-
-
-    class StateNodeWidget : public juce::Component
+    class StateNodeWidget : public juce::Component, public juce::DragAndDropTarget
     {
         int headerHeight{15};
+
         int borderWidth{1};
+        juce::Colour borderCol{juce::Colours::black};
 
         juce::ComponentDragger dragger;
         // StateConnectionManager::Ptr connectionManager;
@@ -57,8 +42,30 @@ namespace ui
         void mouseDrag(const juce::MouseEvent &event) override;
         void mouseUp(const juce::MouseEvent &event) override;
 
+        bool isInterestedInDragSource(const juce::DragAndDropTarget::SourceDetails &dragSourceDetails) override;
+        void itemDragEnter(const juce::DragAndDropTarget::SourceDetails &dragSourceDetails) override;
+        void itemDragExit(const juce::DragAndDropTarget::SourceDetails &dragSourceDetails) override;
+        void itemDropped(const juce::DragAndDropTarget::SourceDetails &dragSourceDetails) override;
 
     private:
+        // Class contains a raw pointer to its parent for drag and drop support
+        class ConnectionCreationBox : public juce::Component
+        {
+            StateConnectionManager::Ptr manager;
+
+        public:
+            ConnectionCreationBox(StateNodeWidget* parent_, StateConnectionManager::Ptr manager);
+
+            void paint(juce::Graphics &g) override;
+            void mouseDown(const juce::MouseEvent &event) override;
+            void mouseUp(const juce::MouseEvent &event) override;
+            void mouseDrag(const juce::MouseEvent &event) override;
+
+            [[nodiscard]] juce::Point<float> getCentrePos() const;
+
+            StateNodeWidget* parent;
+        };
+
         StateNodeHeader header;
         ConnectionCreationBox connectionBox;
     };

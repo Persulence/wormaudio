@@ -2,30 +2,30 @@
 
 namespace ui
 {
-    StateConnectionManager::StateConnectionManager(juce::Component *parent):
-        parent(parent)
+    StateConnectionManager::StateConnectionManager(juce::Component *parent_) :
+        parent(parent_)
     {
 
     }
 
-    void StateConnectionManager::startConnection(Point start)
+    void StateConnectionManager::startConnection(Point start_)
     {
         dragging = true;
-        this->start = start;
-        this->end = start;
+        this->start = start_;
+        this->end = start_;
     }
 
-    void StateConnectionManager::updateConnection(Point end)
+    void StateConnectionManager::updateConnection(Point end_)
     {
-        this->end = end;
+        this->end = end_;
 
         parent->repaint();
     }
 
-    void StateConnectionManager::commitConnection(Point end)
+    void StateConnectionManager::commitConnection(Point end_)
     {
         dragging = false;
-        this->end = end;
+        this->end = end_;
 
         parent->repaint();
     }
