@@ -16,18 +16,25 @@ namespace ui
         paintBorder(g);
     }
 
-    CentrePanel::CentrePanel()
+    CentrePanel::CentrePanel():
+        handle(ResizeHandle(ResizeHandle::Direction::HORIZONTAL, 500))
     {
         addAndMakeVisible(canvas);
         addAndMakeVisible(editor);
+        addAndMakeVisible(handle);
+
+        handle.drag.emplace_back([this](float f) {
+            resized();
+        });
     }
 
     void CentrePanel::resized()
     {
         FlexBox box;
         box.flexDirection = FlexBox::Direction::column;
-        box.items.add(FlexItem(canvas).withMinHeight(200).withFlex(100));
-        box.items.add(FlexItem(editor).withMinHeight(200));
+        box.items.add(FlexItem(canvas).withMinHeight(handle.currentPosition));
+        box.items.add(handle.asFlexItem());
+        box.items.add(FlexItem(editor).withFlex(200));
         box.performLayout(getLocalBounds());
     }
 }

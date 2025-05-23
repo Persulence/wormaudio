@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Panel.hpp"
+#include "../panel/ResizeHandle.hpp"
 
 namespace ui
 {
@@ -21,6 +22,7 @@ namespace ui
     public:
         StateCanvasPanel canvas;
         StateEditorPanel editor;
+        ResizeHandle handle;
 
         CentrePanel();
         void resized() override;

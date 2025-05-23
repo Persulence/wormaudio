@@ -6,6 +6,7 @@
 #include "browser/ElementBrowserPanel.hpp"
 #include "browser/FileBrowserPanel.hpp"
 #include "canvas/StateCanvasPanel.hpp"
+#include "panel/ResizeHandle.hpp"
 
 namespace ui
 {
@@ -28,8 +29,7 @@ namespace ui
         LeftPanel leftPanel;
         CentrePanel centrePanel;
 
-        juce::TextButton b1;
-        juce::TextButton b2;
+        ResizeHandle leftHandle;
 
     public:
         UiMainComponent();
