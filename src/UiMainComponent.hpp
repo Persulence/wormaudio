@@ -32,8 +32,11 @@ namespace ui
         ResizeHandle leftHandle;
 
     public:
+
         UiMainComponent();
 
         void resized() override;
     };
+
+    // void setupLookAndFeel(juce::Component& component);
 }

@@ -2,6 +2,8 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "MainLookAndFeel.hpp"
+
 using namespace juce;
 
 namespace ui
@@ -30,6 +32,8 @@ namespace ui
     UiMainComponent::UiMainComponent():
         leftHandle(ResizeHandle{ResizeHandle::Direction::VERTICAL, 250})
     {
+        LookAndFeel::setDefaultLookAndFeel(&MainLookAndFeel::getInstance());
+
         addAndMakeVisible(leftPanel);
         addAndMakeVisible(centrePanel);
         addAndMakeVisible(leftHandle);
@@ -39,11 +43,6 @@ namespace ui
             resized();
         });
 
-//        leftHandle.commit.emplace_back([this](float delta)
-//        {
-//            leftPanelWidth = currentLeftPanelWidth;
-//            resized();
-//        });
     }
 
     void UiMainComponent::resized()
@@ -81,5 +80,12 @@ namespace ui
         horizontalStack.items.add(FlexItem(centrePanel).withFlex(100).withMinWidth(500));
         horizontalStack.performLayout(getLocalBounds());
     }
+
+    // void setupLookAndFeel(juce::Component &component)
+    // {
+    //     Colour bg;
+    //     component.getLookAndFeel().setColour()
+    //     component.getLookAndFeel().setColour(juce::PopupMenu::backgroundColourId,);
+    // }
 }
 

@@ -14,8 +14,10 @@ namespace ui
     public:
         StateCanvasPanel();
         void addNode(std::shared_ptr<StateNodeWidget> node);
+        void addNode();
         void removeNode(std::shared_ptr<StateNodeWidget> node);
         void paint(juce::Graphics &g) override;
+        void mouseDown(const juce::MouseEvent &event) override;
     };
 
     class StateEditorPanel : public Panel

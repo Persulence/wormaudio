@@ -10,14 +10,19 @@ namespace ui
         bg = Colours::darkgrey;
 
         // Create a node for testing
-        const auto centre = getLocalBounds().getCentre();
-        addNode(StateNodeWidget::create(centre));
+        addNode();
     }
 
     void StateCanvasPanel::addNode(std::shared_ptr<StateNodeWidget> node)
     {
         stateNodes.emplace_back(node);
         addAndMakeVisible(*node);
+    }
+
+    void StateCanvasPanel::addNode()
+    {
+        const auto centre = getLocalBounds().getCentre();
+        addNode(StateNodeWidget::create(centre));
     }
 
     void StateCanvasPanel::removeNode(std::shared_ptr<StateNodeWidget> node)
@@ -32,6 +37,32 @@ namespace ui
     {
         paintBackground(g);
         paintBorder(g);
+    }
+
+    void StateCanvasPanel::mouseDown(const juce::MouseEvent &event)
+    {
+        if (event.mods.isRightButtonDown())
+        {
+            PopupMenu menu;
+            menu.addItem(1, "New state");
+            // menu.addItem(2, "other thing");
+            menu.showMenuAsync(PopupMenu::Options{},
+                [this] (int result)
+                {
+                    switch (result)
+                    {
+                        case 1:
+                        {
+                            addNode();
+                            break;
+                        }
+                        default:
+                        {
+                            break;
+                        }
+                    }
+                });
+        }
     }
 
     void StateEditorPanel::paint(juce::Graphics &g)

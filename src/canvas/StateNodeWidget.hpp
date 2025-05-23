@@ -8,6 +8,9 @@ namespace ui
     {
     public:
         StateNodeHeader();
+        void paint(juce::Graphics &g) override;
+        void resized() override;
+        void mouseDown(const juce::MouseEvent &event) override;
 
     private:
         std::shared_ptr<std::string> name;
@@ -15,7 +18,7 @@ namespace ui
 
     class StateNodeWidget : public juce::Component
     {
-        int headerHeight{10};
+        int headerHeight{15};
 
         juce::ComponentDragger dragger;
 
