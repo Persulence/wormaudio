@@ -37,22 +37,23 @@ namespace ui
             return current;
         }
 
-        void select(std::shared_ptr<CanvasSelectionTarget> target)
+        void select(const std::shared_ptr<CanvasSelectionTarget> &target)
         {
             if (!current.expired())
             {
-                if (auto shared = current.lock(); shared != target)
+                if (auto shared = current.lock(); shared != nullptr && shared != target)
                 {
                     shared->onDeselect();
                 }
             }
 
-            target->onSelect();
+            if (target)
+                target->onSelect();
             current = target;
-            onSelect(current);
+            onSelect();
         }
 
     protected:
-        virtual void onSelect(std::weak_ptr<CanvasSelectionTarget> current) = 0;
+        virtual void onSelect() = 0;
     };
 }

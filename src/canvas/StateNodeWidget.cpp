@@ -4,6 +4,8 @@
 
 #include <utility>
 
+#include "StateCanvasPanel.hpp"
+
 namespace ui
 {
     using namespace juce;
@@ -146,6 +148,23 @@ namespace ui
     {
         dragger.dragComponent(this, event, nullptr);
         manager->setDraggingNode(false);
+    }
+
+    bool StateNodeWidget::keyPressed(const juce::KeyPress &key)
+    {
+        if (key.getKeyCode() == KeyPress::deleteKey)
+        {
+            if (selected)
+            {
+                auto parent = findParentComponentOfClass<StateCanvasPanel>();
+                if (parent != nullptr)
+                {
+                    parent->removeNode(shared_from_this());
+                }
+            }
+        }
+
+        return false;
     }
 
     bool StateNodeWidget::isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails)

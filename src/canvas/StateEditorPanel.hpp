@@ -16,7 +16,7 @@ namespace ui
         {
         }
 
-        void updateSelection(std::weak_ptr<CanvasSelectionTarget> curent)
+        void updateSelection()
         {
             if (!selectionManager.getCurrent().expired())
             {
@@ -25,6 +25,10 @@ namespace ui
                 addAndMakeVisible(configComponent.get());
                 configComponent->setBounds(getLocalBounds());
                 repaint();
+            }
+            else
+            {
+                configComponent = nullptr;
             }
         }
 

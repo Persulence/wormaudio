@@ -58,6 +58,7 @@ namespace ui
         void mouseDown(const juce::MouseEvent &event) override;
         void mouseDrag(const juce::MouseEvent &event) override;
         void mouseUp(const juce::MouseEvent &event) override;
+        bool keyPressed(const juce::KeyPress &key) override;
 
         bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override;
         void itemDragEnter(const SourceDetails &dragSourceDetails) override;
@@ -83,6 +84,7 @@ namespace ui
             selected = true;
             borderWidth = 2;
             repaint();
+            // grabKeyboardFocus();
         }
 
         void onDeselect() override

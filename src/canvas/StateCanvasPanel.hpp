@@ -33,5 +33,6 @@ namespace ui
         void paint(juce::Graphics &g) override;
         void mouseDown(const juce::MouseEvent &event) override;
         void resized() override;
+        bool keyPressed(const juce::KeyPress &key) override;
     };
 }

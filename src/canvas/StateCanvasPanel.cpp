@@ -50,6 +50,12 @@ namespace ui
 
         if (const auto in = stateToNode.find(node->getState()); in != stateToNode.end())
             stateToNode.erase(in);
+
+        if (auto selection = findParentComponentOfClass<CanvasSelectionManager>())
+        {
+            selection->select(nullptr);
+        }
+
     }
 
     void StateCanvasPanel::paint(Graphics &g)
@@ -88,5 +94,24 @@ namespace ui
     void StateCanvasPanel::resized()
     {
         connectionManager->setBounds(getBounds());
+    }
+
+    bool StateCanvasPanel::keyPressed(const juce::KeyPress &key)
+    {
+        // if (key.getKeyCode() == KeyPress::deleteKey)
+        // {
+        //     auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>();
+        //     if (selectionManager != nullptr)
+        //     {
+        //         auto ptr = selectionManager->getCurrent();
+        //         if (auto shared = ptr.lock(); shared != nullptr)
+        //         {
+        //             removeNode(shared);
+        //         }
+        //         return true;
+        //     }
+        // }
+
+        return false;
     }
 }
