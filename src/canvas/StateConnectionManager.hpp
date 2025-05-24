@@ -4,11 +4,15 @@
 #include "juce_graphics/juce_graphics.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
+namespace sm {
+    class State;
+}
+
 namespace ui
 {
     class StateNodeWidget;
 
-    class StateConnectionManager
+    class StateConnectionManager : public juce::Component
     {
     public:
         using Point = juce::Point<float>;
@@ -17,21 +21,20 @@ namespace ui
         bool dragging{false};
         Point start;
         Point end;
-
-        juce::Component* parent;
-//        juce::DragAndDropContainer* dragAndDrop;
+        std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
+        std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
 
     public:
         using Ptr = std::shared_ptr<StateConnectionManager>;
 
-        explicit StateConnectionManager(juce::Component *parent_);
+        explicit StateConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes, std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode);
 
         void startConnection(Point start_);
         void updateConnection(Point end_);
         void commitConnection(Point end_);
         static void makeConnection(StateNodeWidget* from, StateNodeWidget* to);
 
-        void paint(juce::Graphics& g) const;
+        void paint(juce::Graphics& g) override;
     };
 
 

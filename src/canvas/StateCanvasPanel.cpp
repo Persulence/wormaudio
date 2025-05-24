@@ -9,14 +9,28 @@ using namespace juce;
 
 namespace ui
 {
+    // Occluder::Occluder()
+    // {
+    //     setInterceptsMouseClicks(false, true);
+    // }
+    //
+    // void Occluder::paint(juce::Graphics &g)
+    // {
+    //     g.setColour(Colours::aliceblue);
+    //     g.fillRect(getBounds());
+    // }
+
     StateCanvasPanel::StateCanvasPanel():
-        connectionManager(std::make_shared<StateConnectionManager>(this)),
+        connectionManager(std::make_shared<StateConnectionManager>(&stateNodes, stateToNode)),
         definition(std::make_shared<sm::StateMachineDefinition>())
     {
         bg = Colours::darkgrey;
 
         // Create a node for testing
         addNode();
+
+        addAndMakeVisible(connectionManager.get());
+        connectionManager->toBack();
     }
 
     void StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget>& node)
@@ -24,6 +38,8 @@ namespace ui
         stateNodes.emplace_back(node);
         stateToNode.emplace(node->getState(), node);
         addAndMakeVisible(node.get());
+
+        connectionManager->toBack();
     }
 
     void StateCanvasPanel::addNode()
@@ -50,23 +66,6 @@ namespace ui
         paintBackground(g);
         paintBorder(g);
 
-        connectionManager->paint(g);
-
-        g.setColour(Colours::green);
-        for (const auto& from : stateNodes)
-        {
-            for (const auto& transition : from->getState()->getTransitions())
-            {
-                if (const auto& to = stateToNode.find(transition.nextState); to != stateToNode.end())
-                {
-                    const auto line = Line(
-                        convertPoint<int, float>(from->getBounds().getCentre()),
-                        convertPoint<int, float>(to->second->getBounds().getCentre()));
-
-                    g.drawLine(line);
-                }
-            }
-        }
     }
 
     void StateCanvasPanel::mouseDown(const MouseEvent &event)
@@ -95,7 +94,12 @@ namespace ui
         }
     }
 
-    void StateEditorPanel::paint(juce::Graphics &g)
+    void StateCanvasPanel::resized()
+    {
+        connectionManager->setBounds(getBounds());
+    }
+
+    void StateEditorPanel::paint(Graphics &g)
     {
         paintBackground(g);
         paintBorder(g);
