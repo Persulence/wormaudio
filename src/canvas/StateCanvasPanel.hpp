@@ -14,13 +14,6 @@ namespace ui
 {
     class StateNodeWidget;
 
-    // class Occluder : public Panel
-    // {
-    // public:
-    //     Occluder();
-    //     void paint(juce::Graphics &g) override;
-    // };
-
     class StateCanvasPanel : public Panel
     {
         std::vector<std::shared_ptr<StateNodeWidget>> stateNodes;
@@ -30,6 +23,8 @@ namespace ui
         // TODO: temporary
         std::shared_ptr<sm::StateMachineDefinition> definition;
 
+        std::weak_ptr<StateNodeWidget> selectedNode;
+
     public:
         StateCanvasPanel();
         void addNode(const std::shared_ptr<StateNodeWidget>& node);
@@ -38,11 +33,5 @@ namespace ui
         void paint(juce::Graphics &g) override;
         void mouseDown(const juce::MouseEvent &event) override;
         void resized() override;
-    };
-
-    class StateEditorPanel : public Panel
-    {
-    public:
-        void paint(juce::Graphics &g) override;
     };
 }

@@ -9,17 +9,6 @@ using namespace juce;
 
 namespace ui
 {
-    // Occluder::Occluder()
-    // {
-    //     setInterceptsMouseClicks(false, true);
-    // }
-    //
-    // void Occluder::paint(juce::Graphics &g)
-    // {
-    //     g.setColour(Colours::aliceblue);
-    //     g.fillRect(getBounds());
-    // }
-
     StateCanvasPanel::StateCanvasPanel():
         connectionManager(std::make_shared<StateConnectionManager>(&stateNodes, stateToNode)),
         definition(std::make_shared<sm::StateMachineDefinition>())
@@ -100,11 +89,4 @@ namespace ui
     {
         connectionManager->setBounds(getBounds());
     }
-
-    void StateEditorPanel::paint(Graphics &g)
-    {
-        paintBackground(g);
-        paintBorder(g);
-    }
-
 }

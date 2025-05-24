@@ -1,15 +1,26 @@
 #pragma once
 
+#include "CanvasSelectionManager.hpp"
 #include "StateCanvasPanel.hpp"
+#include "StateEditorPanel.hpp"
 #include "../panel/ResizeHandle.hpp"
 
-class CentrePanel : public ui::Panel
+namespace ui
 {
-public:
-    ui::StateCanvasPanel canvas;
-    ui::StateEditorPanel editor;
-    ui::ResizeHandle handle;
+    class CentrePanel : public ui::Panel, public CanvasSelectionManager
+    {
+    public:
+        StateCanvasPanel canvas;
+        StateEditorPanel editor;
+        ResizeHandle handle;
 
-    CentrePanel();
-    void resized() override;
-};
+        CentrePanel();
+        void resized() override;
+
+        void onSelect() override
+        {
+            editor.updateSelection();
+        }
+    };
+}
+

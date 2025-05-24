@@ -1,4 +1,4 @@
-#include "StateNodeWidget.hpp"
+#include "StateNodeWidget.hpp"        using Ptr = std::shared_ptr<CanvasSelectionManager>;
 #include "juce_graphics/juce_graphics.h"
 #include "StateConnectionManager.hpp"
 
@@ -39,7 +39,7 @@ namespace ui
 
     // ConnectionCreationBox
 
-    StateNodeWidget::ConnectionCreationBox::ConnectionCreationBox(StateNodeWidget* parent_,
+    StateNodeWidget::ConnectionCreationBox::ConnectionCreationBox(StateNodeWidget& parent_,
                                                                   StateConnectionManager::Ptr manager_) :
         manager(std::move(manager_)),
         parent(parent_)
@@ -75,7 +75,7 @@ namespace ui
         image.multiplyAllAlphas (0.6f);
 
         DragAndDropContainer::findParentDragContainerFor(this)->startDragging(
-                0, parent,
+                0, &parent,
                 image,
                 false,
                 nullptr,
@@ -91,16 +91,9 @@ namespace ui
 
     // StateNodeWidget
 
-    StateNodeWidget::Ptr StateNodeWidget::create(const sm::State::Ptr& state, StateConnectionManager::Ptr &manager, Point<int> pos)
-    {
-        auto ptr = std::make_shared<StateNodeWidget>(state, manager);
-        ptr->setBounds(pos.x, pos.y, 150, 120);
-        return ptr;
-    }
-
     StateNodeWidget::StateNodeWidget(sm::State::Ptr state_, StateConnectionManager::Ptr &connectionManager_):
         header(StateNodeHeader{*this}),
-        connectionBox(ConnectionCreationBox{this, connectionManager_}),
+        connectionBox(ConnectionCreationBox{*this, connectionManager_}),
         manager(connectionManager_),
         state(std::move(state_))
     {
@@ -136,6 +129,11 @@ namespace ui
     void StateNodeWidget::mouseDown(const juce::MouseEvent &event)
     {
         dragger.startDraggingComponent(this, event);
+        auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>();
+        if (selectionManager != nullptr)
+        {
+            selectionManager->select(shared_from_this());
+        }
     }
 
     void StateNodeWidget::mouseDrag(const juce::MouseEvent &event)

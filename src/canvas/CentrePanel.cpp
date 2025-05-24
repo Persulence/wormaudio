@@ -1,6 +1,9 @@
 #include "CentrePanel.hpp"
 
+using namespace ui;
+
 CentrePanel::CentrePanel():
+        editor(*this),
         handle(ui::ResizeHandle(ui::ResizeHandle::Direction::HORIZONTAL, 500))
 {
     addAndMakeVisible(canvas);
