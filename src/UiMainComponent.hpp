@@ -2,11 +2,12 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
-#include "Panel.hpp"
+#include "panel/Panel.hpp"
 #include "browser/ElementBrowserPanel.hpp"
 #include "browser/FileBrowserPanel.hpp"
 #include "canvas/StateCanvasPanel.hpp"
 #include "panel/ResizeHandle.hpp"
+#include "canvas/CentrePanel.hpp"
 
 namespace ui
 {

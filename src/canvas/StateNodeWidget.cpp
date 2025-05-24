@@ -1,4 +1,6 @@
 #include "StateNodeWidget.hpp"
+#include "juce_graphics/juce_graphics.h"
+#include "StateConnectionManager.hpp"
 
 #include <utility>
 
@@ -43,7 +45,7 @@ namespace ui
 
     }
 
-    void StateNodeWidget::ConnectionCreationBox::paint(juce::Graphics &g)
+    void StateNodeWidget::ConnectionCreationBox::paint(Graphics &g)
     {
         g.setColour(Colours::white);
         auto rect = getLocalBounds();
@@ -51,18 +53,18 @@ namespace ui
         g.fillRect(rect);
     }
 
-    void StateNodeWidget::ConnectionCreationBox::mouseDown(const juce::MouseEvent &event)
+    void StateNodeWidget::ConnectionCreationBox::mouseDown(const MouseEvent &event)
     {
         manager->startConnection(getCentrePos());
 //        manager->getDragAndDrop().startDragging(0, parent);
     }
 
-    void StateNodeWidget::ConnectionCreationBox::mouseUp(const juce::MouseEvent &event)
+    void StateNodeWidget::ConnectionCreationBox::mouseUp(const MouseEvent &event)
     {
         manager->commitConnection(localPointToGlobal(event.position));
     }
 
-    void StateNodeWidget::ConnectionCreationBox::mouseDrag(const juce::MouseEvent &event)
+    void StateNodeWidget::ConnectionCreationBox::mouseDrag(const MouseEvent &event)
     {
         manager->updateConnection(localPointToGlobal(event.position));
 
@@ -87,16 +89,18 @@ namespace ui
 
     // StateNodeWidget
 
-    StateNodeWidget::Ptr StateNodeWidget::create(const StateConnectionManager::Ptr& manager, juce::Point<int> pos)
+    StateNodeWidget::Ptr StateNodeWidget::create(const sm::State::Ptr& state, StateConnectionManager::Ptr &manager, juce::Point<int> pos)
     {
-        auto ptr = std::make_shared<StateNodeWidget>(manager);
+        auto ptr = std::make_shared<StateNodeWidget>(state, manager);
         ptr->setBounds(pos.x, pos.y, 150, 120);
         return ptr;
     }
 
-    StateNodeWidget::StateNodeWidget(const StateConnectionManager::Ptr &connectionManager_):
+    StateNodeWidget::StateNodeWidget(sm::State::Ptr state_, StateConnectionManager::Ptr &connectionManager_):
         header(StateNodeHeader{}),
-        connectionBox(ConnectionCreationBox{this, connectionManager_})
+        connectionBox(ConnectionCreationBox{this, connectionManager_}),
+        manager(connectionManager_),
+        state(std::move(state_))
     {
         addAndMakeVisible(header);
         addAndMakeVisible(connectionBox);
@@ -156,10 +160,15 @@ namespace ui
     {
         if (auto* other = dynamic_cast<StateNodeWidget*>(dragSourceDetails.sourceComponent.get()))
         {
-            std::cout << "Dropped\n";
+            manager->makeConnection(other, this);
         }
 
         borderCol = Colours::black;
+    }
+
+    sm::State::Ptr& StateNodeWidget::getState()
+    {
+        return state;
     }
 
     void StateNodeWidget::itemDragEnter(const DragAndDropTarget::SourceDetails &dragSourceDetails)

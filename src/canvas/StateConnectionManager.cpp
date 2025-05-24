@@ -1,5 +1,9 @@
 #include "StateConnectionManager.hpp"
 
+#include "StateNodeWidget.hpp"
+
+import control;
+
 namespace ui
 {
     StateConnectionManager::StateConnectionManager(juce::Component *parent_) :
@@ -42,5 +46,12 @@ namespace ui
             g.setColour(Colours::red);
             g.drawLine(line);
         }
+    }
+
+    void StateConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
+    {
+        const sm::Transition1 transition{{}, to->getState()};
+        from->getState()->insertTransition(transition);
+        std::cout << "Connecting\n";
     }
 }

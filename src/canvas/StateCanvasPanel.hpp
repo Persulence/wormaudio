@@ -1,8 +1,14 @@
 #pragma once
 
 #include "StateConnectionManager.hpp"
-#include "../Panel.hpp"
-#include "../panel/ResizeHandle.hpp"
+#include "../panel/Panel.hpp"
+
+import control;
+
+namespace sm
+{
+    class StateMachineDefinition;
+}
 
 namespace ui
 {
@@ -11,7 +17,11 @@ namespace ui
     class StateCanvasPanel : public Panel
     {
         std::vector<std::shared_ptr<StateNodeWidget>> stateNodes;
+        std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>> stateToNode;
         StateConnectionManager::Ptr connectionManager{};
+
+        // TODO: temporary
+        std::shared_ptr<sm::StateMachineDefinition> definition;
 
     public:
         StateCanvasPanel();
@@ -26,16 +36,5 @@ namespace ui
     {
     public:
         void paint(juce::Graphics &g) override;
-    };
-
-    class CentrePanel : public Panel
-    {
-    public:
-        StateCanvasPanel canvas;
-        StateEditorPanel editor;
-        ResizeHandle handle;
-
-        CentrePanel();
-        void resized() override;
     };
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Panel.hpp"
+#include "../panel/Panel.hpp"
 
 namespace ui
 {

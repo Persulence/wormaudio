@@ -12,10 +12,9 @@ namespace resource
     public:
         using Ptr = std::shared_ptr<ElementSampleBuffer>;
 
-        static Ptr create()
-        {
-            return std::make_shared<ElementSampleBuffer>();
-        }
+        static Ptr create();
+
+        void thing();
     };
 
     export const ElementSampleBuffer::Ptr EMPTY_BUFFER = std::make_shared<ElementSampleBuffer>();

@@ -6,6 +6,8 @@
 
 namespace ui
 {
+    class StateNodeWidget;
+
     class StateConnectionManager
     {
     public:
@@ -27,6 +29,7 @@ namespace ui
         void startConnection(Point start_);
         void updateConnection(Point end_);
         void commitConnection(Point end_);
+        static void makeConnection(StateNodeWidget* from, StateNodeWidget* to);
 
         void paint(juce::Graphics& g) const;
     };
@@ -38,3 +41,4 @@ namespace ui
         return {static_cast<To>(point.getX()), static_cast<To>(point.getY())};
     }
 }
+

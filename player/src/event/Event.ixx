@@ -3,6 +3,7 @@ module;
 #include <memory>
 
 #include "juce_core/juce_core.h"
+#include "../control/StateMachineDefinition.hpp"
 
 export module event:Event;
 

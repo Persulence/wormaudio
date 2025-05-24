@@ -1,16 +1,13 @@
-module;
+#pragma once
 
 #include <memory>
 #include <vector>
 
-export module control:StateMachineDefinition;
-
-import :Node;
-import :Transition;
+import control;
 
 namespace sm
 {
-    export class StateMachineDefinition
+    class StateMachineDefinition
     {
         std::vector<State::Ptr> states;
 
@@ -23,10 +20,6 @@ namespace sm
             (states.push_back(entries),...);
         }
 
-        const std::vector<State::Ptr>& getStates()
-        {
-            return states;
-        }
+        const std::vector<State::Ptr>& getStates();
     };
-
 }

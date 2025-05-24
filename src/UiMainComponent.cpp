@@ -2,7 +2,7 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
-#include "MainLookAndFeel.hpp"
+#include "theme/MainLookAndFeel.hpp"
 
 using namespace juce;
 

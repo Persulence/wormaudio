@@ -72,7 +72,10 @@ add_executable(${GUI_TARGET})
 # CMake command.
 
 target_include_directories(${GUI_TARGET}
-        PUBLIC JuceLibraryCode)
+        PUBLIC
+            JuceLibraryCode
+            player/src
+)
 
 file(GLOB_RECURSE ModuleFiles
         CONFIGURE_DEPENDS
