@@ -45,9 +45,9 @@ namespace event
             {
                 auto& stateEntry = getOrCreateEntry(map, state);
 
-                for (const auto& transition : state->getTransitions())
+                for (const auto& [nextState, transition] : state->getTransitions())
                 {
-                    StateEntry& nextStateEntry = getOrCreateEntry(map, transition.nextState);
+                    StateEntry& nextStateEntry = getOrCreateEntry(map, nextState);
 
                     stateEntry.transitions.emplace_back(Transition{&transition.conditions, &nextStateEntry});
                 }

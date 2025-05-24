@@ -3,7 +3,7 @@ module;
 #include <memory>
 #include <utility>
 #include <vector>
-#include "../util/class_util.h"
+#include <unordered_map>
 
 export module control:Node;
 
@@ -39,12 +39,14 @@ namespace sm
     // For now only one state type
     export class State
     {
-        std::vector<ElementEntry> elements_;
-        std::vector<Transition1> transitions;
-
     public:
         using Ptr = std::shared_ptr<State>;
 
+    private:
+        std::vector<ElementEntry> elements_;
+        std::unordered_map<Ptr, Transition1> transitions;
+
+    public:
         void insertElement(const std::shared_ptr<element::Element>& entry)
         {
             elements_.emplace_back(entry);
@@ -52,8 +54,7 @@ namespace sm
 
         void insertTransition(const Transition1& transition)
         {
-            transitions.emplace_back(transition);
-//            transitions.emplace_back(sm::ConditionList{}, nextState);
+            transitions.emplace(transition.nextState, transition);
         }
 
         const std::vector<ElementEntry>& elements()
@@ -61,7 +62,7 @@ namespace sm
             return elements_;
         }
 
-        [[nodiscard]] const std::vector<Transition1>& getTransitions() const
+        [[nodiscard]] const std::unordered_map<Ptr, Transition1>& getTransitions() const
         {
             return transitions;
         }
