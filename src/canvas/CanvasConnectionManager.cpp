@@ -66,24 +66,29 @@ namespace ui
                     Point startPoint = convertPoint<int, float>(fromNode->getBounds().getCentre());
                     Point endPoint = convertPoint<int, float>(to->second->getBounds().getCentre());
 
+                    auto vector = endPoint - startPoint;
+                    float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
+
+                    // Skip unnecessarily short lines and divide by zeros
+                    if (len <= 1)
+                        continue;
+
                     // Offset lines if there is a two-way transition
                     if (nextState->getTransitions().contains(fromState))
                     {
                         float offset = 20;
 
                         // Get normalised vector perpendicular to the line
-                        auto vector = endPoint - startPoint;
                         auto perp = Point(vector.y, -vector.x);
-                        float len = sqrtf(perp.x * perp.x + perp.y * perp.y);
                         perp = (perp / len) * offset;
 
                         startPoint += perp;
                         endPoint += perp;
                     }
 
-                    auto vector = endPoint - startPoint;
-                    const auto line1 = Line(startPoint, startPoint + vector / 2);
-                    const auto line2 = Line(startPoint + vector / 2, endPoint);
+                    auto vector1 = endPoint - startPoint;
+                    const auto line1 = Line(startPoint, startPoint + vector1 / 2);
+                    const auto line2 = Line(startPoint + vector1 / 2, endPoint);
 
                     float thickness = 2;
                     float arrowSize = 15;

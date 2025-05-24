@@ -14,7 +14,13 @@ namespace ui
     public:
         virtual ~CanvasSelectionTarget() = default;
 
-        virtual std::unique_ptr<juce::Component> createConfig() = 0;
+        virtual std::shared_ptr<juce::Component> createConfig() = 0;
+
+        /// Executed when the selection manager has confirmed selection of this object.
+        virtual void onSelect() = 0;
+
+        /// Executed when the selection has changed to another object.
+        virtual void onDeselect() = 0;
     };
 
     // To be accessed via Component::findParentOfClass. Requires janky multiple inheritance.
@@ -33,11 +39,20 @@ namespace ui
 
         void select(std::shared_ptr<CanvasSelectionTarget> target)
         {
+            if (!current.expired())
+            {
+                if (auto shared = current.lock(); shared != target)
+                {
+                    shared->onDeselect();
+                }
+            }
+
+            target->onSelect();
             current = target;
-            onSelect();
+            onSelect(current);
         }
 
     protected:
-        virtual void onSelect() = 0;
+        virtual void onSelect(std::weak_ptr<CanvasSelectionTarget> current) = 0;
     };
 }

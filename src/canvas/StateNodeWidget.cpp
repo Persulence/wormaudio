@@ -105,8 +105,8 @@ namespace ui
     {
         g.setColour(Colours::grey);
         g.fillRect(getLocalBounds());
-        g.setColour(borderCol);
-        g.drawRect(getLocalBounds(), 1);
+        g.setColour(getBorderCol());
+        g.drawRect(getLocalBounds(), borderWidth);
     }
 
     void StateNodeWidget::resized()
@@ -165,7 +165,7 @@ namespace ui
             manager->makeConnection(other, this);
         }
 
-        borderCol = Colours::black;
+        dragEnter = false;
     }
 
     sm::State::Ptr& StateNodeWidget::getState()
@@ -175,11 +175,11 @@ namespace ui
 
     void StateNodeWidget::itemDragEnter(const DragAndDropTarget::SourceDetails &dragSourceDetails)
     {
-        borderCol = Colours::red;
+        dragEnter = true;
     }
 
     void StateNodeWidget::itemDragExit(const DragAndDropTarget::SourceDetails &dragSourceDetails)
     {
-        borderCol = Colours::black;
+        dragEnter = false;
     }
 }

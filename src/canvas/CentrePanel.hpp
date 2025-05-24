@@ -17,9 +17,9 @@ namespace ui
         CentrePanel();
         void resized() override;
 
-        void onSelect() override
+        void onSelect(const std::weak_ptr<CanvasSelectionTarget> current) override
         {
-            editor.updateSelection();
+            editor.updateSelection(current);
         }
     };
 }

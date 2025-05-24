@@ -8,7 +8,7 @@ namespace ui
     class StateEditorPanel : public Panel
     {
         CanvasSelectionManager& selectionManager;
-        std::unique_ptr<Component> configComponent;
+        std::shared_ptr<Component> configComponent;
 
     public:
         explicit StateEditorPanel(CanvasSelectionManager& parent):
@@ -16,7 +16,7 @@ namespace ui
         {
         }
 
-        void updateSelection()
+        void updateSelection(std::weak_ptr<CanvasSelectionTarget> curent)
         {
             if (!selectionManager.getCurrent().expired())
             {

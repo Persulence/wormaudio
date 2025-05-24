@@ -33,10 +33,12 @@ namespace ui
         int headerHeight{15};
 
         int borderWidth{1};
-        juce::Colour borderCol{juce::Colours::black};
+        juce::Colour defaultBorderCol{juce::Colours::black};
 
         juce::ComponentDragger dragger;
         sm::State::Ptr state;
+
+        std::shared_ptr<Component> propertyComponent;
 
     public:
         using Ptr = std::shared_ptr<StateNodeWidget>;
@@ -64,11 +66,30 @@ namespace ui
 
         sm::State::Ptr& getState();
 
-        std::unique_ptr<Component> createConfig() override
+        std::shared_ptr<Component> createConfig() override
         {
-            auto ptr = std::make_unique<juce::TextButton>();
-            ptr->setButtonText(state->name);
-            return ptr;
+            if (propertyComponent == nullptr)
+            {
+                const auto ptr = std::make_shared<juce::TextButton>();
+                ptr->setButtonText(state->name);
+
+                propertyComponent = ptr;
+            }
+            return propertyComponent;
+        }
+
+        void onSelect() override
+        {
+            selected = true;
+            borderWidth = 2;
+            repaint();
+        }
+
+        void onDeselect() override
+        {
+            selected = false;
+            borderWidth = 1;
+            repaint();
         }
 
     private:
@@ -92,6 +113,19 @@ namespace ui
         StateNodeHeader header;
         ConnectionCreationBox connectionBox;
         CanvasConnectionManager::Ptr &manager;
+        bool selected{false};
+        bool dragEnter{false};
+
+        juce::Colour getBorderCol() const
+        {
+            if (dragEnter)
+                return juce::Colours::red;
+
+            if (selected)
+                return juce::Colours::white;
+
+            return juce::Colours::black;
+        }
     };
 
 }
