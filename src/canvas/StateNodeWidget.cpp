@@ -68,7 +68,7 @@ namespace ui
     {
         manager->updateConnection(localPointToGlobal(event.position));
 
-        auto image = createComponentSnapshot (getLocalBounds(), true, (float) 0.5)
+        auto image = createComponentSnapshot (getLocalBounds(), true, 0.5f)
                 .convertedToFormat (Image::ARGB);
         image.multiplyAllAlphas (0.6f);
 
@@ -89,7 +89,7 @@ namespace ui
 
     // StateNodeWidget
 
-    StateNodeWidget::Ptr StateNodeWidget::create(const sm::State::Ptr& state, StateConnectionManager::Ptr &manager, juce::Point<int> pos)
+    StateNodeWidget::Ptr StateNodeWidget::create(const sm::State::Ptr& state, StateConnectionManager::Ptr &manager, Point<int> pos)
     {
         auto ptr = std::make_shared<StateNodeWidget>(state, manager);
         ptr->setBounds(pos.x, pos.y, 150, 120);
@@ -139,11 +139,13 @@ namespace ui
     void StateNodeWidget::mouseDrag(const juce::MouseEvent &event)
     {
         dragger.dragComponent(this, event, nullptr);
+        manager->setDraggingNode(true);
     }
 
     void StateNodeWidget::mouseUp(const juce::MouseEvent &event)
     {
         dragger.dragComponent(this, event, nullptr);
+        manager->setDraggingNode(false);
     }
 
     bool StateNodeWidget::isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails)

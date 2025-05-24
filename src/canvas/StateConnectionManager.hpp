@@ -18,11 +18,14 @@ namespace ui
         using Point = juce::Point<float>;
 
     private:
-        bool dragging{false};
+        bool draggingConnection{false};
+        bool draggingNode{false};
         Point start;
         Point end;
         std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
         std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
+
+        juce::VBlankAttachment vBlank;
 
     public:
         using Ptr = std::shared_ptr<StateConnectionManager>;
@@ -34,7 +37,12 @@ namespace ui
         void commitConnection(Point end_);
         static void makeConnection(StateNodeWidget* from, StateNodeWidget* to);
 
+        void setDraggingNode(bool drag);
+
         void paint(juce::Graphics& g) override;
+
+    private:
+        void update();
     };
 
 

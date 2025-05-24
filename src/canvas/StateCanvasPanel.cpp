@@ -24,6 +24,8 @@ namespace ui
         connectionManager(std::make_shared<StateConnectionManager>(&stateNodes, stateToNode)),
         definition(std::make_shared<sm::StateMachineDefinition>())
     {
+        setOpaque(true);
+
         bg = Colours::darkgrey;
 
         // Create a node for testing

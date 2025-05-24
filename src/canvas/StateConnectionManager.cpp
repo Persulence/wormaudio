@@ -8,14 +8,16 @@ namespace ui
 {
     StateConnectionManager::StateConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>> *stateNodes,
                                                    std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode):
-        stateNodes(stateNodes), stateToNode(stateToNode)
+        stateNodes(stateNodes),
+        stateToNode(stateToNode),
+        vBlank(juce::VBlankAttachment{this, [this]() { update(); }})
     {
         setInterceptsMouseClicks(false, false);
     }
 
     void StateConnectionManager::startConnection(Point start_)
     {
-        dragging = true;
+        draggingConnection = true;
         this->start = start_;
         this->end = start_;
     }
@@ -29,7 +31,7 @@ namespace ui
 
     void StateConnectionManager::commitConnection(Point end_)
     {
-        dragging = false;
+        draggingConnection = false;
         this->end = end_;
 
         repaint();
@@ -39,7 +41,7 @@ namespace ui
     {
         using namespace juce;
 
-        if (dragging)
+        if (draggingConnection)
         {
             auto globalPoint = convertPoint<int, float>(localPointToGlobal(getPosition()));
             auto line = Line(start - globalPoint, end - globalPoint);
@@ -65,9 +67,20 @@ namespace ui
         }
     }
 
+    void StateConnectionManager::update()
+    {
+        if (draggingNode)
+            repaint();
+    }
+
     void StateConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
     {
         const sm::Transition1 transition{{}, to->getState()};
         from->getState()->insertTransition(transition);
+    }
+
+    void StateConnectionManager::setDraggingNode(bool drag)
+    {
+        draggingNode = drag;
     }
 }
