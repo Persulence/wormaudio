@@ -73,7 +73,7 @@ namespace ui
 
                         // Get normalised vector perpendicular to the line
                         auto vector = endPoint - startPoint;
-                        auto perp = Point(vector.y, vector.x);
+                        auto perp = Point(vector.y, -vector.x);
                         float len = sqrtf(perp.x * perp.x + perp.y * perp.y);
                         perp = (perp / len) * offset;
 

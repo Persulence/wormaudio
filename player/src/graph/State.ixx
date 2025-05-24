@@ -41,31 +41,18 @@ namespace sm
     {
     public:
         using Ptr = std::shared_ptr<State>;
+        std::string name{"State"};
 
     private:
         std::vector<ElementEntry> elements_;
         std::unordered_map<Ptr, Transition1> transitions;
 
     public:
-        void insertElement(const std::shared_ptr<element::Element>& entry)
-        {
-            elements_.emplace_back(entry);
-        }
+        void insertElement(const std::shared_ptr<element::Element>& entry);
+        void insertTransition(const Transition1& transition);
 
-        void insertTransition(const Transition1& transition)
-        {
-            transitions.emplace(transition.nextState, transition);
-        }
-
-        const std::vector<ElementEntry>& elements()
-        {
-            return elements_;
-        }
-
-        [[nodiscard]] const std::unordered_map<Ptr, Transition1>& getTransitions() const
-        {
-            return transitions;
-        }
+        const std::vector<ElementEntry>& elements();
+        [[nodiscard]] const std::unordered_map<Ptr, Transition1>& getTransitions() const;
     };
 
     export class StateInstance

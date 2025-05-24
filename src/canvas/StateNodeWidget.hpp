@@ -8,15 +8,18 @@ import control;
 
 namespace ui
 {
+    class StateNodeWidget;
+
     class StateNodeHeader : public juce::Label
     {
     public:
-        StateNodeHeader();
+        explicit StateNodeHeader(StateNodeWidget& parent);
         void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
 
     private:
+        StateNodeWidget& parent;
         std::shared_ptr<std::string> name;
     };
 

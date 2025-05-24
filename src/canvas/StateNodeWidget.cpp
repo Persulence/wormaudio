@@ -8,11 +8,13 @@ namespace ui
 {
     using namespace juce;
 
-    StateNodeHeader::StateNodeHeader()
+    StateNodeHeader::StateNodeHeader(StateNodeWidget& parent):
+        parent(parent)
     {
-        setText("State", dontSendNotification);
+        setText(parent.getState()->name, dontSendNotification);
         setEditable(false, true);
         setJustificationType(Justification::left);
+        onTextChange = [this, &parent](){ parent.getState()->name = getText().toStdString(); };
     }
 
     void StateNodeHeader::paint(Graphics &g)
@@ -97,7 +99,7 @@ namespace ui
     }
 
     StateNodeWidget::StateNodeWidget(sm::State::Ptr state_, StateConnectionManager::Ptr &connectionManager_):
-        header(StateNodeHeader{}),
+        header(StateNodeHeader{*this}),
         connectionBox(ConnectionCreationBox{this, connectionManager_}),
         manager(connectionManager_),
         state(std::move(state_))
