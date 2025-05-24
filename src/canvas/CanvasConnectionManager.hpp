@@ -12,7 +12,7 @@ namespace ui
 {
     class StateNodeWidget;
 
-    class StateConnectionManager : public juce::Component
+    class CanvasConnectionManager : public juce::Component
     {
     public:
         using Point = juce::Point<float>;
@@ -28,9 +28,9 @@ namespace ui
         juce::VBlankAttachment vBlank;
 
     public:
-        using Ptr = std::shared_ptr<StateConnectionManager>;
+        using Ptr = std::shared_ptr<CanvasConnectionManager>;
 
-        explicit StateConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes, std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode);
+        explicit CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes, std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode);
 
         void startConnection(Point start_);
         void updateConnection(Point end_);

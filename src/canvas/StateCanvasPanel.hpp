@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StateConnectionManager.hpp"
+#include "canvas/CanvasConnectionManager.hpp"
 #include "../panel/Panel.hpp"
 
 import control;
@@ -18,7 +18,7 @@ namespace ui
     {
         std::vector<std::shared_ptr<StateNodeWidget>> stateNodes;
         std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>> stateToNode;
-        StateConnectionManager::Ptr connectionManager{};
+        CanvasConnectionManager::Ptr connectionManager{};
 
         // TODO: temporary
         std::shared_ptr<sm::StateMachineDefinition> definition;

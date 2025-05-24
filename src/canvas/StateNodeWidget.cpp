@@ -1,6 +1,6 @@
-#include "StateNodeWidget.hpp"        using Ptr = std::shared_ptr<CanvasSelectionManager>;
+#include "StateNodeWidget.hpp"
 #include "juce_graphics/juce_graphics.h"
-#include "StateConnectionManager.hpp"
+#include "CanvasConnectionManager.hpp"
 
 #include <utility>
 
@@ -40,7 +40,7 @@ namespace ui
     // ConnectionCreationBox
 
     StateNodeWidget::ConnectionCreationBox::ConnectionCreationBox(StateNodeWidget& parent_,
-                                                                  StateConnectionManager::Ptr manager_) :
+                                                                  CanvasConnectionManager::Ptr manager_) :
         manager(std::move(manager_)),
         parent(parent_)
     {
@@ -91,7 +91,7 @@ namespace ui
 
     // StateNodeWidget
 
-    StateNodeWidget::StateNodeWidget(sm::State::Ptr state_, StateConnectionManager::Ptr &connectionManager_):
+    StateNodeWidget::StateNodeWidget(sm::State::Ptr state_, CanvasConnectionManager::Ptr &connectionManager_):
         header(StateNodeHeader{*this}),
         connectionBox(ConnectionCreationBox{*this, connectionManager_}),
         manager(connectionManager_),

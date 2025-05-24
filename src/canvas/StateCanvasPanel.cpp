@@ -10,7 +10,7 @@ using namespace juce;
 namespace ui
 {
     StateCanvasPanel::StateCanvasPanel():
-        connectionManager(std::make_shared<StateConnectionManager>(&stateNodes, stateToNode)),
+        connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
         definition(std::make_shared<sm::StateMachineDefinition>())
     {
         setOpaque(true);

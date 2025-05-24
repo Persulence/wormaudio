@@ -1,4 +1,4 @@
-#include "StateConnectionManager.hpp"
+#include "CanvasConnectionManager.hpp"
 
 #include <ranges>
 
@@ -10,7 +10,7 @@ namespace ui
 {
     using namespace juce;
 
-    StateConnectionManager::StateConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>> *stateNodes,
+    CanvasConnectionManager::CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>> *stateNodes,
                                                    std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode):
         stateNodes(stateNodes),
         stateToNode(stateToNode),
@@ -19,21 +19,21 @@ namespace ui
         setInterceptsMouseClicks(false, false);
     }
 
-    void StateConnectionManager::startConnection(Point start_)
+    void CanvasConnectionManager::startConnection(Point start_)
     {
         draggingConnection = true;
         this->start = start_;
         this->end = start_;
     }
 
-    void StateConnectionManager::updateConnection(Point end_)
+    void CanvasConnectionManager::updateConnection(Point end_)
     {
         this->end = end_;
 
         repaint();
     }
 
-    void StateConnectionManager::commitConnection(Point end_)
+    void CanvasConnectionManager::commitConnection(Point end_)
     {
         draggingConnection = false;
         this->end = end_;
@@ -41,7 +41,7 @@ namespace ui
         repaint();
     }
 
-    void StateConnectionManager::paint(juce::Graphics &g)
+    void CanvasConnectionManager::paint(juce::Graphics &g)
     {
         using namespace juce;
 
@@ -94,19 +94,19 @@ namespace ui
         }
     }
 
-    void StateConnectionManager::update()
+    void CanvasConnectionManager::update()
     {
         if (draggingNode)
             repaint();
     }
 
-    void StateConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
+    void CanvasConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
     {
         const sm::Transition1 transition{{}, to->getState()};
         from->getState()->insertTransition(transition);
     }
 
-    void StateConnectionManager::setDraggingNode(bool drag)
+    void CanvasConnectionManager::setDraggingNode(bool drag)
     {
         draggingNode = drag;
     }

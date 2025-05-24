@@ -3,7 +3,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "CanvasSelectionManager.hpp"
-#include "StateConnectionManager.hpp"
+#include "CanvasConnectionManager.hpp"
 
 import control;
 
@@ -41,14 +41,14 @@ namespace ui
     public:
         using Ptr = std::shared_ptr<StateNodeWidget>;
 
-        static Ptr create(const sm::State::Ptr& state, StateConnectionManager::Ptr &manager, juce::Point<int> pos)
+        static Ptr create(const sm::State::Ptr& state, CanvasConnectionManager::Ptr &manager, juce::Point<int> pos)
         {
             auto ptr = std::make_shared<StateNodeWidget>(state, manager);
             ptr->setBounds(pos.x, pos.y, 150, 120);
             return ptr;
         }
 
-        explicit StateNodeWidget(sm::State::Ptr state, StateConnectionManager::Ptr &connectionManager_);
+        explicit StateNodeWidget(sm::State::Ptr state, CanvasConnectionManager::Ptr &connectionManager_);
 
         void paint(juce::Graphics &g) override;
         void resized() override;
@@ -74,10 +74,10 @@ namespace ui
     private:
         class ConnectionCreationBox : public juce::Component
         {
-            StateConnectionManager::Ptr manager;
+            CanvasConnectionManager::Ptr manager;
 
         public:
-            ConnectionCreationBox(StateNodeWidget& parent_, StateConnectionManager::Ptr manager);
+            ConnectionCreationBox(StateNodeWidget& parent_, CanvasConnectionManager::Ptr manager);
 
             void paint(juce::Graphics &g) override;
             void mouseDown(const juce::MouseEvent &event) override;
@@ -91,7 +91,7 @@ namespace ui
 
         StateNodeHeader header;
         ConnectionCreationBox connectionBox;
-        StateConnectionManager::Ptr &manager;
+        CanvasConnectionManager::Ptr &manager;
     };
 
 }

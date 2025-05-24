@@ -75,6 +75,7 @@ target_include_directories(${GUI_TARGET}
         PUBLIC
             JuceLibraryCode
             player/src
+            src
 )
 
 file(GLOB_RECURSE ModuleFiles
