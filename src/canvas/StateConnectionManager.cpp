@@ -81,9 +81,14 @@ namespace ui
                         endPoint += perp;
                     }
 
-                    const auto line = Line(startPoint, endPoint);
+                    auto vector = endPoint - startPoint;
+                    const auto line1 = Line(startPoint, startPoint + vector / 2);
+                    const auto line2 = Line(startPoint + vector / 2, endPoint);
 
-                    g.drawLine(line);
+                    float thickness = 2;
+                    float arrowSize = 15;
+                    g.drawArrow(line1, thickness, arrowSize, arrowSize);
+                    g.drawLine(line2, thickness);
                 }
             }
         }
