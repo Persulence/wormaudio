@@ -9,6 +9,7 @@ ResizeHandle::ResizeHandle(Direction direction_, float position_, float width_, 
     position(position_),
     margin(margin_),
     currentPosition(position_)
+    // vBlank(VBlankAttachment{this, [this](){ update(); }})
 {
 
 }
@@ -49,6 +50,10 @@ juce::FlexItem ResizeHandle::asFlexItem()
             return FlexItem{*this}.withMinWidth(width);
         }
     }
+}
+
+void ResizeHandle::update()
+{
 }
 
 void ResizeHandle::paint(Graphics &g)

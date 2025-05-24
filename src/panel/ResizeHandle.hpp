@@ -16,6 +16,8 @@ namespace ui
         float position;
         float margin;
 
+        // juce::VBlankAttachment vBlank;
+
     public:
         std::vector<Callback> drag;
         std::vector<Callback> commit;
@@ -37,6 +39,9 @@ namespace ui
         };
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResizeHandle)
+
+    private:
+        void update();
     };
 
     template <typename T>

@@ -69,6 +69,7 @@ public:
         {
             setUsingNativeTitleBar (true);
             setContentOwned(new ui::UiMainComponent(), true);
+            glContext.attachTo(*getTopLevelComponent());
             // setContentOwned(new ResourceTestComponent(), true);
             // setContentOwned (new TestMainComponent(), true);
 
@@ -98,6 +99,7 @@ public:
         */
 
     private:
+        juce::OpenGLContext glContext;
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
     };
 
