@@ -49,6 +49,7 @@ namespace ui
 
             if (target)
                 target->onSelect();
+
             current = target;
             onSelect();
         }

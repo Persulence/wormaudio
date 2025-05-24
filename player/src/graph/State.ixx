@@ -53,6 +53,8 @@ namespace sm
 
         const std::vector<ElementEntry>& elements();
         [[nodiscard]] const std::unordered_map<Ptr, Transition1>& getTransitions() const;
+
+        const std::string& getName();
     };
 
     export class StateInstance

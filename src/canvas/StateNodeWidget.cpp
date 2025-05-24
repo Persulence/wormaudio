@@ -1,10 +1,12 @@
-#include "StateNodeWidget.hpp"
-#include "juce_graphics/juce_graphics.h"
-#include "CanvasConnectionManager.hpp"
+#include "StateCanvasPanel.hpp"
 
 #include <utility>
 
-#include "StateCanvasPanel.hpp"
+#include "StateNodeWidget.hpp"
+#include "juce_graphics/juce_graphics.h"
+#include "CanvasConnectionManager.hpp"
+#include "state/StatePropertyPanel.hpp"
+
 
 namespace ui
 {
@@ -190,6 +192,17 @@ namespace ui
     sm::State::Ptr& StateNodeWidget::getState()
     {
         return state;
+    }
+
+    std::shared_ptr<Component> StateNodeWidget::createConfig()
+    {
+        if (propertyComponent == nullptr)
+        {
+            const auto ptr = std::make_shared<StatePropertyPanel>(shared_from_this());
+
+            propertyComponent = ptr;
+        }
+        return propertyComponent;
     }
 
     void StateNodeWidget::itemDragEnter(const DragAndDropTarget::SourceDetails &dragSourceDetails)

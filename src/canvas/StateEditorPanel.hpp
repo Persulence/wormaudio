@@ -18,9 +18,13 @@ namespace ui
 
         void updateSelection()
         {
-            if (!selectionManager.getCurrent().expired())
+            if (configComponent)
             {
-                auto shared = selectionManager.getCurrent().lock();
+                removeChildComponent(configComponent.get());
+            }
+
+            if (const auto shared = selectionManager.getCurrent().lock(); shared != nullptr)
+            {
                 configComponent = shared->createConfig();
                 addAndMakeVisible(configComponent.get());
                 configComponent->setBounds(getLocalBounds());

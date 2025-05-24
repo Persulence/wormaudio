@@ -31,14 +31,18 @@ namespace ui
                             public std::enable_shared_from_this<StateNodeWidget>
     {
         int headerHeight{15};
-
         int borderWidth{1};
-        juce::Colour defaultBorderCol{juce::Colours::black};
+        bool selected{false};
+        bool dragEnter{false};
 
-        juce::ComponentDragger dragger;
         sm::State::Ptr state;
 
+        juce::ComponentDragger dragger;
+
         std::shared_ptr<Component> propertyComponent;
+
+        StateNodeHeader header;
+        CanvasConnectionManager::Ptr &manager;
 
     public:
         using Ptr = std::shared_ptr<StateNodeWidget>;
@@ -67,17 +71,7 @@ namespace ui
 
         sm::State::Ptr& getState();
 
-        std::shared_ptr<Component> createConfig() override
-        {
-            if (propertyComponent == nullptr)
-            {
-                const auto ptr = std::make_shared<juce::TextButton>();
-                ptr->setButtonText(state->name);
-
-                propertyComponent = ptr;
-            }
-            return propertyComponent;
-        }
+        std::shared_ptr<Component> createConfig() override;
 
         void onSelect() override
         {
@@ -112,11 +106,7 @@ namespace ui
             StateNodeWidget& parent;
         };
 
-        StateNodeHeader header;
         ConnectionCreationBox connectionBox;
-        CanvasConnectionManager::Ptr &manager;
-        bool selected{false};
-        bool dragEnter{false};
 
         juce::Colour getBorderCol() const
         {

@@ -29,4 +29,9 @@ namespace sm
     {
         return transitions;
     }
+
+    const std::string & State::getName()
+    {
+        return name;
+    }
 }

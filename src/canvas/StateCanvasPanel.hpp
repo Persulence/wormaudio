@@ -34,5 +34,7 @@ namespace ui
         void mouseDown(const juce::MouseEvent &event) override;
         void resized() override;
         bool keyPressed(const juce::KeyPress &key) override;
+
+        void contextMenu();
     };
 }
