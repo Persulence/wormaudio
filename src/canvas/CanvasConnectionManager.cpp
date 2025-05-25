@@ -13,8 +13,8 @@ namespace ui
     CanvasConnectionManager::CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>> *stateNodes,
                                                    std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode):
         stateNodes(stateNodes),
-        stateToNode(stateToNode),
-        vBlank(juce::VBlankAttachment{this, [this]() { update(); }})
+        stateToNode(stateToNode)
+        // vBlank(juce::VBlankAttachment{this, [this]() { update(); }})
     {
         setInterceptsMouseClicks(false, false);
     }
@@ -99,10 +99,11 @@ namespace ui
         }
     }
 
+    // Causes stuttering when rendered with openGL
     void CanvasConnectionManager::update()
     {
-        if (draggingNode)
-            repaint();
+        // if (draggingNode)
+            // repaint();
     }
 
     void CanvasConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
@@ -114,5 +115,7 @@ namespace ui
     void CanvasConnectionManager::setDraggingNode(bool drag)
     {
         draggingNode = drag;
+        if (drag)
+            repaint();
     }
 }

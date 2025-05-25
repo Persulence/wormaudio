@@ -25,7 +25,7 @@ namespace ui
         std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
         std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
 
-        juce::VBlankAttachment vBlank;
+        // juce::VBlankAttachment vBlank;
 
     public:
         using Ptr = std::shared_ptr<CanvasConnectionManager>;
