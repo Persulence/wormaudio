@@ -16,10 +16,10 @@ namespace ui
     public:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Panel)
 
-        void paint(juce::Graphics &g) override;
-
-    protected:
         Panel() = default;
+
+        void paint(juce::Graphics &g) override;
+    protected:
 
         void paintBackground(juce::Graphics &g) const;
         void paintBorder(juce::Graphics &g) const;

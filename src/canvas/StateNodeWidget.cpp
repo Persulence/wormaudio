@@ -133,6 +133,7 @@ namespace ui
     void StateNodeWidget::mouseDown(const juce::MouseEvent &event)
     {
         dragger.startDraggingComponent(this, event);
+        toFront(false);
         auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>();
         if (selectionManager != nullptr)
         {

@@ -63,7 +63,7 @@ namespace ui
         void resized() override
         {
             auto bounds = getLocalBounds();
-            bounds.reduce(static_cast<float>(borderWidth), static_cast<float>(borderWidth));
+            bounds.reduce(borderWidth, borderWidth);
             child.setBounds(bounds);
         }
 

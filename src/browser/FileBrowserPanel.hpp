@@ -1,48 +1,41 @@
 #pragma once
-#include "../panel/Panel.hpp"
+
+#include "EntryBrowserPanel.hpp"
 
 namespace ui
 {
-    class FileBrowserPanel : public Panel,
+    class FileWidget : public juce::Component
+    {
+        juce::File file;
+        juce::Font& font;
+
+    public:
+        explicit FileWidget(juce::File file_, juce::Font& font_):
+            file(std::move(file_)),
+            font(font_)
+        {
+        }
+
+        ~FileWidget() override = default;
+
+        void paint(juce::Graphics &g);
+    };
+
+    class FileBrowserPanel : public EntryBrowserPanel<FileWidget>,
                              public juce::ChangeListener
     {
         juce::TimeSliceThread updateThread;
         juce::WildcardFileFilter filter;
-        juce::DirectoryContentsList contents;
-        juce::FileListComponent fileList;
-        // juce::TableListBox listBox;
-        juce::FileBrowserComponent fileBrowser;
+        std::unique_ptr<juce::DirectoryContentsList> contents;
 
     public:
+        FileBrowserPanel();
+        ~FileBrowserPanel() override;
 
-        FileBrowserPanel():
-            updateThread("update files"),
-            filter(juce::WildcardFileFilter{"*", "*", "Some files?"}),
-            contents(&filter, updateThread),
-            fileList(contents),
-            fileBrowser(
-                juce::FileBrowserComponent::FileChooserFlags::openMode
-                | juce::FileBrowserComponent::FileChooserFlags::canSelectDirectories
-                | juce::FileBrowserComponent::FileChooserFlags::canSelectFiles
-                , juce::File("./"), &filter, nullptr)
-        {
-            updateThread.startThread();
-            // addAndMakeVisible(fileList);
-            // contents.refresh();
-            // contents.addChangeListener(this);
-            addAndMakeVisible(fileBrowser);
-
-            // addAndMakeVisible(listBox);
-            // listBox.setHeader(std::make_unique<juce::TableHeaderComponent>());
-            // listBox.getHeader().addColumn("ooer", 1, 40, 40, 50, 0, 0);
-        }
         void paint(juce::Graphics &g) override;
         void resized() override;
 
-        void changeListenerCallback(juce::ChangeBroadcaster *source) override
-        {
-            std::cout << "changed\n";
-        }
+        void changeListenerCallback(juce::ChangeBroadcaster *source) override;
     };
 }
 
