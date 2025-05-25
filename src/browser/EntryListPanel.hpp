@@ -6,7 +6,7 @@
 namespace ui
 {
     template <typename Entry>
-    class EntryBrowserPanel : public Panel
+    class EntryListPanel : public Panel
     {
     public:
         void paint(juce::Graphics &g) override
@@ -14,10 +14,16 @@ namespace ui
             paintBackground(g);
         }
 
+        int getExpectedHeight() const
+        {
+            return expectedHeight;
+        }
+
     protected:
         juce::Font font{juce::Font{juce::FontOptions{}}};
         std::vector<std::shared_ptr<Entry>> fileWidgets;
         int entryH{30};
+        int expectedHeight = 30;
 
         virtual int getEntryHeight(Entry& entry) { return entryH; };
 
