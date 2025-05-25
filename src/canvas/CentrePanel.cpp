@@ -3,8 +3,9 @@
 using namespace ui;
 
 CentrePanel::CentrePanel():
-        editor(*this),
-        handle(ui::ResizeHandle(ui::ResizeHandle::Direction::HORIZONTAL, 500))
+        handle(ResizeHandle(ResizeHandle::Direction::HORIZONTAL, 500)),
+        canvas(BorderPanel<StateCanvasPanel>{}),
+        editor(BorderPanel<StateEditorPanel>{*this})
 {
     addAndMakeVisible(canvas);
     addAndMakeVisible(editor);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <juce_gui_basics/juce_gui_basics.h>
+#include <panel/BorderPanel.hpp>
 
 #include "panel/Panel.hpp"
 #include "browser/ElementBrowserPanel.hpp"
@@ -14,8 +15,11 @@ namespace ui
     // Split into file browser and element browser
     class LeftPanel : public Panel
     {
-        FileBrowserPanel fileBrowser;
-        ElementBrowserPanel elementBrowser;
+        // FileBrowserPanel fileBrowser;
+        // ElementBrowserPanel elementBrowser;
+
+        BorderPanel<FileBrowserPanel> fileBrowserBorder{};
+        BorderPanel<ElementBrowserPanel> elementBrowserBorder{};
 
     public:
         LeftPanel();
@@ -25,7 +29,7 @@ namespace ui
         void resized() override;
     };
 
-class UiMainComponent : public juce::Component, public juce::DragAndDropContainer
+class UiMainComponent : public Panel, public juce::DragAndDropContainer
     {
         LeftPanel leftPanel;
         CentrePanel centrePanel;

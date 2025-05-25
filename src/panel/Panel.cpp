@@ -14,6 +14,6 @@ void Panel::paintBackground(juce::Graphics &g) const
 
 void Panel::paintBorder(juce::Graphics &g) const
 {
-    g.setColour(fg);
-    g.drawRect(getLocalBounds(), 2);
+    // g.setColour(fg);
+    // g.drawRect(getLocalBounds(), 2);
 }

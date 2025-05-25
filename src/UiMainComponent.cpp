@@ -3,6 +3,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "theme/MainLookAndFeel.hpp"
+#include "panel/BorderPanel.hpp"
 
 using namespace juce;
 
@@ -10,8 +11,10 @@ namespace ui
 {
     LeftPanel::LeftPanel()
     {
-        addAndMakeVisible(fileBrowser);
-        addAndMakeVisible(elementBrowser);
+        // addAndMakeVisible(withNoname<BorderPanel>(fileBrowser));
+        // addAndMakeVisible(withNoname<BorderPanel>(elementBrowser));
+        addAndMakeVisible(fileBrowserBorder);
+        addAndMakeVisible(elementBrowserBorder);
     }
 
     void LeftPanel::paint(juce::Graphics &g)
@@ -24,8 +27,8 @@ namespace ui
     {
         FlexBox flexBox;
         flexBox.flexDirection = FlexBox::Direction::column;
-        flexBox.items.add(FlexItem(fileBrowser).withFlex(100));
-        flexBox.items.add(FlexItem(elementBrowser).withFlex(100));
+        flexBox.items.add(FlexItem(fileBrowserBorder).withFlex(100));
+        flexBox.items.add(FlexItem(elementBrowserBorder).withFlex(100));
         flexBox.performLayout(getLocalBounds());
     }
 

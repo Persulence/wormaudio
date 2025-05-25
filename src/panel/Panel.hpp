@@ -6,6 +6,14 @@ namespace ui
 {
     class Panel : public juce::Component
     {
+    protected:
+        juce::Colour fg{juce::Colours::lightgrey};
+        juce::Colour bg{juce::Colours::grey};
+
+        /// For maintaining ownership of components that don't need to be referenced after construction
+        std::vector<std::unique_ptr<Component>> nonameOwned;
+
+    public:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Panel)
 
         void paint(juce::Graphics &g) override;
@@ -16,7 +24,19 @@ namespace ui
         void paintBackground(juce::Graphics &g) const;
         void paintBorder(juce::Graphics &g) const;
 
-        juce::Colour fg{juce::Colours::lightgrey};
-        juce::Colour bg{juce::Colours::grey};
+        // template <typename T>
+        // Component* withNoname(Component&& noname, T& t)
+        // {
+        //     noname.addAndMakeVisible(t);
+        //     nonameOwned.push_back(std::move(noname));
+        //     return &noname;
+        // }
+
+        template <typename T>
+        Component* withNoname(Component& c)
+        {
+            auto& noname = nonameOwned.emplace_back(std::make_unique<T>(c));
+            return noname.get();
+        }
     };
 }
