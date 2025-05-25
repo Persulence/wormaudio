@@ -9,4 +9,16 @@ namespace ui
         std::string name = "../res/" + path;
         return juce::File{name};
     }
+
+    inline juce::Image getFileIcon(const juce::File& file)
+    {
+        if (file.isDirectory())
+        {
+            return juce::ImageCache::getFromFile(loadResource("icon/folder.png"));
+        }
+        else
+        {
+            return juce::ImageCache::getFromFile(loadResource("icon/file.png"));
+        }
+    }
 }

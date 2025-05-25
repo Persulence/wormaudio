@@ -18,14 +18,7 @@ namespace ui
             auto im = ImageCache::getFromHashCode (hashCode);
 
             if (im.isNull())
-            {
-                // im = juce::detail::WindowingHelpers::createIconForFile (file);
-
-                // if (im.isValid())
-                    // ImageCache::addImageToCache (im, hashCode);
-                im = ImageCache::getFromFile(loadResource("icon/file.png"));
-                // im = ImageCache::getFromFile(File{"../res/icon/file.png"});
-            }
+                im = getFileIcon(file);
 
             if (im.isValid())
             {
