@@ -25,7 +25,7 @@ namespace ui
 
         for (const auto& element : elements)
         {
-            box.items.add(FlexItem{*element}.withMinHeight(30).withMinWidth(getParentWidth()));
+            box.items.add(FlexItem{*element}.withMinHeight(50).withMinWidth(getParentWidth()));
         }
 
         box.performLayout(getLocalBounds());
