@@ -143,8 +143,11 @@ namespace ui
 
     void StateNodeWidget::mouseDrag(const juce::MouseEvent &event)
     {
-        dragger.dragComponent(this, event, nullptr);
-        manager->setDraggingNode(true);
+        // if (event.x % 10 == 0 && event.y % 10 == 0)
+        // {
+            dragger.dragComponent(this, event, nullptr);
+            manager->setDraggingNode(true);
+        // }
     }
 
     void StateNodeWidget::mouseUp(const juce::MouseEvent &event)

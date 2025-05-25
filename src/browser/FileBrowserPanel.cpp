@@ -1,7 +1,8 @@
 #include "FileBrowserPanel.hpp"
 
+#include "juce_gui_basics/juce_gui_basics.h"
 #include <memory>
-#include <panel/BorderPanel.hpp>
+#include "util/Resources.hpp"
 
 namespace ui
 {
@@ -9,12 +10,42 @@ namespace ui
 
     // FileWidget
 
-    void FileWidget::paint(juce::Graphics &g)
+    void FileWidget::updateIcon()
+    {
+        if (icon.isNull())
+        {
+            auto hashCode = (file.getFullPathName() + "_iconCacheSalt").hashCode();
+            auto im = ImageCache::getFromHashCode (hashCode);
+
+            if (im.isNull())
+            {
+                // im = juce::detail::WindowingHelpers::createIconForFile (file);
+
+                // if (im.isValid())
+                    // ImageCache::addImageToCache (im, hashCode);
+                im = ImageCache::getFromFile(loadResource("icon/file.png"));
+                // im = ImageCache::getFromFile(File{"../res/icon/file.png"});
+            }
+
+            if (im.isValid())
+            {
+                icon = im;
+                // triggerAsyncUpdate();
+                repaint();
+            }
+        }
+    }
+
+    void FileWidget::paint(Graphics &g)
     {
         g.setColour(Colours::wheat);
         auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
-        iconBounds.reduce(2, 2);
-        g.fillRect(iconBounds);
+        iconBounds.reduce(4, 4);
+        // g.fillRect(iconBounds);
+        if (!icon.isNull())
+        {
+            g.drawImage(icon, iconBounds.toFloat(), RectanglePlacement::fillDestination, false);
+        }
 
         g.setFont(font);
 
@@ -27,12 +58,6 @@ namespace ui
         int textW = font.getStringWidth(sizeText);
         int textX = getWidth() - 20 - textW;
         g.drawText(sizeText, textX, 0, textW, getHeight(), Justification::centred);
-
-        // getLookAndFeel().drawFileBrowserRow(g, getWidth(), getHeight(), file, file.getFileName(),
-        // nullptr, "", "",
-        // false,
-        // false, 0,
-        // parent);
     }
 
     // FileBrowserPanel
@@ -66,15 +91,11 @@ namespace ui
 
     void ui::FileBrowserPanel::resized()
     {
-        // fileList.setBounds(getLocalBounds());
-        // listBox.setBounds(getLocalBounds());
-        // fileBrowser.setBounds(getLocalBounds());
-
         int i = 0;
-        int entryH = 30;
         for (auto& element : fileWidgets)
         {
-            element->setBounds(0, i * entryH, getWidth(), entryH);
+            int h = getEntryHeight(*element);
+            element->setBounds(0, i * h, getWidth(), h);
 
             ++i;
         }
@@ -90,9 +111,6 @@ namespace ui
             auto file = contents->getFile(i);
             auto& widget = fileWidgets.emplace_back(std::make_shared<FileWidget>(file, font));
             addAndMakeVisible(widget.get());
-
-            // widget->setBounds(getLocalBounds());
-            widget->setBounds(0, i * entryH, getWidth(), entryH);
         }
 
         repaint();

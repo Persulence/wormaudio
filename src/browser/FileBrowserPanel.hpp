@@ -4,19 +4,24 @@
 
 namespace ui
 {
-    class FileWidget : public juce::Component
+    class FileWidget : public juce::Component, juce::TimeSliceThread
     {
         juce::File file;
         juce::Font& font;
+        juce::Image icon;
 
     public:
         explicit FileWidget(juce::File file_, juce::Font& font_):
+            TimeSliceThread(getName()),
             file(std::move(file_)),
             font(font_)
         {
+            updateIcon();
         }
 
         ~FileWidget() override = default;
+
+        void updateIcon();
 
         void paint(juce::Graphics &g);
     };
