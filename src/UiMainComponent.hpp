@@ -21,6 +21,9 @@ namespace ui
         BorderPanel<FileBrowserPanel> fileBrowserBorder{};
         BorderPanel<ElementBrowserPanel> elementBrowserBorder{};
 
+        juce::StretchableLayoutManager layout;
+        juce::StretchableLayoutResizerBar bar;
+
     public:
         LeftPanel();
 
@@ -29,12 +32,14 @@ namespace ui
         void resized() override;
     };
 
-class UiMainComponent : public Panel, public juce::DragAndDropContainer
+    class UiMainComponent : public Panel, public juce::DragAndDropContainer
     {
         LeftPanel leftPanel;
         CentrePanel centrePanel;
 
-        ResizeHandle leftHandle;
+        // ResizeHandle leftHandle;
+        juce::StretchableLayoutManager layout;
+        juce::StretchableLayoutResizerBar bar;
 
     public:
 

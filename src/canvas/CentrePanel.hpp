@@ -14,10 +14,13 @@ namespace ui
     public:
         // StateCanvasPanel canvas;
         // StateEditorPanel editor;
-        ResizeHandle handle;
+        // ResizeHandle handle;
 
         BorderPanel<StateCanvasPanel> canvas;
         BorderPanel<StateEditorPanel> editor;
+
+        juce::StretchableLayoutManager layout;
+        juce::StretchableLayoutResizerBar bar;
 
         CentrePanel();
         void resized() override;
