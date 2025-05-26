@@ -1,10 +1,11 @@
 #pragma once
 
 #include "EntryListPanel.hpp"
+#include "FileDragSource.hpp"
 
 namespace ui
 {
-    class FileWidget : public juce::Component, juce::TimeSliceThread
+    class FileWidget : public juce::Component, juce::TimeSliceThread, public FileDragSource
     {
         juce::File file;
         juce::Font& font;
@@ -19,9 +20,12 @@ namespace ui
             updateIcon();
         }
 
-        void updateIcon();
-
         void paint(juce::Graphics &g) override;
+
+        void mouseDrag(const juce::MouseEvent &event) override;
+
+    private:
+        void updateIcon();
     };
 
     class FileListPanel : public EntryListPanel<FileWidget>,

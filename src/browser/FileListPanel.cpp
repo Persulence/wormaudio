@@ -53,6 +53,19 @@ namespace ui
         g.drawText(sizeText, textX, 0, textW, getHeight(), Justification::centred);
     }
 
+    void FileWidget::mouseDrag(const juce::MouseEvent &event)
+    {
+        auto offset = Point(30, -30);
+        DragAndDropContainer::findParentDragContainerFor(this)->startDragging(
+                "FILE", this,
+                ScaledImage{icon, 2},
+                false,
+                &offset,
+                nullptr
+                );
+
+    }
+
     // FileBrowserPanel
 
     ui::FileListPanel::FileListPanel():
