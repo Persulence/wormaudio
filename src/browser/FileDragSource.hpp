@@ -9,6 +9,6 @@ namespace ui
     public:
         virtual ~FileDragSource() = default;
 
-        virtual const juce::File& getFile() = 0;
+        virtual juce::File getFile() = 0;
     };
 }

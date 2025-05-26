@@ -25,7 +25,7 @@ namespace ui
         int entryH{30};
         int expectedHeight = 30;
 
-        virtual int getEntryHeight(Entry& entry) { return entryH; };
+        virtual int getEntryHeight() { return entryH; };
 
     };
 

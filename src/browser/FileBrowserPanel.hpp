@@ -13,7 +13,8 @@ namespace ui
         juce::Viewport viewport;
 
     public:
-        FileBrowserPanel()
+        FileBrowserPanel():
+            listPanel(FileListPanel{viewport})
         {
             // addAndMakeVisible(listPanel);
             addAndMakeVisible(viewport);
@@ -22,8 +23,8 @@ namespace ui
 
         void resized() override
         {
-            listPanel.setBounds(getLocalBounds());
             viewport.setBounds(getLocalBounds());
+            listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
         }
     };
 }

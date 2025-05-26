@@ -1,12 +1,50 @@
 #include "FileListPanel.hpp"
 
 #include <memory>
+
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "util/GuiResources.hpp"
 
 namespace ui
 {
     using namespace juce;
+
+    // HeaderWidget
+
+    HeaderWidget::HeaderWidget(Font font_):
+        icon(ImageCache::getFromFile(loadResource("icon/up_folder.png"))),
+        font(font_)
+    {
+
+    }
+
+    void HeaderWidget::mouseDown(const juce::MouseEvent &event)
+    {
+        if (auto parent = findParentComponentOfClass<FileListPanel>())
+        {
+            parent->changeDirectory(parent->currentDirectory().getParentDirectory());
+        }
+    }
+
+    void HeaderWidget::paint(juce::Graphics &g)
+    {
+        g.setColour(Colours::wheat);
+        auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
+        iconBounds.reduce(4, 4);
+
+        if (!icon.isNull())
+        {
+            g.drawImage(icon, iconBounds.toFloat(), RectanglePlacement::fillDestination, false);
+        }
+
+        g.setFont(font);
+
+        g.setColour(Colours::black);
+        auto folderText = "up";
+        int nameTextW = font.getStringWidth(folderText);
+        g.drawText(folderText, getHeight() + 10, 0, nameTextW, getHeight(), Justification::centred);
+    }
+
 
     // FileWidget
 
@@ -66,18 +104,21 @@ namespace ui
 
     }
 
+    void FileWidget::mouseDoubleClick(const juce::MouseEvent &event)
+    {
+    }
+
+
     // FileBrowserPanel
 
-    ui::FileListPanel::FileListPanel():
+    ui::FileListPanel::FileListPanel(Viewport& viewport):
+        header(font),
+        viewport(viewport),
         updateThread("update files"),
-        filter(juce::WildcardFileFilter{"*", "*", "Some files?"}) {
-        // addAndMakeVisible(fileList);
-        // contents.refresh();
-        // addAndMakeVisible(fileBrowser);
+        filter(WildcardFileFilter{"*", "*", "Some files?"})
+    {
 
-        // addAndMakeVisible(listBox);
-        // listBox.setHeader(std::make_unique<juce::TableHeaderComponent>());
-        // listBox.getHeader().addColumn("ooer", 1, 40, 40, 50, 0, 0);
+        addAndMakeVisible(header);
 
         updateThread.startThread(Thread::Priority::low);
         contents = std::make_unique<DirectoryContentsList>(&filter, updateThread);
@@ -97,22 +138,51 @@ namespace ui
 
     void ui::FileListPanel::resized()
     {
-        int i = 0;
-        for (auto& element : fileWidgets)
+        const auto h = getEntryHeight();
+        header.setBounds(0, 0, getWidth(), h);
+
+        updateVisibilities();
+
+        // setBounds(getBounds().withHeight(getExpectedHeight()));
+    }
+
+    void FileListPanel::updateVisibilities()
+    {
+        const auto h = getEntryHeight();
+
+        int hidden = 0;
+        int visible = 0;
+
+        int i = 1;
+        for (const auto& element : fileWidgets)
         {
-            int h = getEntryHeight(*element);
-            element->setBounds(0, i * h, getWidth(), h);
+            const auto elementY = element->getBoundsInParent().getY();
+
+            auto viewportArea = viewport.getBounds();
+            if (elementY < viewportArea.getY() || elementY > viewportArea.getBottom())
+            {
+                element->setVisible(false);
+                hidden++;
+            }
+            else
+            {
+                element->setVisible(true);
+                element->setBounds(0, i * h, getWidth(), h);
+                visible++;
+            }
 
             ++i;
         }
 
-        setBounds(getBounds().withHeight(getExpectedHeight()));
+        std::cout << "visible: " << visible << " hidden " << hidden << "\n";
     }
 
     void FileListPanel::changeListenerCallback(juce::ChangeBroadcaster *source)
     {
         fileWidgets.clear();
         removeAllChildren();
+
+        addAndMakeVisible(header);
 
         for (int i = 0; i < contents->getNumFiles(); ++i)
         {
@@ -121,8 +191,11 @@ namespace ui
             addAndMakeVisible(widget.get());
         }
 
-        expectedHeight = fileWidgets.size() * entryH;
+        expectedHeight = (fileWidgets.size() + 1) * getEntryHeight();
 
+        setBounds(getBounds().withHeight(getExpectedHeight()));
+        resized();
         repaint();
     }
+
 }
