@@ -18,7 +18,7 @@ namespace ui
 
     }
 
-    void HeaderWidget::mouseDown(const MouseEvent &event)
+    void HeaderWidget::mouseDoubleClick(const MouseEvent &event)
     {
         if (auto parent = findParentComponentOfClass<FileListPanel>())
         {

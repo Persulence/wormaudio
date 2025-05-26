@@ -19,6 +19,11 @@ namespace ui
         {".wav", resourcePath("icon/audio.png")},
     };
 
+    inline juce::Image getIcon(const std::string& path)
+    {
+        return juce::ImageCache::getFromFile(loadResource(path));
+    }
+
     inline juce::Image getFileIcon(const juce::File& file)
     {
 

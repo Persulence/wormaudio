@@ -12,7 +12,7 @@ namespace ui
 
     public:
         HeaderWidget(juce::Font font);
-        void mouseDown(const juce::MouseEvent &event) override;
+        void mouseDoubleClick(const juce::MouseEvent &event) override;
 
         void paint(juce::Graphics &g) override;
     };

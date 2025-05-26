@@ -9,6 +9,7 @@
 #include "canvas/StateCanvasPanel.hpp"
 #include "panel/ResizeHandle.hpp"
 #include "canvas/CentrePanel.hpp"
+#include "transport/TransportPanel.hpp"
 
 namespace ui
 {
@@ -20,9 +21,11 @@ namespace ui
 
         BorderPanel<FileBrowserPanel> fileBrowserBorder{};
         BorderPanel<ElementBrowserPanel> elementBrowserBorder{};
+        BorderPanel<TransportPanel> transport{};
 
         juce::StretchableLayoutManager layout;
-        juce::StretchableLayoutResizerBar bar;
+        juce::StretchableLayoutResizerBar bar1;
+        juce::StretchableLayoutResizerBar bar2;
 
     public:
         LeftPanel();

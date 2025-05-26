@@ -11,17 +11,22 @@ using namespace juce;
 namespace ui
 {
     LeftPanel::LeftPanel():
-        bar(&layout, 1, false)
+        bar1(&layout, 1, false),
+        bar2(&layout, 3, false)
     {
         // addAndMakeVisible(withNoname<BorderPanel>(fileBrowser));
         // addAndMakeVisible(withNoname<BorderPanel>(elementBrowser));
         addAndMakeVisible(fileBrowserBorder);
+        addAndMakeVisible(bar1);
         addAndMakeVisible(elementBrowserBorder);
-        addAndMakeVisible(bar);
+        addAndMakeVisible(bar2);
+        addAndMakeVisible(transport);
 
         layout.setItemLayout(0, -0.1, -0.9, -0.5);
         layout.setItemLayout(1, 5, 5, 5);
         layout.setItemLayout(2, -0.1, -0.9, -0.5);
+        layout.setItemLayout(3, 5, 5, 5);
+        layout.setItemLayout(4, -0.05, -0.5, -0.1);
     }
 
     void LeftPanel::paint(juce::Graphics &g)
@@ -38,7 +43,7 @@ namespace ui
         // flexBox.items.add(FlexItem(elementBrowserBorder).withFlex(100));
         // flexBox.performLayout(getLocalBounds());
 
-        std::array<Component*, 3> comps = {&fileBrowserBorder, &bar, &elementBrowserBorder};
+        std::array<Component*, 5> comps = {&fileBrowserBorder, &bar1, &elementBrowserBorder, &bar2, &transport};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
     }
 
