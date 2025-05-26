@@ -5,7 +5,6 @@ module;
 export module ui:ResourceTestComponent;
 
 import AudioContext;
-import ResourceLoader;
 import Resource;
 import element;
 import ElementTypes;

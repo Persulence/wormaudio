@@ -11,5 +11,8 @@ namespace ui
         g.fillRoundedRectangle(getLocalBounds().toFloat(), cornerSize);
         g.setColour(Colours::mediumpurple);
         g.drawRoundedRectangle(getLocalBounds().toFloat(), cornerSize, 4);
+
+        g.setColour(Colours::black);
+        g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
     }
 }

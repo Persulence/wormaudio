@@ -73,6 +73,11 @@ namespace element
             return std::make_shared<ClipElementInstance>(context, getAudio());
         }
 
+        std::string getName() override
+        {
+            return resource->getFile().getFileName().toStdString();
+        }
+
     private:
         resource::ElementSampleBuffer::Ptr getAudio() const
         {

@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "juce_gui_basics/juce_gui_basics.h"
-#include "util/Resources.hpp"
+#include "util/GuiResources.hpp"
 
 namespace ui
 {

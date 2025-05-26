@@ -23,12 +23,14 @@ namespace element
 
         [[nodiscard]] virtual ElementInstancePtr createInstance(player::AudioContext) const = 0;
 
+        virtual std::string getName() = 0;
+
         virtual ~Element() = default;
     };
 
     export class RandomElement : public Element
     {
-
+        std::string getName() override { return "random"; };
     };
 
 //    export template <class T> requires (std::convertible_to<Element&, T&>)

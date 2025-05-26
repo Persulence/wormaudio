@@ -6,6 +6,11 @@
 
 #include "ElementRegion.hpp"
 
+#include "Runtime.hpp"
+
+import ElementTypes;
+import Resource;
+
 namespace ui
 {
     class StateNodeWidget;
@@ -53,12 +58,17 @@ namespace ui
 
         void itemDropped(const SourceDetails &dragSourceDetails) override
         {
-            if (dynamic_cast<FileDragSource*>(dragSourceDetails.sourceComponent.get()))
+            if (auto source = dynamic_cast<FileDragSource*>(dragSourceDetails.sourceComponent.get()))
             {
                 if (const auto shared = parent.lock())
                 {
                     // TODO create element in event and add appropriate widget
-                    // shared->getState()->insertElement(std::make_)
+                    // auto resource = std::make_shared<resource::Resource>(runtime::getResourceLoader(), source->getFile());
+                    auto resource = runtime::createResource(source->getFile());
+                    shared->getState()->insertElement(std::make_shared<element::ClipElement>(resource));
+                    update();
+                    resized();
+                    repaint();
                 }
             }
         }

@@ -2,7 +2,7 @@ module;
 
 #include <juce_audio_formats/juce_audio_formats.h>
 
-export module ResourceLoader;
+export module Resource:ResourceLoader;
 
 import ElementSampleBuffer;
 import io;
@@ -12,15 +12,14 @@ namespace resource
     /// Responsible for loading audio files. All Resource instances load their data through here.
     export class ResourceLoader
     {
+
         juce::AudioFormatManager formatManager;
 
     public:
-        using Ptr = std::shared_ptr<ResourceLoader>;
+        // using Ptr = std::shared_ptr<ResourceLoader>;
+        using Ptr = ResourceLoader*;
 
-        ResourceLoader()
-        {
-            formatManager.registerBasicFormats();
-        }
+        static ResourceLoader::Ptr getInstance();
 
         juce::AudioFormatManager& getFormatManager()
         {
@@ -37,6 +36,23 @@ namespace resource
 
             return true;
         }
+
+    private:
+        ResourceLoader()
+        {
+            formatManager.registerBasicFormats();
+        }
     };
+
+    ResourceLoader::Ptr ResourceLoader::getInstance()
+    {
+        // static std::mutex mutex;
+        // std::lock_guard lock(mutex);
+
+        // I think initialisation of function-local static is thread safe (????)
+        static ResourceLoader instance;
+
+        return &instance;
+    }
 }
 

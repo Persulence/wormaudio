@@ -24,6 +24,11 @@ namespace ui
 
         void mouseDrag(const juce::MouseEvent &event) override;
 
+        const juce::File &getFile() override
+        {
+            return file;
+        }
+
     private:
         void updateIcon();
     };

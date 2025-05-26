@@ -19,9 +19,9 @@ namespace ui
         addAndMakeVisible(elementBrowserBorder);
         addAndMakeVisible(bar);
 
-        layout.setItemLayout(0, -0.1, -0.9, 0.5);
+        layout.setItemLayout(0, -0.1, -0.9, -0.5);
         layout.setItemLayout(1, 5, 5, 5);
-        layout.setItemLayout(2, -0.1, -0.9, 0.5);
+        layout.setItemLayout(2, -0.1, -0.9, -0.5);
     }
 
     void LeftPanel::paint(juce::Graphics &g)

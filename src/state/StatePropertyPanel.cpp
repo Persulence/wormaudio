@@ -33,18 +33,6 @@ namespace ui
 
     void StatePropertyPanel::mouseDown(const juce::MouseEvent &event)
     {
-        using namespace element;
-
-        if (event.mods.isRightButtonDown())
-        {
-            if (const auto shared = parent.lock())
-            {
-                shared->getState()->insertElement(std::make_shared<ClipElement>(nullptr));
-                update();
-                resized();
-                repaint();
-            }
-        }
     }
 }
 

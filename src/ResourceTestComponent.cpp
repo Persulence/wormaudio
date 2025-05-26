@@ -1,5 +1,6 @@
 module;
 
+#include <Runtime.hpp>
 #include <memory>
 #include <juce_audio_utils/juce_audio_utils.h>
 
@@ -8,7 +9,6 @@ module ui;
 import :ResourceTestComponent;
 
 import AudioContext;
-import ResourceLoader;
 import Resource;
 import element;
 import ElementTypes;
@@ -23,7 +23,7 @@ ResourceTestComponent::ResourceTestComponent() {
     using namespace sm;
     using namespace element;
 
-    ResourceLoader::Ptr loader = std::make_shared<ResourceLoader>();
+    ResourceLoader::Ptr loader = runtime::getResourceLoader();
 
     // Create a sample element from a lazy resource
     juce::File file = juce::File{"../fighter_attack.wav"};

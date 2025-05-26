@@ -4,7 +4,7 @@ module;
 
 export module Resource;
 
-import ResourceLoader;
+export import :ResourceLoader;
 import ElementSampleBuffer;
 
 namespace resource
@@ -48,6 +48,11 @@ namespace resource
             }
 
             return buffer;
+        }
+
+        juce::File getFile() const
+        {
+            return file;
         }
     };
 }
