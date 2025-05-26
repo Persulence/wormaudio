@@ -141,7 +141,7 @@ namespace ui
         const auto h = getEntryHeight();
         header.setBounds(0, 0, getWidth(), h);
 
-        updateVisibilities();
+        // updateVisibilities();
 
         // setBounds(getBounds().withHeight(getExpectedHeight()));
     }
@@ -162,7 +162,7 @@ namespace ui
 
             // auto viewportArea = getParentComponent()->getBounds();
             // if (elementY < viewportArea.getY() || elementY > viewportArea.getBottom())
-            if (i > offset)  // TODO hide the overflow
+            if (i > offset && i * h < getParentHeight())
             {
                 element->setVisible(true);
                 element->setBounds(0, (i - offset) * h, getWidth(), h);
@@ -177,7 +177,7 @@ namespace ui
             ++i;
         }
 
-        std::cout << "visible: " << visible << " hidden " << hidden << "\n";
+        // std::cout << "visible: " << visible << " hidden " << hidden << "\n";
     }
 
     void FileListPanel::setScroll(double fraction)
@@ -189,7 +189,7 @@ namespace ui
         }
     }
 
-    void FileListPanel::openFile(const juce::File &file)
+    void FileListPanel::openFile(const File &file)
     {
         if (file.isDirectory())
         {
@@ -215,6 +215,7 @@ namespace ui
 
         setBounds(getBounds().withHeight(getExpectedHeight()));
         resized();
+        updateVisibilities();
         repaint();
 
         callback(fileWidgets.size());

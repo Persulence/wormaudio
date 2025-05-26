@@ -75,9 +75,11 @@ namespace ui
         void setScroll(double fraction);
         void openFile(const juce::File &file);
 
-        void changeDirectory(const juce::File &newDirectory) const
+        void changeDirectory(const juce::File &newDirectory)
         {
             contents->setDirectory(newDirectory, true, true);
+            scrollFraction = 0;
+            // updateVisibilities();
         }
 
         juce::File currentDirectory() const
