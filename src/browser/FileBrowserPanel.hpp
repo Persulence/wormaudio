@@ -25,8 +25,11 @@ namespace ui
             {
                 if (getHeight() > 0)
                 {
+                    auto expected = listPanel.getExpectedHeight();
                     scrollBar.setRangeLimits(0,
                         listPanel.getExpectedHeight() / getHeight(),
+                        // listPanel.getExpectedHeight(),
+                        // getHeight(),
                         juce::dontSendNotification);
                 }
             };
@@ -42,6 +45,7 @@ namespace ui
             // viewport.setBounds(getLocalBounds());
             scrollBar.setBounds(getLocalBounds().removeFromRight(10));
             listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
+            scrollBar.setRangeLimits(0, listPanel.getHeight() / getHeight());
             scrollBar.toFront(false);
         }
 
@@ -49,6 +53,10 @@ namespace ui
         {
             listPanel.setScroll(newRangeStart / scrollBarThatHasMoved->getMaximumRangeLimit());
             // std::cout << "new range" << newRangeStart << "\n";
+        }
+
+        void mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) override
+        {
         }
     };
 }
