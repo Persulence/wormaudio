@@ -6,25 +6,49 @@
 namespace ui
 {
     /// Responsible for scrolling
-    class FileBrowserPanel : public Panel
+    class FileBrowserPanel : public Panel, juce::ScrollBar::Listener
     {
         FileListPanel listPanel;
-        // juce::ScrollBar scrollBar;
-        juce::Viewport viewport;
+        juce::ScrollBar scrollBar;
+        // juce::Viewport viewport;
 
     public:
         FileBrowserPanel():
-            listPanel(FileListPanel{viewport})
+            scrollBar(true)
         {
             // addAndMakeVisible(listPanel);
-            addAndMakeVisible(viewport);
-            viewport.setViewedComponent(&listPanel, false);
+            // addAndMakeVisible(viewport);
+            // viewport.setViewedComponent(&listPanel, false);
+
+            addAndMakeVisible(listPanel);
+            listPanel.callback = [this](int items)
+            {
+                if (getHeight() > 0)
+                {
+                    scrollBar.setRangeLimits(0,
+                        listPanel.getExpectedHeight() / getHeight(),
+                        juce::dontSendNotification);
+                }
+            };
+
+            addAndMakeVisible(scrollBar);
+            scrollBar.setAutoHide(false); // TODO: fix
+            // scrollBar.setRangeLimits(juce::Range(0.0, 2.0), juce::dontSendNotification);
+            scrollBar.addListener(this);
         }
 
         void resized() override
         {
-            viewport.setBounds(getLocalBounds());
+            // viewport.setBounds(getLocalBounds());
+            scrollBar.setBounds(getLocalBounds().removeFromRight(10));
             listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
+            scrollBar.toFront(false);
+        }
+
+        void scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) override
+        {
+            listPanel.setScroll(newRangeStart / scrollBarThatHasMoved->getMaximumRangeLimit());
+            // std::cout << "new range" << newRangeStart << "\n";
         }
     };
 }

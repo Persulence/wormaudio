@@ -18,7 +18,7 @@ namespace ui
 
     }
 
-    void HeaderWidget::mouseDown(const juce::MouseEvent &event)
+    void HeaderWidget::mouseDown(const MouseEvent &event)
     {
         if (auto parent = findParentComponentOfClass<FileListPanel>())
         {
@@ -26,7 +26,7 @@ namespace ui
         }
     }
 
-    void HeaderWidget::paint(juce::Graphics &g)
+    void HeaderWidget::paint(Graphics &g)
     {
         g.setColour(Colours::wheat);
         auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
@@ -91,7 +91,7 @@ namespace ui
         g.drawText(sizeText, textX, 0, textW, getHeight(), Justification::centred);
     }
 
-    void FileWidget::mouseDrag(const juce::MouseEvent &event)
+    void FileWidget::mouseDrag(const MouseEvent &event)
     {
         auto offset = Point(30, -30);
         DragAndDropContainer::findParentDragContainerFor(this)->startDragging(
@@ -104,16 +104,15 @@ namespace ui
 
     }
 
-    void FileWidget::mouseDoubleClick(const juce::MouseEvent &event)
+    void FileWidget::mouseDoubleClick(const MouseEvent &event)
     {
     }
 
 
     // FileBrowserPanel
 
-    ui::FileListPanel::FileListPanel(Viewport& viewport):
+    FileListPanel::FileListPanel():
         header(font),
-        viewport(viewport),
         updateThread("update files"),
         filter(WildcardFileFilter{"*", "*", "Some files?"})
     {
@@ -131,12 +130,12 @@ namespace ui
 
     FileListPanel::~FileListPanel() = default;
 
-    void ui::FileListPanel::paint(juce::Graphics &g)
+    void FileListPanel::paint(Graphics &g)
     {
         EntryListPanel::paint(g);
     }
 
-    void ui::FileListPanel::resized()
+    void FileListPanel::resized()
     {
         const auto h = getEntryHeight();
         header.setBounds(0, 0, getWidth(), h);
@@ -153,22 +152,25 @@ namespace ui
         int hidden = 0;
         int visible = 0;
 
+        const int offset = std::floor(fileWidgets.size() * std::min(scrollFraction, 1.0));
+
         int i = 1;
         for (const auto& element : fileWidgets)
         {
-            const auto elementY = element->getBoundsInParent().getY();
+            // const auto elementY = element->getBoundsInParent().getY();
 
-            auto viewportArea = viewport.getBounds();
-            if (elementY < viewportArea.getY() || elementY > viewportArea.getBottom())
+            // auto viewportArea = getParentComponent()->getBounds();
+            // if (elementY < viewportArea.getY() || elementY > viewportArea.getBottom())
+            if (i > offset)  // TODO hide the overflow
             {
-                element->setVisible(false);
-                hidden++;
+                element->setVisible(true);
+                element->setBounds(0, (i - offset) * h, getWidth(), h);
+                visible++;
             }
             else
             {
-                element->setVisible(true);
-                element->setBounds(0, i * h, getWidth(), h);
-                visible++;
+                element->setVisible(false);
+                hidden++;
             }
 
             ++i;
@@ -177,7 +179,16 @@ namespace ui
         std::cout << "visible: " << visible << " hidden " << hidden << "\n";
     }
 
-    void FileListPanel::changeListenerCallback(juce::ChangeBroadcaster *source)
+    void FileListPanel::setScroll(double fraction)
+    {
+        if (std::floor(scrollFraction * fileWidgets.size()) != std::floor(fraction * fileWidgets.size()))
+        {
+            scrollFraction = fraction;
+            updateVisibilities();
+        }
+    }
+
+    void FileListPanel::changeListenerCallback(ChangeBroadcaster *source)
     {
         fileWidgets.clear();
         removeAllChildren();
@@ -196,6 +207,8 @@ namespace ui
         setBounds(getBounds().withHeight(getExpectedHeight()));
         resized();
         repaint();
+
+        callback(fileWidgets.size());
     }
 
 }

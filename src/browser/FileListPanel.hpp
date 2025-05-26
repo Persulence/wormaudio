@@ -51,20 +51,21 @@ namespace ui
                              public juce::ChangeListener
     {
         HeaderWidget header;
-        juce::Viewport& viewport;
+        // juce::Viewport& viewport;
 
         juce::TimeSliceThread updateThread;
         juce::WildcardFileFilter filter;
         std::unique_ptr<juce::DirectoryContentsList> contents;
 
-
     public:
-        FileListPanel(juce::Viewport& viewport);
+        FileListPanel();
         ~FileListPanel() override;
 
         void paint(juce::Graphics &g) override;
         void resized() override;
         void updateVisibilities();
+
+        void setScroll(double fraction);
 
         void changeDirectory(const juce::File &newDirectory) const
         {
