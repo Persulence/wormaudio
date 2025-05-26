@@ -106,6 +106,7 @@ namespace ui
 
     void FileWidget::mouseDoubleClick(const MouseEvent &event)
     {
+        callback(file);
     }
 
 
@@ -188,6 +189,14 @@ namespace ui
         }
     }
 
+    void FileListPanel::openFile(const juce::File &file)
+    {
+        if (file.isDirectory())
+        {
+            changeDirectory(file);
+        }
+    }
+
     void FileListPanel::changeListenerCallback(ChangeBroadcaster *source)
     {
         fileWidgets.clear();
@@ -198,7 +207,7 @@ namespace ui
         for (int i = 0; i < contents->getNumFiles(); ++i)
         {
             auto file = contents->getFile(i);
-            auto& widget = fileWidgets.emplace_back(std::make_shared<FileWidget>(file, font));
+            auto& widget = fileWidgets.emplace_back(std::make_shared<FileWidget>(file, font, [this](auto f){ openFile(f); }));
             addAndMakeVisible(widget.get());
         }
 

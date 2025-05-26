@@ -20,15 +20,21 @@ namespace ui
 
     class FileWidget : public juce::Component, public FileDragSource
     {
+    public:
+        using Callback = std::function<void(juce::File)>;
+
+    private:
         juce::File file;
         juce::Font font;
         juce::Image icon;
+        Callback callback{[](auto){}};
 
     public:
-        explicit FileWidget(juce::File file_, juce::Font font_):
+        explicit FileWidget(juce::File file_, juce::Font font_, Callback callback):
             // TimeSliceThread(getName()),
             file(std::move(file_)),
-            font(font_)
+            font(std::move(font_)),
+            callback(std::move(callback))
         {
             updateIcon();
         }
@@ -63,9 +69,11 @@ namespace ui
 
         void paint(juce::Graphics &g) override;
         void resized() override;
-        void updateVisibilities();
+        void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
+        void updateVisibilities();
         void setScroll(double fraction);
+        void openFile(const juce::File &file);
 
         void changeDirectory(const juce::File &newDirectory) const
         {
@@ -76,8 +84,6 @@ namespace ui
         {
             return contents->getDirectory();
         }
-
-        void changeListenerCallback(juce::ChangeBroadcaster *source) override;
     };
 }
 
