@@ -108,9 +108,11 @@ namespace ui
     void StateNodeWidget::paint(Graphics &g)
     {
         g.setColour(Colours::grey);
-        g.fillRect(getLocalBounds());
+        float corner = 4;
+        auto reduced = getLocalBounds().toFloat().reduced(borderWidth / 2, borderWidth / 2);
+        g.fillRoundedRectangle(reduced, corner);
         g.setColour(getBorderCol());
-        g.drawRect(getLocalBounds(), borderWidth);
+        g.drawRoundedRectangle(reduced, corner, borderWidth);
     }
 
     void StateNodeWidget::resized()

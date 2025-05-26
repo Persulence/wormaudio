@@ -7,7 +7,7 @@ namespace ui
     template<typename Child> requires std::convertible_to<Child&, juce::Component&>
     class BorderPanel : public juce::Component
     {
-        float borderWidth{2};
+        float borderWidth{1};
 
     public:
         // using ChildVariant = std::variant<Child, Child*>;
@@ -70,8 +70,8 @@ namespace ui
         void paint(juce::Graphics &g) override
         {
             g.setColour(juce::Colours::lightgrey);
-            g.drawRoundedRectangle(getLocalBounds().toFloat(), 5, borderWidth);
-//            g.drawRect(getLocalBounds(), static_cast<float>(borderWidth));
+            g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(borderWidth / 2, borderWidth / 2), 5, borderWidth);
+            // g.drawRect(getLocalBounds(), borderWidth);
         }
     };
 }

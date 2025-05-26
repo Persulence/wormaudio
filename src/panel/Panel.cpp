@@ -9,7 +9,7 @@ void Panel::paint(juce::Graphics &g)
 void Panel::paintBackground(juce::Graphics &g) const
 {
     g.setColour(bg);
-    g.fillRect(getLocalBounds());
+    g.fillRoundedRectangle(getLocalBounds().toFloat(), 5);
 }
 
 void Panel::paintBorder(juce::Graphics &g) const

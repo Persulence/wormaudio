@@ -20,7 +20,6 @@ namespace ui
 {
     class StatePropertyPanel : public Panel, public juce::DragAndDropTarget
     {
-    private:
         std::weak_ptr<StateNodeWidget> parent;
         std::vector<std::shared_ptr<ElementRegion>> elements;
 
