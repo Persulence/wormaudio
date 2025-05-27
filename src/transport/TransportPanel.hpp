@@ -8,7 +8,7 @@
 
 namespace ui
 {
-    class TransportButton : public juce::Button
+    class TransportButton : public juce::Button, editor::TransportCallback::Listener
     {
     public:
         using Action = std::function<void(bool)>;
@@ -18,11 +18,21 @@ namespace ui
         explicit TransportButton(const std::string& name, juce::Image icon_):
             Button(name), icon(std::move(icon_))
         {
+            listen(editor::Editor::getInstance().transportSignal, [this](auto state)
+            {
+                setToggleState(state == player::PLAYING, juce::dontSendNotification);
+            });
         }
 
         void paintButton(juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
         {
-            auto col = shouldDrawButtonAsDown ? juce::Colours::lightgrey : juce::Colours::grey;
+            juce::Colour col;
+
+            if (isToggleable())
+                col = getToggleState() ? juce::Colours::lightgrey : juce::Colours::grey;
+            else
+                col = shouldDrawButtonAsDown ? juce::Colours::lightgrey : juce::Colours::grey;
+
             g.setColour(col);
             g.fillRect(getLocalBounds());
             g.setColour(juce::Colours::lightgrey);
@@ -32,7 +42,7 @@ namespace ui
 
         void clicked() override
         {
-            // action(isDown());
+            action(isToggleable() ? getToggleState() : isDown());
         }
 
     private:
@@ -44,13 +54,13 @@ namespace ui
         TransportButton playButton{"play", getIcon("icon/play.png")};
         TransportButton stopButton{"stop", getIcon("icon/stop.png")};
 
-        event::EventInstance::Ptr eventInstance;
+        // event::EventInstance::Ptr eventInstance;
 
     public:
         TransportPanel()
         {
             addAndMakeVisible(playButton);
-            playButton.action = [this](bool down){ down ? play() : stop(); };
+            playButton.action = [this](bool down){ down ? stop() : play(); };
             playButton.setToggleable(true);
             addAndMakeVisible(stopButton);
             stopButton.action = [this](bool down){ stop(); };
@@ -60,13 +70,12 @@ namespace ui
         {
             // eventInstance = editor::Editor::getInstance().getEvent()->instantiate();
             auto& editor = editor::Editor::getInstance();
-            eventInstance = editor.getRuntime().instantiate(editor::Editor::getInstance().getEvent());
+            editor.play();
         }
 
         void stop()
         {
-            auto& editor = editor::Editor::getInstance();
-            editor.getRuntime().clearInstances();
+            editor::Editor::getInstance().stop();
         }
 
         void resized() override;

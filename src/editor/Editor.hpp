@@ -4,11 +4,15 @@
 #include <runtime/Runtime.hpp>
 
 #include "control/StateMachineDefinition.hpp"
+#include "signal/Signal.hpp"
 
 import event;
+import transport;
 
 namespace editor
 {
+    using TransportCallback = signal_event::Callback<player::TransportState>;
+
     class Editor
     {
         event::Event::Ptr event;
@@ -21,6 +25,8 @@ namespace editor
         }
 
     public:
+        TransportCallback::Signal transportSignal;
+
         static Editor& getInstance()
         {
             static Editor instance;
@@ -46,6 +52,18 @@ namespace editor
         std::shared_ptr<sm::StateMachineDefinition> getDefinition() const
         {
             return event->getDefinition();
+        }
+
+        void play()
+        {
+            transportSignal.emit(player::PLAYING);
+            getRuntime().instantiate(event);
+        }
+
+        void stop()
+        {
+            transportSignal.emit(player::STOPPED);
+            getRuntime().clearInstances();
         }
     };
 }

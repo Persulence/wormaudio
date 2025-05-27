@@ -31,7 +31,10 @@ namespace ui
 
         double scrollFraction{0};
 
-        virtual int getEntryHeight() { return entryH; };
+        virtual int getEntryHeight()
+        {
+            return entryH;
+        }
 
     };
 

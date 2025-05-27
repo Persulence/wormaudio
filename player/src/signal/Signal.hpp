@@ -1,19 +1,23 @@
 #pragma once
+
 #include <algorithm>
 #include <functional>
 #include <iostream>
 #include <vector>
 
-namespace signal
+namespace signal_event
 {
     template <typename... Args>
     class Signal;
 
+    template <typename... Args>
+    class Listener;
+
     /// The Abomination
     template <typename... P> struct Callback
     {
-        template <template <typename...> typename T>
-        using apply = T<P...>;
+        using Signal = Signal<P...>;
+        using Listener = Listener<P...>;
     };
 
     /**
@@ -40,6 +44,7 @@ namespace signal
         void listen(Signal<Args...>& signal, Callback callback_)
         {
             unListen();
+            signal.reg(this);
             target = &signal;
             callback = callback_;
         }
@@ -84,17 +89,17 @@ namespace signal
         }
     };
 
-    void signalTest()
-    {
-        // using Thing = std::function<void(int)>;
-        using Thing = Callback<int, bool>;
-
-        // Signal<int> s;
-        Thing::apply<Signal> s;
-
-        Thing::apply<Listener> l;
-        l.listen(s, [](int i, bool b) { std::cout << i << "\n"; });
-
-        s.emit(123, false);
-    }
+    // inline void signalTest()
+    // {
+    //     // using Thing = std::function<void(int)>;
+    //     using Thing = Callback<int, bool>;
+    //
+    //     // Signal<int> s;
+    //     Thing::Signal s;
+    //
+    //     Thing::Listener l;
+    //     l.listen(s, [](int i, bool b) { std::cout << i << "\n"; });
+    //
+    //     s.emit(123, false);
+    // }
 }
