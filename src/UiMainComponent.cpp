@@ -1,7 +1,6 @@
 #include "UiMainComponent.hpp"
 
 #include <juce_gui_basics/juce_gui_basics.h>
-#include <juce_opengl/opengl/juce_gl.h>
 
 #include "theme/MainLookAndFeel.hpp"
 #include "panel/BorderPanel.hpp"
@@ -47,7 +46,7 @@ namespace ui
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
     }
 
-    UiMainComponent::UiMainComponent():
+    MainSceneComponent::MainSceneComponent():
         // leftHandle(ResizeHandle{ResizeHandle::Direction::VERTICAL, 250})
         bar(&layout, 1, true)
     {
@@ -58,17 +57,12 @@ namespace ui
         // addAndMakeVisible(leftHandle);
         addAndMakeVisible(bar);
 
-        // leftHandle.drag.emplace_back([this](float current)
-        // {
-        //     resized();
-        // });
-
         layout.setItemLayout(0, -0.2, -0.9, -0.2);
         layout.setItemLayout(1, 5, 5, 5);
         layout.setItemLayout(2, -0.2, -0.9, -0.8);
     }
 
-    void UiMainComponent::resized()
+    void MainSceneComponent::resized()
     {
         std::array<Component*, 3> comps = {&leftPanel, &bar, &centrePanel};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0,  getWidth(), getHeight(), false, true);
@@ -97,11 +91,25 @@ namespace ui
         // horizontalStack.performLayout(getLocalBounds());
     }
 
-    // void setupLookAndFeel(juce::Component &component)
-    // {
-    //     Colour bg;
-    //     component.getLookAndFeel().setColour()
-    //     component.getLookAndFeel().setColour(juce::PopupMenu::backgroundColourId,);
-    // }
+    UiMainComponent::UiMainComponent()
+    {
+        addAndMakeVisible(toolbar);
+        addAndMakeVisible(mainScene);
+
+        // ToolbarItemComponent item;
+        // toolbar.addItem()
+    }
+
+    void UiMainComponent::resized()
+    {
+        FlexBox box;
+        box.flexDirection = FlexBox::Direction::column;
+        box.justifyContent = FlexBox::JustifyContent::flexStart;
+        box.alignContent = FlexBox::AlignContent::stretch;
+        box.alignItems = FlexBox::AlignItems::stretch;
+        box.items.add(FlexItem{toolbar}.withMaxHeight(30).withHeight(30));
+        box.items.add(FlexItem{mainScene}.withFlex(2));
+        box.performLayout(getLocalBounds());
+    }
 }
 

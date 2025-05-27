@@ -1,6 +1,7 @@
 #pragma once
 
 #include <juce_gui_basics/juce_gui_basics.h>
+#include <juce_audio_utils/juce_audio_utils.h>
 #include <panel/BorderPanel.hpp>
 
 #include "panel/Panel.hpp"
@@ -35,8 +36,9 @@ namespace ui
         void resized() override;
     };
 
-    class UiMainComponent : public Panel, public juce::DragAndDropContainer
+    class MainSceneComponent : public Panel, public juce::DragAndDropContainer
     {
+
         LeftPanel leftPanel;
         CentrePanel centrePanel;
 
@@ -46,10 +48,34 @@ namespace ui
 
     public:
 
-        UiMainComponent();
+        MainSceneComponent();
 
         void resized() override;
     };
 
-    // void setupLookAndFeel(juce::Component& component);
+    class UiMainComponent : public juce::AudioAppComponent
+    {
+        juce::Toolbar toolbar;
+        MainSceneComponent mainScene;
+
+    public:
+        UiMainComponent();
+
+        void resized() override;
+
+        void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
+        {
+
+        }
+
+        void releaseResources() override
+        {
+
+        }
+
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
+        {
+
+        }
+    };
 }

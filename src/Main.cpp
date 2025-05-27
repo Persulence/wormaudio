@@ -67,7 +67,7 @@ public:
                                                           .findColour (juce::ResizableWindow::backgroundColourId),
                               DocumentWindow::allButtons)
         {
-            setUsingNativeTitleBar (true);
+            setUsingNativeTitleBar(true);
             setContentOwned(new ui::UiMainComponent(), true);
             glContext.attachTo(*getTopLevelComponent());
             // setContentOwned(new ResourceTestComponent(), true);
