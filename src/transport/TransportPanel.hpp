@@ -33,6 +33,7 @@ namespace ui
 
         void clicked() override
         {
+            action();
         }
 
     private:
@@ -64,7 +65,8 @@ namespace ui
 
         void stop()
         {
-
+            auto& editor = editor::Editor::getInstance();
+            editor.getRuntime().clearInstances();
         }
 
         void resized() override;

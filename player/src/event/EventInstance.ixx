@@ -29,6 +29,11 @@ namespace event
         {
             stateManager.logicTick(parameters, context);
         }
+
+        void stop()
+        {
+            stateManager.stop();
+        }
     };
 
     EventInstance::Ptr Event::instantiate()

@@ -45,6 +45,7 @@ namespace runtime
         void disconnect();
 
         event::EventInstance::Ptr instantiate(const event::Event::Ptr &event);
+        void clearInstances();
 
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
         void releaseResources() override;

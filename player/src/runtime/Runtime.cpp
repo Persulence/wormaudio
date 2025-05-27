@@ -2,6 +2,10 @@
 
 namespace runtime
 {
+    Runtime::Runtime()
+    {
+    }
+
     event::EventInstance::Ptr Runtime::instantiate(const event::Event::Ptr &event)
     {
         auto instance = event->instantiate();
@@ -9,8 +13,14 @@ namespace runtime
         return instance;
     }
 
-    Runtime::Runtime()
+    void Runtime::clearInstances()
     {
+        for (auto& instance : instances)
+        {
+            instance->stop();
+        }
+
+        instances.clear();
     }
 
     void Runtime::connectToDevice()

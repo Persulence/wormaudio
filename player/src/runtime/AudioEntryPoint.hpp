@@ -19,15 +19,17 @@ namespace runtime
     protected:
         void start()
         {
-            auto setup = deviceManager.getAudioDeviceSetup();
+            // auto setup = deviceManager.getAudioDeviceSetup();
+            //
+            // setup.inputChannels.clear();
+            // setup.inputChannels.setRange(0, 1, false);
+            //
+            // setup.outputChannels.clear();
+            // setup.outputChannels.setRange(0, 2, true);
+            //
+            // auto error = deviceManager.setAudioDeviceSetup(setup, false);
 
-            setup.inputChannels.clear();
-            setup.inputChannels.setRange(0, 1, false);
-
-            setup.outputChannels.clear();
-            setup.outputChannels.setRange(0, 2, true);
-
-            auto error = deviceManager.setAudioDeviceSetup(setup, false);
+            auto error = deviceManager.initialise(0, 2, nullptr, true);
 
             jassert(error.isEmpty());
 

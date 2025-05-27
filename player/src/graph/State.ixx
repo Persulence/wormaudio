@@ -84,7 +84,7 @@ namespace sm
             }
         }
 
-        void deactivate(element::ElementInstanceContext& context)
+        void deactivate()
         {
             for (const auto& instance : instances)
             {

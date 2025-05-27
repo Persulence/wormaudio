@@ -78,6 +78,14 @@ namespace event
             }
         }
 
+        void stop()
+        {
+            if (currentState)
+            {
+                currentState->instance->deactivate();
+            }
+        }
+
     private:
 
         StateEntry& getOrCreateEntry(std::unordered_map<sm::State*, StateEntry*>& map, const sm::State::Ptr &state)
