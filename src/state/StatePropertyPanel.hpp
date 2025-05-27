@@ -59,16 +59,19 @@ namespace ui
         {
             if (auto source = dynamic_cast<FileDragSource*>(dragSourceDetails.sourceComponent.get()))
             {
-                if (const auto shared = parent.lock())
-                {
-                    // TODO create element in event and add appropriate widget
-                    // auto resource = std::make_shared<resource::Resource>(runtime::getResourceLoader(), source->getFile());
-                    auto resource = runtime::createResource(source->getFile());
-                    shared->getState()->insertElement(std::make_shared<element::ClipElement>(resource));
-                    update();
-                    resized();
-                    repaint();
-                }
+                receiveFile(source->getFile());
+            }
+        }
+
+        void receiveFile(juce::File file)
+        {
+            if (const auto shared = parent.lock())
+            {
+                auto resource = runtime::createResource(file);
+                shared->getState()->insertElement(std::make_shared<element::ClipElement>(resource));
+                update();
+                resized();
+                repaint();
             }
         }
     };

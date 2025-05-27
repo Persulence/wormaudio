@@ -5,6 +5,7 @@
 #include "StateNodeWidget.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "CanvasConnectionManager.hpp"
+#include "browser/FileListPanel.hpp"
 #include "state/StatePropertyPanel.hpp"
 
 
@@ -175,26 +176,6 @@ namespace ui
         return false;
     }
 
-    bool StateNodeWidget::isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails)
-    {
-        if (auto* other = dynamic_cast<StateNodeWidget*>(dragSourceDetails.sourceComponent.get()))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    void StateNodeWidget::itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails)
-    {
-        if (auto* other = dynamic_cast<StateNodeWidget*>(dragSourceDetails.sourceComponent.get()))
-        {
-            manager->makeConnection(other, this);
-        }
-
-        dragEnter = false;
-    }
-
     sm::State::Ptr& StateNodeWidget::getState()
     {
         return state;
@@ -211,13 +192,40 @@ namespace ui
         return propertyComponent;
     }
 
+    bool StateNodeWidget::isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    {
+        auto source = dragSourceDetails.sourceComponent.get();
+        if (auto* other = dynamic_cast<StateNodeWidget*>(source))
+            return true;
+
+        if (auto* other = dynamic_cast<FileWidget*>(source))
+            return true;
+
+        return false;
+    }
+
+    void StateNodeWidget::itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    {
+        auto source = dragSourceDetails.sourceComponent.get();
+        if (auto* other = dynamic_cast<StateNodeWidget*>(source))
+            manager->makeConnection(other, this);
+
+        if (auto* other = dynamic_cast<FileWidget*>(source))
+            dynamic_cast<StatePropertyPanel*>(createConfig().get())->receiveFile(other->getFile());
+
+        dragEnter = false;
+    }
+
+
     void StateNodeWidget::itemDragEnter(const DragAndDropTarget::SourceDetails &dragSourceDetails)
     {
         dragEnter = true;
+        repaint();
     }
 
     void StateNodeWidget::itemDragExit(const DragAndDropTarget::SourceDetails &dragSourceDetails)
     {
         dragEnter = false;
+        repaint();
     }
 }
