@@ -11,19 +11,18 @@ namespace ui
     class TransportButton : public juce::Button
     {
     public:
-        using Action = std::function<void()>;
+        using Action = std::function<void(bool)>;
 
-        Action action{[]{}};
+        Action action{[](bool){}};
 
         explicit TransportButton(const std::string& name, juce::Image icon_):
             Button(name), icon(std::move(icon_))
         {
-
         }
 
         void paintButton(juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
         {
-            auto col = shouldDrawButtonAsHighlighted ? juce::Colours::lightgrey : juce::Colours::grey;
+            auto col = shouldDrawButtonAsDown ? juce::Colours::lightgrey : juce::Colours::grey;
             g.setColour(col);
             g.fillRect(getLocalBounds());
             g.setColour(juce::Colours::lightgrey);
@@ -33,7 +32,7 @@ namespace ui
 
         void clicked() override
         {
-            action();
+            // action(isDown());
         }
 
     private:
@@ -51,9 +50,10 @@ namespace ui
         TransportPanel()
         {
             addAndMakeVisible(playButton);
-            playButton.action = [this]{ play(); };
+            playButton.action = [this](bool down){ down ? play() : stop(); };
+            playButton.setToggleable(true);
             addAndMakeVisible(stopButton);
-            stopButton.action = [this]{stop(); };
+            stopButton.action = [this](bool down){ stop(); };
         }
 
         void play()

@@ -26,7 +26,7 @@ namespace ui
         layout.setItemLayout(1, 5, 5, 5);
         layout.setItemLayout(2, -0.1, -0.9, -0.5);
         layout.setItemLayout(3, 5, 5, 5);
-        layout.setItemLayout(4, -0.05, -0.5, -0.1);
+        layout.setItemLayout(4, -0.05, -0.05, -0.05);
     }
 
     void LeftPanel::paint(juce::Graphics &g)

@@ -26,12 +26,15 @@ namespace ui
 
         FlexBox flexBox;
         flexBox.flexDirection = FlexBox::Direction::row;
+        // I can't work out how to centre the components vertically. Changing the parameter below sets their height to 0.
         flexBox.alignItems = FlexBox::AlignItems::stretch;
-        flexBox.justifyContent = FlexBox::JustifyContent::flexStart;
-        flexBox.alignContent = FlexBox::AlignContent::flexEnd;
+        flexBox.justifyContent = FlexBox::JustifyContent::center;
+        flexBox.alignContent = FlexBox::AlignContent::center;
         float w = 50;
-        flexBox.items.add(FlexItem{playButton}.withMaxWidth(w).withMaxHeight(w).withWidth(w));
-        flexBox.items.add(FlexItem{stopButton}.withMaxWidth(w).withMaxHeight(w).withWidth(w));
+        // flexBox.items.add(FlexItem{playButton}.withFlex(2).withMaxWidth(w).withMaxHeight(w).withWidth(w));
+        // flexBox.items.add(FlexItem{stopButton}.withFlex(2).withMaxWidth(w).withMaxHeight(w).withWidth(w));
+        flexBox.items.add(FlexItem{playButton}.withFlex(2));
+        flexBox.items.add(FlexItem{stopButton}.withFlex(2));
         flexBox.performLayout(getLocalBounds());
     }
 }
