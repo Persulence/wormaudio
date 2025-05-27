@@ -68,9 +68,7 @@ namespace ui
 
         void play()
         {
-            // eventInstance = editor::Editor::getInstance().getEvent()->instantiate();
-            auto& editor = editor::Editor::getInstance();
-            editor.play();
+            editor::Editor::getInstance().play();
         }
 
         void stop()

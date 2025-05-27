@@ -58,7 +58,7 @@ namespace event
                 currentState = entries.at(0).get();
         }
 
-        void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)
+        bool logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)
         {
             auto prevState = currentState;
             if (currentState != nullptr)
@@ -75,7 +75,10 @@ namespace event
             if (currentState != nullptr && currentState != prevState)
             {
                 currentState->instance->activate(context);
+                return true;
             }
+
+            return false;
         }
 
         void stop()

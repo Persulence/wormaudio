@@ -48,7 +48,7 @@ namespace element
 
         void playSound()
         {
-            std::cout << "Playing sound from a " << typeid(this).name() << "!\n";
+            // std::cout << "Playing sound from a " << typeid(this).name() << "!\n";
             player.changeState(player::PLAYING);
         }
 

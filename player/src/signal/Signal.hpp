@@ -13,11 +13,18 @@ namespace signal_event
     template <typename... Args>
     class Listener;
 
-    /// The Abomination
-    template <typename... P> struct Callback
+    /**
+     * using Thing = Callback<int, int, int>;
+     * Thing::Signal s;
+     * Thing::Listener l;
+     * l.listen(s, callback);
+     * s.emit(1, 2, 3);
+     * @tparam Args Parameters of the callback function
+     */
+    template <typename... Args> struct Callback
     {
-        using Signal = Signal<P...>;
-        using Listener = Listener<P...>;
+        using Signal = Signal<Args...>;
+        using Listener = Listener<Args...>;
     };
 
     /**
