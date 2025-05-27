@@ -47,7 +47,7 @@ namespace ui
 
         if (draggingConnection)
         {
-            auto globalPoint = convertPoint<int, float>(localPointToGlobal(getPosition()));
+            auto globalPoint = localPointToGlobal(getPosition()).toFloat();
             auto line = Line(start - globalPoint, end - globalPoint);
 
             g.setColour(Colours::red);
@@ -63,8 +63,8 @@ namespace ui
             {
                 if (const auto& to = stateToNode.find(nextState); to != stateToNode.end())
                 {
-                    Point startPoint = convertPoint<int, float>(fromNode->getBounds().getCentre());
-                    Point endPoint = convertPoint<int, float>(to->second->getBounds().getCentre());
+                    Point startPoint = fromNode->getBounds().getCentre().toFloat();
+                    Point endPoint = to->second->getBounds().getCentre().toFloat();
 
                     auto vector = endPoint - startPoint;
                     float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
@@ -108,7 +108,8 @@ namespace ui
 
     void CanvasConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
     {
-        const sm::Transition1 transition{{}, to->getState()};
+        sm::Transition1 transition{{}, to->getState()};
+        transition.conditions.insertCondition(sm::TrueCondition{});
         from->getState()->insertTransition(transition);
     }
 

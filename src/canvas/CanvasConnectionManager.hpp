@@ -44,12 +44,5 @@ namespace ui
     private:
         void update();
     };
-
-
-    template <typename From, typename To>
-    juce::Point<To> convertPoint(juce::Point<From> point)
-    {
-        return {static_cast<To>(point.getX()), static_cast<To>(point.getY())};
-    }
 }
 

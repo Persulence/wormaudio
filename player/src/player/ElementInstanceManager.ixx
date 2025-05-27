@@ -15,6 +15,8 @@ namespace player
     export class ElementInstanceManager : public ElementInstanceContext, public juce::AudioSource
     {
         std::vector<ElementInstancePtr> active;
+        std::mutex activeMutex;
+
         AudioContext audioContext;
 
         juce::AudioSampleBuffer accumulator;
@@ -23,6 +25,7 @@ namespace player
         ElementInstancePtr createInstance(const Element& element) override
         {
             // tODO: look into reusing identical instances
+            std::lock_guard lock(activeMutex);
             return active.emplace_back(element.createInstance(audioContext));
         }
 
@@ -41,6 +44,7 @@ namespace player
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
         {
+            std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
             for (auto& instance : active)
             {
                 instance->getNextAudioBlock(bufferToFill);

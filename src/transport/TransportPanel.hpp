@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Runtime.hpp>
+#include <runtime/Runtime.hpp>
 #include <editor/Editor.hpp>
 
 #include "panel/Panel.hpp"
@@ -58,7 +58,8 @@ namespace ui
         void play()
         {
             // eventInstance = editor::Editor::getInstance().getEvent()->instantiate();
-            eventInstance = runtime::getInstance().instantiate(editor::Editor::getInstance().getEvent());
+            auto& editor = editor::Editor::getInstance();
+            eventInstance = editor.getRuntime().instantiate(editor::Editor::getInstance().getEvent());
         }
 
         void stop()

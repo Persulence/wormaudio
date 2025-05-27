@@ -4,6 +4,7 @@
 
 #include "theme/MainLookAndFeel.hpp"
 #include "panel/BorderPanel.hpp"
+#include "editor/Editor.hpp"
 
 using namespace juce;
 
@@ -96,8 +97,16 @@ namespace ui
         addAndMakeVisible(toolbar);
         addAndMakeVisible(mainScene);
 
-        // ToolbarItemComponent item;
-        // toolbar.addItem()
+        auto& editor = editor::Editor::getInstance();
+        editor.setRuntime(std::make_unique<runtime::Runtime>());
+        editor.getRuntime().connectToDevice();
+    }
+
+    UiMainComponent::~UiMainComponent()
+    {
+        auto& editor = editor::Editor::getInstance();
+        editor.getRuntime().disconnect();
+        editor.setRuntime(nullptr);
     }
 
     void UiMainComponent::resized()
@@ -107,7 +116,7 @@ namespace ui
         box.justifyContent = FlexBox::JustifyContent::flexStart;
         box.alignContent = FlexBox::AlignContent::stretch;
         box.alignItems = FlexBox::AlignItems::stretch;
-        box.items.add(FlexItem{toolbar}.withMaxHeight(30).withHeight(30));
+        // box.items.add(FlexItem{toolbar}.withMaxHeight(30).withHeight(30));
         box.items.add(FlexItem{mainScene}.withFlex(2));
         box.performLayout(getLocalBounds());
     }

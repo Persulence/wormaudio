@@ -1,14 +1,11 @@
 #pragma once
 
 #include <juce_gui_basics/juce_gui_basics.h>
-#include <juce_audio_utils/juce_audio_utils.h>
 #include <panel/BorderPanel.hpp>
 
 #include "panel/Panel.hpp"
 #include "browser/ElementBrowserPanel.hpp"
 #include "browser/FileBrowserPanel.hpp"
-#include "canvas/StateCanvasPanel.hpp"
-#include "panel/ResizeHandle.hpp"
 #include "canvas/CentrePanel.hpp"
 #include "transport/TransportPanel.hpp"
 
@@ -53,29 +50,15 @@ namespace ui
         void resized() override;
     };
 
-    class UiMainComponent : public juce::AudioAppComponent
+    class UiMainComponent : public juce::Component
     {
         juce::Toolbar toolbar;
         MainSceneComponent mainScene;
 
     public:
         UiMainComponent();
+        ~UiMainComponent() override;
 
         void resized() override;
-
-        void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
-        {
-
-        }
-
-        void releaseResources() override
-        {
-
-        }
-
-        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
-        {
-
-        }
     };
 }
