@@ -3,6 +3,8 @@
 
 #include <control/StateMachineDefinition.hpp>
 
+#include "editor/Editor.hpp"
+
 import control;
 
 using namespace juce;
@@ -11,7 +13,7 @@ namespace ui
 {
     StateCanvasPanel::StateCanvasPanel():
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
-        definition(std::make_shared<sm::StateMachineDefinition>())
+        definition(editor::Editor::getInstance().getDefinition())
     {
         setOpaque(true);
 

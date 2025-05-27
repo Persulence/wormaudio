@@ -1,5 +1,8 @@
 #pragma once
 
+#include <Runtime.hpp>
+#include <editor/Editor.hpp>
+
 #include "panel/Panel.hpp"
 #include "util/GuiResources.hpp"
 
@@ -7,9 +10,11 @@ namespace ui
 {
     class TransportButton : public juce::Button
     {
-        juce::Image icon;
-
     public:
+        using Action = std::function<void()>;
+
+        Action action{[]{}};
+
         explicit TransportButton(const std::string& name, juce::Image icon_):
             Button(name), icon(std::move(icon_))
         {
@@ -18,9 +23,9 @@ namespace ui
 
         void paintButton(juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
         {
-            // float width =
-            // g.setColour(juce::Colours::black);
-            // g.fillRect(getLocalBounds());
+            auto col = shouldDrawButtonAsHighlighted ? juce::Colours::lightgrey : juce::Colours::grey;
+            g.setColour(col);
+            g.fillRect(getLocalBounds());
             g.setColour(juce::Colours::lightgrey);
             g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(0), 5, 2);
             g.drawImage(icon, getLocalBounds().toFloat(), juce::RectanglePlacement::centred, false);
@@ -30,6 +35,8 @@ namespace ui
         {
         }
 
+    private:
+        juce::Image icon;
     };
 
     class TransportPanel : public Panel
@@ -37,16 +44,27 @@ namespace ui
         TransportButton playButton{"play", getIcon("icon/play.png")};
         TransportButton stopButton{"stop", getIcon("icon/stop.png")};
 
+        event::EventInstance::Ptr eventInstance;
+
     public:
         TransportPanel()
         {
             addAndMakeVisible(playButton);
+            playButton.action = [this]{ play(); };
             addAndMakeVisible(stopButton);
+            stopButton.action = [this]{stop(); };
         }
 
-        void play();
+        void play()
+        {
+            // eventInstance = editor::Editor::getInstance().getEvent()->instantiate();
+            eventInstance = runtime::getInstance().instantiate(editor::Editor::getInstance().getEvent());
+        }
 
-        void stop();
+        void stop()
+        {
+
+        }
 
         void resized() override;
     };
