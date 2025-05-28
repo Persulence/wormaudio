@@ -1,5 +1,6 @@
 #pragma once
 
+#include "StateNodeWidget.hpp"
 #include "canvas/CanvasConnectionManager.hpp"
 #include "../panel/Panel.hpp"
 
@@ -27,8 +28,11 @@ namespace ui
 
     public:
         StateCanvasPanel();
-        void addNode(const std::shared_ptr<StateNodeWidget>& node);
-        void addNode();
+
+        StateNodeWidget::Ptr addNode(const std::shared_ptr<StateNodeWidget> &node);
+
+        /// Creates a new state and adds a corresponding node
+        StateNodeWidget::Ptr addState();
         void removeNode(const std::shared_ptr<StateNodeWidget> &node);
         void paint(juce::Graphics &g) override;
         void mouseDown(const juce::MouseEvent &event) override;

@@ -38,6 +38,11 @@ namespace sm
         }
     };
 
+    export struct Flags
+    {
+        bool initialState;
+    };
+
     // For now only one state type
     export class State
     {
@@ -45,6 +50,7 @@ namespace sm
         using Ptr = std::shared_ptr<State>;
         using Weak = std::weak_ptr<State>;
         std::string name{"State"};
+        Flags flags{false};
 
     private:
         std::vector<ElementEntry> elements_;
@@ -62,11 +68,12 @@ namespace sm
         void insertElement(const std::shared_ptr<element::Element>& entry);
         void insertTransition(const Transition1& transition);
         void removeTransitionTo(State* other);
+        void setName(const std::string &name_);
 
         const std::vector<ElementEntry>& elements();
         const std::unordered_map<State*, Transition1>& getTransitions() const;
 
-        const std::string& getName();
+        std::string getName();
     };
 
     export class StateInstance

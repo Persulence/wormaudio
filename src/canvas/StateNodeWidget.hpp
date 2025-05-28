@@ -17,6 +17,7 @@ namespace ui
         explicit StateNodeHeader(StateNodeWidget& parent);
         void paint(juce::Graphics &g) override;
         void resized() override;
+        void updateName();
         void mouseDown(const juce::MouseEvent &event) override;
 
     private:
@@ -58,6 +59,7 @@ namespace ui
 
         void paint(juce::Graphics &g) override;
         void resized() override;
+        void setName(const juce::String &newName) override;
 
         void mouseDown(const juce::MouseEvent &event) override;
         void mouseDrag(const juce::MouseEvent &event) override;

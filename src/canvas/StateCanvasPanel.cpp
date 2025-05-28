@@ -19,33 +19,41 @@ namespace ui
 
         bg = Colours::darkgrey;
 
-        // Create a node for testing
-        addNode();
+        for (auto& state : definition->getStates())
+        {
+            addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
+        }
 
         addAndMakeVisible(connectionManager.get());
         connectionManager->toBack();
     }
 
-    void StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget>& node)
+    StateNodeWidget::Ptr StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget> &node)
     {
-        definition->insert(node->getState());
         stateNodes.emplace_back(node);
         stateToNode.emplace(node->getState(), node);
         addAndMakeVisible(node.get());
 
         connectionManager->toBack();
+
+        return node;
     }
 
-    void StateCanvasPanel::addNode()
+    StateNodeWidget::Ptr StateCanvasPanel::addState()
     {
         auto state = std::make_shared<sm::State>();
 
+        definition->insert(state);
+
         const auto centre = getLocalBounds().getCentre();
-        addNode(StateNodeWidget::create(state, connectionManager, centre));
+        return addNode(StateNodeWidget::create(state, connectionManager, centre));
     }
 
     void StateCanvasPanel::removeNode(const std::shared_ptr<StateNodeWidget> &node)
     {
+        if (node->getState()->flags.initialState)
+            return;
+
         auto state = node->getState();
 
         definition->remove(state);
@@ -113,7 +121,7 @@ namespace ui
             {
                 case 1:
                 {
-                    addNode();
+                    addState();
                     break;
                 }
                 default:

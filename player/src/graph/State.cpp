@@ -28,6 +28,11 @@ namespace sm
         }
     }
 
+    void State::setName(const std::string &name_)
+    {
+        name = name_;
+    }
+
     const std::vector<ElementEntry> & State::elements()
     {
         return elements_;
@@ -38,7 +43,7 @@ namespace sm
         return transitions;
     }
 
-    const std::string & State::getName()
+    std::string State::getName()
     {
         return name;
     }

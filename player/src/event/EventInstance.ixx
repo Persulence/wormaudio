@@ -14,14 +14,14 @@ namespace event
     export class EventInstance
     {
         Event::Ptr parent;
-        StateManager stateManager;
+        StateMachineInstance stateManager;
 
     public:
         using Ptr = std::shared_ptr<EventInstance>;
 
         explicit EventInstance(const Event::Ptr &parent_):
             parent(parent_),
-            stateManager(StateManager(parent_->getDefinition()->getStates()))
+            stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart()))
         {
         }
 

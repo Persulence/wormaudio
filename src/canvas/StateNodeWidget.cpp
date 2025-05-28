@@ -19,12 +19,13 @@ namespace ui
         setText(parent.getState()->name, dontSendNotification);
         setEditable(false, true);
         setJustificationType(Justification::left);
-        onTextChange = [this, &parent](){ parent.getState()->name = getText().toStdString(); };
+        onTextChange = [this, &parent](){ parent.setName(getText()); };
     }
 
     void StateNodeHeader::paint(Graphics &g)
     {
-        g.setColour(Colours::darkblue);
+        const auto col = parent.getState()->flags.initialState ? Colours::darkred : Colours::darkblue;
+        g.setColour(col);
         g.fillRect(getLocalBounds());
 
         Label::paint(g);
@@ -37,7 +38,12 @@ namespace ui
         setFont(Font(FontOptions{static_cast<float>(getHeight()) - 2, Font::bold}));
     }
 
-    void StateNodeHeader::mouseDown(const juce::MouseEvent &event)
+    void StateNodeHeader::updateName()
+    {
+        setText(parent.getState()->getName(), dontSendNotification);
+    }
+
+    void StateNodeHeader::mouseDown(const MouseEvent &event)
     {
         Label::mouseDown(event);
     }
@@ -133,7 +139,14 @@ namespace ui
         connectionBox.setBounds(boxBounds);
     }
 
-    void StateNodeWidget::mouseDown(const juce::MouseEvent &event)
+    void StateNodeWidget::setName(const String &newName)
+    {
+        Component::setName(newName);
+        state->setName(newName.toStdString());
+        header.updateName();
+    }
+
+    void StateNodeWidget::mouseDown(const MouseEvent &event)
     {
         dragger.startDraggingComponent(this, event);
         toFront(false);
@@ -216,6 +229,7 @@ namespace ui
             dynamic_cast<StatePropertyPanel*>(createConfig().get())->receiveFile(other->getFile());
 
         dragEnter = false;
+        repaint();
     }
 
 

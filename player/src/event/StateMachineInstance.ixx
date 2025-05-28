@@ -1,5 +1,6 @@
 module;
 
+#include <algorithm>
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -26,13 +27,13 @@ namespace event
         std::vector<Transition> transitions;
     };
 
-    export class StateManager
+    export class StateMachineInstance
     {
         StateEntry* currentState = nullptr;
         std::vector<std::unique_ptr<StateEntry>> entries;
 
     public:
-        explicit StateManager(const std::vector<sm::State::Ptr>& states)
+        explicit StateMachineInstance(const std::vector<sm::State::Ptr>& states, const sm::State::Ptr &start)
         {
             // TODO: simple handling for single-state instances
 
@@ -55,11 +56,20 @@ namespace event
                         stateEntry.transitions.emplace_back(Transition{&transition.conditions, &nextStateEntry});
                     }
                 }
+
+                if (state == start)
+                {
+                    currentState = &stateEntry;
+                }
             }
 
-            // TODO hmmm
-            if (!entries.empty())
-                currentState = entries.at(0).get();
+            // Find the start state
+            // if (const auto result = std::ranges::find_if(entries,
+                // [](auto& e){ return e->instance->parent->flags.startNode; }); *result)
+
+            // {
+            //     currentState = result->get();
+            // }
         }
 
         bool logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)
