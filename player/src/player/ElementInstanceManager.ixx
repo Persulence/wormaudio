@@ -1,6 +1,8 @@
 module;
 
-#include <JuceHeader.h>
+#include <vector>
+
+#include <juce_audio_basics/juce_audio_basics.h>
 
 export module ElementInstanceManager;
 
@@ -22,36 +24,14 @@ namespace player
         juce::AudioSampleBuffer accumulator;
     public:
 
-        ElementInstancePtr createInstance(const Element& element) override
-        {
-            // tODO: look into reusing identical instances
-            std::lock_guard lock(activeMutex);
-            return active.emplace_back(element.createInstance(audioContext));
-        }
+        ElementInstancePtr createInstance(const Element& element) override;
 
-        void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
-        {
-            audioContext = {samplesPerBlockExpected, sampleRate};
+        void clear();
+        void freeReleased();
 
-            // TODO: channels
-            accumulator = juce::AudioSampleBuffer(2, samplesPerBlockExpected);
-        }
-
-        void releaseResources() override
-        {
-            audioContext = {};
-        }
-
-        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
-        {
-            std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
-            for (auto& instance : active)
-            {
-                instance->getNextAudioBlock(bufferToFill);
-            }
-
-            // TODO tracks/buses
-        }
+        void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+        void releaseResources() override;
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
     };
 }
 

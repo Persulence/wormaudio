@@ -20,6 +20,7 @@ namespace runtime
             instance->stop();
         }
 
+        // elementManager.clear();
         instances.clear();
     }
 
@@ -63,5 +64,8 @@ namespace runtime
         {
             instance->logicTick(parameters, elementManager, transport);
         }
+
+        // TODO: make this async
+        elementManager.freeReleased();
     }
 }
