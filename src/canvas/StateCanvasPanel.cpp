@@ -39,14 +39,14 @@ namespace ui
         return node;
     }
 
-    StateNodeWidget::Ptr StateCanvasPanel::addState()
+    StateNodeWidget::Ptr StateCanvasPanel::addState(Point<int> pos)
     {
         auto state = std::make_shared<sm::State>();
 
         definition->insert(state);
 
-        const auto centre = getLocalBounds().getCentre();
-        return addNode(StateNodeWidget::create(state, connectionManager, centre));
+        // const auto centre = getLocalBounds().getCentre();
+        return addNode(StateNodeWidget::create(state, connectionManager, pos));
     }
 
     void StateCanvasPanel::removeNode(const std::shared_ptr<StateNodeWidget> &node)
@@ -83,7 +83,7 @@ namespace ui
     {
         if (event.mods.isRightButtonDown())
         {
-            contextMenu();
+            contextMenu(Point(event.x, event.y));
         }
     }
 
@@ -92,7 +92,7 @@ namespace ui
         connectionManager->setBounds(getBounds());
     }
 
-    bool StateCanvasPanel::keyPressed(const juce::KeyPress &key)
+    bool StateCanvasPanel::keyPressed(const KeyPress &key)
     {
         // if (key.getKeyCode() == KeyPress::deleteKey)
         // {
@@ -111,17 +111,17 @@ namespace ui
         return false;
     }
 
-    void StateCanvasPanel::contextMenu()
+    void StateCanvasPanel::contextMenu(Point<int> mousePos)
     {
         PopupMenu menu;
         menu.addItem(1, "New state");
-        menu.showMenuAsync(PopupMenu::Options{}, [this] (int result)
+        menu.showMenuAsync(PopupMenu::Options{}, [this, mousePos] (int result)
         {
             switch (result)
             {
                 case 1:
                 {
-                    addState();
+                    addState(mousePos);
                     break;
                 }
                 default:

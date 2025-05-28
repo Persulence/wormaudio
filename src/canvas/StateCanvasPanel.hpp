@@ -32,13 +32,13 @@ namespace ui
         StateNodeWidget::Ptr addNode(const std::shared_ptr<StateNodeWidget> &node);
 
         /// Creates a new state and adds a corresponding node
-        StateNodeWidget::Ptr addState();
+        StateNodeWidget::Ptr addState(juce::Point<int> pos);
         void removeNode(const std::shared_ptr<StateNodeWidget> &node);
         void paint(juce::Graphics &g) override;
         void mouseDown(const juce::MouseEvent &event) override;
         void resized() override;
         bool keyPressed(const juce::KeyPress &key) override;
 
-        void contextMenu();
+        void contextMenu(juce::Point<int> mousePos);
     };
 }
