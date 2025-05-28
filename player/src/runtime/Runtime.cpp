@@ -4,6 +4,23 @@ namespace runtime
 {
     Runtime::Runtime()
     {
+        listen(transport.signal, [this](auto state)
+        {
+            switch (state)
+            {
+                case player::STARTING:
+                    break;
+                case player::PLAYING:
+                    logicTicker->start();
+                    break;
+                case player::STOPPING:
+                    break;
+                case player::STOPPED:
+                    logicTicker->stop();
+                    break;
+                default: ;
+            }
+        });
     }
 
     event::EventInstance::Ptr Runtime::instantiate(const event::Event::Ptr &event)
@@ -20,7 +37,7 @@ namespace runtime
             instance->stop();
         }
 
-        // elementManager.clear();
+        elementManager.clear();
         instances.clear();
     }
 
@@ -31,7 +48,6 @@ namespace runtime
         {
             logicTicker = std::make_unique<LogicTicker>();
             logicTicker->callback = [this]{ logicTick(); };
-            logicTicker->start();
         }
     }
 
@@ -55,6 +71,12 @@ namespace runtime
 
     void Runtime::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
     {
+        if (transport.stopped())
+        {
+            bufferToFill.clearActiveBufferRegion();
+            return;
+        }
+
         elementManager.getNextAudioBlock(bufferToFill);
     }
 

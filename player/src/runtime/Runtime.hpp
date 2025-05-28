@@ -29,22 +29,24 @@ namespace runtime
         return std::make_shared<resource::Resource>(getResourceLoader(), file);
     }
 
-    class Runtime : AudioEntryPoint
+    class Runtime : AudioEntryPoint, player::TransportCallback::Listener
     {
         std::vector<event::EventInstance::Ptr> instances;
         player::ElementInstanceManager elementManager;
         sm::ParameterLookup parameters;
-        player::TransportControl transport;
 
         std::unique_ptr<LogicTicker> logicTicker;
 
     public:
+        player::TransportControl transport;
+
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime)
 
         Runtime();
 
         void connectToDevice();
         void disconnect();
+
 
         event::EventInstance::Ptr instantiate(const event::Event::Ptr &event);
         void clearInstances();
@@ -55,6 +57,7 @@ namespace runtime
 
         void logicTick();
 
+    private:
     };
 
 }

@@ -64,6 +64,8 @@ namespace editor
             });
 
             instance->transport.setState(player::PLAYING);
+
+            runtime.transport.setState(player::PLAYING);
         }
 
         void setState(player::TransportState state, bool notify)
@@ -74,6 +76,7 @@ namespace editor
                     break;
                 case player::STOPPED:
                     getRuntime().clearInstances();
+                    getRuntime().transport.setState(player::STOPPED);
                     break;
                 case player::STARTING:
                     // TODO
