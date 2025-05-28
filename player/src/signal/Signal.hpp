@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #include <vector>
 
 namespace signal_event
@@ -64,6 +63,11 @@ namespace signal_event
                 target = nullptr;
             }
         }
+
+        void targetDestroyed()
+        {
+            target = nullptr;
+        }
     };
 
     /**
@@ -78,6 +82,14 @@ namespace signal_event
         // TODO: mutex
 
     public:
+        ~Signal()
+        {
+            for (auto& listener : listeners)
+            {
+                listener->targetDestroyed();
+            }
+        }
+
         void reg(L* listener)
         {
             listeners.push_back(listener);
