@@ -16,12 +16,23 @@ namespace player
 
     void ElementInstanceManager::clear()
     {
+        std::lock_guard lock(activeMutex);
         active.clear();
     }
 
     void ElementInstanceManager::freeReleased()
     {
-        std::ranges::remove_if(active, [](auto& e){ return e->canBeFreed(); });
+        std::lock_guard lock(activeMutex);
+        int prev = active.size();
+        std::erase_if(active, [](const auto& e)
+        {
+            return e->canBeFreed();
+        });
+
+        if (active.size() != prev)
+        {
+            std::cout << "an erasing day " << prev - active.size() << "\n";
+        }
     }
 
     void ElementInstanceManager::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
@@ -39,6 +50,7 @@ namespace player
 
     void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
     {
+        // TODO: Ensure that this thread can always acquire the lock
         std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
         for (auto& instance : active)
         {
