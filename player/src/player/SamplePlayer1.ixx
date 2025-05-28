@@ -15,7 +15,7 @@ namespace player
     public:
         virtual void setFile(juce::File&& file) = 0;
         virtual void changeState(TransportState state) = 0;
-        virtual void setTransportCallback(TransportCallback callback) = 0;
+        virtual void setTransportCallback(TransportCallback1 callback) = 0;
     };
 
     export class SamplePlayer1 : public SamplePlayer, juce::ChangeListener
@@ -25,7 +25,7 @@ namespace player
         std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
         juce::AudioTransportSource transportSource;
 
-        TransportCallback changeCallback{[](TransportState){}};
+        TransportCallback1 changeCallback{[](TransportState){}};
 
     public:
         SamplePlayer1()
@@ -34,7 +34,7 @@ namespace player
             transportSource.addChangeListener(this);
         }
 
-        void setTransportCallback(TransportCallback callback) override
+        void setTransportCallback(TransportCallback1 callback) override
         {
             changeCallback = std::move(callback);
         }

@@ -38,9 +38,16 @@ namespace sm
         }
     };
 
+    export enum StateType
+    {
+        START,
+        NORMAL,
+        END
+    };
+
     export struct Flags
     {
-        bool initialState;
+        StateType type;
     };
 
     // For now only one state type
@@ -50,7 +57,7 @@ namespace sm
         using Ptr = std::shared_ptr<State>;
         using Weak = std::weak_ptr<State>;
         std::string name{"State"};
-        Flags flags{false};
+        Flags flags{NORMAL};
 
     private:
         std::vector<ElementEntry> elements_;
@@ -90,6 +97,11 @@ namespace sm
             parent(std::move(parent_))
         {
 
+        }
+
+        Flags getFlags()
+        {
+            return parent->flags;
         }
 
         void activate(element::ElementInstanceContext& context)

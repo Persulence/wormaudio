@@ -30,7 +30,7 @@ namespace element
 
     export class RandomElement : public Element
     {
-        std::string getName() override { return "random"; };
+        std::string getName() override { return "random"; }
     };
 
 //    export template <class T> requires (std::convertible_to<Element&, T&>)

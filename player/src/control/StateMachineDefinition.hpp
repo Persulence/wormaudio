@@ -12,6 +12,7 @@ namespace sm
     class StateMachineDefinition
     {
         State::Ptr start;
+        State::Ptr end;
         std::vector<State::Ptr> states;
 
     public:

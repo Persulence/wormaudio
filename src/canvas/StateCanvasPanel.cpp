@@ -51,7 +51,7 @@ namespace ui
 
     void StateCanvasPanel::removeNode(const std::shared_ptr<StateNodeWidget> &node)
     {
-        if (node->getState()->flags.initialState)
+        if (node->getState()->flags.type != sm::NORMAL)
             return;
 
         auto state = node->getState();

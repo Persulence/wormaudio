@@ -24,7 +24,9 @@ namespace ui
 
     void StateNodeHeader::paint(Graphics &g)
     {
-        const auto col = parent.getState()->flags.initialState ? Colours::darkred : Colours::darkblue;
+        const auto type = parent.getState()->flags.type;
+        const auto col = (type == sm::START || type == sm::END) ? Colours::darkred : Colours::darkblue;
+
         g.setColour(col);
         g.fillRect(getLocalBounds());
 

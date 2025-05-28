@@ -13,6 +13,7 @@ import Resource;
 import event;
 import ElementInstanceManager;
 import control;
+import transport;
 
 namespace runtime
 {
@@ -33,11 +34,12 @@ namespace runtime
         std::vector<event::EventInstance::Ptr> instances;
         player::ElementInstanceManager elementManager;
         sm::ParameterLookup parameters;
+        player::TransportControl transport;
 
         std::unique_ptr<LogicTicker> logicTicker;
 
     public:
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime);
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime)
 
         Runtime();
 

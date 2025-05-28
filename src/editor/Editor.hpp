@@ -11,9 +11,7 @@ import transport;
 
 namespace editor
 {
-    using TransportCallback = signal_event::Callback<player::TransportState>;
-
-    class Editor
+    class Editor : player::TransportCallback::Listener
     {
         event::Event::Ptr event;
         std::unique_ptr<runtime::Runtime> runtime;
@@ -25,7 +23,7 @@ namespace editor
         }
 
     public:
-        TransportCallback::Signal transportSignal;
+        player::TransportCallback::Signal transportSignal;
 
         static Editor& getInstance()
         {
@@ -49,21 +47,48 @@ namespace editor
             return event;
         }
 
-        std::shared_ptr<sm::StateMachineDefinition> getDefinition() const
+        [[nodiscard]] std::shared_ptr<sm::StateMachineDefinition> getDefinition() const
         {
             return event->getDefinition();
         }
 
         void play()
         {
+            auto& runtime = getRuntime();
             transportSignal.emit(player::PLAYING);
-            getRuntime().instantiate(event);
+            auto instance = runtime.instantiate(event);
+
+            listen(instance->transport.signal, [this](auto state)
+            {
+                setState(state, true);
+            });
+
+            instance->transport.setState(player::PLAYING);
+        }
+
+        void setState(player::TransportState state, bool notify)
+        {
+            switch (state)
+            {
+                case player::STOPPING:
+                    break;
+                case player::STOPPED:
+                    getRuntime().clearInstances();
+                    break;
+                case player::STARTING:
+                    // TODO
+                    break;
+                case player::PLAYING:
+                    // TODO
+                    break;
+            }
+            if (notify)
+                transportSignal.emit(state);
         }
 
         void stop()
         {
-            transportSignal.emit(player::STOPPED);
-            getRuntime().clearInstances();
+            setState(player::STOPPED, true);
         }
 
         void shutdown()

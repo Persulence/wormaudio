@@ -29,10 +29,10 @@ namespace player
         std::unique_ptr<juce::FileChooser> chooser;
 
     public:
-        explicit SampleSelector(const std::shared_ptr<SamplePlayer> &samplePlayer, Shutdown shutdown_, Restart restart_):
-            samplePlayer(samplePlayer),
+        explicit SampleSelector(const std::shared_ptr<SamplePlayer> &samplePlayer_, Shutdown shutdown_, Restart restart_):
             shutdown(std::move(shutdown_)),
-            restart(std::move(restart_))
+            restart(std::move(restart_)),
+            samplePlayer(samplePlayer_)
         {
             addAndMakeVisible(loadFile);
             loadFile.setButtonText("Load file");

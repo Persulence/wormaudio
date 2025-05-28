@@ -5,14 +5,20 @@
 namespace sm
 {
     StateMachineDefinition::StateMachineDefinition():
-        start(std::make_shared<State>())
+        start(std::make_shared<State>()),
+        end(std::make_shared<State>())
     {
-        start->flags.initialState = true;
-        start->setName("Start");
+        start->flags.type = START;
+        start->setName("START");
         states.push_back(start);
+
+        end->flags.type = END;
+        end->setName("END");
+        states.push_back(end);
     }
 
-    void StateMachineDefinition::remove(const State::Ptr &state) {
+    void StateMachineDefinition::remove(const State::Ptr &state)
+    {
         if (auto it = std::ranges::find(states, state); *it)
         {
             // std::cout << "uses " << (*it).use_count() << "\n";
@@ -26,7 +32,7 @@ namespace sm
         }
     }
 
-    const std::vector <State::Ptr> &sm::StateMachineDefinition::getStates()
+    const std::vector <State::Ptr> &StateMachineDefinition::getStates()
     {
         return states;
     }

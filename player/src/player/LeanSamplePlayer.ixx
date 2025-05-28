@@ -17,7 +17,7 @@ namespace player
         resource::ElementSampleBuffer::Ptr buffer;
         juce::AudioFormatManager formatManager;
         TransportState transportState{STOPPED};
-        TransportCallback transportCallback{[](TransportState){}};
+        TransportCallback1 transportCallback{[](TransportState){}};
 
         AudioContext audioContext;
 
@@ -97,7 +97,7 @@ namespace player
             }
         }
 
-        void setTransportCallback(TransportCallback callback) override
+        void setTransportCallback(TransportCallback1 callback) override
         {
             transportCallback = callback;
         }

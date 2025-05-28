@@ -60,5 +60,6 @@ void ResourceTestComponent::prepareToPlay(int samplesPerBlockExpected, double sa
     ParameterLookup lookup;
 
     // Do one logic tick
-    instance->logicTick(lookup, manager);
+    auto transport = TransportControl{};
+    instance->logicTick(lookup, manager, transport);
 }

@@ -59,9 +59,9 @@ namespace runtime
 
     void Runtime::logicTick()
     {
-        for (auto& instance : instances)
+        for (const auto& instance : instances)
         {
-            instance->logicTick(parameters, elementManager);
+            instance->logicTick(parameters, elementManager, transport);
         }
     }
 }

@@ -8,7 +8,7 @@
 
 namespace ui
 {
-    class TransportButton : public juce::Button, editor::TransportCallback::Listener
+    class TransportButton : public juce::Button, player::TransportCallback::Listener
     {
     public:
         using Action = std::function<void(bool)>;

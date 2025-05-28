@@ -1,6 +1,7 @@
 module;
 
 #include <memory>
+#include <utility>
 
 export module event:EventInstance;
 
@@ -8,6 +9,8 @@ import control;
 
 import :StateManager;
 import :Event;
+
+import transport;
 
 namespace event
 {
@@ -19,15 +22,29 @@ namespace event
     public:
         using Ptr = std::shared_ptr<EventInstance>;
 
-        explicit EventInstance(const Event::Ptr &parent_):
-            parent(parent_),
+        player::TransportControl transport;
+
+        explicit EventInstance(Event::Ptr parent_):
+            parent(std::move(parent_)),
             stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart()))
         {
         }
 
-        void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context)
+        void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& globalTransport)
         {
-            stateManager.logicTick(parameters, context);
+            if (!transport.stopped())
+            {
+                stateManager.logicTick(parameters, context, transport);
+            }
+            else
+            {
+                return;
+            }
+
+            if (transport.stopped())
+            {
+                stop();
+            }
         }
 
         void stop()
