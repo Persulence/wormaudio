@@ -28,6 +28,7 @@ namespace ui
 
     void StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget>& node)
     {
+        definition->insert(node->getState());
         stateNodes.emplace_back(node);
         stateToNode.emplace(node->getState(), node);
         addAndMakeVisible(node.get());
@@ -38,7 +39,6 @@ namespace ui
     void StateCanvasPanel::addNode()
     {
         auto state = std::make_shared<sm::State>();
-        definition->insert(state);
 
         const auto centre = getLocalBounds().getCentre();
         addNode(StateNodeWidget::create(state, connectionManager, centre));
@@ -46,6 +46,10 @@ namespace ui
 
     void StateCanvasPanel::removeNode(const std::shared_ptr<StateNodeWidget> &node)
     {
+        auto state = node->getState();
+
+        definition->remove(state);
+
         removeChildComponent(node.get());
         if (const auto in = std::ranges::find(stateNodes, node); in != stateNodes.end())
             stateNodes.erase(in);
@@ -57,6 +61,8 @@ namespace ui
         {
             selection->select(nullptr);
         }
+
+        connectionManager->repaint();
     }
 
     void StateCanvasPanel::paint(Graphics &g)

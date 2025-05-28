@@ -48,6 +48,10 @@ namespace sm
 
     private:
         std::vector<ElementEntry> elements_;
+
+        // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.
+        // std::weak_ptr doesn't work as a key
+        // Just need to find a way to indicate that keys shouldn't be dereferenced.
         std::unordered_map<State*, Transition1> transitions;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(State)
@@ -57,6 +61,7 @@ namespace sm
 
         void insertElement(const std::shared_ptr<element::Element>& entry);
         void insertTransition(const Transition1& transition);
+        void removeTransitionTo(State* other);
 
         const std::vector<ElementEntry>& elements();
         const std::unordered_map<State*, Transition1>& getTransitions() const;

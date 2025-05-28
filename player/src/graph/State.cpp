@@ -20,6 +20,14 @@ namespace sm
         transitions.emplace(transition.nextState.lock().get(), transition);
     }
 
+    void State::removeTransitionTo(State *other)
+    {
+        if (const auto it = transitions.find(other); it != transitions.end())
+        {
+            transitions.erase(it);
+        }
+    }
+
     const std::vector<ElementEntry> & State::elements()
     {
         return elements_;
