@@ -1,6 +1,7 @@
 #include "FileListPanel.hpp"
 
 #include <memory>
+#include <utility>
 
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "util/GuiResources.hpp"
@@ -13,14 +14,14 @@ namespace ui
 
     HeaderWidget::HeaderWidget(Font font_):
         icon(ImageCache::getFromFile(loadResource("icon/up_folder.png"))),
-        font(font_)
+        font(std::move(font_))
     {
 
     }
 
     void HeaderWidget::mouseDoubleClick(const MouseEvent &event)
     {
-        if (auto parent = findParentComponentOfClass<FileListPanel>())
+        if (const auto parent = findParentComponentOfClass<FileListPanel>())
         {
             parent->changeDirectory(parent->currentDirectory().getParentDirectory());
         }
@@ -69,7 +70,11 @@ namespace ui
 
     void FileWidget::paint(Graphics &g)
     {
-        g.setColour(Colours::wheat);
+        if (selected)
+        {
+            g.setColour(Colours::darkblue);
+            g.fillRect(getLocalBounds().reduced(2));
+        }
         auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
         iconBounds.reduce(4, 4);
         // g.fillRect(iconBounds);
@@ -80,7 +85,7 @@ namespace ui
 
         g.setFont(font);
 
-        g.setColour(Colours::black);
+        g.setColour(selected ? Colours::white : Colours::black);
         auto nameText = file.getFileName();
         int nameTextW = font.getStringWidth(nameText);
         g.drawText(nameText, getHeight() + 10, 0, nameTextW, getHeight(), Justification::centred);
@@ -104,9 +109,14 @@ namespace ui
 
     }
 
+    void FileWidget::mouseDown(const MouseEvent &event)
+    {
+        callback(shared_from_this(), false, file);
+    }
+
     void FileWidget::mouseDoubleClick(const MouseEvent &event)
     {
-        callback(file);
+        callback(shared_from_this(), true, file);
     }
 
 
@@ -197,6 +207,21 @@ namespace ui
         }
     }
 
+    void FileListPanel::selectWidget(const std::weak_ptr<FileWidget> &widget)
+    {
+        if (auto shared = selected.lock())
+        {
+            shared->setSelected(false);
+        }
+
+        selected = widget;
+
+        if (auto shared = selected.lock())
+        {
+            shared->setSelected(true);
+        }
+    }
+
     void FileListPanel::changeListenerCallback(ChangeBroadcaster *source)
     {
         fileWidgets.clear();
@@ -207,7 +232,17 @@ namespace ui
         for (int i = 0; i < contents->getNumFiles(); ++i)
         {
             auto file = contents->getFile(i);
-            auto& widget = fileWidgets.emplace_back(std::make_shared<FileWidget>(file, font, [this](auto f){ openFile(f); }));
+            auto& widget = fileWidgets.emplace_back(std::make_shared<FileWidget>(file, font, [this](const auto& source, bool open, const auto& f)
+            {
+                if (open)
+                {
+                    openFile(f);
+                }
+                else
+                {
+                    selectWidget(source);
+                }
+            }));
             addAndMakeVisible(widget.get());
         }
 

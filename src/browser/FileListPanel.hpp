@@ -11,23 +11,24 @@ namespace ui
         juce::Font font;
 
     public:
-        HeaderWidget(juce::Font font);
+        explicit HeaderWidget(juce::Font font_);
         void mouseDoubleClick(const juce::MouseEvent &event) override;
 
         void paint(juce::Graphics &g) override;
     };
 
 
-    class FileWidget : public juce::Component, public FileDragSource
+    class FileWidget : public juce::Component, public FileDragSource, public std::enable_shared_from_this<FileWidget>
     {
     public:
-        using Callback = std::function<void(juce::File)>;
+        using Callback = std::function<void(const std::shared_ptr<FileWidget>& source, bool open, juce::File file)>;
 
     private:
         juce::File file;
         juce::Font font;
         juce::Image icon;
-        Callback callback{[](auto){}};
+        bool selected{false};
+        Callback callback{[](const auto&, auto, const auto&){}};
 
     public:
         explicit FileWidget(juce::File file_, juce::Font font_, Callback callback):
@@ -40,9 +41,15 @@ namespace ui
         }
 
         void paint(juce::Graphics &g) override;
-
         void mouseDrag(const juce::MouseEvent &event) override;
+        void mouseDown(const juce::MouseEvent &event) override;
         void mouseDoubleClick(const juce::MouseEvent &event) override;
+
+        void setSelected(bool selected_)
+        {
+            selected = selected_;
+            repaint();
+        }
 
         juce::File getFile() override
         {
@@ -63,6 +70,8 @@ namespace ui
         juce::WildcardFileFilter filter;
         std::unique_ptr<juce::DirectoryContentsList> contents;
 
+        std::weak_ptr<FileWidget> selected;
+
     public:
         FileListPanel();
         ~FileListPanel() override;
@@ -74,6 +83,7 @@ namespace ui
         void updateVisibilities();
         void setScroll(double fraction);
         void openFile(const juce::File &file);
+        void selectWidget(const std::weak_ptr<FileWidget> &widget);
 
         void changeDirectory(const juce::File &newDirectory)
         {

@@ -23,16 +23,16 @@ namespace player
     void ElementInstanceManager::freeReleased()
     {
         std::lock_guard lock(activeMutex);
-        int prev = active.size();
+        // int prev = active.size();
         std::erase_if(active, [](const auto& e)
         {
             return e->canBeFreed();
         });
 
-        if (active.size() != prev)
-        {
-            std::cout << "an erasing day " << prev - active.size() << "\n";
-        }
+        // if (active.size() != prev)
+        // {
+            // std::cout << "an erasing day " << prev - active.size() << "\n";
+        // }
     }
 
     void ElementInstanceManager::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
