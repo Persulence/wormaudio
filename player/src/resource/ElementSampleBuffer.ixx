@@ -14,8 +14,8 @@ namespace resource
 
         static Ptr create();
 
-        void thing();
+        ElementSampleBuffer() = default;
     };
 
-    export const ElementSampleBuffer::Ptr EMPTY_BUFFER = std::make_shared<ElementSampleBuffer>();
+    export const auto EMPTY_BUFFER = std::make_shared<ElementSampleBuffer>();
 }

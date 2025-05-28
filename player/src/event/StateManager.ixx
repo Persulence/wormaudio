@@ -74,6 +74,9 @@ namespace event
 
             if (currentState != nullptr && currentState != prevState)
             {
+                if (prevState)
+                    prevState->instance->deactivate();
+
                 currentState->instance->activate(context);
                 return true;
             }

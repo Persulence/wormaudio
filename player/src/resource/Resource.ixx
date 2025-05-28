@@ -24,14 +24,14 @@ namespace resource
 
         ElementSampleBuffer::Ptr buffer = nullptr;
 
-        JUCE_DECLARE_NON_COPYABLE(Resource)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Resource)
 
     public:
         using Ptr = std::shared_ptr<Resource>;
 
         Resource(ResourceLoader::Ptr loader_, juce::File file_):
             file(std::move(file_)),
-            loader(std::move(loader_))
+            loader(loader_)
         {
 
         }
@@ -50,7 +50,7 @@ namespace resource
             return buffer;
         }
 
-        juce::File getFile() const
+        [[nodiscard]] juce::File getFile() const
         {
             return file;
         }

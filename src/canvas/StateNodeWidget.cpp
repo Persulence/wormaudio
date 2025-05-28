@@ -195,10 +195,12 @@ namespace ui
     bool StateNodeWidget::isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails)
     {
         auto source = dragSourceDetails.sourceComponent.get();
-        if (auto* other = dynamic_cast<StateNodeWidget*>(source))
+
+        // A bit unpleasant, but it gets the job done
+        if (dynamic_cast<StateNodeWidget*>(source))
             return true;
 
-        if (auto* other = dynamic_cast<FileWidget*>(source))
+        if (dynamic_cast<FileWidget*>(source))
             return true;
 
         return false;
