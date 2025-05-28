@@ -59,41 +59,44 @@ namespace ui
         for (const auto& fromNode : *stateNodes)
         {
             auto fromState = fromNode->getState();
-            for (const auto& nextState : std::views::keys(fromState->getTransitions()))
+            for (const auto& transition : std::views::values(fromState->getTransitions()))
             {
-                if (const auto& to = stateToNode.find(nextState); to != stateToNode.end())
+                if (auto shared = transition.nextState.lock())
                 {
-                    Point startPoint = fromNode->getBounds().getCentre().toFloat();
-                    Point endPoint = to->second->getBounds().getCentre().toFloat();
-
-                    auto vector = endPoint - startPoint;
-                    float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
-
-                    // Skip unnecessarily short lines and divide by zeros
-                    if (len <= 1)
-                        continue;
-
-                    // Offset lines if there is a two-way transition
-                    if (nextState->getTransitions().contains(fromState))
+                    if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
                     {
-                        float offset = 20;
+                        Point startPoint = fromNode->getBounds().getCentre().toFloat();
+                        Point endPoint = to->second->getBounds().getCentre().toFloat();
 
-                        // Get normalised vector perpendicular to the line
-                        auto perp = Point(vector.y, -vector.x);
-                        perp = (perp / len) * offset;
+                        auto vector = endPoint - startPoint;
+                        float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
 
-                        startPoint += perp;
-                        endPoint += perp;
+                        // Skip unnecessarily short lines and divide by zeros
+                        if (len <= 1)
+                            continue;
+
+                        // Offset lines if there is a two-way transition
+                        if (shared->getTransitions().contains(fromState.get()))
+                        {
+                            float offset = 20;
+
+                            // Get normalised vector perpendicular to the line
+                            auto perp = Point(vector.y, -vector.x);
+                            perp = (perp / len) * offset;
+
+                            startPoint += perp;
+                            endPoint += perp;
+                        }
+
+                        auto vector1 = endPoint - startPoint;
+                        const auto line1 = Line(startPoint, startPoint + vector1 / 2);
+                        const auto line2 = Line(startPoint + vector1 / 2, endPoint);
+
+                        float thickness = 2;
+                        float arrowSize = 15;
+                        g.drawArrow(line1, thickness, arrowSize, arrowSize);
+                        g.drawLine(line2, thickness);
                     }
-
-                    auto vector1 = endPoint - startPoint;
-                    const auto line1 = Line(startPoint, startPoint + vector1 / 2);
-                    const auto line2 = Line(startPoint + vector1 / 2, endPoint);
-
-                    float thickness = 2;
-                    float arrowSize = 15;
-                    g.drawArrow(line1, thickness, arrowSize, arrowSize);
-                    g.drawLine(line2, thickness);
                 }
             }
         }

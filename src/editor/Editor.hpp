@@ -33,9 +33,9 @@ namespace editor
             return instance;
         }
 
-        runtime::Runtime& getRuntime() const
+        [[nodiscard]] runtime::Runtime& getRuntime() const
         {
-            assert(runtime);
+            assert(runtime != nullptr);
             return *runtime;
         }
 
@@ -64,6 +64,18 @@ namespace editor
         {
             transportSignal.emit(player::STOPPED);
             getRuntime().clearInstances();
+        }
+
+        void shutdown()
+        {
+            if (runtime)
+            {
+                stop();
+                runtime->disconnect();
+                runtime = nullptr;
+            }
+
+            event = nullptr;
         }
     };
 }

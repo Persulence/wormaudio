@@ -4,9 +4,11 @@
 #include "juce_graphics/juce_graphics.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
-namespace sm {
-    class State;
-}
+// namespace sm {
+//     class State;
+// }
+
+import control;
 
 namespace ui
 {

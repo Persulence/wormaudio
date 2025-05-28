@@ -1,9 +1,11 @@
 module;
 
+#include <unordered_map>
 #include <memory>
 #include <utility>
 #include <vector>
-#include <unordered_map>
+
+#include <juce_core/juce_core.h>
 
 export module control:Node;
 
@@ -18,12 +20,12 @@ namespace sm
 
     export struct Transition1
     {
-        Transition1(ConditionList conditions_, std::shared_ptr<State> nextState_):
+        Transition1(ConditionList conditions_, std::weak_ptr<State> nextState_):
             conditions(std::move(conditions_)), nextState(std::move(nextState_))
         { }
 
         ConditionList conditions;
-        std::shared_ptr<State> nextState;
+        std::weak_ptr<State> nextState;
     };
 
     export struct ElementEntry
@@ -41,18 +43,23 @@ namespace sm
     {
     public:
         using Ptr = std::shared_ptr<State>;
+        using Weak = std::weak_ptr<State>;
         std::string name{"State"};
 
     private:
         std::vector<ElementEntry> elements_;
-        std::unordered_map<Ptr, Transition1> transitions;
+        std::unordered_map<State*, Transition1> transitions;
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(State)
 
     public:
+        State() = default;
+
         void insertElement(const std::shared_ptr<element::Element>& entry);
         void insertTransition(const Transition1& transition);
 
         const std::vector<ElementEntry>& elements();
-        [[nodiscard]] const std::unordered_map<Ptr, Transition1>& getTransitions() const;
+        const std::unordered_map<State*, Transition1>& getTransitions() const;
 
         const std::string& getName();
     };

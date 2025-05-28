@@ -75,6 +75,7 @@ namespace signal_event
     {
         using L = Listener<Args...>;
         std::vector<L*> listeners;
+        // TODO: mutex
 
     public:
         void reg(L* listener)

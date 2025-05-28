@@ -105,8 +105,7 @@ namespace ui
     UiMainComponent::~UiMainComponent()
     {
         auto& editor = editor::Editor::getInstance();
-        editor.getRuntime().disconnect();
-        editor.setRuntime(nullptr);
+        editor.shutdown();
     }
 
     void UiMainComponent::resized()

@@ -17,7 +17,7 @@ namespace sm
 
     void State::insertTransition(const Transition1 &transition)
     {
-        transitions.emplace(transition.nextState, transition);
+        transitions.emplace(transition.nextState.lock().get(), transition);
     }
 
     const std::vector<ElementEntry> & State::elements()
@@ -25,7 +25,7 @@ namespace sm
         return elements_;
     }
 
-    const std::unordered_map<State::Ptr, Transition1> & State::getTransitions() const
+    const std::unordered_map<State*, Transition1>& State::getTransitions() const
     {
         return transitions;
     }

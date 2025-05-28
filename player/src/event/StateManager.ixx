@@ -3,6 +3,7 @@ module;
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <ranges>
 
 export module event:StateManager;
 
@@ -39,17 +40,20 @@ namespace event
             // Slightly concerned by the use of raw pointers.
 
             // Associates all nodes that have been encountered so far with an entry
-            std::unordered_map<sm::State*, StateEntry*> map;
+            std::unordered_map<sm::State::Ptr, StateEntry*> map;
 
             for (const auto& state : states)
             {
                 auto& stateEntry = getOrCreateEntry(map, state);
 
-                for (const auto& [nextState, transition] : state->getTransitions())
+                for (const auto &transition: state->getTransitions() | std::views::values)
                 {
-                    StateEntry& nextStateEntry = getOrCreateEntry(map, nextState);
+                    if (auto shared = transition.nextState.lock())
+                    {
+                        StateEntry& nextStateEntry = getOrCreateEntry(map, shared);
 
-                    stateEntry.transitions.emplace_back(Transition{&transition.conditions, &nextStateEntry});
+                        stateEntry.transitions.emplace_back(Transition{&transition.conditions, &nextStateEntry});
+                    }
                 }
             }
 
@@ -94,10 +98,10 @@ namespace event
 
     private:
 
-        StateEntry& getOrCreateEntry(std::unordered_map<sm::State*, StateEntry*>& map, const sm::State::Ptr &state)
+        StateEntry& getOrCreateEntry(std::unordered_map<sm::State::Ptr, StateEntry*>& map, sm::State::Ptr state)
         {
             StateEntry* entry;
-            if (const auto it = map.find(state.get()); it != map.end())
+            if (const auto it = map.find(state); it != map.end())
             {
                 entry = it->second;
             }
@@ -107,7 +111,7 @@ namespace event
                     std::make_unique<sm::StateInstance>(state), std::vector<Transition>{}))
                     .get();
 
-                map.emplace(state.get(), entry);
+                map.emplace(state, entry);
             }
 
             return *entry;
