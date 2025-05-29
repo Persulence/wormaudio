@@ -16,10 +16,6 @@ namespace ui
         FileBrowserPanel():
             scrollBar(true)
         {
-            // addAndMakeVisible(listPanel);
-            // addAndMakeVisible(viewport);
-            // viewport.setViewedComponent(&listPanel, false);
-
             addAndMakeVisible(listPanel);
             listPanel.callback = [this](int items)
             {
@@ -42,7 +38,7 @@ namespace ui
 
         void resized() override
         {
-            // viewport.setBounds(getLocalBounds());
+            // I have no idea how to make the scrollbar thumb adopt the correct size
             scrollBar.setBounds(getLocalBounds().removeFromRight(10));
             listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
             listPanel.updateVisibilities();
@@ -54,11 +50,12 @@ namespace ui
         void scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) override
         {
             listPanel.setScroll(newRangeStart / scrollBarThatHasMoved->getMaximumRangeLimit());
-            // std::cout << "new range" << newRangeStart << "\n";
         }
 
         void mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) override
         {
+            // Use events for scrolling
+            scrollBar.mouseWheelMove(event, wheel);
         }
     };
 }
