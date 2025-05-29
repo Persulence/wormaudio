@@ -26,6 +26,8 @@ namespace ui
 
         std::weak_ptr<StateNodeWidget> selectedNode;
 
+        // juce::ComponentDragger dragger;
+
     public:
         StateCanvasPanel();
 
@@ -35,7 +37,6 @@ namespace ui
         StateNodeWidget::Ptr addState(juce::Point<int> pos);
         void removeNode(const std::shared_ptr<StateNodeWidget> &node);
         void paint(juce::Graphics &g) override;
-        void mouseDown(const juce::MouseEvent &event) override;
         void resized() override;
         bool keyPressed(const juce::KeyPress &key) override;
 

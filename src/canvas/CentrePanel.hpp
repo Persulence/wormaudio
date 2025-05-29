@@ -12,7 +12,6 @@ namespace ui
     {
     public:
         BorderPanel<CanvasViewport> canvasViewport;
-        // CanvasViewport canvasViewport;
         BorderPanel<StateEditorPanel> editor;
 
         juce::StretchableLayoutManager layout;

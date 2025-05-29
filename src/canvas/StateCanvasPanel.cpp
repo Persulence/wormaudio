@@ -79,14 +79,6 @@ namespace ui
         paintBorder(g);
     }
 
-    void StateCanvasPanel::mouseDown(const MouseEvent &event)
-    {
-        if (event.mods.isRightButtonDown())
-        {
-            contextMenu(Point(event.x, event.y));
-        }
-    }
-
     void StateCanvasPanel::resized()
     {
         connectionManager->setBounds(getBounds());

@@ -150,27 +150,30 @@ namespace ui
 
     void StateNodeWidget::mouseDown(const MouseEvent &event)
     {
-        dragger.startDraggingComponent(this, event);
-        toFront(false);
-        auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>();
-        if (selectionManager != nullptr)
+        if (event.mods.isLeftButtonDown())
         {
-            selectionManager->select(shared_from_this());
+            dragger.startDraggingComponent(this, event);
+            toFront(false);
+            auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>();
+            if (selectionManager != nullptr)
+            {
+                selectionManager->select(shared_from_this());
+            }
         }
     }
 
     void StateNodeWidget::mouseDrag(const juce::MouseEvent &event)
     {
-        // if (event.x % 10 == 0 && event.y % 10 == 0)
-        // {
+        if (event.mods.isLeftButtonDown())
+        {
             dragger.dragComponent(this, event, nullptr);
             manager->setDraggingNode(true);
-        // }
+        }
     }
 
     void StateNodeWidget::mouseUp(const juce::MouseEvent &event)
     {
-        dragger.dragComponent(this, event, nullptr);
+        // dragger.dragComponent(this, event, nullptr);
         manager->setDraggingNode(false);
     }
 
