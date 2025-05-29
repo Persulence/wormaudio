@@ -167,7 +167,7 @@ namespace ui
         if (event.mods.isLeftButtonDown())
         {
             dragger.dragComponent(this, event, nullptr);
-            findParentComponentOfClass<StateCanvasPanel>()->notifyNodeMoved(shared_from_this());
+            findParentComponentOfClass<StateCanvasPanel>()->updateCanvas(shared_from_this());
             manager->setDraggingNode(true);
         }
     }

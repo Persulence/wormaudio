@@ -40,7 +40,7 @@ namespace ui
         void resized() override;
         bool keyPressed(const juce::KeyPress &key) override;
 
-        void notifyNodeMoved(const StateNodeWidget::Ptr& node);
+        void updateCanvas(const StateNodeWidget::Ptr& node);
 
         void contextMenu(juce::Point<int> mousePos);
 

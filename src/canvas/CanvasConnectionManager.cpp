@@ -41,7 +41,7 @@ namespace ui
         repaint();
     }
 
-    void CanvasConnectionManager::paint(juce::Graphics &g)
+    void CanvasConnectionManager::paint(Graphics &g)
     {
         using namespace juce;
 
@@ -65,8 +65,9 @@ namespace ui
                 {
                     if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
                     {
-                        Point startPoint = fromNode->getBounds().getCentre().toFloat();
-                        Point endPoint = to->second->getBounds().getCentre().toFloat();
+                        // Point startPoint = getLocalPoint(fromNode.get(), fromNode->getBounds().getCentre().toFloat());
+                        Point startPoint = getLocalPoint(fromNode.get(), fromNode->getLocalBounds().getCentre().toFloat());
+                        Point endPoint = getLocalPoint(to->second.get(), to->second->getLocalBounds().getCentre().toFloat());
 
                         auto vector = endPoint - startPoint;
                         float len = sqrtf(vector.x * vector.x + vector.y * vector.y);

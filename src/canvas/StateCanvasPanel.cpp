@@ -36,6 +36,8 @@ namespace ui
 
         connectionManager->toBack();
 
+        updateCanvas(node);
+
         return node;
     }
 
@@ -103,7 +105,7 @@ namespace ui
         return false;
     }
 
-    void StateCanvasPanel::notifyNodeMoved(const StateNodeWidget::Ptr &node)
+    void StateCanvasPanel::updateCanvas(const StateNodeWidget::Ptr &node)
     {
         if (!getLocalBounds().contains(node->getBounds()))
         {
@@ -120,6 +122,7 @@ namespace ui
             }
 
             setBounds(parentNewBounds);
+            connectionManager->setBounds(getLocalBounds());
         }
     }
 
