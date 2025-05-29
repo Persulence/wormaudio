@@ -172,7 +172,8 @@ namespace ui
 
             // auto viewportArea = getParentComponent()->getBounds();
             // if (elementY < viewportArea.getY() || elementY > viewportArea.getBottom())
-            if (i > offset && i * h < getParentHeight())
+            auto parentHeight = getParentHeight();
+            if (i > offset && (i - offset) * h < parentHeight)
             {
                 element->setVisible(true);
                 element->setBounds(0, (i - offset) * h, getWidth(), h);

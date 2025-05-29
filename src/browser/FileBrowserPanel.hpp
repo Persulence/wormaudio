@@ -46,7 +46,8 @@ namespace ui
             scrollBar.setBounds(getLocalBounds().removeFromRight(10));
             listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
             listPanel.updateVisibilities();
-            scrollBar.setRangeLimits(0, listPanel.getHeight() / getHeight());
+            if (getHeight() > 0) // Avoid / 0
+                scrollBar.setRangeLimits(0, listPanel.getHeight() / getHeight());
             scrollBar.toFront(false);
         }
 
