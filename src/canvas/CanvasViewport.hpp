@@ -6,7 +6,7 @@
 namespace ui
 {
     // class CanvasViewport : public juce::Viewport
-    class CanvasViewport : public juce::Component
+    class CanvasViewport : public Panel
 
     {
     public:
@@ -15,6 +15,7 @@ namespace ui
 
         CanvasViewport();
         void resized() override;
+        void paint(juce::Graphics &g) override;
 
         void mouseDown(const juce::MouseEvent &event) override;
         void mouseDrag(const juce::MouseEvent &event) override;

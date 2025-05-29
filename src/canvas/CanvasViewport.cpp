@@ -13,6 +13,11 @@ namespace ui
 
         // Get middle clicks for panning
         canvas.addMouseListener(this, true);
+
+        // Set background colour. This will appear behind nodes.
+        bg = Colours::darkgrey;
+
+        setOpaque(true);
     }
 
     void CanvasViewport::resized()
@@ -39,6 +44,11 @@ namespace ui
         auto rect = Rectangle<int>::findAreaContainingPoints(pts, 4);
         // canvas.setBoundsClever(rect);
         canvas.setBounds(rect);
+    }
+
+    void CanvasViewport::paint(juce::Graphics &g)
+    {
+        paintBackground(g);
     }
 
     void CanvasViewport::mouseDown(const MouseEvent &event)

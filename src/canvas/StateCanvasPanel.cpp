@@ -15,10 +15,6 @@ namespace ui
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
         definition(editor::Editor::getInstance().getDefinition())
     {
-        setOpaque(true);
-
-        bg = Colours::darkgrey;
-
         for (auto& state : definition->getStates())
         {
             addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
@@ -77,7 +73,6 @@ namespace ui
 
     void StateCanvasPanel::paint(Graphics &g)
     {
-        paintBackground(g);
         paintBorder(g);
     }
 
