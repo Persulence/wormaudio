@@ -34,11 +34,11 @@ namespace ui
 
         // setBounds(getParentComponent()->getLocalBounds());
 
+        // TODO
         const Point<int> pts[] = {canvasBounds.getTopLeft(), canvasBounds.getBottomRight(), minBounds.getTopLeft(), minBounds.getBottomRight()};
         auto rect = Rectangle<int>::findAreaContainingPoints(pts, 4);
         // canvas.setBoundsClever(rect);
         canvas.setBounds(rect);
-
     }
 
     void CanvasViewport::mouseDown(const MouseEvent &event)
@@ -46,13 +46,9 @@ namespace ui
         if (event.mods.isRightButtonDown())
         {
             auto point = Point(event.x, event.y);
-            auto topLeft = canvas.getBounds().getTopLeft();
 
-            if (event.eventComponent == this)
-            {
-                point = canvas.getLocalPoint(this, point);
-            }
-
+            // Event source can be this or the canvas.
+            point = canvas.getLocalPoint(event.eventComponent, point);
             canvas.contextMenu(point);
         }
         else if (event.mods.isMiddleButtonDown())
@@ -68,5 +64,4 @@ namespace ui
             canvasDragger.dragComponent(&canvas, event, nullptr);
         }
     }
-
 }

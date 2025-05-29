@@ -103,6 +103,26 @@ namespace ui
         return false;
     }
 
+    void StateCanvasPanel::notifyNodeMoved(const StateNodeWidget::Ptr &node)
+    {
+        if (!getLocalBounds().contains(node->getBounds()))
+        {
+            auto oldBounds = getBoundsInParent();
+            auto localNewBounds = calculateBounds();
+            auto parentNewBounds = getParentComponent()->getLocalArea(this, localNewBounds);
+
+            auto delta = - parentNewBounds.getTopLeft() + oldBounds.getTopLeft();
+
+            // Shift all nodes to compensate for the canvas position change
+            for (auto& node1 : stateNodes)
+            {
+                node1->setTopLeftPosition(node1->getBounds().getTopLeft() + delta);
+            }
+
+            setBounds(parentNewBounds);
+        }
+    }
+
     void StateCanvasPanel::contextMenu(Point<int> mousePos)
     {
         PopupMenu menu;
@@ -126,14 +146,18 @@ namespace ui
 
     Rectangle<int> StateCanvasPanel::calculateBounds() const
     {
-        int minX = 0;
-        int minY = 0;
-        int maxX = 0;
-        int maxY = 0;
+        if (stateNodes.empty())
+            return Rectangle{0, 0, 0, 0};
+
+        auto first = stateNodes.at(0);
+        int minX = first->getX();
+        int minY = first->getY();
+        int maxX = first->getRight();
+        int maxY = first->getBottom();
 
         for (auto& node : stateNodes)
         {
-            auto bounds = node->getBoundsInParent();
+            auto bounds = node->getBounds();
             if (bounds.getX() < minX)
                 minX = bounds.getX();
 
@@ -148,5 +172,6 @@ namespace ui
         }
 
         return Rectangle<int>::leftTopRightBottom(minX, minY, maxX, maxY);
+        // return Rectangle{0, 0, maxX - minX, maxY - minY};
     }
 }
