@@ -131,4 +131,30 @@ namespace ui
             }
         });
     }
+
+    Rectangle<int> StateCanvasPanel::calculateBounds() const
+    {
+        int minX = 0;
+        int minY = 0;
+        int maxX = 0;
+        int maxY = 0;
+
+        for (auto& node : stateNodes)
+        {
+            auto bounds = node->getBoundsInParent();
+            if (bounds.getX() < minX)
+                minX = bounds.getX();
+
+            if (bounds.getY() < minY)
+                minY = bounds.getY();
+
+            if (bounds.getRight() > maxX)
+                maxX = bounds.getRight();
+
+            if (bounds.getBottom() > maxY)
+                maxY = bounds.getBottom();
+        }
+
+        return Rectangle<int>::leftTopRightBottom(minX, minY, maxX, maxY);
+    }
 }

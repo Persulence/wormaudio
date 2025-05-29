@@ -40,5 +40,7 @@ namespace ui
         bool keyPressed(const juce::KeyPress &key) override;
 
         void contextMenu(juce::Point<int> mousePos);
+
+        juce::Rectangle<int> calculateBounds() const;
     };
 }

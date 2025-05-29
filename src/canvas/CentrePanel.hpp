@@ -3,20 +3,16 @@
 #include <panel/BorderPanel.hpp>
 
 #include "CanvasSelectionManager.hpp"
-#include "StateCanvasPanel.hpp"
+#include "CanvasViewport.hpp"
 #include "StateEditorPanel.hpp"
-#include "../panel/ResizeHandle.hpp"
 
 namespace ui
 {
     class CentrePanel : public ui::Panel, public CanvasSelectionManager
     {
     public:
-        // StateCanvasPanel canvas;
-        // StateEditorPanel editor;
-        // ResizeHandle handle;
-
-        BorderPanel<StateCanvasPanel> canvas;
+        BorderPanel<CanvasViewport> canvasViewport;
+        // CanvasViewport canvasViewport;
         BorderPanel<StateEditorPanel> editor;
 
         juce::StretchableLayoutManager layout;
