@@ -16,7 +16,7 @@ namespace ui
         stateToNode(stateToNode)
         // vBlank(juce::VBlankAttachment{this, [this]() { update(); }})
     {
-        setInterceptsMouseClicks(false, false);
+        setInterceptsMouseClicks(false, true);
     }
 
     void CanvasConnectionManager::refreshTransitionWidgets()
@@ -33,7 +33,7 @@ namespace ui
                 {
                     if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
                     {
-                        const auto& transitionWidget = transitionWidgets.emplace_back(std::make_unique<TransitionWidget>());
+                        const auto& transitionWidget = transitionWidgets.emplace_back(std::make_shared<TransitionWidget>());
                         addAndMakeVisible(transitionWidget.get());
                         transitionWidget->setNodes(fromNode, to->second);
                     }

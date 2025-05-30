@@ -19,12 +19,14 @@ namespace ui
     private:
         bool draggingConnection{false};
         bool draggingNode{false};
+
         Point start;
         Point end;
+
         std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
         std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
 
-        std::vector<std::unique_ptr<TransitionWidget>> transitionWidgets;
+        std::vector<std::shared_ptr<TransitionWidget>> transitionWidgets;
 
         // juce::VBlankAttachment vBlank;
 

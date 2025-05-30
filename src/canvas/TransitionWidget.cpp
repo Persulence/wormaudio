@@ -49,7 +49,7 @@ namespace ui
             float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
 
             // Skip unnecessarily short lines and divide by zeros
-            if (len <= 1)
+            if (len <= 20)
                 return;
 
             // Offset lines if there is a two-way transition
@@ -71,15 +71,53 @@ namespace ui
 
             float thickness = 2;
             float arrowSize = 15;
+
+            if (selected)
+            {
+                g.setColour(Colours::white);
+                g.drawArrow(line1, thickness * 2, arrowSize, arrowSize);
+                g.drawLine(line2, thickness * 2);
+            }
+
             g.setColour(Colours::green);
             g.drawArrow(line1, thickness, arrowSize, arrowSize);
             g.drawLine(line2, thickness);
         }
     }
 
+    bool TransitionWidget::hitTest(int x, int y)
+    {
+        if (Component::hitTest(x, y))
+        {
+            const auto sharedFrom = from.lock();
+            const auto sharedTo = to.lock();
+            if (sharedFrom && sharedTo)
+            {
+                Point startPoint = getLocalPoint(sharedFrom.get(), sharedFrom->getLocalBounds().getCentre().toFloat());
+                Point endPoint = getLocalPoint(sharedTo.get(), sharedTo->getLocalBounds().getCentre().toFloat());
+
+                // Convert line to 0 = ax + by + c
+                float m = (startPoint.y - endPoint.y) / (startPoint.x - endPoint.x);
+                float c = startPoint.y - m * startPoint.x;
+
+                float a = m;
+                float b = -1;
+
+                float distanceToLine = std::abs(a * x + b * y + c) / std::sqrt(a * a + b * b);
+
+                if (distanceToLine < 20)
+                    return true;
+            }
+        }
+        return false;
+    }
+
     void TransitionWidget::mouseDown(const MouseEvent &event)
     {
-        Component::mouseDown(event);
+        if (const auto manager = findParentComponentOfClass<CanvasSelectionManager>())
+        {
+            manager->select(shared_from_this());
+        }
     }
 
     std::shared_ptr<Component> TransitionWidget::createConfig()
@@ -89,11 +127,18 @@ namespace ui
 
     void TransitionWidget::onSelect()
     {
-
+        selected = true;
+        repaint();
     }
 
     void TransitionWidget::onDeselect()
     {
-
+        selected = false;
+        repaint();
     }
+
+    // Colour TransitionWidget::getCol()
+    // {
+    //     return selected ? Colours::aliceblue : Colours::green;
+    // }
 }
