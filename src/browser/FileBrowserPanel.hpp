@@ -36,6 +36,11 @@ namespace ui
             scrollBar.addListener(this);
         }
 
+        void paint(juce::Graphics &g) override
+        {
+            paintBackground(g);
+        }
+
         void resized() override
         {
             // I have no idea how to make the scrollbar thumb adopt the correct size

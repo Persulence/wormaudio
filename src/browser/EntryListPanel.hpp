@@ -15,7 +15,6 @@ namespace ui
 
         void paint(juce::Graphics &g) override
         {
-            paintBackground(g);
         }
 
         int getExpectedHeight() const
