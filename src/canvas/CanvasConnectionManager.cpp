@@ -19,6 +19,37 @@ namespace ui
         setInterceptsMouseClicks(false, false);
     }
 
+    void CanvasConnectionManager::refreshTransitionWidgets()
+    {
+        transitionWidgets.clear();
+        removeAllChildren();
+
+        for (const auto& fromNode : *stateNodes)
+        {
+            auto fromState = fromNode->getState();
+            for (const auto& transition : std::views::values(fromState->getTransitions()))
+            {
+                if (auto shared = transition.nextState.lock())
+                {
+                    if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
+                    {
+                        const auto& transitionWidget = transitionWidgets.emplace_back(std::make_unique<TransitionWidget>());
+                        addAndMakeVisible(transitionWidget.get());
+                        transitionWidget->setNodes(fromNode, to->second);
+                    }
+                }
+            }
+        }
+    }
+
+    void CanvasConnectionManager::updateTransitionWidgets() const
+    {
+        for (const auto& widget : transitionWidgets)
+        {
+            widget->updateBounds();
+        }
+    }
+
     void CanvasConnectionManager::startConnection(Point start_)
     {
         draggingConnection = true;
@@ -39,6 +70,7 @@ namespace ui
         this->end = end_;
 
         repaint();
+        // updateConnectionWidgets();
     }
 
     void CanvasConnectionManager::paint(Graphics &g)
@@ -55,52 +87,10 @@ namespace ui
         }
 
         // Draw the transition lines
-        g.setColour(Colours::green);
-        for (const auto& fromNode : *stateNodes)
-        {
-            auto fromState = fromNode->getState();
-            for (const auto& transition : std::views::values(fromState->getTransitions()))
-            {
-                if (auto shared = transition.nextState.lock())
-                {
-                    if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
-                    {
-                        // Point startPoint = getLocalPoint(fromNode.get(), fromNode->getBounds().getCentre().toFloat());
-                        Point startPoint = getLocalPoint(fromNode.get(), fromNode->getLocalBounds().getCentre().toFloat());
-                        Point endPoint = getLocalPoint(to->second.get(), to->second->getLocalBounds().getCentre().toFloat());
-
-                        auto vector = endPoint - startPoint;
-                        float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
-
-                        // Skip unnecessarily short lines and divide by zeros
-                        if (len <= 1)
-                            continue;
-
-                        // Offset lines if there is a two-way transition
-                        if (shared->getTransitions().contains(fromState.get()))
-                        {
-                            float offset = 20;
-
-                            // Get normalised vector perpendicular to the line
-                            auto perp = Point(vector.y, -vector.x);
-                            perp = (perp / len) * offset;
-
-                            startPoint += perp;
-                            endPoint += perp;
-                        }
-
-                        auto vector1 = endPoint - startPoint;
-                        const auto line1 = Line(startPoint, startPoint + vector1 / 2);
-                        const auto line2 = Line(startPoint + vector1 / 2, endPoint);
-
-                        float thickness = 2;
-                        float arrowSize = 15;
-                        g.drawArrow(line1, thickness, arrowSize, arrowSize);
-                        g.drawLine(line2, thickness);
-                    }
-                }
-            }
-        }
+        // g.setColour(Colours::green);
+        // for (const auto& fromNode : *stateNodes)
+        // {
+        // }
     }
 
     // Causes stuttering when rendered with openGL
@@ -115,12 +105,17 @@ namespace ui
         sm::Transition1 transition{{}, to->getState()};
         transition.conditions.insertCondition(sm::TrueCondition{});
         from->getState()->insertTransition(transition);
+
+        refreshTransitionWidgets();
     }
 
     void CanvasConnectionManager::setDraggingNode(bool drag)
     {
         draggingNode = drag;
         if (drag)
-            repaint();
+        {
+            updateTransitionWidgets();
+            // repaint();
+        }
     }
 }

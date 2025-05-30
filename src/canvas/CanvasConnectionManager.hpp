@@ -1,12 +1,9 @@
 #pragma once
 #include <memory>
 
+#include "TransitionWidget.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "juce_gui_basics/juce_gui_basics.h"
-
-// namespace sm {
-//     class State;
-// }
 
 import control;
 
@@ -27,6 +24,8 @@ namespace ui
         std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
         std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
 
+        std::vector<std::unique_ptr<TransitionWidget>> transitionWidgets;
+
         // juce::VBlankAttachment vBlank;
 
     public:
@@ -34,10 +33,13 @@ namespace ui
 
         explicit CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes, std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode);
 
+        void refreshTransitionWidgets();
+        void updateTransitionWidgets() const;
+
         void startConnection(Point start_);
         void updateConnection(Point end_);
         void commitConnection(Point end_);
-        static void makeConnection(StateNodeWidget* from, StateNodeWidget* to);
+        void makeConnection(StateNodeWidget* from, StateNodeWidget* to);
 
         void setDraggingNode(bool drag);
 

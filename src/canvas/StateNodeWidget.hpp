@@ -1,5 +1,7 @@
 #pragma once
 
+#include "StateNodeWidget.fwd.hpp"
+
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "CanvasSelectionManager.hpp"
@@ -9,8 +11,6 @@ import control;
 
 namespace ui
 {
-    class StateNodeWidget;
-
     class StateNodeHeader : public juce::Label
     {
     public:
