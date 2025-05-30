@@ -33,7 +33,7 @@ namespace ui
                 {
                     if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
                     {
-                        const auto& transitionWidget = transitionWidgets.emplace_back(std::make_shared<TransitionWidget>());
+                        const auto& transitionWidget = transitionWidgets.emplace_back(std::make_shared<TransitionArrowComponent>());
                         addAndMakeVisible(transitionWidget.get());
                         transitionWidget->setNodes(fromNode, to->second);
                     }

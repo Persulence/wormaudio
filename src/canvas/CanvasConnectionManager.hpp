@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include "TransitionWidget.hpp"
+#include "TransitionArrowComponent.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
@@ -26,7 +26,7 @@ namespace ui
         std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
         std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
 
-        std::vector<std::shared_ptr<TransitionWidget>> transitionWidgets;
+        std::vector<std::shared_ptr<TransitionArrowComponent>> transitionWidgets;
 
         // juce::VBlankAttachment vBlank;
 

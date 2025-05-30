@@ -1,4 +1,4 @@
-#include "TransitionWidget.hpp"
+#include "TransitionArrowComponent.hpp"
 
 #include "StateNodeWidget.hpp"
 #include "transition/TransitionPropertyPanel.hpp"
@@ -7,7 +7,7 @@ namespace ui
 {
     using namespace juce;
 
-    void TransitionWidget::setNodes(const StateNodeWidget::Ptr &from_, const StateNodeWidget::Ptr &to_)
+    void TransitionArrowComponent::setNodes(const StateNodeWidget::Ptr &from_, const StateNodeWidget::Ptr &to_)
     {
         from = from_ ;
         to = to_;
@@ -17,7 +17,7 @@ namespace ui
         repaint();
     }
 
-    void TransitionWidget::updateBounds()
+    void TransitionArrowComponent::updateBounds()
     {
         const auto sharedFrom = from.lock();
         const auto sharedTo = to.lock();
@@ -35,7 +35,7 @@ namespace ui
         }
     }
 
-    void TransitionWidget::paint(Graphics &g)
+    void TransitionArrowComponent::paint(Graphics &g)
     {
         // g.fillRect(getLocalBounds()); // debug
         const auto sharedFrom = from.lock();
@@ -85,7 +85,7 @@ namespace ui
         }
     }
 
-    bool TransitionWidget::hitTest(int x, int y)
+    bool TransitionArrowComponent::hitTest(int x, int y)
     {
         if (Component::hitTest(x, y))
         {
@@ -112,7 +112,7 @@ namespace ui
         return false;
     }
 
-    void TransitionWidget::mouseDown(const MouseEvent &event)
+    void TransitionArrowComponent::mouseDown(const MouseEvent &event)
     {
         if (const auto manager = findParentComponentOfClass<CanvasSelectionManager>())
         {
@@ -120,18 +120,18 @@ namespace ui
         }
     }
 
-    std::shared_ptr<Component> TransitionWidget::createConfig()
+    std::shared_ptr<Component> TransitionArrowComponent::createConfig()
     {
         return std::make_shared<TransitionPropertyPanel>(nullptr);
     }
 
-    void TransitionWidget::onSelect()
+    void TransitionArrowComponent::onSelect()
     {
         selected = true;
         repaint();
     }
 
-    void TransitionWidget::onDeselect()
+    void TransitionArrowComponent::onDeselect()
     {
         selected = false;
         repaint();
