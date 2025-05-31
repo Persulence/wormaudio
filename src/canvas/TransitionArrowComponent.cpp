@@ -35,6 +35,16 @@ namespace ui
         }
     }
 
+    Point<float> twoWayOffset(const Point<float> vector)
+    {
+        constexpr float offset = 20;
+
+        const auto perpendicular = Point(vector.y, -vector.x);
+
+        const float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
+        return (perpendicular / len) * offset;
+    }
+
     void TransitionArrowComponent::paint(Graphics &g)
     {
         // g.fillRect(getLocalBounds()); // debug
@@ -53,13 +63,10 @@ namespace ui
                 return;
 
             // Offset lines if there is a two-way transition
-            if (sharedTo->getState()->getTransitions().contains(sharedFrom->getState().get()))
+            if (isTwoWay())
             {
-                float offset = 20;
-
                 // Get normalised vector perpendicular to the line
-                auto perp = Point(vector.y, -vector.x);
-                perp = (perp / len) * offset;
+                const auto perp = twoWayOffset(vector);
 
                 startPoint += perp;
                 endPoint += perp;
@@ -96,6 +103,13 @@ namespace ui
                 Point startPoint = getLocalPoint(sharedFrom.get(), sharedFrom->getLocalBounds().getCentre().toFloat());
                 Point endPoint = getLocalPoint(sharedTo.get(), sharedTo->getLocalBounds().getCentre().toFloat());
 
+                if (isTwoWay())
+                {
+                    auto perp = twoWayOffset(endPoint - startPoint);
+                    startPoint += perp;
+                    endPoint += perp;
+                }
+
                 // Convert line to 0 = ax + by + c
                 float m = (startPoint.y - endPoint.y) / (startPoint.x - endPoint.x);
                 float c = startPoint.y - m * startPoint.x;
@@ -120,6 +134,17 @@ namespace ui
         }
     }
 
+    bool TransitionArrowComponent::isTwoWay() const
+    {
+        const auto sharedFrom = from.lock();
+        const auto sharedTo = to.lock();
+
+        if (sharedTo->getState()->getTransitions().contains(sharedFrom->getState().get()))
+            return true;
+
+        return false;
+    }
+
     std::shared_ptr<Component> TransitionArrowComponent::createConfig()
     {
         const auto sharedFrom = from.lock();
@@ -128,6 +153,9 @@ namespace ui
         {
             return std::make_shared<TransitionPropertyPanel>(sharedFrom->getState()->getTransitions().at(sharedTo->getState().get()));
         }
+
+        // TODO
+        throw std::exception{};
     }
 
     void TransitionArrowComponent::onSelect()

@@ -23,6 +23,8 @@ namespace ui
         bool hitTest(int x, int y) override;
         void mouseDown(const juce::MouseEvent &event) override;
 
+        bool isTwoWay() const;
+
         std::shared_ptr<Component> createConfig() override;
         void onSelect() override;
         void onDeselect() override;
