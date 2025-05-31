@@ -15,13 +15,16 @@ namespace ui
         bool selected{false};
 
     public:
+        TransitionArrowComponent();
         void setNodes(const StateNodeWidgetPtr &from, const StateNodeWidgetPtr &to);
+        std::tuple<StateNodeWidgetPtr, StateNodeWidgetPtr> lock() const;
         void updateBounds();
 
         void paint(juce::Graphics &g) override;
 
         bool hitTest(int x, int y) override;
         void mouseDown(const juce::MouseEvent &event) override;
+        bool keyPressed(const juce::KeyPress &key) override;
 
         bool isTwoWay() const;
 

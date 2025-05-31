@@ -54,7 +54,20 @@ namespace ui
             onSelect();
         }
 
+        void deselectAll()
+        {
+            if (auto shared = current.lock())
+            {
+                shared->onDeselect();
+            }
+
+            current = std::weak_ptr<CanvasSelectionTarget>();
+
+            onDeselectAll();
+        }
+
     protected:
         virtual void onSelect() = 0;
+        virtual void onDeselectAll() = 0;
     };
 }

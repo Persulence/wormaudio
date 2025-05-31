@@ -93,6 +93,20 @@ namespace ui
         // }
     }
 
+    void CanvasConnectionManager::removeTransition(const std::shared_ptr<TransitionArrowComponent> &component)
+    {
+        transitionWidgets.erase(std::ranges::find(transitionWidgets, component));
+        if (const auto [sharedFrom, sharedTo] = component->lock(); sharedFrom && sharedTo)
+        {
+            sharedFrom->getState()->removeTransitionTo(sharedTo->getState().get());
+        }
+
+        if (auto manager =findParentComponentOfClass<CanvasSelectionManager>(); manager)
+        {
+            manager->deselectAll();
+        }
+    }
+
     // Causes stuttering when rendered with openGL
     void CanvasConnectionManager::update()
     {

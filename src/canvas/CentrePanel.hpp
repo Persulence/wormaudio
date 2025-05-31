@@ -24,6 +24,11 @@ namespace ui
         {
             editor->updateSelection();
         }
+
+        void onDeselectAll() override
+        {
+            editor->updateSelection();
+        }
     };
 }
 

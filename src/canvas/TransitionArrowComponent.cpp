@@ -18,6 +18,12 @@ namespace ui
         return (perpendicular / len) * offset;
     }
 
+    TransitionArrowComponent::TransitionArrowComponent()
+    {
+        setWantsKeyboardFocus(true);
+        setMouseClickGrabsKeyboardFocus(true);
+    }
+
     void TransitionArrowComponent::setNodes(const StateNodeWidget::Ptr &from_, const StateNodeWidget::Ptr &to_)
     {
         from = from_ ;
@@ -28,10 +34,21 @@ namespace ui
         repaint();
     }
 
-    void TransitionArrowComponent::updateBounds()
+    std::tuple<StateNodeWidgetPtr, StateNodeWidgetPtr> TransitionArrowComponent::lock() const
     {
         const auto sharedFrom = from.lock();
         const auto sharedTo = to.lock();
+        return {sharedFrom, sharedTo};
+        // if (sharedFrom && sharedTo)
+        // {
+        // }
+
+        // return {};
+    }
+
+    void TransitionArrowComponent::updateBounds()
+    {
+        const auto [sharedFrom, sharedTo] = lock();
         if (sharedFrom && sharedTo)
         {
             // Get points in parent component
@@ -55,9 +72,7 @@ namespace ui
 
     void TransitionArrowComponent::paint(Graphics &g)
     {
-        // g.fillRect(getLocalBounds()); // debug
-        const auto sharedFrom = from.lock();
-        const auto sharedTo = to.lock();
+        const auto [sharedFrom, sharedTo] = lock();
         if (sharedFrom && sharedTo)
         {
             Point startPoint = getLocalPoint(sharedFrom.get(), sharedFrom->getLocalBounds().getCentre().toFloat());
@@ -104,8 +119,7 @@ namespace ui
     {
         if (Component::hitTest(x, y))
         {
-            const auto sharedFrom = from.lock();
-            const auto sharedTo = to.lock();
+            const auto [sharedFrom, sharedTo] = lock();
             if (sharedFrom && sharedTo)
             {
                 Point startPoint = getLocalPoint(sharedFrom.get(), sharedFrom->getLocalBounds().getCentre().toFloat());
@@ -142,13 +156,31 @@ namespace ui
         }
     }
 
+    bool TransitionArrowComponent::keyPressed(const juce::KeyPress &key)
+    {
+        if (key.getKeyCode() == KeyPress::deleteKey)
+        {
+            if (selected)
+            {
+                auto parent = findParentComponentOfClass<CanvasConnectionManager>();
+                if (parent != nullptr)
+                {
+                    parent->removeTransition(shared_from_this());
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     bool TransitionArrowComponent::isTwoWay() const
     {
-        const auto sharedFrom = from.lock();
-        const auto sharedTo = to.lock();
-
-        if (sharedTo->getState()->getTransitions().contains(sharedFrom->getState().get()))
-            return true;
+        if (const auto [sharedFrom, sharedTo] = lock(); sharedFrom && sharedTo)
+        {
+            if (sharedTo->getState()->getTransitions().contains(sharedFrom->getState().get()))
+                return true;
+        }
 
         return false;
     }
