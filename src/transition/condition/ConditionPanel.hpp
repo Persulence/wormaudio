@@ -8,10 +8,12 @@ namespace ui
 {
     class ConditionPanel : public Panel
     {
-        condition::Condition &condition;
+        // condition::Condition &condition;
 
     public:
-        explicit ConditionPanel(condition::Condition& condition_);
+        static std::unique_ptr<ConditionPanel> create(condition::Condition& condition);
+
+        explicit ConditionPanel();
         void paint(juce::Graphics &g) override;
 
     };

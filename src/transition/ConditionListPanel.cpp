@@ -4,6 +4,7 @@ namespace ui
 {
     using namespace juce;
     using namespace sm;
+    using namespace condition;
 
     ConditionListPanel::ConditionListPanel(condition::ConditionList &conditionList_):
         conditionList(conditionList_)
@@ -18,9 +19,45 @@ namespace ui
         for (auto& condition : conditionList.conditions)
         {
             // Generate condition panel
-            auto& child = conditions.emplace_back(std::make_unique<ConditionPanel>(condition));
+            auto& child = conditions.emplace_back(ConditionPanel::create(condition));
             addAndMakeVisible(child.get());
         }
+
+        resized();
+    }
+
+    void ConditionListPanel::mouseDown(const MouseEvent &event)
+    {
+        if (event.mods.isRightButtonDown())
+        {
+            PopupMenu menu;
+            menu.addItem(1, "New comparison");
+            menu.addItem(2, "New true");
+            menu.addItem(3, "New thing");
+            menu.showMenuAsync(PopupMenu::Options{}, [this] (int result)
+            {
+                switch (result)
+                {
+                    case 1:
+                        addCondition(ComparisonCondition{});
+                        break;
+                    case 2:
+                        addCondition(TrueCondition{});
+                        break;
+                    case 3:
+                        addCondition(ThingCondition{});
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+    }
+
+    void ConditionListPanel::addCondition(const Condition &condition)
+    {
+        auto& added = conditionList.insertCondition(condition);
+        refresh();
     }
 
     void ConditionListPanel::resized()
@@ -38,4 +75,5 @@ namespace ui
 
         flexBox.performLayout(getLocalBounds());
     }
+
 }

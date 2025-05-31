@@ -1,5 +1,8 @@
 #pragma once
-#include "ConditionPanel.hpp"
+#include <variant>
+#include <variant>
+
+#include "condition/ConditionPanel.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 import control;
@@ -14,8 +17,10 @@ namespace ui
     public:
         explicit ConditionListPanel(condition::ConditionList& conditionList_);
 
-        void refresh();
-
         void resized() override;
+        void mouseDown(const juce::MouseEvent &event) override;
+
+        void addCondition(const condition::Condition &condition);
+        void refresh();
     };
 }

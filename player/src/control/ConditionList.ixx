@@ -18,7 +18,7 @@ import :ComparisonCondition;
 namespace condition
 {
 
-    export struct ThingCondition : condition::ConditionBase<ThingCondition>
+    export struct ThingCondition : ConditionBase<ThingCondition>
     {
         ThingCondition() = default;
 
@@ -29,7 +29,7 @@ namespace condition
         }
     };
 
-    export struct TrueCondition : condition::ConditionBase<TrueCondition>
+    export struct TrueCondition : ConditionBase<TrueCondition>
     {
         TrueCondition() = default;
 
@@ -56,9 +56,12 @@ namespace condition
 
         ConditionList() = default;
 
-        void insertCondition(Condition condition)
+        Condition& insertCondition(Condition condition)
         {
             conditions.push_back(std::move(condition));
+
+            // Hmmmm
+            return *(conditions.end() - 1);
         }
 
         [[nodiscard]] bool test(const sm::ParameterLookup& parameters) const
