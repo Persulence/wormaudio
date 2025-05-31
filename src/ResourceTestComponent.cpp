@@ -18,7 +18,8 @@ import ElementInstanceManager;
 import control;
 import event;
 
-ResourceTestComponent::ResourceTestComponent() {
+ResourceTestComponent::ResourceTestComponent()
+{
     using namespace resource;
     using namespace sm;
     using namespace element;
@@ -35,7 +36,7 @@ ResourceTestComponent::ResourceTestComponent() {
     State::Ptr playState = std::make_shared<State>();
 
     // Add a transition to the second state from the first state
-    initialState->insertTransition(Transition1{ConditionList{std::vector<Condition>{TrueCondition{}}}, playState});
+    initialState->insertTransition(std::make_shared<Transition1>(condition::ConditionList{}, playState));
     // Add an element to the second state
     playState->insertElement(element);
 

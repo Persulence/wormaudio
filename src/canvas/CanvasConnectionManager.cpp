@@ -29,7 +29,7 @@ namespace ui
             auto fromState = fromNode->getState();
             for (const auto& transition : std::views::values(fromState->getTransitions()))
             {
-                if (auto shared = transition.nextState.lock())
+                if (auto shared = transition->nextState.lock())
                 {
                     if (const auto& to = stateToNode.find(shared); to != stateToNode.end())
                     {
@@ -102,8 +102,8 @@ namespace ui
 
     void CanvasConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
     {
-        sm::Transition1 transition{{}, to->getState()};
-        transition.conditions.insertCondition(sm::TrueCondition{});
+        sm::Transition1::Ptr transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, to->getState());
+        transition->conditions.insertCondition(condition::TrueCondition{});
         from->getState()->insertTransition(transition);
 
         refreshTransitionWidgets();

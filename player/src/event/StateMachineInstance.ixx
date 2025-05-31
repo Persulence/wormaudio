@@ -1,6 +1,5 @@
 module;
 
-#include <algorithm>
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -17,7 +16,7 @@ namespace event
 
     struct Transition
     {
-        const sm::ConditionList* conditions;
+        const condition::ConditionList* conditions;
         StateEntry* nextState;
     };
 

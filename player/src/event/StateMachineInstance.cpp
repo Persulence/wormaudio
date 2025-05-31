@@ -31,11 +31,11 @@ namespace event
 
             for (const auto &transition: state->getTransitions() | std::views::values)
             {
-                if (auto shared = transition.nextState.lock())
+                if (auto shared = transition->nextState.lock())
                 {
                     StateEntry& nextStateEntry = getOrCreateEntry(map, shared);
 
-                    stateEntry.transitions.emplace_back(Transition{&transition.conditions, &nextStateEntry});
+                    stateEntry.transitions.emplace_back(Transition{&transition->conditions, &nextStateEntry});
                 }
             }
 

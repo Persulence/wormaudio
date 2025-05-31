@@ -9,6 +9,7 @@ import Parameter;
 
 namespace sm
 {
+
     export class ParameterLookup
     {
         std::unordered_map<std::string, ParameterInstance> parameters;

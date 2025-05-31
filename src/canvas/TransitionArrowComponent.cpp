@@ -122,7 +122,12 @@ namespace ui
 
     std::shared_ptr<Component> TransitionArrowComponent::createConfig()
     {
-        return std::make_shared<TransitionPropertyPanel>(nullptr);
+        const auto sharedFrom = from.lock();
+        const auto sharedTo = to.lock();
+        if (sharedFrom && sharedTo)
+        {
+            return std::make_shared<TransitionPropertyPanel>(sharedFrom->getState()->getTransitions().at(sharedTo->getState().get()));
+        }
     }
 
     void TransitionArrowComponent::onSelect()

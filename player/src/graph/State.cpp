@@ -15,9 +15,9 @@ namespace sm
         elements_.emplace_back(entry);
     }
 
-    void State::insertTransition(const Transition1 &transition)
+    void State::insertTransition(const Transition1::Ptr &transition)
     {
-        transitions.emplace(transition.nextState.lock().get(), transition);
+        transitions.emplace(transition->nextState.lock().get(), transition);
     }
 
     void State::removeTransitionTo(State *other)
@@ -38,7 +38,7 @@ namespace sm
         return elements_;
     }
 
-    const std::unordered_map<State*, Transition1>& State::getTransitions() const
+    const std::unordered_map<State*, Transition1::Ptr>& State::getTransitions() const
     {
         return transitions;
     }
