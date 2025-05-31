@@ -5,7 +5,18 @@
 
 namespace ui
 {
+
     using namespace juce;
+
+    Point<float> twoWayOffset(const Point<float> vector)
+    {
+        constexpr float offset = 20;
+
+        const auto perpendicular = Point(vector.y, -vector.x);
+
+        const float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
+        return (perpendicular / len) * offset;
+    }
 
     void TransitionArrowComponent::setNodes(const StateNodeWidget::Ptr &from_, const StateNodeWidget::Ptr &to_)
     {
@@ -27,22 +38,19 @@ namespace ui
             Point startPoint = getParentComponent()->getLocalPoint(sharedFrom.get(), sharedFrom->getLocalBounds().getCentre().toFloat());
             Point endPoint = getParentComponent()->getLocalPoint(sharedTo.get(), sharedTo->getLocalBounds().getCentre().toFloat());
 
+            if (isTwoWay())
+            {
+                auto perp = twoWayOffset(endPoint - startPoint);
+                startPoint += perp;
+                endPoint += perp;
+            }
+
             Point<float> p[] = {startPoint, endPoint};
             // Expand so that the arrows aren't clipped when lines are horizontal or vertical
             auto parentRect = Rectangle<float>::findAreaContainingPoints(p, 2)
                 .expanded(10);
             setBounds(parentRect.toNearestInt());
         }
-    }
-
-    Point<float> twoWayOffset(const Point<float> vector)
-    {
-        constexpr float offset = 20;
-
-        const auto perpendicular = Point(vector.y, -vector.x);
-
-        const float len = sqrtf(vector.x * vector.x + vector.y * vector.y);
-        return (perpendicular / len) * offset;
     }
 
     void TransitionArrowComponent::paint(Graphics &g)

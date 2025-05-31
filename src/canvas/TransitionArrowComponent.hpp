@@ -28,8 +28,5 @@ namespace ui
         std::shared_ptr<Component> createConfig() override;
         void onSelect() override;
         void onDeselect() override;
-
-    private:
-        // juce::Colour getCol();
     };
 }
