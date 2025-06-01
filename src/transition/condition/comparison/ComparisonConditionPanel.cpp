@@ -87,23 +87,25 @@ namespace ui
 
     void ComparisonConditionPanel::refresh()
     {
-        left.setText(condition.left.toString());
-        right.setText(condition.right.toString());
-        op.setText(condition.op.getSymbol());
+        left.setText(condition.getLeft().toString());
+        right.setText(condition.getRight().toString());
+        op.setText(condition.getOp().getSymbol());
     }
 
-    std::string updateOperand(Operand& operand, const std::string &text)
+    Operand updateOperand(std::string &text)
     {
         if (parameter::isValidName(text))
         {
-            operand = {ParameterOperand{text}};
-            return operand.toString();
+            auto operand = Operand{ParameterOperand{text}};
+            text = operand.toString();
+            return operand;
         }
         else
         {
             const auto value = parameter::parseValue(text);
-            operand = {ConstantOperand{value}};
-            return operand.toString();
+            auto operand = Operand{ConstantOperand{value}};
+            text = operand.toString();
+            return operand;
         }
     }
 
@@ -111,17 +113,19 @@ namespace ui
     {
         if (comboBoxThatHasChanged == &op)
         {
-            condition.op = menuOps.at(comboBoxThatHasChanged->getSelectedId());
+            condition.setOp(menuOps.at(comboBoxThatHasChanged->getSelectedId()));
         }
         else if (comboBoxThatHasChanged == &left)
         {
-            // left.showEditor();
-            comboBoxThatHasChanged->setText(updateOperand(condition.left, comboBoxThatHasChanged->getText().toStdString()));
+            auto text = comboBoxThatHasChanged->getText().toStdString();
+            condition.setLeft(updateOperand(text));
+            comboBoxThatHasChanged->setText(text);
         }
         else if (comboBoxThatHasChanged == &right)
         {
-            // right.showEditor();
-            comboBoxThatHasChanged->setText(updateOperand(condition.right, comboBoxThatHasChanged->getText().toStdString()));
+            auto text = comboBoxThatHasChanged->getText().toStdString();
+            condition.setRight(updateOperand(text));
+            comboBoxThatHasChanged->setText(text);
         }
     }
 }
