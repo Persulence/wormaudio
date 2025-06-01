@@ -5,7 +5,7 @@ module;
 
 export module control:ParameterLookup;
 
-import Parameter;
+import parameter;
 
 namespace sm
 {

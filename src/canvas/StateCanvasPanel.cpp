@@ -3,6 +3,7 @@
 
 #include <control/StateMachineDefinition.hpp>
 
+#include "CanvasConnectionManager.hpp"
 #include "editor/Editor.hpp"
 
 import control;
@@ -22,6 +23,13 @@ namespace ui
 
         addAndMakeVisible(connectionManager.get());
         connectionManager->toBack();
+
+        // FOR TESTING
+        auto node = addState({400, 400});
+        auto transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, node->getState());
+        transition->conditions.insertCondition(condition::ComparisonCondition{});
+        definition->getStart()->insertTransition(transition);
+        connectionManager->refreshTransitionWidgets();
     }
 
     StateNodeWidget::Ptr StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget> &node)

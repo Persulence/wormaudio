@@ -1,6 +1,6 @@
 #include "ConditionPanel.hpp"
 
-#include "ComparisonConditionPanel.hpp"
+#include "comparison/ComparisonConditionPanel.hpp"
 
 namespace ui
 {

@@ -2,9 +2,15 @@ module;
 
 #include <string>
 
-export module Parameter;
+export module parameter;
 
 export using ParameterValue = float;
+
+namespace parameter
+{
+    export bool isValidName(const std::string &name);
+    export ParameterValue parseValue(const std::string& text);
+}
 
 export struct Parameter
 {

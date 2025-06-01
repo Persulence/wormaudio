@@ -70,7 +70,7 @@ namespace ui
 
         for (auto& condition : conditions)
         {
-            flexBox.items.add(FlexItem{*condition}.withMaxHeight(50).withHeight(50).withMaxWidth(200));
+            flexBox.items.add(FlexItem{*condition}.withMaxHeight(30).withHeight(30).withMaxWidth(300));
         }
 
         flexBox.performLayout(getLocalBounds());

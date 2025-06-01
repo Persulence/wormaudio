@@ -11,7 +11,7 @@ export module control:Transition;
 
 import :ParameterLookup;
 import :Condition;
-import Parameter;
+import parameter;
 
 import :ComparisonCondition;
 
@@ -69,7 +69,7 @@ namespace condition
             bool result = true;
             for (const auto& thing : conditions)
             {
-                result |= std::visit([&parameters](const auto& cmp)
+                result &= std::visit([&parameters](const auto& cmp)
                 {
                     return cmp.test(parameters);
                 }, thing);

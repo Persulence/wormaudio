@@ -13,6 +13,7 @@ namespace ui
         }
 
         void drawPopupMenuBackground(juce::Graphics &, int width, int height) override;
+        void drawComboBox(juce::Graphics& g, int width, int height, bool, int, int, int, int, juce::ComboBox& box) override;
 
     private:
         MainLookAndFeel();

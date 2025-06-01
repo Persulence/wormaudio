@@ -2,10 +2,11 @@ module;
 
 #include <string>
 #include <variant>
+#include <format>
 
 export module control:Operand;
 
-import Parameter;
+import parameter;
 import :ParameterLookup;
 
 namespace condition
@@ -18,6 +19,11 @@ namespace condition
         {
             return lookup.get(paramName).value;
         }
+
+        std::string toString() const
+        {
+            return paramName;
+        }
     };
 
     export struct ConstantOperand
@@ -28,9 +34,11 @@ namespace condition
         {
             return value;
         }
+
+        std::string toString() const;
     };
 
-    struct Operand
+    export struct Operand
     {
         using Value = std::variant<
             ParameterOperand,
@@ -43,6 +51,11 @@ namespace condition
         ParameterValue operator()(const sm::ParameterLookup& lookup) const
         {
             return std::visit([&lookup](auto& o){ return o(lookup); }, value);
+        }
+
+        std::string toString() const
+        {
+            return std::visit([](auto& o){ return o.toString(); }, value);
         }
     };
 
