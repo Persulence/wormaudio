@@ -3,5 +3,5 @@
 void ui::ElementBrowserPanel::paint(juce::Graphics &g)
 {
     paintBackground(g);
-    paintBorder(g);
+    // paintBorder(g);
 }

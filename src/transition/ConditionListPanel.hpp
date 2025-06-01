@@ -9,7 +9,7 @@ import control;
 
 namespace ui
 {
-    class ConditionListPanel : public juce::Component
+    class ConditionListPanel : public Panel
     {
         condition::ConditionList& conditionList;
         std::vector<std::unique_ptr<ConditionPanel>> conditions;
@@ -19,6 +19,7 @@ namespace ui
 
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
+        void paint(juce::Graphics &g) override;
 
         void addCondition(const condition::Condition &condition);
         void refresh();

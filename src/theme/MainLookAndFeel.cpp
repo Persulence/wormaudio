@@ -29,14 +29,14 @@ void MainLookAndFeel::drawPopupMenuBackground(Graphics &graphics, int width, int
 
 void MainLookAndFeel::drawComboBox(Graphics& g, int width, int height, bool, int, int, int, int, ComboBox& box)
 {
-    auto cornerSize = box.findParentComponentOfClass<ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;
-    Rectangle boxBounds (0, 0, width, height);
+    // auto cornerSize = box.findParentComponentOfClass<ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;
+    // Rectangle boxBounds (0, 0, width, height);
 
-    g.setColour (box.findColour (ComboBox::backgroundColourId));
-    g.fillRoundedRectangle (boxBounds.toFloat(), cornerSize);
-
-    g.setColour (box.findColour (ComboBox::outlineColourId));
-    g.drawRoundedRectangle(boxBounds.toFloat().reduced(0.5f, 0.5f), cornerSize, 1.0f);
+    // g.setColour (box.findColour (ComboBox::backgroundColourId));
+    // g.fillRoundedRectangle (boxBounds.toFloat(), cornerSize);
+    //
+    // g.setColour (box.findColour (ComboBox::outlineColourId));
+    // g.drawRoundedRectangle(boxBounds.toFloat().reduced(0.5f, 0.5f), cornerSize, 1.0f);
 
     Rectangle arrowZone (width - 30, 0, 20, height);
     Path path;

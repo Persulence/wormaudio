@@ -15,6 +15,7 @@ namespace ui
 
         explicit ConditionPanel();
         void paint(juce::Graphics &g) override;
+        void mouseDown(const juce::MouseEvent &event) override;
 
     };
 }

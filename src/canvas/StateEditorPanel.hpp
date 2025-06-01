@@ -39,7 +39,7 @@ namespace ui
         void paint(juce::Graphics &g) override
         {
             paintBackground(g);
-            paintBorder(g);
+            // paintBorder(g);
         }
 
         void resized() override

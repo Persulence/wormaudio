@@ -81,7 +81,7 @@ namespace ui
 
     void StateCanvasPanel::paint(Graphics &g)
     {
-        paintBorder(g);
+        // paintBorder(g);
     }
 
     void StateCanvasPanel::resized()

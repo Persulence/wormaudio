@@ -42,7 +42,7 @@ namespace ui
     ComparisonConditionPanel::ComparisonConditionPanel(ComparisonCondition &condition_):
         condition(condition_)
     {
-        bg = Colours::green;
+        bg = Colours::grey;
 
         addAndMakeVisible(left);
         addAndMakeVisible(right);

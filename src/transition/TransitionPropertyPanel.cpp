@@ -7,7 +7,7 @@ namespace ui
         transition(std::move(transition_)),
         conditionList(transition->conditions)
     {
-        bg = juce::Colours::black;
+        // bg = juce::Colours::;
         update();
 
         addAndMakeVisible(conditionList);

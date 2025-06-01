@@ -6,10 +6,10 @@ namespace ui
     using namespace sm;
     using namespace condition;
 
-    ConditionListPanel::ConditionListPanel(condition::ConditionList &conditionList_):
+    ConditionListPanel::ConditionListPanel(ConditionList &conditionList_):
         conditionList(conditionList_)
     {
-
+        bg = Colours::darkgrey;
     }
 
     void ConditionListPanel::refresh()
@@ -52,6 +52,11 @@ namespace ui
                 }
             });
         }
+    }
+
+    void ConditionListPanel::paint(Graphics &g)
+    {
+        paintBackground(g);
     }
 
     void ConditionListPanel::addCondition(const Condition &condition)
