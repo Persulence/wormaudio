@@ -6,22 +6,28 @@ using namespace juce;
 CentrePanel::CentrePanel():
         // handle(ResizeHandle(ResizeHandle::Direction::HORIZONTAL, 500)),
         // canvasViewport(BorderPanel<CanvasViewport>{}),
+        parameterPanel(BorderPanel<ParameterPanel>{}),
         editor(BorderPanel<StateEditorPanel>{*this}),
-        bar(&layout, 1, false)
+        bar1(&layout, 1, false),
+        bar2(&layout, 3, false)
 {
+    addAndMakeVisible(parameterPanel);
+    addAndMakeVisible(bar1);
     addAndMakeVisible(canvasViewport);
+    addAndMakeVisible(bar2);
     addAndMakeVisible(editor);
-    addAndMakeVisible(bar);
 
-    layout.setItemLayout(0, -0.2, -0.9, -0.75);
+    layout.setItemLayout(0, -0.1, -0.9, -0.1);
     layout.setItemLayout(1, 5, 5, 5);
-    layout.setItemLayout(2, -0.2, -0.9, -0.25);
+    layout.setItemLayout(2, -0.1, -0.9, -0.65);
+    layout.setItemLayout(3, 5, 5, 5);
+    layout.setItemLayout(4, -0.1, -0.9, -0.25);
 }
 
 void CentrePanel::resized()
 {
-    Component* comps[] = {&canvasViewport, &bar, &editor};
-    layout.layOutComponents(comps, 3, 0, 0, getWidth(), getHeight(), true, true);
+    std::vector<Component*> comps = {&parameterPanel, &bar1, &canvasViewport, &bar2, &editor};
+    layout.layOutComponents(comps.data(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
     // canvasViewport->canvas.setBounds(getLocalBounds().expanded(500));
     // canvasViewport->setViewPosition(100, 100);
 }

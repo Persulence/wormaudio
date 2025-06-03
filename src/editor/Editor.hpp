@@ -11,6 +11,8 @@ import transport;
 
 namespace editor
 {
+    using EventChanged = signal_event::Callback<>;
+
     class Editor : player::TransportCallback::Listener
     {
         event::Event::Ptr event;
@@ -24,6 +26,7 @@ namespace editor
 
     public:
         player::TransportCallback::Signal transportSignal;
+        EventChanged::Signal eventChanged;
 
         static Editor& getInstance()
         {

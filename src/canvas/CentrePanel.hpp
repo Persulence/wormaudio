@@ -5,17 +5,20 @@
 #include "CanvasSelectionManager.hpp"
 #include "CanvasViewport.hpp"
 #include "StateEditorPanel.hpp"
+#include "parameter/ParameterPanel.hpp"
 
 namespace ui
 {
     class CentrePanel : public ui::Panel, public CanvasSelectionManager
     {
     public:
+        BorderPanel<ParameterPanel> parameterPanel;
         BorderPanel<CanvasViewport> canvasViewport;
         BorderPanel<StateEditorPanel> editor;
 
         juce::StretchableLayoutManager layout;
-        juce::StretchableLayoutResizerBar bar;
+        juce::StretchableLayoutResizerBar bar1;
+        juce::StretchableLayoutResizerBar bar2;
 
         CentrePanel();
         void resized() override;
