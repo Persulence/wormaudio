@@ -22,6 +22,12 @@ namespace editor
         Editor():
             event(event::Event::create())
         {
+            refreshParameters();
+        }
+
+        void refreshParameters()
+        {
+
         }
 
     public:

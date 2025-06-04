@@ -8,6 +8,8 @@ module;
 #include <memory>
 #include <vector>
 
+#include "juce_core/system/juce_PlatformDefs.h"
+
 export module parameter;
 
 export using ParameterValue = float;
@@ -31,6 +33,12 @@ namespace parameter
 
         std::string name;
 
+        ContinuousParameterDef(const ParameterValue min_, const ParameterValue max_, std::string name_):
+            min(min_), max(max_), name(std::move(name_))
+        {
+
+        }
+
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
             return std::clamp(value, min, max);
@@ -43,6 +51,12 @@ namespace parameter
         ParameterValue max;
 
         std::string name;
+
+        DiscreteParameterDef(const ParameterValue min_, const ParameterValue max_, std::string name_):
+            min(min_), max(max_), name(std::move(name_))
+        {
+
+        }
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
@@ -62,6 +76,12 @@ namespace parameter
 
         std::vector<Entry> values;
 
+        EnumParameterDef(const ParameterValue min_, const ParameterValue max_, std::string name_):
+            name(std::move(name_))
+        {
+
+        }
+
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
             // float integral;
@@ -71,9 +91,17 @@ namespace parameter
         }
     };
 
-    class ParameterDef : public std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef>
+    using ParameterDefVariant = std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef>;
+
+    export class ParameterDef : public ParameterDefVariant
     {
     public:
+        explicit ParameterDef(std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef> value):
+            ParameterDefVariant(std::move(value))
+        {
+
+        }
+
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
             return std::visit([&value](auto& r){ return r.validate(value); }, *this);
@@ -83,25 +111,28 @@ namespace parameter
         {
             return std::visit([](auto& r){ return r.name; }, *this);
         }
+
+        JUCE_DECLARE_NON_COPYABLE(ParameterDef)
     };
 
-    export struct Parameter
+    // export struct Parameter
+    // {
+    //     std::shared_ptr<ParameterDef> def;
+    // };
+    export using Parameter = std::shared_ptr<ParameterDef>;
+
+    export struct ParameterInstance
     {
-        std::shared_ptr<ParameterDef> def;
+        Parameter parameter;
+        ParameterValue value{};
+
+        explicit ParameterInstance(Parameter parameter_):
+            parameter(std::move(parameter_))
+        {
+
+        }
+
+        ParameterInstance(const ParameterInstance& other) = delete;
+        ParameterInstance& operator=(const ParameterInstance& other) = delete;
     };
 }
-
-export struct ParameterInstance
-{
-    parameter::Parameter parameter;
-    ParameterValue value{};
-
-    explicit ParameterInstance(parameter::Parameter parameter_):
-        parameter(std::move(parameter_))
-    {
-
-    }
-
-    ParameterInstance(const ParameterInstance& other) = delete;
-    ParameterInstance& operator=(const ParameterInstance& other) = delete;
-};

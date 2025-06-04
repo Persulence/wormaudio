@@ -5,15 +5,16 @@ import parameter;
 
 namespace ui
 {
-    class Thing : public juce::Component
-    {
-
-    };
-
     class ParameterWidget : public juce::Component
     {
-        std::unique_ptr<Thing> impl;
+        std::unique_ptr<Component> child;
+        // parameter::Parameter parameter;
+        parameter::ParameterInstance& instance;
 
-        explicit ParameterWidget(parameter::Parameter parameter);
+    public:
+        explicit ParameterWidget(parameter::ParameterInstance& instance);
+        void refresh();
+
+        void resized() override;
     };
 }

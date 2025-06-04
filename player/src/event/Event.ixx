@@ -2,12 +2,14 @@ module;
 
 #include <memory>
 
+#include "ParameterList.hpp"
 #include "juce_core/juce_core.h"
 #include "../control/StateMachineDefinition.hpp"
 
 export module event:Event;
 
 import control;
+import parameter;
 
 namespace event
 {
@@ -16,6 +18,7 @@ namespace event
     export class Event : public juce::ReferenceCountedObject
     {
         sm::StateMachineDefinition::Ptr definition;
+        ParameterList parameters;
 
         struct Private {};
 
@@ -36,6 +39,11 @@ namespace event
         const sm::StateMachineDefinition::Ptr& getDefinition()
         {
             return definition;
+        }
+
+        ParameterList& getParameters()
+        {
+            return parameters;
         }
 
         // Defined after EventInstance

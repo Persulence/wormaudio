@@ -12,14 +12,14 @@ namespace sm
 
     export class ParameterLookup
     {
-        std::unordered_map<std::string, ParameterInstance> parameters;
+        std::unordered_map<std::string, parameter::ParameterInstance> parameters;
     public:
-        const ParameterInstance& get(const parameter::Parameter& parameter) const
+        const parameter::ParameterInstance& get(const parameter::Parameter& parameter) const
         {
-            return get(parameter.def->getName());
+            return get(parameter->getName());
         }
 
-        const ParameterInstance& get(const std::string& name) const
+        const parameter::ParameterInstance& get(const std::string& name) const
         {
             // if (const auto it = parameters.find(name); it != parameters.end())
             // {
