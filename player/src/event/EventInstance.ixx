@@ -16,6 +16,7 @@ namespace event
 {
     export class EventInstance
     {
+    protected:
         Event::Ptr parent;
         StateMachineInstance stateManager;
 

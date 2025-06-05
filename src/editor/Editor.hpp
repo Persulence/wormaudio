@@ -3,6 +3,7 @@
 #include <cassert>
 #include <runtime/Runtime.hpp>
 
+#include "EditorEventInstance.hpp"
 #include "control/StateMachineDefinition.hpp"
 #include "signal/Signal.hpp"
 
@@ -15,19 +16,27 @@ namespace editor
 
     class Editor : player::TransportCallback::Listener
     {
-        event::Event::Ptr event;
         std::unique_ptr<runtime::Runtime> runtime;
+
+        event::Event::Ptr event;
+        EditorEventInstance::Ptr instance;
 
         // TODO: using a single, hardcoded event for testing
         Editor():
             event(event::Event::create())
         {
-            refreshParameters();
+            loadEvent(event);
         }
 
         void refreshParameters()
         {
 
+        }
+
+        void loadEvent(const event::Event::Ptr& event)
+        {
+            refreshParameters();
+            instance = std::make_shared<EditorEventInstance>(event);
         }
 
     public:
@@ -63,9 +72,13 @@ namespace editor
 
         void play()
         {
+            // Rebuild the instance's state machine
+            instance->refresh();
+
             auto& runtime = getRuntime();
             transportSignal.emit(player::PLAYING);
-            auto instance = runtime.instantiate(event);
+            // auto instance = runtime.instantiate(event);
+            runtime.addInstance(instance);
 
             listen(instance->transport.signal, [this](auto state)
             {
@@ -112,6 +125,7 @@ namespace editor
                 runtime = nullptr;
             }
 
+            instance = nullptr;
             event = nullptr;
         }
     };

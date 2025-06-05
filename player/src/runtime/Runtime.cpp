@@ -30,6 +30,11 @@ namespace runtime
         return instance;
     }
 
+    void Runtime::addInstance(const event::EventInstance::Ptr &instance)
+    {
+        instances.push_back(instance);
+    }
+
     void Runtime::clearInstances()
     {
         for (auto& instance : instances)

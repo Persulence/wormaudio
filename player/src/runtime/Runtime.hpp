@@ -49,6 +49,7 @@ namespace runtime
 
 
         event::EventInstance::Ptr instantiate(const event::Event::Ptr &event);
+        void addInstance(const event::EventInstance::Ptr &instance);
         void clearInstances();
 
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
