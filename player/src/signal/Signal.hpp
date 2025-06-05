@@ -47,6 +47,10 @@ namespace signal_event
             unListen();
         }
 
+        /**
+         *
+         * Use Signal::register if the listener class inherits from multiple Listener types
+         */
         void listen(Signal<Args...>& signal, Callback callback_)
         {
             unListen();
@@ -78,6 +82,8 @@ namespace signal_event
     class Signal
     {
         using L = Listener<Args...>;
+        using Callback = std::function<void(Args...)>;
+
         std::vector<L*> listeners;
         // TODO: mutex
 
@@ -93,6 +99,11 @@ namespace signal_event
         void reg(L* listener)
         {
             listeners.push_back(listener);
+        }
+
+        void setup(L* listener, Callback callback_)
+        {
+            listener->listen(*this, callback_);
         }
 
         void unReg(L* listener)

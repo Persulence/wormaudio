@@ -98,7 +98,7 @@ namespace ui
         addAndMakeVisible(mainScene);
 
         auto& editor = editor::Editor::getInstance();
-        editor.setRuntime(std::make_unique<runtime::Runtime>());
+        editor.startRuntime();
         editor.getRuntime().connectToDevice();
     }
 

@@ -115,10 +115,6 @@ namespace parameter
         JUCE_DECLARE_NON_COPYABLE(ParameterDef)
     };
 
-    // export struct Parameter
-    // {
-    //     std::shared_ptr<ParameterDef> def;
-    // };
     export using Parameter = std::shared_ptr<ParameterDef>;
 
     export struct ParameterInstance

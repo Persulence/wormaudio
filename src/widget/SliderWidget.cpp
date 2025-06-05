@@ -36,7 +36,12 @@ namespace ui
     void SliderWidget::paint(juce::Graphics &g)
     {
         Value f = current / (std::abs(max - min));
-        auto rect = getLocalBounds().toFloat().expanded(-0.5).withWidth(f * getWidth());
+        const auto bounds = getLocalBounds().toFloat().expanded(-0.5f);
+        const auto rect = bounds.withWidth(f * getWidth());
+
+        g.setColour(juce::Colours::black);
+        g.drawRoundedRectangle(bounds, 5, 1);
+
         g.setColour(juce::Colours::red);
         g.fillRoundedRectangle(rect, 5);
         g.setColour(juce::Colours::white);

@@ -12,11 +12,13 @@ namespace event
     class ParameterList
     {
     public:
+        virtual ~ParameterList() = default;
+
         std::vector<parameter::Parameter> parameters;
 
         ParameterList() = default;
-        void insert(const parameter::Parameter& parameter);
-        void remove(const parameter::Parameter& parameter);
+        virtual void insert(const parameter::Parameter& parameter);
+        virtual void remove(const parameter::Parameter& parameter);
 
         JUCE_DECLARE_NON_COPYABLE(ParameterList)
     };

@@ -64,6 +64,16 @@ namespace runtime
         stop();
     }
 
+    // void Runtime::setupParameters(std::shared_ptr<event::ParameterList> list)
+    // {
+    //     parameters.refresh(list);
+    // }
+
+    sm::ParameterLookup & Runtime::getParameters()
+    {
+        return parameters;
+    }
+
     void Runtime::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     {
         elementManager.prepareToPlay(samplesPerBlockExpected, sampleRate);

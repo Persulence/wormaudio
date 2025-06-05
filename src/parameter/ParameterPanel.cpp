@@ -1,5 +1,7 @@
 #include "ParameterPanel.hpp"
 
+#include <ranges>
+
 #include "editor/Editor.hpp"
 
 import parameter;
@@ -8,20 +10,22 @@ namespace ui
 {
     using namespace juce;
     using namespace parameter;
-    ParameterPanel::ParameterPanel():
-        testParameter({std::make_shared<ParameterDef>(DiscreteParameterDef{0, 10, "test"})}),
-        testInstance(testParameter)
+
+    ParameterPanel::ParameterPanel()
     {
-        refresh();
+        listen(editor::Editor::getInstance().lifecycleChanged, [this](int i){ refresh(); });
     }
 
     void ParameterPanel::refresh()
     {
         removeAllChildren();
-        // for (auto& parameter : editor::Editor::getInstance().getEvent()->getParameters().parameters)
-        // {
-        //     widgets.emplace_back(std::make_unique<ParameterWidget>(parameter));
-        // }
+        widgets.clear();
+        for (auto &parameter: editor::Editor::getInstance().getRuntime().getParameters().instances | std::views::values)
+        {
+            auto& widget = widgets.emplace_back(std::make_unique<ParameterWidget>(*parameter));
+            addAndMakeVisible(*widget);
+        }
+        resized();
     }
 
     void ParameterPanel::resized()
@@ -31,9 +35,11 @@ namespace ui
         flexBox.flexDirection = FlexBox::Direction::column;
         flexBox.alignItems = FlexBox::AlignItems::stretch;
         flexBox.flexWrap = FlexBox::Wrap::wrap;
+        flexBox.alignContent = FlexBox::AlignContent::stretch;
         for (auto& widget : widgets)
         {
-            flexBox.items.add(FlexItem{*widget}.withMaxHeight(30).withMaxWidth(80));
+            flexBox.items.add(FlexItem{*widget}.withMinWidth(80).withMinHeight(30).withMaxHeight(30).withMaxWidth(80));
+            // widget->setBounds(getLocalBounds());
         }
 
         flexBox.performLayout(getLocalBounds());
@@ -44,8 +50,12 @@ namespace ui
         if (event.mods.isRightButtonDown())
         {
             PopupMenu menu;
-            menu.addItem("New parameter", [this](){ editor::Editor::getInstance().getEvent()->getParameters().insert(
-                std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, "ooer"}));
+            menu.addItem("New parameter", [this]()
+            {
+                static char i = 0;
+                i++;
+                editor::Editor::getInstance().getGlobalParameters().insert(
+                    std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, std::string{i}}));
                 refresh();
             });
 

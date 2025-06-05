@@ -18,6 +18,7 @@ namespace event
     export class Event : public juce::ReferenceCountedObject
     {
         sm::StateMachineDefinition::Ptr definition;
+        // Per-event parameters
         ParameterList parameters;
 
         struct Private {};

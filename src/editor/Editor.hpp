@@ -4,6 +4,7 @@
 #include <runtime/Runtime.hpp>
 
 #include "EditorEventInstance.hpp"
+#include "EditorParameterList.hpp"
 #include "control/StateMachineDefinition.hpp"
 #include "signal/Signal.hpp"
 
@@ -13,24 +14,33 @@ import transport;
 namespace editor
 {
     using EventChanged = signal_event::Callback<>;
+    using Lifecycle = signal_event::Callback<int>;
 
-    class Editor : player::TransportCallback::Listener
+    class Editor :
+        player::TransportCallback::Listener,
+        EditorParameterList::Changed::Listener
     {
         std::unique_ptr<runtime::Runtime> runtime;
 
         event::Event::Ptr event;
         EditorEventInstance::Ptr instance;
+        EditorParameterList globalParameters;
 
         // TODO: using a single, hardcoded event for testing
         Editor():
             event(event::Event::create())
         {
             loadEvent(event);
+
+            globalParameters.changed.setup(this, [this](){ refreshParameters(); });
+            // EditorParameterList::Changed::Listener::listen(globalParameters.changed, [this](){ refreshParameters(); });
         }
 
         void refreshParameters()
         {
-
+            // Set up global parameters
+            if (runtime)
+                runtime->getParameters().refresh(globalParameters);
         }
 
         void loadEvent(const event::Event::Ptr& event)
@@ -42,6 +52,7 @@ namespace editor
     public:
         player::TransportCallback::Signal transportSignal;
         EventChanged::Signal eventChanged;
+        Lifecycle::Signal lifecycleChanged;
 
         static Editor& getInstance()
         {
@@ -55,9 +66,10 @@ namespace editor
             return *runtime;
         }
 
-        void setRuntime(std::unique_ptr<runtime::Runtime>&& runtime_)
+        void startRuntime()
         {
-            runtime = std::move(runtime_);
+            runtime = std::make_unique<runtime::Runtime>();
+            lifecycleChanged.emit(0);
         }
 
         event::Event::Ptr getEvent()
@@ -80,7 +92,7 @@ namespace editor
             // auto instance = runtime.instantiate(event);
             runtime.addInstance(instance);
 
-            listen(instance->transport.signal, [this](auto state)
+            instance->transport.signal.setup(this, [this](auto state)
             {
                 setState(state, true);
             });
@@ -128,5 +140,11 @@ namespace editor
             instance = nullptr;
             event = nullptr;
         }
+
+        event::ParameterList& getGlobalParameters()
+        {
+            return globalParameters;
+        }
+
     };
 }

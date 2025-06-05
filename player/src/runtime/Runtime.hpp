@@ -3,11 +3,11 @@
 #include <memory>
 
 #include <juce_audio_basics/juce_audio_basics.h>
-// #include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_core/juce_core.h>
 
 #include  "AudioEntryPoint.hpp"
 #include "LogicTicker.hpp"
+#include "../event/ParameterList.hpp"
 
 import Resource;
 import event;
@@ -47,6 +47,8 @@ namespace runtime
         void connectToDevice();
         void disconnect();
 
+        // void setupParameters(std::shared_ptr<event::ParameterList> list);
+        sm::ParameterLookup& getParameters();
 
         event::EventInstance::Ptr instantiate(const event::Event::Ptr &event);
         void addInstance(const event::EventInstance::Ptr &instance);
