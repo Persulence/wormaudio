@@ -9,7 +9,6 @@ namespace ui
     class SliderWidget : public juce::Component
     {
         using Value = double;
-        using C = signal_event::Callback<Value>;
 
         Value min{};
         Value max{1};
@@ -18,11 +17,13 @@ namespace ui
         Value increment{};
 
     public:
+        using C = signal_event::Callback<Value>;
         C::Signal onChanged;
 
         SliderWidget() = default;
 
         void setRange(Value min_, Value max_, Value increment_);
+        void setValue(Value value, bool notify);
 
         void mouseDown(const juce::MouseEvent &event) override;
         void mouseDrag(const juce::MouseEvent &event) override;

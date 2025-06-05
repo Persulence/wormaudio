@@ -17,16 +17,16 @@ namespace sm
     public:
         std::unordered_map<std::string, std::unique_ptr<parameter::ParameterInstance>> instances;
 
-        void refresh(event::ParameterList& list)
-        {
-            // TODO: persitent values
+        void refresh(event::ParameterList& list);
 
-            instances.clear();
-            for (auto& parameter : list.parameters)
+        ParameterValue getValue(const std::string& name) const
+        {
+            if (const auto it = instances.find(name); it != instances.end())
             {
-                // parameters[parameter->getName()] = parameter::ParameterInstance{parameter};
-                instances.emplace(parameter->getName(), std::make_unique<parameter::ParameterInstance>(parameter));
+                return it->second->getValue();
             }
+
+            return {};
         }
 
         const parameter::ParameterInstance& get(const parameter::Parameter& parameter) const

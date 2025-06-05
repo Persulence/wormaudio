@@ -17,10 +17,17 @@ namespace editor
             changed.emit();
         }
 
-        void remove(const parameter::Parameter &parameter) override
+        bool remove(const parameter::Parameter &parameter) override
         {
-            ParameterList::remove(parameter);
-            changed.emit();
+            if (ParameterList::remove(parameter))
+            {
+                changed.emit();
+                return true;
+            }
+
+            return false;
         }
+
+        void rename(const parameter::Parameter& parameter, const std::string & newName);
     };
 }

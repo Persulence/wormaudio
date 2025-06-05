@@ -17,7 +17,7 @@ namespace condition
 
         ParameterValue operator()(const sm::ParameterLookup& lookup) const
         {
-            return lookup.get(paramName).value;
+            return lookup.getValue(paramName);
         }
 
         std::string toString() const

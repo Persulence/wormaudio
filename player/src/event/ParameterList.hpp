@@ -18,7 +18,7 @@ namespace event
 
         ParameterList() = default;
         virtual void insert(const parameter::Parameter& parameter);
-        virtual void remove(const parameter::Parameter& parameter);
+        virtual bool remove(const parameter::Parameter &parameter);
 
         JUCE_DECLARE_NON_COPYABLE(ParameterList)
     };

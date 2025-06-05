@@ -9,12 +9,15 @@ namespace event
         parameters.push_back(parameter);
     }
 
-    void ParameterList::remove(const Parameter &parameter)
+    bool ParameterList::remove(const Parameter &parameter)
     {
         auto p = Parameter{};
         if (const auto it = std::ranges::find(parameters, parameter); *it)
         {
             parameters.erase(it);
+            return true;
         }
+
+        return false;
     }
 }

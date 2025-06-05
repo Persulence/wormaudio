@@ -9,6 +9,13 @@ namespace ui
         increment = increment_;
     }
 
+    void SliderWidget::setValue(Value value, bool notify)
+    {
+        current = value;
+        if (notify)
+            onChanged.emit(current);
+    }
+
     void SliderWidget::mouseDown(const juce::MouseEvent &event)
     {
         dragValue = current;
@@ -39,13 +46,13 @@ namespace ui
         const auto bounds = getLocalBounds().toFloat().expanded(-0.5f);
         const auto rect = bounds.withWidth(f * getWidth());
 
-        g.setColour(juce::Colours::black);
-        g.drawRoundedRectangle(bounds, 5, 1);
-
         g.setColour(juce::Colours::red);
         g.fillRoundedRectangle(rect, 5);
         g.setColour(juce::Colours::white);
         g.drawText(juce::String{current}, getX(), getY(), getWidth(), getHeight(), juce::Justification::centred, true);
+
+        g.setColour(juce::Colours::black);
+        g.drawRoundedRectangle(bounds, 5, 1);
     }
 
     void SliderWidget::mouseDownValue(const juce::MouseEvent &event)

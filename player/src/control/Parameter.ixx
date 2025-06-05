@@ -112,6 +112,11 @@ namespace parameter
             return std::visit([](auto& r){ return r.name; }, *this);
         }
 
+        void setName(const std::string& newName)
+        {
+            std::visit([&newName](auto& r){ r.name = newName; }, *this);
+        }
+
         JUCE_DECLARE_NON_COPYABLE(ParameterDef)
     };
 
@@ -130,5 +135,16 @@ namespace parameter
 
         ParameterInstance(const ParameterInstance& other) = delete;
         ParameterInstance& operator=(const ParameterInstance& other) = delete;
+
+        // To allow callbacks in the future
+        void setValue(const ParameterValue value_)
+        {
+            value = value_;
+        }
+
+        ParameterValue getValue() const
+        {
+            return value;
+        }
     };
 }

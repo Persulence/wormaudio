@@ -1,5 +1,6 @@
 #include "ParameterPanel.hpp"
 
+#include <format>
 #include <ranges>
 
 #include "editor/Editor.hpp"
@@ -38,7 +39,7 @@ namespace ui
         flexBox.alignContent = FlexBox::AlignContent::stretch;
         for (auto& widget : widgets)
         {
-            flexBox.items.add(FlexItem{*widget}.withMinWidth(80).withMinHeight(30).withMaxHeight(30).withMaxWidth(80));
+            flexBox.items.add(FlexItem{*widget}.withMinWidth(100).withMinHeight(40).withMaxHeight(40).withMaxWidth(100));
             // widget->setBounds(getLocalBounds());
         }
 
@@ -52,10 +53,10 @@ namespace ui
             PopupMenu menu;
             menu.addItem("New parameter", [this]()
             {
-                static char i = 0;
+                static int i = 0;
                 i++;
                 editor::Editor::getInstance().getGlobalParameters().insert(
-                    std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, std::string{i}}));
+                    std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, std::format("Parameter{}", i)}));
                 refresh();
             });
 

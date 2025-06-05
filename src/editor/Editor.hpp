@@ -141,7 +141,7 @@ namespace editor
             event = nullptr;
         }
 
-        event::ParameterList& getGlobalParameters()
+        EditorParameterList& getGlobalParameters()
         {
             return globalParameters;
         }
