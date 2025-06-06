@@ -102,9 +102,14 @@ namespace sm
 
         }
 
-        Flags getFlags()
+        Flags getFlags() const
         {
             return parent->flags;
+        }
+
+        std::string getName() const
+        {
+            return parent->name;
         }
 
         void activate(element::ElementInstanceContext& context)

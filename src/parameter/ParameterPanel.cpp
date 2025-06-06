@@ -21,9 +21,10 @@ namespace ui
     {
         removeAllChildren();
         widgets.clear();
-        for (auto &parameter: editor::Editor::getInstance().getRuntime().getParameters().instances | std::views::values)
+        auto& lookup = editor::Editor::getInstance().getRuntime().getParameters();
+        for (auto &parameter: lookup.instances | std::views::values)
         {
-            auto& widget = widgets.emplace_back(std::make_unique<ParameterWidget>(*parameter));
+            auto& widget = widgets.emplace_back(std::make_unique<ParameterWidget>(lookup, parameter->parameter));
             addAndMakeVisible(*widget);
         }
         resized();

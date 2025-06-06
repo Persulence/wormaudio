@@ -29,12 +29,12 @@ namespace sm
             return {};
         }
 
-        const parameter::ParameterInstance& get(const parameter::Parameter& parameter) const
+        parameter::ParameterInstance& get(const parameter::Parameter& parameter) const
         {
             return get(parameter->getName());
         }
 
-        const parameter::ParameterInstance& get(const std::string& name) const
+        parameter::ParameterInstance& get(const std::string& name) const
         {
             return *instances.at(name);
         }

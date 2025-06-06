@@ -1,5 +1,6 @@
 module;
 
+#include <iostream>
 #include <memory>
 #include <vector>
 #include <ranges>
@@ -56,6 +57,7 @@ namespace event
                 if (conditions->test(parameters))
                 {
                     currentState = nextState;
+                    // std::cout << "Moving to state " << nextState->instance->getName() << "\n";
                 }
             }
         }

@@ -90,17 +90,20 @@ namespace ui
         }
     };
 
-    ParameterWidget::ParameterWidget(ParameterInstance &instance_):
-        instance(instance_)
+    ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
+        lookup(lookup_), parameter(parameter_)
     {
         refresh();
         child->addMouseListener(this, true);
 
         label.setEditable(true);
-        label.setText(String{instance.parameter->getName()}, NotificationType::dontSendNotification);
+        label.setText(String{parameter->getName()}, NotificationType::dontSendNotification);
         label.onTextChange = [this]
         {
-            editor::Editor::getInstance().getGlobalParameters().rename(instance.parameter, label.getText().toStdString());
+            auto& editor = editor::Editor::getInstance();
+            editor.getGlobalParameters().rename(parameter, label.getText().toStdString());
+            // instance = editor.getRuntime().getParameters().get("ooer");
+            refresh();
         };
     }
 
@@ -108,10 +111,11 @@ namespace ui
     {
         removeAllChildren();
 
-        ParameterVisitor visitor{instance};
-        child = std::visit(visitor, *instance.parameter);
+        ParameterVisitor visitor{getParameter()};
+        child = std::visit(visitor, *parameter);
         addAndMakeVisible(child.get());
         addAndMakeVisible(label);
+        resized();
     }
 
     void ParameterWidget::resized()
@@ -124,5 +128,10 @@ namespace ui
     void ParameterWidget::mouseDoubleClick(const MouseEvent &event)
     {
 
+    }
+
+    ParameterInstance &ParameterWidget::getParameter() const
+    {
+        return lookup.get(parameter);
     }
 }
