@@ -11,6 +11,11 @@ namespace editor
 
         Changed::Signal changed;
 
+        auto size() const
+        {
+            return parameters.size();
+        }
+
         void insert(const parameter::Parameter &parameter) override
         {
             ParameterList::insert(parameter);
@@ -28,6 +33,6 @@ namespace editor
             return false;
         }
 
-        void rename(const parameter::Parameter& parameter, const std::string & newName);
+        bool rename(const parameter::Parameter& parameter, const std::string & newName);
     };
 }

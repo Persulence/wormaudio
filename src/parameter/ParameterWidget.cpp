@@ -1,5 +1,7 @@
 #include "ParameterWidget.hpp"
 
+#include <utility>
+
 #include "editor/Editor.hpp"
 #include "widget/SliderWidget.hpp"
 
@@ -62,11 +64,35 @@ namespace ui
 
     class EnumWidget : public ImplWidget<EnumParameterDef>
     {
+        ComboBox box;
+
     public:
         EnumWidget(EnumParameterDef& def_, ParameterInstance& instance):
             ImplWidget(def_, instance)
         {
+            addAndMakeVisible(box);
 
+            int i = 1;
+            for (auto& [name, value] : def.values)
+            {
+                box.addItem(name, i);
+                i++;
+            }
+
+            box.setSelectedId(instance.getValue() + 1);
+            box.onChange = [this](){ this->instance.setValue(box.getSelectedId() - 1); };
+        }
+
+        void paint(Graphics &g) override
+        {
+            const auto bounds = getLocalBounds().toFloat().expanded(-0.5f);
+            g.setColour(Colours::black);
+            g.drawRoundedRectangle(bounds, 5, 1);
+        }
+
+        void resized() override
+        {
+            box.setBounds(getLocalBounds());
         }
     };
 
@@ -91,18 +117,22 @@ namespace ui
     };
 
     ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
-        lookup(lookup_), parameter(parameter_)
+        lookup(lookup_), parameter(std::move(parameter_))
     {
         refresh();
-        child->addMouseListener(this, true);
+        label.addMouseListener(this, true);
 
         label.setEditable(true);
         label.setText(String{parameter->getName()}, NotificationType::dontSendNotification);
         label.onTextChange = [this]
         {
             auto& editor = editor::Editor::getInstance();
-            editor.getGlobalParameters().rename(parameter, label.getText().toStdString());
-            // instance = editor.getRuntime().getParameters().get("ooer");
+
+            if (!editor.getGlobalParameters().rename(parameter, label.getText().toStdString()))
+            {
+                // Return to previous name
+                label.setText(parameter->getName(), dontSendNotification);
+            }
             refresh();
         };
     }
@@ -125,9 +155,19 @@ namespace ui
         child->setBounds(rect);
     }
 
-    void ParameterWidget::mouseDoubleClick(const MouseEvent &event)
+    void ParameterWidget::mouseDown(const MouseEvent &event)
     {
-
+        if (event.mods.isRightButtonDown())
+        {
+            PopupMenu menu;
+            menu.addItem("Edit", [this]()
+            {
+                // DialogWindow window{String{"Edit Parameter"}, Colours::darkgreen, true, true};
+                // auto leak = new SliderWidget{};
+                // window.showDialog("eee", leak, leak, Colours::green, true, true, true);
+            });
+            menu.showMenuAsync(PopupMenu::Options{});
+        }
     }
 
     ParameterInstance &ParameterWidget::getParameter() const

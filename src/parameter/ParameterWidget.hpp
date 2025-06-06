@@ -20,7 +20,7 @@ namespace ui
         void refresh();
 
         void resized() override;
-        void mouseDoubleClick(const juce::MouseEvent &event) override;
+        void mouseDown(const juce::MouseEvent &event) override;
 
     private:
         parameter::ParameterInstance &getParameter() const;

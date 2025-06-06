@@ -76,10 +76,16 @@ namespace parameter
 
         std::vector<Entry> values;
 
-        EnumParameterDef(const ParameterValue min_, const ParameterValue max_, std::string name_):
+        static EnumParameterDef createDefault(const std::string &name)
+        {
+            EnumParameterDef def{name};
+            def.values.emplace_back("value", 0);
+            return def;
+        }
+
+        explicit EnumParameterDef(std::string name_):
             name(std::move(name_))
         {
-
         }
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const

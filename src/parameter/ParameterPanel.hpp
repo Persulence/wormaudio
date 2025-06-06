@@ -20,7 +20,11 @@ namespace ui
 
         void refresh();
 
+        void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
+
+    private:
+        void addNewParameter(const parameter::Parameter &parameter);
     };
 }

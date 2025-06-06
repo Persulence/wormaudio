@@ -30,6 +30,11 @@ namespace ui
         resized();
     }
 
+    void ParameterPanel::paint(Graphics &g)
+    {
+        paintBackground(g);
+    }
+
     void ParameterPanel::resized()
     {
         // widget.setBounds(getLocalBounds());
@@ -47,18 +52,31 @@ namespace ui
         flexBox.performLayout(getLocalBounds());
     }
 
-    void ParameterPanel::mouseDown(const juce::MouseEvent &event)
+    void ParameterPanel::addNewParameter(const Parameter &parameter)
+    {
+        auto& editor = editor::Editor::getInstance();
+        parameter->setName(std::format("Parameter{}", editor.getGlobalParameters().parameters.size()));
+        editor.getGlobalParameters().insert(parameter);
+        refresh();
+    }
+
+    void ParameterPanel::mouseDown(const MouseEvent &event)
     {
         if (event.mods.isRightButtonDown())
         {
             PopupMenu menu;
-            menu.addItem("New parameter", [this]()
+            menu.addItem("New continuous parameter", [this]
             {
-                static int i = 0;
-                i++;
-                editor::Editor::getInstance().getGlobalParameters().insert(
-                    std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, std::format("Parameter{}", i)}));
+                addNewParameter(std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, "p"}));
                 refresh();
+            });
+            menu.addItem("New discrete parameter", [this]
+            {
+                addNewParameter(std::make_shared<ParameterDef>(DiscreteParameterDef{0, 10, "p"}));
+            });
+            menu.addItem("New enum parameter", [this]
+            {
+                addNewParameter(std::make_shared<ParameterDef>(EnumParameterDef::createDefault("p")));
             });
 
             menu.showMenuAsync(PopupMenu::Options{});
