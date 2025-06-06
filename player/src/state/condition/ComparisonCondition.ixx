@@ -3,7 +3,7 @@ module;
 #include <variant>
 #include <mutex>
 
-export module control:ComparisonCondition;
+export module sm:ComparisonCondition;
 
 import :Condition;
 import :ParameterLookup;

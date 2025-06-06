@@ -5,7 +5,7 @@ module;
 
 #include "../event/ParameterList.hpp"
 
-module control;
+module sm;
 
 namespace sm
 {

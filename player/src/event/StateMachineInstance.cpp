@@ -10,7 +10,7 @@ module event;
 
 import :StateManager;
 
-import control;
+import sm;
 import element;
 import transport;
 

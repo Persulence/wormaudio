@@ -6,7 +6,7 @@ module;
 
 export module event:StateManager;
 
-import control;
+import sm;
 import element;
 import transport;
 

@@ -3,7 +3,7 @@
 #include "ComparisonComboBox.hpp"
 #include "editor/Editor.hpp"
 
-import control;
+import sm;
 import parameter;
 
 namespace ui

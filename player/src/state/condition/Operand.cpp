@@ -3,7 +3,7 @@ module;
 #include <format>
 #include <string>
 
-module control;
+module sm;
 
 namespace condition
 {

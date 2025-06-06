@@ -4,7 +4,7 @@ module;
 #include <variant>
 #include <format>
 
-export module control:Operand;
+export module sm:Operand;
 
 import parameter;
 import :ParameterLookup;

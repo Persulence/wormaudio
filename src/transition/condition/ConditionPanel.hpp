@@ -2,7 +2,7 @@
 
 #include "panel/Panel.hpp"
 
-import control;
+import sm;
 
 namespace ui
 {

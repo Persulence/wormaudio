@@ -7,7 +7,7 @@
 #include "CanvasSelectionManager.hpp"
 #include "CanvasConnectionManager.hpp"
 
-import control;
+import sm;
 
 namespace ui
 {

@@ -5,7 +5,7 @@
 
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
-#include "control/StateMachineDefinition.hpp"
+#include "state/StateMachineDefinition.hpp"
 #include "signal/Signal.hpp"
 
 import event;

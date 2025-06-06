@@ -4,7 +4,7 @@
 
 #include "StateNodeWidget.hpp"
 
-import control;
+import sm;
 
 namespace ui
 {

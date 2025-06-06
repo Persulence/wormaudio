@@ -15,7 +15,7 @@ import ElementTypes;
 import ElementInstance;
 import ElementInstanceManager;
 
-import control;
+import sm;
 import event;
 
 ResourceTestComponent::ResourceTestComponent()

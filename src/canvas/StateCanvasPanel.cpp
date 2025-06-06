@@ -1,12 +1,12 @@
 #include "StateCanvasPanel.hpp"
 #include "StateNodeWidget.hpp"
 
-#include <control/StateMachineDefinition.hpp>
+#include <state/StateMachineDefinition.hpp>
 
 #include "CanvasConnectionManager.hpp"
 #include "editor/Editor.hpp"
 
-import control;
+import sm;
 
 using namespace juce;
 

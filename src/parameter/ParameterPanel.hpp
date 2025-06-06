@@ -4,7 +4,7 @@
 #include "panel/Panel.hpp"
 
 import parameter;
-import control;
+import sm;
 
 namespace ui
 {

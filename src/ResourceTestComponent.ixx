@@ -11,7 +11,7 @@ import ElementTypes;
 import ElementInstance;
 import ElementInstanceManager;
 
-import control;
+import sm;
 import event;
 
 export class ResourceTestComponent : public juce::AudioAppComponent

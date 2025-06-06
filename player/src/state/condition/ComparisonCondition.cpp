@@ -2,7 +2,7 @@ module;
 
 #include <mutex>
 
-module control;
+module sm;
 
 namespace condition
 {

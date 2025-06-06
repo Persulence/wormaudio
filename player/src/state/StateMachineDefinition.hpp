@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-import control;
+import sm;
 
 namespace sm
 {

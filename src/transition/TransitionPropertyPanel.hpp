@@ -3,7 +3,7 @@
 #include "ConditionListPanel.hpp"
 #include "panel/Panel.hpp"
 
-import control;
+import sm;
 
 namespace ui
 {

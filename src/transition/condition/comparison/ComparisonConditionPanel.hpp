@@ -2,7 +2,7 @@
 #include "ComparisonComboBox.hpp"
 #include "../ConditionPanel.hpp"
 
-import control;
+import sm;
 
 namespace ui
 {

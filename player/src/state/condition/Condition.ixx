@@ -1,6 +1,6 @@
 module;
 
-export module control:Condition;
+export module sm:Condition;
 
 import :ParameterLookup;
 

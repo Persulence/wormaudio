@@ -7,7 +7,7 @@ module;
 #include <vector>
 #include <variant>
 
-export module control:Transition;
+export module sm:Transition;
 
 import :ParameterLookup;
 import :Condition;

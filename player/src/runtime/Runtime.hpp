@@ -12,7 +12,7 @@
 import Resource;
 import event;
 import ElementInstanceManager;
-import control;
+import sm;
 import transport;
 
 namespace runtime

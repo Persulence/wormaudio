@@ -4,7 +4,7 @@
 #include "canvas/CanvasConnectionManager.hpp"
 #include "../panel/Panel.hpp"
 
-import control;
+import sm;
 
 namespace sm
 {

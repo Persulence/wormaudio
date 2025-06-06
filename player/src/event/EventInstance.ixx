@@ -5,7 +5,7 @@ module;
 
 export module event:EventInstance;
 
-import control;
+import sm;
 
 import :StateManager;
 import :Event;

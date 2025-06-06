@@ -1,6 +1,6 @@
 module;
 
-export module control;
+export module sm;
 
 export import :Node;
 export import :Transition;

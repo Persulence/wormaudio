@@ -2,7 +2,7 @@ module;
 
 #include <juce_core/juce_core.h>
 
-export module control:Operator;
+export module sm:Operator;
 
 import :Operand;
 import :ParameterLookup;

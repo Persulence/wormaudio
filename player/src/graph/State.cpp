@@ -4,7 +4,7 @@ module;
 #include <vector>
 #include <unordered_map>
 
-module control;
+module sm;
 
 import element;
 

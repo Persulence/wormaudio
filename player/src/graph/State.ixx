@@ -7,7 +7,7 @@ module;
 
 #include <juce_core/juce_core.h>
 
-export module control:Node;
+export module sm:Node;
 
 import element;
 import ElementInstance;

@@ -5,7 +5,7 @@ module;
 
 #include "../event/ParameterList.hpp"
 
-export module control:ParameterLookup;
+export module sm:ParameterLookup;
 
 import parameter;
 

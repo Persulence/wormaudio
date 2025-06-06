@@ -4,11 +4,11 @@ module;
 
 #include "ParameterList.hpp"
 #include "juce_core/juce_core.h"
-#include "../control/StateMachineDefinition.hpp"
+#include "../state/StateMachineDefinition.hpp"
 
 export module event:Event;
 
-import control;
+import sm;
 import parameter;
 
 namespace event
