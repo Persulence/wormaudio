@@ -55,10 +55,9 @@ add_subdirectory(../lib/JUCE build)
 # TODO: Ensure that necessary JUCE properties are also set
 add_library(${LIBRARY_TARGET})
 
-#target_precompile_headers(${LIBRARY_TARGET}}
-#        PRIVATE
-#        #        juce_basics/juce_basics.h
-##        runtime/Runtime.hpp
+#target_precompile_headers(${LIBRARY_TARGET}
+#        INTERFACE
+#                juce_basics/juce_basics.h
 #)
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
