@@ -1,6 +1,7 @@
 #include "ComparisonConditionPanel.hpp"
 
 #include "ComparisonComboBox.hpp"
+#include "editor/Editor.hpp"
 
 import control;
 import parameter;
@@ -35,8 +36,17 @@ namespace ui
 
     void addOperandItems(ComparisonComboBox& combo)
     {
-        combo.addItem("<constant>", 1);
-        combo.addItem("<parameter>", 2);
+        int i = 1;
+        combo.addItem("<constant>", i);
+        i++;
+        combo.addItem("<parameter>", i);
+        i++;
+        auto& editor = editor::Editor::getInstance();
+        for (auto& parameter : editor.getGlobalParameters().parameters)
+        {
+            combo.addItem(parameter->getName(), i);
+            i++;
+        }
     }
 
     ComparisonConditionPanel::ComparisonConditionPanel(ComparisonCondition &condition_):
