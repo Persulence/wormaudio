@@ -7,6 +7,10 @@ module;
 
 #include <juce_core/juce_core.h>
 
+#include "../event/ElementHandle.hpp"
+
+#include "../automation/AutomationRegistry.hpp"
+
 export module sm:Node;
 
 import element;
@@ -16,7 +20,7 @@ import :Transition;
 
 namespace sm
 {
-    export class State;
+    export class StateDef;
 
     export class Transition1
     {
@@ -24,21 +28,11 @@ namespace sm
         using Ptr = std::shared_ptr<Transition1>;
 
         condition::ConditionList conditions;
-        std::weak_ptr<State> nextState;
+        std::weak_ptr<StateDef> nextState;
 
-        Transition1(condition::ConditionList conditions_, std::weak_ptr<State> nextState_):
+        Transition1(condition::ConditionList conditions_, std::weak_ptr<StateDef> nextState_):
             conditions(std::move(conditions_)), nextState(std::move(nextState_))
         { }
-    };
-
-    export struct ElementEntry
-    {
-        std::shared_ptr<element::Element> value;
-
-        const element::Element* operator->() const
-        {
-            return value.get();
-        }
     };
 
     export enum StateType
@@ -54,41 +48,44 @@ namespace sm
     };
 
     // For now only one state type
-    export class State
+    export class StateDef
     {
     public:
-        using Ptr = std::shared_ptr<State>;
-        using Weak = std::weak_ptr<State>;
+        using Ptr = std::shared_ptr<StateDef>;
+        using Weak = std::weak_ptr<StateDef>;
         std::string name{"State"};
         Flags flags{NORMAL};
 
     private:
-        std::vector<ElementEntry> elements_;
+        std::vector<event::ElementHandle> elements_;
+        // std::shared_ptr<automation::AutomationRegistry> automation;
 
         // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.
         // std::weak_ptr doesn't work as a key
         // Just need to find a way to indicate that keys shouldn't be dereferenced.
-        std::unordered_map<State*, std::shared_ptr<Transition1>> transitions;
+        std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitions;
 
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(State)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StateDef)
 
     public:
-        State() = default;
+        // StateDef(const std::shared_ptr<automation::AutomationRegistry> &registry);
+        StateDef();
 
-        void insertElement(const std::shared_ptr<element::Element>& entry);
+        void insertElement(const event::ElementHandle& entry);
+        void removeElement(const event::ElementHandle& element);
         void insertTransition(const Transition1::Ptr& transition);
-        void removeTransitionTo(State* other);
+        void removeTransitionTo(StateDef* other);
         void setName(const std::string &name_);
 
-        const std::vector<ElementEntry>& elements();
-        const std::unordered_map<State*, Transition1::Ptr>& getTransitions() const;
+        const std::vector<event::ElementHandle>& elements();
+        const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitions() const;
 
         std::string getName();
     };
 
     export class StateInstance
     {
-        std::shared_ptr<State> parent;
+        std::shared_ptr<StateDef> parent;
         std::vector<element::ElementInstancePtr> instances;
 
     public:
@@ -96,7 +93,7 @@ namespace sm
         StateInstance(StateInstance&&) = default;
         StateInstance& operator=(StateInstance&&) = default;
 
-        explicit StateInstance(State::Ptr parent_):
+        explicit StateInstance(StateDef::Ptr parent_):
             parent(std::move(parent_))
         {
 
@@ -117,7 +114,7 @@ namespace sm
             for (auto& entry : parent->elements())
             {
                 // The node instance shares ownership of the element instance with the manager
-                auto instance = context.createInstance(*entry.value);
+                auto instance = context.createInstance(*entry);
                 instances.emplace_back(instance);
                 instance->start();
             }
@@ -134,7 +131,7 @@ namespace sm
         }
     };
 
-    export std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<State>& node)
+    export std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<StateDef>& node)
     {
         return std::make_unique<StateInstance>(node);
     }

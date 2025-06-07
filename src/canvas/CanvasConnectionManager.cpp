@@ -11,7 +11,7 @@ namespace ui
     using namespace juce;
 
     CanvasConnectionManager::CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>> *stateNodes,
-                                                   std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode):
+                                                   std::unordered_map<std::shared_ptr<sm::StateDef>, std::shared_ptr<StateNodeWidget>>& stateToNode):
         stateNodes(stateNodes),
         stateToNode(stateToNode)
         // vBlank(juce::VBlankAttachment{this, [this]() { update(); }})

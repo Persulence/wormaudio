@@ -2,7 +2,9 @@ module;
 
 #include <memory>
 
+#include "ElementList.hpp"
 #include "ParameterList.hpp"
+#include "../automation/AutomationTable.hpp"
 #include "juce_core/juce_core.h"
 #include "../state/StateMachineDefinition.hpp"
 
@@ -10,6 +12,7 @@ export module event:Event;
 
 import sm;
 import parameter;
+import element;
 
 namespace event
 {
@@ -21,20 +24,26 @@ namespace event
         // Per-event parameters
         ParameterList parameters;
 
+        // Automation registry and mappings
+        std::unique_ptr<automation::AutomationTable> automation;
+
+        ElementList elementList;
+
         struct Private {};
 
     public:
         using Ptr = juce::ReferenceCountedObjectPtr<Event>;
 
-        explicit Event(Private):
-            definition(std::make_shared<sm::StateMachineDefinition>())
+        Event(Private, std::unique_ptr<automation::AutomationTable> automationTable):
+            definition(std::make_shared<sm::StateMachineDefinition>()),
+            automation(std::move(automationTable))
         {
 
         }
 
         static Ptr create()
         {
-            return new Event(Private{});
+            return new Event(Private{}, std::make_unique<automation::AutomationTable>());
         }
 
         const sm::StateMachineDefinition::Ptr& getDefinition()
@@ -45,6 +54,16 @@ namespace event
         ParameterList& getParameters()
         {
             return parameters;
+        }
+
+        automation::AutomationTable& getAutomation() const
+        {
+            return *automation;
+        }
+
+        ElementList& getElements()
+        {
+            return elementList;
         }
 
         // Defined after EventInstance

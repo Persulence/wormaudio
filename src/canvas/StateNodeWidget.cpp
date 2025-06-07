@@ -104,7 +104,7 @@ namespace ui
 
     // StateNodeWidget
 
-    StateNodeWidget::StateNodeWidget(sm::State::Ptr state_, CanvasConnectionManager::Ptr &connectionManager_):
+    StateNodeWidget::StateNodeWidget(sm::StateDef::Ptr state_, CanvasConnectionManager::Ptr &connectionManager_):
         header(StateNodeHeader{*this}),
         connectionBox(ConnectionCreationBox{*this, connectionManager_}),
         manager(connectionManager_),
@@ -195,7 +195,7 @@ namespace ui
         return false;
     }
 
-    sm::State::Ptr& StateNodeWidget::getState()
+    sm::StateDef::Ptr& StateNodeWidget::getState()
     {
         return state;
     }

@@ -32,13 +32,13 @@ namespace event
         std::vector<std::unique_ptr<StateEntry>> entries;
 
     public:
-        explicit StateMachineInstance(const std::vector<sm::State::Ptr>& states, const sm::State::Ptr &start);
+        explicit StateMachineInstance(const std::vector<sm::StateDef::Ptr>& states, const sm::StateDef::Ptr &start);
 
         bool logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport);
         void stop() const;
 
     private:
-        StateEntry& getOrCreateEntry(std::unordered_map<sm::State::Ptr, StateEntry*>& map, sm::State::Ptr state);
+        StateEntry& getOrCreateEntry(std::unordered_map<sm::StateDef::Ptr, StateEntry*>& map, sm::StateDef::Ptr state);
     };
 
 }

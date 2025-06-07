@@ -18,7 +18,7 @@ namespace ui
     class StateCanvasPanel : public Panel
     {
         std::vector<std::shared_ptr<StateNodeWidget>> stateNodes;
-        std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>> stateToNode;
+        std::unordered_map<std::shared_ptr<sm::StateDef>, std::shared_ptr<StateNodeWidget>> stateToNode;
         CanvasConnectionManager::Ptr connectionManager{};
 
         // TODO: temporary

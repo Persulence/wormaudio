@@ -24,7 +24,7 @@ namespace ui
         Point end;
 
         std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes;
-        std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode;
+        std::unordered_map<std::shared_ptr<sm::StateDef>, std::shared_ptr<StateNodeWidget>>& stateToNode;
 
         std::vector<std::shared_ptr<TransitionArrowComponent>> transitionWidgets;
 
@@ -33,7 +33,7 @@ namespace ui
     public:
         using Ptr = std::shared_ptr<CanvasConnectionManager>;
 
-        explicit CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes, std::unordered_map<std::shared_ptr<sm::State>, std::shared_ptr<StateNodeWidget>>& stateToNode);
+        explicit CanvasConnectionManager(std::vector<std::shared_ptr<StateNodeWidget>>* stateNodes, std::unordered_map<std::shared_ptr<sm::StateDef>, std::shared_ptr<StateNodeWidget>>& stateToNode);
 
         void refreshTransitionWidgets();
         void updateTransitionWidgets() const;

@@ -11,9 +11,9 @@ namespace sm
 {
     class StateMachineDefinition
     {
-        State::Ptr start;
-        State::Ptr end;
-        std::vector<State::Ptr> states;
+        StateDef::Ptr start;
+        StateDef::Ptr end;
+        std::vector<StateDef::Ptr> states;
 
     public:
         using Ptr = std::shared_ptr<StateMachineDefinition>;
@@ -26,9 +26,9 @@ namespace sm
             (states.push_back(entries),...);
         }
 
-        void remove(const State::Ptr &state);
+        void remove(const StateDef::Ptr &state);
 
-        const std::vector<State::Ptr>& getStates();
-        State::Ptr getStart();
+        const std::vector<StateDef::Ptr>& getStates();
+        StateDef::Ptr getStart();
     };
 }

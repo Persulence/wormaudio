@@ -4,6 +4,9 @@ module;
 
 #include <utility>
 
+#include "../automation/AutomationRegistry.hpp"
+#include "../automation/Property.hpp"
+
 export module ElementTypes;
 
 import element;
@@ -61,10 +64,12 @@ namespace element
     export class ClipElement : public Element
     {
         resource::Resource::Ptr resource;
+        automation::Property volume;
 
     public:
         explicit ClipElement(resource::Resource::Ptr resource_):
-            resource(std::move(resource_))
+            resource(std::move(resource_)),
+            volume(automation::createProperty("volume", 0, automation::Unit::DBFS))
         {
         }
 
@@ -76,6 +81,11 @@ namespace element
         std::string getName() override
         {
             return resource->getFile().getFileName().toStdString();
+        }
+
+        void regAutomation(automation::AutomationRegistry &registry) const override
+        {
+            registry.reg(volume);
         }
 
     private:

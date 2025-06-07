@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include "automation.hpp"
+#include "Automation.hpp"
 
 using AutomationValue = float;
 
@@ -9,16 +9,21 @@ namespace automation
 {
     class PropertyDef
     {
-        AutomationValue defaultValue{};
         PropertyIdentifier id;
+        AutomationValue defaultValue{};
+        Unit unit;
         // TODO: log scale and unit
 
     public:
-        explicit PropertyDef(const AutomationValue defaultValue_):
-            defaultValue(defaultValue_)
+        explicit PropertyDef(const PropertyIdentifier &id_, const AutomationValue defaultValue_, Unit unit_):
+            id(id_),
+            defaultValue(defaultValue_),
+            unit(unit_)
         {
 
         }
+
+        PropertyIdentifier getId() { return id; }
     };
 
     class PropertyInstance

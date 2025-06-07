@@ -5,6 +5,7 @@
 #include <panel/Panel.hpp>
 
 #include "ElementRegion.hpp"
+#include "editor/Editor.hpp"
 
 #include "runtime/Runtime.hpp"
 
@@ -44,7 +45,7 @@ namespace ui
             {
                 for (auto& element : shared->getState()->elements())
                 {
-                    auto& widget = elements.emplace_back(std::make_shared<ElementRegion>(element.value));
+                    auto& widget = elements.emplace_back(std::make_shared<ElementRegion>(element));
                     addAndMakeVisible(*widget);
                 }
             }
@@ -63,12 +64,17 @@ namespace ui
             }
         }
 
-        void receiveFile(juce::File file)
+        void receiveFile(const juce::File &file)
         {
             if (const auto shared = parent.lock())
             {
                 auto resource = runtime::createResource(file);
-                shared->getState()->insertElement(std::make_shared<element::ClipElement>(resource));
+                auto element = std::make_unique<element::ClipElement>(resource);
+
+                const auto event = editor::Editor::getInstance().getEvent();
+                const auto handle = event->getElements().reg(std::move(element));
+                shared->getState()->insertElement(handle);
+
                 update();
                 resized();
                 repaint();

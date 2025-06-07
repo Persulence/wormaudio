@@ -47,7 +47,7 @@ namespace ui
 
     StateNodeWidget::Ptr StateCanvasPanel::addState(Point<int> pos)
     {
-        auto state = std::make_shared<sm::State>();
+        auto state = std::make_shared<sm::StateDef>();
 
         definition->insert(state);
 

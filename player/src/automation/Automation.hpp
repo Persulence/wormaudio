@@ -30,4 +30,14 @@ namespace automation
             return instance.get();
         }
     };
+
+    enum class Unit
+    {
+        NONE,
+        DBFS,
+        HZ,
+    };
+
+    Property createProperty(PropertyIdentifier id, AutomationValue defaultVal, Unit unit);
+
 }

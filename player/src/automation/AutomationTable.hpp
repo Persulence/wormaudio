@@ -1,27 +1,38 @@
 #pragma once
 
-#include <unordered_map>
-#include "automation.hpp"
+#include "AutomationRegistry.hpp"
+#include "Mapping.hpp"
 #include "juce_core/juce_core.h"
 
 namespace automation
 {
-    class AutomationTable
+    /**
+     * Associates a property with a mapping.
+     */
+    class AutomationLink
     {
     public:
-        struct Entry;
-
-        explicit AutomationTable():
-            automation({}),
-            registry({}) {}
-
-        // Exposes the property for automation
-        void reg(PropertyIdentifier id, Property property);
-
-        
+        AutomationLink(const PropertyInstanceHandle &property, const MappingFunction &mapping):
+            property(property),
+            mapping(mapping) {}
 
     private:
-        std::unordered_map<juce::Identifier, Entry> automation;
-        std::unordered_map<PropertyIdentifier, Property> registry;
+        PropertyInstanceHandle property;
+        MappingFunction mapping;
+    };
+
+    class AutomationTable : public AutomationRegistry
+    {
+    public:
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AutomationTable)
+
+        explicit AutomationTable()
+        {
+
+        }
+
+    private:
+        // std::unordered_map<Proper, Entry> automation;
+        std::vector<AutomationLink> automation;
     };
 }

@@ -4,19 +4,16 @@
 
 namespace automation
 {
-    struct AutomationTable::Entry
-    {
-        PropertyInstanceHandle property;
-        MappingFunction mapping;
-    };
+    // struct AutomationTable::Entry
+    // {
+    // };
 
     // void AutomationTable::insertEntry(juce::Identifier id, Entry &entry)
     // {
     //     entries.emplace(id, entry);
     // }
 
-    void AutomationTable::reg(PropertyIdentifier id, Property property)
-    {
-        registry.emplace(id, property);
-    }
+    // void AutomationTable::reg(PropertyIdentifier id, Property property)
+    // {
+    // }
 }

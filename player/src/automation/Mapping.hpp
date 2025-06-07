@@ -1,5 +1,5 @@
 #pragma once
-#include "automation.hpp"
+#include "Automation.hpp"
 
 namespace automation
 {

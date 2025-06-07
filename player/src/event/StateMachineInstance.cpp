@@ -16,7 +16,7 @@ import transport;
 
 namespace event
 {
-    StateMachineInstance::StateMachineInstance(const std::vector<sm::State::Ptr> &states, const sm::State::Ptr &start)
+    StateMachineInstance::StateMachineInstance(const std::vector<sm::StateDef::Ptr> &states, const sm::StateDef::Ptr &start)
     {
         // TODO: simple handling for single-state instances
 
@@ -24,7 +24,7 @@ namespace event
         // Slightly concerned by the use of raw pointers.
 
         // Associates all nodes that have been encountered so far with an entry
-        std::unordered_map<sm::State::Ptr, StateEntry*> map;
+        std::unordered_map<sm::StateDef::Ptr, StateEntry*> map;
 
         for (const auto& state : states)
         {
@@ -89,8 +89,8 @@ namespace event
         }
     }
 
-    StateEntry & StateMachineInstance::getOrCreateEntry(std::unordered_map<sm::State::Ptr, StateEntry *> &map,
-            sm::State::Ptr state) {
+    StateEntry & StateMachineInstance::getOrCreateEntry(std::unordered_map<sm::StateDef::Ptr, StateEntry *> &map,
+            sm::StateDef::Ptr state) {
         StateEntry* entry;
         if (const auto it = map.find(state); it != map.end())
         {

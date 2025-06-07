@@ -32,13 +32,13 @@ ResourceTestComponent::ResourceTestComponent()
     std::shared_ptr<Element> element = std::make_shared<ClipElement>(testResource);
 
     // Create some states
-    State::Ptr initialState = std::make_shared<State>();
-    State::Ptr playState = std::make_shared<State>();
+    StateDef::Ptr initialState = std::make_shared<StateDef>();
+    StateDef::Ptr playState = std::make_shared<StateDef>();
 
     // Add a transition to the second state from the first state
     initialState->insertTransition(std::make_shared<Transition1>(condition::ConditionList{}, playState));
     // Add an element to the second state
-    playState->insertElement(element);
+    // playState->insertElement(element);
 
     event = event::Event::create();
 

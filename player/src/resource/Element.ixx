@@ -3,6 +3,7 @@ module;
 #include <variant>
 #include <memory>
 
+#include "../automation/AutomationRegistry.hpp"
 #include "../util/class_util.h"
 
 export module element;
@@ -22,8 +23,9 @@ namespace element
         JUCE_DECLARE_NON_COPYABLE(Element)
 
         [[nodiscard]] virtual ElementInstancePtr createInstance(player::AudioContext) const = 0;
-
         virtual std::string getName() = 0;
+
+        virtual void regAutomation(automation::AutomationRegistry& registry) const { }
 
         virtual ~Element() = default;
     };
