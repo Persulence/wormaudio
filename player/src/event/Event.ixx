@@ -34,12 +34,7 @@ namespace event
     public:
         using Ptr = juce::ReferenceCountedObjectPtr<Event>;
 
-        Event(Private, std::unique_ptr<automation::AutomationTable> automationTable):
-            definition(std::make_shared<sm::StateMachineDefinition>()),
-            automation(std::move(automationTable))
-        {
-
-        }
+        Event(Private, std::unique_ptr<automation::AutomationTable> automationTable);
 
         static Ptr create()
         {
@@ -56,7 +51,7 @@ namespace event
             return parameters;
         }
 
-        automation::AutomationTable& getAutomation() const
+        [[nodiscard]] automation::AutomationTable& getAutomation() const
         {
             return *automation;
         }

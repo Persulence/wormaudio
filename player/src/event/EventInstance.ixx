@@ -3,12 +3,16 @@ module;
 #include <memory>
 #include <utility>
 
+#include "AutomationTableInstance.hpp"
+#include "EventElementInstancer.hpp"
+
 export module event:EventInstance;
 
 import sm;
 
 import :StateManager;
 import :Event;
+import ElementInstanceManager;
 
 import transport;
 
@@ -25,17 +29,20 @@ namespace event
 
         player::TransportControl transport;
 
+        automation::AutomationTableInstance automationInstance;
+
         explicit EventInstance(Event::Ptr parent_):
             parent(std::move(parent_)),
-            stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart()))
-        {
-        }
+            stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
+            automationInstance()
+        {}
 
-        void logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& globalTransport)
+        void logicTick(const sm::ParameterLookup& parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport)
         {
             if (!transport.stopped())
             {
-                stateManager.logicTick(parameters, context, transport);
+                EventElementInstancer instancer{context, automationInstance};
+                stateManager.logicTick(parameters, instancer, transport);
             }
             else
             {
@@ -48,7 +55,7 @@ namespace event
             }
         }
 
-        void stop()
+        void stop() const
         {
             stateManager.stop();
         }

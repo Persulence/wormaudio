@@ -2,7 +2,20 @@
 
 #include "Property.hpp"
 
-void automation::AutomationRegistry::reg(Property property)
+namespace automation
 {
-    registry.emplace(property->getId(), property);
+    void AutomationRegistry::reg(const PropertyProviderPtr& provider)
+    {
+        for (auto& property : provider->getProperties())
+        {
+            // registry.insert({Identifier{provider, property->getId()}, property});
+            registry.emplace(provider, property);
+        }
+    }
+
+    void AutomationRegistry::removeAll(const PropertyProviderPtr& provider)
+    {
+        const auto it = registry.find(provider);
+        registry.erase(it, registry.end());
+    }
 }

@@ -14,7 +14,7 @@ namespace player
 {
     using namespace element;
 
-    export class ElementInstanceManager : public ElementInstanceContext, public juce::AudioSource
+    export class ElementInstanceManager : public juce::AudioSource
     {
         std::vector<ElementInstancePtr> active;
         std::mutex activeMutex;
@@ -23,8 +23,7 @@ namespace player
 
         juce::AudioSampleBuffer accumulator;
     public:
-
-        ElementInstancePtr createInstance(const Element& element) override;
+        ElementInstancePtr addInstance(const ElementInstancePtr& element);
 
         void clear();
         void freeReleased();
@@ -32,6 +31,8 @@ namespace player
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
         void releaseResources() override;
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
+
+        [[nodiscard]] AudioContext getAudioContext() const { return audioContext; }
     };
 }
 

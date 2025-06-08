@@ -42,7 +42,8 @@ namespace ui
         flexBox.flexDirection = FlexBox::Direction::column;
         flexBox.alignItems = FlexBox::AlignItems::stretch;
         flexBox.flexWrap = FlexBox::Wrap::wrap;
-        flexBox.alignContent = FlexBox::AlignContent::stretch;
+        flexBox.alignContent = FlexBox::AlignContent::flexStart;
+        flexBox.justifyContent = FlexBox::JustifyContent::flexStart;
         for (auto& widget : widgets)
         {
             flexBox.items.add(FlexItem{*widget}.withMinWidth(100).withMinHeight(40).withMaxHeight(40).withMaxWidth(100));

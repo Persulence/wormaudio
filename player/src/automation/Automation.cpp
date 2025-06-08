@@ -3,7 +3,7 @@
 
 namespace automation
 {
-    Property createProperty(PropertyIdentifier id, AutomationValue defaultVal, Unit unit)
+    Property createProperty(PropertyName id, AutomationValue defaultVal, Unit unit)
     {
         return std::make_unique<PropertyDef>(id, defaultVal, unit);
     }

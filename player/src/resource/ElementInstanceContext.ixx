@@ -17,8 +17,7 @@ namespace element
     public:
         ElementInstanceContext() = default;
 
-
-        virtual ElementInstancePtr createInstance(const Element& element) = 0;
+        virtual ElementInstancePtr createInstance(Element &element) = 0;
 
         virtual ~ElementInstanceContext() = default;
     };

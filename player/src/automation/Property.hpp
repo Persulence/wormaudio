@@ -9,13 +9,13 @@ namespace automation
 {
     class PropertyDef
     {
-        PropertyIdentifier id;
+        PropertyName id;
         AutomationValue defaultValue{};
         Unit unit;
         // TODO: log scale and unit
 
     public:
-        explicit PropertyDef(const PropertyIdentifier &id_, const AutomationValue defaultValue_, Unit unit_):
+        explicit PropertyDef(const PropertyName &id_, const AutomationValue defaultValue_, Unit unit_):
             id(id_),
             defaultValue(defaultValue_),
             unit(unit_)
@@ -23,7 +23,7 @@ namespace automation
 
         }
 
-        PropertyIdentifier getId() { return id; }
+        PropertyName getId() { return id; }
     };
 
     class PropertyInstance
@@ -33,6 +33,6 @@ namespace automation
 
     public:
         void setValue(AutomationValue value);
-        AutomationValue getValue() const;
+        [[nodiscard]] AutomationValue getValue() const;
     };
 }

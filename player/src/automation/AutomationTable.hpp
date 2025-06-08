@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "AutomationRegistry.hpp"
 #include "Mapping.hpp"
 #include "juce_core/juce_core.h"
@@ -12,8 +14,8 @@ namespace automation
     class AutomationLink
     {
     public:
-        AutomationLink(const PropertyInstanceHandle &property, const MappingFunction &mapping):
-            property(property),
+        AutomationLink(PropertyInstanceHandle property, const MappingFunction &mapping):
+            property(std::move(property)),
             mapping(mapping) {}
 
     private:

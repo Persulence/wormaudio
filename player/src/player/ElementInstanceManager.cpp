@@ -7,11 +7,11 @@ module ElementInstanceManager;
 
 namespace player
 {
-    ElementInstancePtr ElementInstanceManager::createInstance(const Element &element)
+    ElementInstancePtr ElementInstanceManager::addInstance(const ElementInstancePtr& element)
     {
         // tODO: look into reusing identical instances
         std::lock_guard lock(activeMutex);
-        return active.emplace_back(element.createInstance(audioContext));
+        return active.emplace_back(element);
     }
 
     void ElementInstanceManager::clear()

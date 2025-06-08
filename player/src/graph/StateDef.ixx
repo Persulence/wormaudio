@@ -9,8 +9,6 @@ module;
 
 #include "../event/ElementHandle.hpp"
 
-#include "../automation/AutomationRegistry.hpp"
-
 export module sm:Node;
 
 import element;
@@ -99,12 +97,12 @@ namespace sm
 
         }
 
-        Flags getFlags() const
+        [[nodiscard]] Flags getFlags() const
         {
             return parent->flags;
         }
 
-        std::string getName() const
+        [[nodiscard]] std::string getName() const
         {
             return parent->name;
         }

@@ -12,6 +12,7 @@ namespace event
     class ElementHandle
     {
     public:
+        // May change to a weak_ptr
         std::shared_ptr<element::Element> ptr;
 
         explicit ElementHandle(std::unique_ptr<element::Element> element):

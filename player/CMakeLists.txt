@@ -74,7 +74,11 @@ add_library(${LIBRARY_TARGET})
 # CMake command.
 
 target_include_directories(${LIBRARY_TARGET}
-        PUBLIC ../JuceLibraryCode)
+        PUBLIC
+            ../JuceLibraryCode
+            src
+
+)
 
 #target_sources(${LIBRARY_TARGET}
 #        PRIVATE

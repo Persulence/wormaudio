@@ -6,6 +6,7 @@ module;
 
 #include "../automation/AutomationRegistry.hpp"
 #include "../automation/Property.hpp"
+#include "automation/AutomationInstance.hpp"
 
 export module ElementTypes;
 
@@ -25,13 +26,13 @@ namespace element
     class ClipElementInstance : public ElementInstance
     {
         player::LeanSamplePlayer player;
-        // resource::ElementSampleBuffer::Ptr audio;
+        automation::PropertyInstanceContainer properties;
 
     public:
-        explicit ClipElementInstance(const player::AudioContext &context_, resource::ElementSampleBuffer::Ptr audio_):
-                ElementInstance(context_),
-                player(std::move(audio_))
-                // audio(audio_)
+        explicit ClipElementInstance(const player::AudioContext &context_, resource::ElementSampleBuffer::Ptr audio_, automation::PropertyInstanceContainer properties):
+            ElementInstance(context_),
+            player(std::move(audio_)),
+            properties(std::move(properties))
         {
             player.prepareToPlay(audioContext.samplesPerBlock, audioContext.sampleRate);
         }
@@ -61,7 +62,7 @@ namespace element
         }
     };
 
-    export class ClipElement : public Element
+    export class ClipElement : public Element, public std::enable_shared_from_this<Element>
     {
         resource::Resource::Ptr resource;
         automation::Property volume;
@@ -73,9 +74,9 @@ namespace element
         {
         }
 
-        [[nodiscard]] ElementInstancePtr createInstance(player::AudioContext context) const override
+        ElementInstancePtr createInstance(player::AudioContext context, automation::AutomationInstance& automation) override
         {
-            return std::make_shared<ClipElementInstance>(context, getAudio());
+            return std::make_shared<ClipElementInstance>(context, getAudio(), automation.getContainer(shared_from_this()));
         }
 
         std::string getName() override
@@ -83,13 +84,13 @@ namespace element
             return resource->getFile().getFileName().toStdString();
         }
 
-        void regAutomation(automation::AutomationRegistry &registry) const override
+        std::vector<automation::Property> getProperties() override
         {
-            registry.reg(volume);
+            return {volume};
         }
 
     private:
-        resource::ElementSampleBuffer::Ptr getAudio() const
+        [[nodiscard]] resource::ElementSampleBuffer::Ptr getAudio() const
         {
             return resource->getAudio();
         }

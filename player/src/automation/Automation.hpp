@@ -1,11 +1,12 @@
 #pragma once
 #include <memory>
+#include <utility>
 
 using AutomationValue = float;
 
 namespace automation
 {
-    using PropertyIdentifier = std::string;
+    using PropertyName = std::string;
 
     class PropertyDef;
     using Property = std::shared_ptr<PropertyDef>;
@@ -17,13 +18,10 @@ namespace automation
 
     public:
         explicit PropertyInstanceHandle(std::shared_ptr<PropertyInstance> instance_):
-            instance(instance_)
+            instance(std::move(instance_))
         {
 
         }
-
-        // void setValue(AutomationValue value);
-        // AutomationValue getValue();
 
         PropertyInstance* operator->() const
         {
@@ -38,6 +36,6 @@ namespace automation
         HZ,
     };
 
-    Property createProperty(PropertyIdentifier id, AutomationValue defaultVal, Unit unit);
+    Property createProperty(PropertyName id, AutomationValue defaultVal, Unit unit);
 
 }
