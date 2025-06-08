@@ -4,9 +4,8 @@ module;
 
 #include <utility>
 
-#include "../automation/AutomationRegistry.hpp"
 #include "../automation/Property.hpp"
-#include "automation/AutomationInstance.hpp"
+#include "automation/instance/AutomationRegistryInstance.hpp"
 
 export module ElementTypes;
 
@@ -62,19 +61,17 @@ namespace element
         }
     };
 
-    export class ClipElement : public Element, public std::enable_shared_from_this<Element>
+    export class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
     {
         resource::Resource::Ptr resource;
-        automation::Property volume;
 
     public:
         explicit ClipElement(resource::Resource::Ptr resource_):
-            resource(std::move(resource_)),
-            volume(automation::createProperty("volume", 0, automation::Unit::DBFS))
+            resource(std::move(resource_))
         {
         }
 
-        ElementInstancePtr createInstance(player::AudioContext context, automation::AutomationInstance& automation) override
+        ElementInstancePtr createInstance(player::AudioContext context, automation::AutomationRegistryInstance& automation) override
         {
             return std::make_shared<ClipElementInstance>(context, getAudio(), automation.getContainer(shared_from_this()));
         }

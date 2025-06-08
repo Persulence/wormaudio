@@ -69,7 +69,7 @@ namespace ui
             if (const auto shared = parent.lock())
             {
                 auto resource = runtime::createResource(file);
-                auto element = std::make_unique<element::ClipElement>(resource);
+                auto element = std::make_shared<element::ClipElement>(resource);
 
                 const auto event = editor::Editor::getInstance().getEvent();
                 const auto handle = event->getElements().reg(std::move(element));

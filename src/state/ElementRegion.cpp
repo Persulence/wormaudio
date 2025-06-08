@@ -1,8 +1,37 @@
 #include "ElementRegion.hpp"
 
+#include "automation/AutomationTable.hpp"
+#include "automation/Mapping.hpp"
+#include "editor/Editor.hpp"
+
 namespace ui
 {
     using namespace juce;
+
+    void ElementRegion::mouseDown(const MouseEvent &event)
+    {
+        if (event.mods.isRightButtonDown())
+        {
+            auto& editor = editor::Editor::getInstance();
+
+            // Menu for selecting a parameter
+            PopupMenu parameters;
+            for (const auto& parameter : editor.getGlobalParameters().parameters)
+            {
+                parameters.addItem({parameter->getName()}, [this, &editor, parameter]
+                {
+                    const automation::AutomationLink link{parameter, element->volume, automation::MappingFunction{}};
+                    editor.getEvent()->getAutomation().setup(link);
+                });
+            }
+
+            PopupMenu menu;
+            menu.addItem("ooer", []{});
+            menu.addSubMenu("Automate volume", parameters);
+
+            menu.showMenuAsync(PopupMenu::Options{});
+        }
+    }
 
     void ElementRegion::paint(Graphics &g)
     {

@@ -15,7 +15,12 @@ namespace event
         // May change to a weak_ptr
         std::shared_ptr<element::Element> ptr;
 
-        explicit ElementHandle(std::unique_ptr<element::Element> element):
+        // explicit ElementHandle(std::unique_ptr<element::Element> element):
+        //     ptr(std::move(element))
+        // {
+        //
+        // }
+        explicit ElementHandle(std::shared_ptr<element::Element> element):
             ptr(std::move(element))
         {
 

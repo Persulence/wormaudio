@@ -21,6 +21,8 @@ namespace ui
             element(std::move(element_))
         { }
 
+        void mouseDown(const juce::MouseEvent &event) override;
+
         void paint(juce::Graphics &g) override;
     };
 }

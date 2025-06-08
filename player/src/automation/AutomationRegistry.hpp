@@ -6,11 +6,14 @@
 
 namespace automation
 {
+    struct PropertyContainer
+    {
+        std::vector<Property> properties;
+    };
 
     class AutomationRegistry
     {
     public:
-
         struct Identifier
         {
             std::shared_ptr<PropertyProvider> parent;
@@ -34,11 +37,11 @@ namespace automation
         virtual ~AutomationRegistry() = default;
 
         // Exposes the property for automation
-        void reg(const PropertyProviderPtr& provider);
-        void removeAll(const PropertyProviderPtr& provider);
+        void reg(const std::shared_ptr<PropertyProvider> &provider);
+        void removeAll(const PropertyProviderKey& provider);
+
+        std::unordered_map<PropertyProviderKey, PropertyContainer> registry;
 
     protected:
-        // std::unordered_map<Identifier, Property, Identifier::Hash> registry;
-        std::unordered_multimap<PropertyProviderPtr, Property> registry;
     };
 }

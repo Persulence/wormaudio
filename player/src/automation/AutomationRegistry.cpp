@@ -4,16 +4,17 @@
 
 namespace automation
 {
-    void AutomationRegistry::reg(const PropertyProviderPtr& provider)
+    void AutomationRegistry::reg(const std::shared_ptr<PropertyProvider> &provider)
     {
         for (auto& property : provider->getProperties())
         {
             // registry.insert({Identifier{provider, property->getId()}, property});
-            registry.emplace(provider, property);
+            // registry.emplace(provider, property);
+            registry[provider].properties.push_back(property);
         }
     }
 
-    void AutomationRegistry::removeAll(const PropertyProviderPtr& provider)
+    void AutomationRegistry::removeAll(const PropertyProviderKey& provider)
     {
         const auto it = registry.find(provider);
         registry.erase(it, registry.end());

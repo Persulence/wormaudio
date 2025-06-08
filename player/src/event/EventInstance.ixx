@@ -29,19 +29,19 @@ namespace event
 
         player::TransportControl transport;
 
-        automation::AutomationTableInstance automationInstance;
+        std::unique_ptr<automation::AutomationTableInstance> automationInstance;
 
         explicit EventInstance(Event::Ptr parent_):
             parent(std::move(parent_)),
             stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
-            automationInstance()
+            automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))
         {}
 
         void logicTick(const sm::ParameterLookup& parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport)
         {
             if (!transport.stopped())
             {
-                EventElementInstancer instancer{context, automationInstance};
+                EventElementInstancer instancer{context, *automationInstance};
                 stateManager.logicTick(parameters, instancer, transport);
             }
             else

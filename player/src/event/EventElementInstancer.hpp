@@ -1,6 +1,6 @@
 #pragma once
 
-#include "automation/AutomationInstance.hpp"
+#include "../automation/instance/AutomationRegistryInstance.hpp"
 
 import element;
 import ElementInstance;
@@ -11,7 +11,7 @@ namespace event
     class EventElementInstancer : public element::ElementInstanceContext
     {
     public:
-        explicit EventElementInstancer(player::ElementInstanceManager& manager_, automation::AutomationInstance& automation_):
+        explicit EventElementInstancer(player::ElementInstanceManager& manager_, automation::AutomationRegistryInstance& automation_):
             manager(manager_),
             automation(automation_)
         {
@@ -20,11 +20,13 @@ namespace event
 
         element::ElementInstancePtr createInstance(element::Element &element) override
         {
-            return element.createInstance(manager.getAudioContext(), automation);
+            auto instance = element.createInstance(manager.getAudioContext(), automation);
+            manager.addInstance(instance);
+            return instance;
         }
 
     private:
         player::ElementInstanceManager& manager;
-        automation::AutomationInstance& automation;
+        automation::AutomationRegistryInstance& automation;
     };
 }

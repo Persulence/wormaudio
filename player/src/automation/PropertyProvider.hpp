@@ -13,5 +13,5 @@ namespace automation
         virtual ~PropertyProvider() = default;
     };
 
-    using PropertyProviderPtr = std::shared_ptr<PropertyProvider>;
+    using PropertyProviderKey = std::shared_ptr<PropertyProvider>;
 }

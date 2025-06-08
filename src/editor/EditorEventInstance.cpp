@@ -1,12 +1,16 @@
 
 #include "EditorEventInstance.hpp"
 
+#include <utility>
+
+#include "event/AutomationTableInstance.hpp"
+
 namespace editor
 {
     using namespace event;
 
     EditorEventInstance::EditorEventInstance(Event::Ptr parent_):
-        EventInstance(parent_)
+        EventInstance(std::move(parent_))
     {
 
     }
@@ -14,5 +18,7 @@ namespace editor
     void EditorEventInstance::refresh()
     {
         stateManager = {StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())};
+
+        automationInstance = std::make_unique<automation::AutomationTableInstance>(parent->getAutomation());
     }
 }

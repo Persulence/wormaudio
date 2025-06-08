@@ -14,6 +14,7 @@ namespace automation
     class PropertyInstance;
     class PropertyInstanceHandle
     {
+        // May change to raw or weak
         std::shared_ptr<PropertyInstance> instance;
 
     public:

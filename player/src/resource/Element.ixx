@@ -1,11 +1,8 @@
 module;
 
-#include <variant>
 #include <memory>
 
-#include "../automation/AutomationRegistry.hpp"
-#include "../util/class_util.h"
-#include "automation/AutomationInstance.hpp"
+#include "automation/instance/AutomationRegistryInstance.hpp"
 
 export module element;
 
@@ -20,15 +17,15 @@ namespace element
     export class Element : public automation::PropertyProvider
     {
     public:
-        Element() = default;
-        JUCE_DECLARE_NON_COPYABLE(Element)
+        automation::Property volume{automation::createProperty("volume", 0, automation::Unit::DBFS)};
 
-        [[nodiscard]] virtual ElementInstancePtr createInstance(player::AudioContext, automation::AutomationInstance& automation) = 0;
+        Element() = default;
+
+        [[nodiscard]] virtual ElementInstancePtr createInstance(player::AudioContext, automation::AutomationRegistryInstance& automation) = 0;
         virtual std::string getName() = 0;
 
-        // virtual void regAutomation(automation::AutomationRegistry& registry) const { }
-
         ~Element() override = default;
+        JUCE_DECLARE_NON_COPYABLE(Element)
     };
 
     export class RandomElement : public Element

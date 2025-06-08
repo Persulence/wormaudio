@@ -1,7 +1,9 @@
 #pragma once
 #include <memory>
+#include <bits/stl_vector.h>
 
 #include "Automation.hpp"
+#include "juce_core/system/juce_PlatformDefs.h"
 
 using AutomationValue = float;
 
@@ -23,7 +25,9 @@ namespace automation
 
         }
 
-        PropertyName getId() { return id; }
+        PropertyName getId() const{ return id; }
+
+        AutomationValue getDefault() const{ return defaultValue; }
     };
 
     class PropertyInstance
@@ -32,6 +36,12 @@ namespace automation
         AutomationValue value{};
 
     public:
+        JUCE_DECLARE_NON_COPYABLE(PropertyInstance)
+
+        explicit PropertyInstance(const std::shared_ptr<PropertyDef> &def):
+            def(def), value(def->getDefault())
+        { }
+
         void setValue(AutomationValue value);
         [[nodiscard]] AutomationValue getValue() const;
     };
