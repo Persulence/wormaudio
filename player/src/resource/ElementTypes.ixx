@@ -27,13 +27,17 @@ namespace element
         player::LeanSamplePlayer player;
         automation::PropertyInstanceContainer properties;
 
+        automation::PropertyInstance::OnChanged::Listener gainListener;
+
     public:
-        explicit ClipElementInstance(const player::AudioContext &context_, resource::ElementSampleBuffer::Ptr audio_, automation::PropertyInstanceContainer properties):
+        explicit ClipElementInstance(const player::AudioContext &context_, const resource::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_):
             ElementInstance(context_),
             player(std::move(audio_)),
-            properties(std::move(properties))
+            properties(std::move(properties_))
         {
             player.prepareToPlay(audioContext.samplesPerBlock, audioContext.sampleRate);
+
+            properties.instances[0]->onChanged.setup(&gainListener, [this](auto val){ player.setGainDb(val); });
         }
 
         ~ClipElementInstance() override = default;

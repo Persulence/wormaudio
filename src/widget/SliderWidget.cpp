@@ -42,7 +42,7 @@ namespace ui
 
     void SliderWidget::paint(juce::Graphics &g)
     {
-        Value f = current / (std::abs(max - min));
+        const Value f = (current - min) / (max - min);
         const auto bounds = getLocalBounds().toFloat().expanded(-0.5f);
         const auto rect = bounds.withWidth(f * getWidth());
 

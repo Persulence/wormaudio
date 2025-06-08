@@ -68,7 +68,7 @@ namespace ui
             PopupMenu menu;
             menu.addItem("New continuous parameter", [this]
             {
-                addNewParameter(std::make_shared<ParameterDef>(ContinuousParameterDef{0, 10, "p"}));
+                addNewParameter(std::make_shared<ParameterDef>(ContinuousParameterDef{-5, 5, "p"}));
                 refresh();
             });
             menu.addItem("New discrete parameter", [this]

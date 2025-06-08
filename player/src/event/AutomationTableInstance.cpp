@@ -1,13 +1,22 @@
 #include "AutomationTableInstance.hpp"
 
+#include "automation/Property.hpp"
+
 namespace automation
 {
-    AutomationTableInstance::AutomationTableInstance(const AutomationTable &automation)
+    AutomationTableInstance::AutomationTableInstance(AutomationTable &automation):
+        table(automation)
     {
         for (auto& [key, container] : automation.registry)
         {
-            containers.emplace(key, PropertyInstanceContainer{container});
+            auto instanceContainer = containers.emplace(key, PropertyInstanceContainer{container});
+
+            for (auto& instanceHandle : instanceContainer.first->second.instances)
+            {
+                allInstances.emplace(instanceHandle->def, instanceHandle);
+            }
         }
+
         // for (auto& thing : automation.getLinks())
         // {
         //     // containers.emplace()
@@ -16,6 +25,17 @@ namespace automation
 
     PropertyInstanceContainer AutomationTableInstance::getContainer(const PropertyProviderKey provider)
     {
-        return containers.at(provider);
+        PropertyInstanceContainer& result = containers.at(provider);
+        return result;
+    }
+
+    void AutomationTableInstance::logicTick(const sm::ParameterLookup &parameters, const player::TransportControl &transport) const
+    {
+        for (const auto&[parameter, property, mapping] : table.getLinks())
+        {
+            const auto value = parameters.getValue(parameter->getName());
+            const auto transformed = mapping(value);
+            allInstances.at(property)->setValue(transformed);
+        }
     }
 }

@@ -42,6 +42,7 @@ namespace event
             if (!transport.stopped())
             {
                 EventElementInstancer instancer{context, *automationInstance};
+                automationInstance->logicTick(parameters, transport);
                 stateManager.logicTick(parameters, instancer, transport);
             }
             else

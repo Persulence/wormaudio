@@ -4,6 +4,7 @@
 
 #include "Automation.hpp"
 #include "juce_core/system/juce_PlatformDefs.h"
+#include "signal/Signal.hpp"
 
 using AutomationValue = float;
 
@@ -25,17 +26,19 @@ namespace automation
 
         }
 
-        PropertyName getId() const{ return id; }
+        [[nodiscard]] PropertyName getId() const{ return id; }
 
-        AutomationValue getDefault() const{ return defaultValue; }
+        [[nodiscard]] AutomationValue getDefault() const{ return defaultValue; }
     };
 
     class PropertyInstance
     {
-        std::shared_ptr<PropertyDef> def;
-        AutomationValue value{};
-
     public:
+        using OnChanged = signal_event::Callback<AutomationValue>;
+
+        std::shared_ptr<PropertyDef> def;
+        OnChanged::Signal onChanged;
+
         JUCE_DECLARE_NON_COPYABLE(PropertyInstance)
 
         explicit PropertyInstance(const std::shared_ptr<PropertyDef> &def):
@@ -44,5 +47,8 @@ namespace automation
 
         void setValue(AutomationValue value);
         [[nodiscard]] AutomationValue getValue() const;
+
+    private:
+        AutomationValue value{};
     };
 }

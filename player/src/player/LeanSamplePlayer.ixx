@@ -23,14 +23,20 @@ namespace player
 
         int position{0};
 
-        bool additive{true};
+        // bool additive{true};
+
+        float gain = 1;
 
     public:
-
         explicit LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_):
             buffer(std::move(buffer_))
         {
             formatManager.registerBasicFormats();
+        }
+
+        void setGainDb(const float volumeDb_)
+        {
+            gain = juce::Decibels::decibelsToGain(volumeDb_);
         }
 
         void setFile(juce::File &&file) override
@@ -69,24 +75,25 @@ namespace player
                 auto samplesThisTime = juce::jmin (outputSamplesRemaining, refSamplesRemaining);
                 for (auto channel = 0; channel < numOutputChannels; ++channel)
                 {
-                    if (additive)
-                    {
+                    // if (additive)
+                    // {
                         bufferToFill.buffer->addFrom(channel,
                             outputSamplesOffset,
                             ref,
                             channel % numBufferChannels,
                             position,
-                            samplesThisTime);
-                    }
-                    else
-                    {
-                        bufferToFill.buffer->copyFrom(channel,
-                            outputSamplesOffset,
-                            ref,
-                            channel % numBufferChannels,
-                            position,
-                            samplesThisTime);
-                    }
+                            samplesThisTime,
+                            gain);
+                    // }
+                    // else
+                    // {
+                    //     bufferToFill.buffer->copyFrom(channel,
+                    //         outputSamplesOffset,
+                    //         ref,
+                    //         channel % numBufferChannels,
+                    //         position,
+                    //         samplesThisTime);
+                    // }
                 }
                 outputSamplesRemaining -= samplesThisTime;
                 outputSamplesOffset += samplesThisTime;

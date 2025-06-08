@@ -6,6 +6,7 @@ namespace automation
     void PropertyInstance::setValue(const AutomationValue value_)
     {
         value = value_;
+        onChanged.emit(value);
     }
 
     AutomationValue PropertyInstance::getValue() const
