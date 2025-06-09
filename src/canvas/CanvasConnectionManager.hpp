@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "TransitionArrowComponent.hpp"
+#include "command/SimpleCommandTarget.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
@@ -11,7 +12,7 @@ namespace ui
 {
     class StateNodeWidget;
 
-    class CanvasConnectionManager : public juce::Component
+    class CanvasConnectionManager : public juce::Component, public SimpleCommandTarget
     {
     public:
         using Point = juce::Point<float>;
@@ -51,6 +52,7 @@ namespace ui
 
     private:
         void update();
+
     };
 }
 

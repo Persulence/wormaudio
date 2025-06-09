@@ -15,7 +15,7 @@ namespace ui
 {
     class StateNodeWidget;
 
-    class StateCanvasPanel : public Panel, public juce::ApplicationCommandTarget
+    class StateCanvasPanel : public Panel, public SimpleCommandTarget
     {
         std::vector<std::shared_ptr<StateNodeWidget>> stateNodes;
         std::unordered_map<std::shared_ptr<sm::StateDef>, std::shared_ptr<StateNodeWidget>> stateToNode;
@@ -46,9 +46,10 @@ namespace ui
 
         juce::Rectangle<int> calculateBounds() const;
 
-        ApplicationCommandTarget * getNextCommandTarget() override;
-        void getAllCommands(juce::Array<int> &commands) override;
-        void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result) override;
-        bool perform(const InvocationInfo &info) override;
+        void removeSelectedNode();
+        // ApplicationCommandTarget * getNextCommandTarget() override;
+        // void getAllCommands(juce::Array<int> &commands) override;
+        // void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result) override;
+        // bool perform(const InvocationInfo &info) override;
     };
 }

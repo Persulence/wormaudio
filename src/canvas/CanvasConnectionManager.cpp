@@ -85,12 +85,6 @@ namespace ui
             g.setColour(Colours::red);
             g.drawLine(line);
         }
-
-        // Draw the transition lines
-        // g.setColour(Colours::green);
-        // for (const auto& fromNode : *stateNodes)
-        // {
-        // }
     }
 
     void CanvasConnectionManager::removeTransition(const std::shared_ptr<TransitionArrowComponent> &component)

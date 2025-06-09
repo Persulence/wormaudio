@@ -4,7 +4,7 @@
 #include <state/StateMachineDefinition.hpp>
 
 #include "CanvasConnectionManager.hpp"
-#include "Commands.hpp"
+#include "command/Commands.hpp"
 #include "editor/Editor.hpp"
 
 import sm;
@@ -17,8 +17,15 @@ namespace ui
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
         definition(editor::Editor::getInstance().getDefinition())
     {
-        Commands::getInstance().registerAllCommandsForTarget(this);
-        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL, KeyPress{KeyPress::deleteKey});
+        // Commands::getInstance().registerAllCommandsForTarget(this);
+        // Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL, KeyPress{KeyPress::deleteKey});
+
+        addCommand(
+            CommandAction{Commands::DEL, [this](auto&){ removeSelectedNode();}}
+        );
+        registerCommands();
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
+
 
         for (auto& state : definition->getStates())
         {
@@ -185,40 +192,50 @@ namespace ui
         // return Rectangle{0, 0, maxX - minX, maxY - minY};
     }
 
-    ApplicationCommandTarget * StateCanvasPanel::getNextCommandTarget()
+    void StateCanvasPanel::removeSelectedNode()
     {
-        return findFirstTargetParentComponent();
-    }
-
-    void StateCanvasPanel::getAllCommands(Array<int> &commands)
-    {
-        commands.add(ui::Commands::DEL);
-    }
-
-    void StateCanvasPanel::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result)
-    {
-        switch (commandID)
+        const auto manager = findParentComponentOfClass<CanvasSelectionManager>();
+        if (manager)
         {
-            case ui::Commands::DEL:
-                result.setInfo("Delete node", "Delete selected node", "Node", 0);
+            if (auto shared = manager->getCurrent<StateNodeWidget>())
+                removeNode(shared);
         }
     }
 
-    bool StateCanvasPanel::perform(const InvocationInfo &info)
-    {
-        switch (info.commandID)
-        {
-            case Commands::DEL:
-                const auto manager = findParentComponentOfClass<CanvasSelectionManager>();
-                if (manager)
-                {
-                    if (auto shared = manager->getCurrent<StateNodeWidget>())
-                        removeNode(shared);
+    // ApplicationCommandTarget * StateCanvasPanel::getNextCommandTarget()
+    // {
+    //     return findFirstTargetParentComponent();
+    // }
+    //
+    // void StateCanvasPanel::getAllCommands(Array<int> &commands)
+    // {
+    //     commands.add(ui::Commands::DEL);
+    // }
+    //
+    // void StateCanvasPanel::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result)
+    // {
+    //     switch (commandID)
+    //     {
+    //         case ui::Commands::DEL:
+    //             result.setInfo("Delete node", "Delete selected node", "Node", 0);
+    //     }
+    // }
 
-                    return true;
-                }
-        }
-
-        return false;
-    }
+    // bool StateCanvasPanel::perform(const InvocationInfo &info)
+    // {
+    //     switch (info.commandID)
+    //     {
+    //         case Commands::DEL:
+    //             const auto manager = findParentComponentOfClass<CanvasSelectionManager>();
+    //             if (manager)
+    //             {
+    //                 if (auto shared = manager->getCurrent<StateNodeWidget>())
+    //                     removeNode(shared);
+    //
+    //                 return true;
+    //             }
+    //     }
+    //
+    //     return false;
+    // }
 }

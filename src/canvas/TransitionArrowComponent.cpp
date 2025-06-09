@@ -156,20 +156,8 @@ namespace ui
         }
     }
 
-    bool TransitionArrowComponent::keyPressed(const juce::KeyPress &key)
+    bool TransitionArrowComponent::keyPressed(const KeyPress &key)
     {
-        if (key.getKeyCode() == KeyPress::deleteKey)
-        {
-            if (selected)
-            {
-                auto parent = findParentComponentOfClass<CanvasConnectionManager>();
-                if (parent != nullptr)
-                {
-                    parent->removeTransition(shared_from_this());
-                    return true;
-                }
-            }
-        }
 
         return false;
     }

@@ -8,7 +8,7 @@
 
 #include <JuceHeader.h>
 
-#include "Commands.hpp"
+#include "command/Commands.hpp"
 #include "TestMainComponent.h"
 #include "UiMainComponent.hpp"
 
