@@ -17,16 +17,6 @@ namespace ui
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
         definition(editor::Editor::getInstance().getDefinition())
     {
-        // Commands::getInstance().registerAllCommandsForTarget(this);
-        // Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL, KeyPress{KeyPress::deleteKey});
-
-        addCommand(
-            CommandAction{Commands::DEL, [this](auto&){ removeSelectedNode();}}
-        );
-        registerCommands();
-        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
-
-
         for (auto& state : definition->getStates())
         {
             addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
@@ -41,6 +31,12 @@ namespace ui
         transition->conditions.insertCondition(condition::ComparisonCondition{});
         definition->getStart()->insertTransition(transition);
         connectionManager->refreshTransitionWidgets();
+
+        commands()
+            .add(CommandAction{Commands::DEL, [this](auto&){ removeSelectedNode();}})
+            .finish();
+
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
     }
 
     StateNodeWidget::Ptr StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget> &node)

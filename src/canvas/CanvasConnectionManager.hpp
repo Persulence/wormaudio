@@ -49,6 +49,7 @@ namespace ui
         void paint(juce::Graphics& g) override;
 
         void removeTransition(const std::shared_ptr<TransitionArrowComponent> &component);
+        void removeSelectedTransition();
 
     private:
         void update();

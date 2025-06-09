@@ -17,6 +17,10 @@ namespace ui
         // vBlank(juce::VBlankAttachment{this, [this]() { update(); }})
     {
         setInterceptsMouseClicks(false, true);
+
+        commands()
+            .add({Commands::DEL, [this](auto&){ removeSelectedTransition(); }})
+            .finish();
     }
 
     void CanvasConnectionManager::refreshTransitionWidgets()
@@ -98,6 +102,18 @@ namespace ui
         if (auto manager =findParentComponentOfClass<CanvasSelectionManager>(); manager)
         {
             manager->deselectAll();
+        }
+    }
+
+    void CanvasConnectionManager::removeSelectedTransition()
+    {
+        auto manager = findParentComponentOfClass<CanvasSelectionManager>();
+        if (manager)
+        {
+            if (auto shared = manager->getCurrent<TransitionArrowComponent>())
+            {
+                removeTransition(shared);
+            }
         }
     }
 

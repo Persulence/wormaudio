@@ -34,14 +34,28 @@ namespace ui
         }
 
     protected:
-        void addCommand(CommandAction action)
+        class Builder
         {
-            commandsDefs.emplace(action.id, action);
-        }
+            SimpleCommandTarget& parent;
 
-        void registerCommands()
+        public:
+            explicit Builder(SimpleCommandTarget& parent_): parent(parent_) {}
+
+            Builder& add(CommandAction action)
+            {
+                parent.commandsDefs.emplace(action.id, action);
+                return *this;
+            }
+
+            void finish() const
+            {
+                Commands::getInstance().registerAllCommandsForTarget(&parent);
+            }
+        };
+
+        Builder commands()
         {
-            Commands::getInstance().registerAllCommandsForTarget(this);
+            return Builder{*this};
         }
 
     private:
