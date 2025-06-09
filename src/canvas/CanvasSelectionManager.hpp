@@ -17,10 +17,10 @@ namespace ui
         virtual std::shared_ptr<juce::Component> createConfig() = 0;
 
         /// Executed when the selection manager has confirmed selection of this object.
-        virtual void onSelect() = 0;
+        virtual void onSelect() {};
 
         /// Executed when the selection has changed to another object.
-        virtual void onDeselect() = 0;
+        virtual void onDeselect() {};
     };
 
     // To be accessed via Component::findParentOfClass. Requires janky multiple inheritance.

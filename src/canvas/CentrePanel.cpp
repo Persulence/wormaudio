@@ -7,7 +7,7 @@ CentrePanel::CentrePanel():
         // handle(ResizeHandle(ResizeHandle::Direction::HORIZONTAL, 500)),
         // canvasViewport(BorderPanel<CanvasViewport>{}),
         parameterPanel(BorderPanel<ParameterPanel>{}),
-        editor(BorderPanel<StateEditorPanel>{*this}),
+        editor(BorderPanel<BottomInspectorPanel>{*this}),
         bar1(&layout, 1, false),
         bar2(&layout, 3, false)
 {

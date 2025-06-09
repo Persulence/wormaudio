@@ -5,13 +5,13 @@
 
 namespace ui
 {
-    class StateEditorPanel : public Panel
+    class BottomInspectorPanel : public Panel
     {
         CanvasSelectionManager& selectionManager;
         std::shared_ptr<Component> configComponent;
 
     public:
-        explicit StateEditorPanel(CanvasSelectionManager& parent):
+        explicit BottomInspectorPanel(CanvasSelectionManager& parent):
             selectionManager(parent)
         {
         }

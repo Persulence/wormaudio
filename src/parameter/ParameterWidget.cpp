@@ -6,6 +6,7 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 
 #include "ContinuousParameterConfig.hpp"
+#include "DiscreteParameterConfig.hpp"
 #include "editor/Editor.hpp"
 #include "juce_gui_basics/native/juce_XWindowSystem_linux.h"
 #include "widget/SliderWidget.hpp"
@@ -34,8 +35,8 @@ namespace ui
     public:
         SliderWidget slider;
 
-        ContinuousWidget(ContinuousParameterDef& def, ParameterInstance& instance):
-            ImplWidget(def, instance)
+        ContinuousWidget(ContinuousParameterDef& def, ParameterInstance& instance_):
+            ImplWidget(def, instance_)
         {
             addAndMakeVisible(slider);
             slider.setRange(def.min, def.max, 0);
@@ -49,16 +50,18 @@ namespace ui
         }
     };
 
-    class DiscreteWidget : public ImplWidget<DiscreteParameterDef>
+    class DiscreteWidget : public ImplWidget<DiscreteParameterDef>, SliderWidget::C::Listener
     {
         SliderWidget slider;
 
     public:
-        explicit DiscreteWidget(DiscreteParameterDef& def_, ParameterInstance& instance):
-            ImplWidget(def_, instance)
+        explicit DiscreteWidget(DiscreteParameterDef& def_, ParameterInstance& instance_):
+            ImplWidget(def_, instance_)
         {
             addAndMakeVisible(slider);
             slider.setRange(def.min, def.max, 1);
+            slider.setValue(instance.getValue(), false);
+            slider.onChanged.setup(this, [this](double value){ this->instance.setValue(value); });
         }
 
         void resized() override
@@ -121,13 +124,32 @@ namespace ui
         }
     };
 
+    struct ConfigComponentVisitor
+    {
+        std::unique_ptr<ParameterConfig> operator()(ContinuousParameterDef& def) const
+        {
+            return std::make_unique<ContinuousParameterConfig>(def);
+        }
+
+        std::unique_ptr<ParameterConfig> operator()(DiscreteParameterDef& def) const
+        {
+            return std::make_unique<DiscreteParameterConfig>(def);
+        }
+
+        std::unique_ptr<ParameterConfig> operator()(EnumParameterDef& def) const
+        {
+            // return std::make_unique<ContinuousParameterConfig>(def);
+            throw std::exception{};
+        }
+    };
+
     ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
         lookup(lookup_), parameter(std::move(parameter_))
     {
         refresh();
         label.addMouseListener(this, true);
 
-        label.setEditable(true);
+        label.setEditable(false, true, true);
         label.setText(String{parameter->getName()}, dontSendNotification);
         label.onTextChange = [this]
         {
@@ -151,6 +173,8 @@ namespace ui
         addAndMakeVisible(child.get());
         addAndMakeVisible(label);
         resized();
+
+        child->addMouseListener(this, true);
     }
 
     void ParameterWidget::resized()
@@ -162,48 +186,60 @@ namespace ui
 
     void ParameterWidget::mouseDown(const MouseEvent &event)
     {
-        if (event.mods.isRightButtonDown())
+        if (auto manager = findParentComponentOfClass<CanvasSelectionManager>())
         {
-            // c = std::make_unique<FileChooser>("thing", File{}, "*", false);
-            // c->launchAsync(FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles, [](auto& fc){});
-
-            PopupMenu menu;
-            menu.addItem("Edit", [this]
-            {
-                auto visitor = ConfigComponentVisitor{};
-                auto leak = std::visit(visitor, *parameter);
-                leak->onChange.setup(this, [this]{ refresh(); });
-
-                DialogWindow::LaunchOptions o;
-                o.content.setOwned(leak.release());
-                o.resizable = false;
-                o.content->setBounds(Rectangle{0, 0, 500, 500});
-                o.dialogBackgroundColour = Colours::grey;
-                o.escapeKeyTriggersCloseButton = true;
-
-                DialogWindow *window = o.create();
-                // auto handle = reinterpret_cast<Window>(window->getWindowHandle());
-                // auto display = XWindowSystem::getInstance()->getDisplay();
-                // auto atoms = XWindowSystemUtilities::Atoms{display};
-                // XWindowSystemUtilities::GetXProperty get{display, handle, atoms.pid,
-                //               0L,
-                //               std::numeric_limits<long>::max(),
-                //               false,
-                //     atoms.pid
-                // };
-                //
-                // std::cout << get.success << "\n";
-                // std::cout << "data: " << get.data << "\n";
-
-                window->enterModalState(true, nullptr, true);
-
-            });
-            menu.showMenuAsync(PopupMenu::Options{});
+            manager->select(shared_from_this());
         }
+
+        // if (event.mods.isRightButtonDown())
+        // {
+        //     // c = std::make_unique<FileChooser>("thing", File{}, "*", false);
+        //     // c->launchAsync(FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles, [](auto& fc){});
+        //
+        //     PopupMenu menu;
+        //     menu.addItem("Edit", [this]
+        //     {
+        //         auto visitor = ConfigComponentVisitor{};
+        //         auto leak = std::visit(visitor, *parameter);
+        //         leak->onChange.setup(this, [this]{ refresh(); });
+        //
+        //         DialogWindow::LaunchOptions o;
+        //         o.content.setOwned(leak.release());
+        //         o.resizable = false;
+        //         o.content->setBounds(Rectangle{0, 0, 500, 500});
+        //         o.dialogBackgroundColour = Colours::grey;
+        //         o.escapeKeyTriggersCloseButton = true;
+        //
+        //         DialogWindow *window = o.create();
+        //         // auto handle = reinterpret_cast<Window>(window->getWindowHandle());
+        //         // auto display = XWindowSystem::getInstance()->getDisplay();
+        //         // auto atoms = XWindowSystemUtilities::Atoms{display};
+        //         // XWindowSystemUtilities::GetXProperty get{display, handle, atoms.pid,
+        //         //               0L,
+        //         //               std::numeric_limits<long>::max(),
+        //         //               false,
+        //         //     atoms.pid
+        //         // };
+        //         //
+        //         // std::cout << get.success << "\n";
+        //         // std::cout << "data: " << get.data << "\n";
+        //
+        //         window->enterModalState(true, nullptr, true);
+        //
+        //     });
+        //     menu.showMenuAsync(PopupMenu::Options{});
+        // }
     }
 
     ParameterInstance &ParameterWidget::getParameter() const
     {
         return lookup.get(parameter);
+    }
+
+    std::shared_ptr<Component> ParameterWidget::createConfig()
+    {
+        auto ptr = std::visit(ConfigComponentVisitor{}, *parameter);
+        ptr->onChange.setup(this, [this]{ refresh(); });
+        return std::move(ptr);
     }
 }

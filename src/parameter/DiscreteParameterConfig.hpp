@@ -8,14 +8,14 @@ import parameter;
 
 namespace ui
 {
-    class ContinuousParameterConfig : public ParameterConfig
+    class DiscreteParameterConfig : public ParameterConfig
     {
         juce::Label minValue;
         juce::Label maxValue;
-        parameter::ContinuousParameterDef &def;
+        parameter::DiscreteParameterDef &def;
 
     public:
-        explicit ContinuousParameterConfig(parameter::ContinuousParameterDef& def_):
+        explicit DiscreteParameterConfig(parameter::DiscreteParameterDef& def_):
             def(def_)
         {
             addAndMakeVisible(minValue);
@@ -23,7 +23,7 @@ namespace ui
             minValue.setText(juce::String{def_.min}, juce::dontSendNotification);
             minValue.onTextChange = [this]()
             {
-                def.min = parameter::parseValue(minValue.getText().toStdString());
+                def.min = std::roundf(parameter::parseValue(minValue.getText().toStdString()));
                 onChange.emit();
             };
 
@@ -32,12 +32,12 @@ namespace ui
             maxValue.setText(juce::String{def_.max}, juce::dontSendNotification);
             maxValue.onTextChange = [this]()
             {
-                def.max = parameter::parseValue(maxValue.getText().toStdString());
+                def.max = std::roundf(parameter::parseValue(maxValue.getText().toStdString()));
                 onChange.emit();
             };
         }
 
-        ~ContinuousParameterConfig() override = default;
+        ~DiscreteParameterConfig() override = default;
 
         void resized() override
         {

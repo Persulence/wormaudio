@@ -1,5 +1,6 @@
 module;
 
+#include <iostream>
 #include <memory>
 #include <unordered_map>
 
@@ -13,6 +14,9 @@ namespace sm
     {
         std::unordered_map<std::string, std::unique_ptr<parameter::ParameterInstance>> newInstances;
 
+// #ifdef DEBUG
+        // std::cout << "Refreshing parameters\n";
+// #endif
         for (auto& parameter : list.parameters)
         {
             // Retain previous value if the parameter existed before

@@ -22,7 +22,7 @@ namespace ui
             }
         }
 
-        void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result) override
+        void getCommandInfo(const juce::CommandID commandID, juce::ApplicationCommandInfo &result) override
         {
             commandsDefs.at(commandID).apply(result);
         }

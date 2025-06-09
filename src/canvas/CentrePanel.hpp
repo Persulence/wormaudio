@@ -4,7 +4,7 @@
 
 #include "CanvasSelectionManager.hpp"
 #include "CanvasViewport.hpp"
-#include "StateEditorPanel.hpp"
+#include "BottomInspectorPanel.hpp"
 #include "parameter/ParameterPanel.hpp"
 
 namespace ui
@@ -14,7 +14,7 @@ namespace ui
     public:
         BorderPanel<ParameterPanel> parameterPanel;
         BorderPanel<CanvasViewport> canvasViewport;
-        BorderPanel<StateEditorPanel> editor;
+        BorderPanel<BottomInspectorPanel> editor;
 
         juce::StretchableLayoutManager layout;
         juce::StretchableLayoutResizerBar bar1;

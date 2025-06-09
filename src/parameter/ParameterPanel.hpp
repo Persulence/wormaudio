@@ -13,7 +13,7 @@ namespace ui
         // parameter::Parameter testParameter;
         // parameter::ParameterInstance testInstance;
 
-        std::vector<std::unique_ptr<ParameterWidget>> widgets;
+        std::vector<std::shared_ptr<ParameterWidget>> widgets;
 
     public:
         explicit ParameterPanel();
