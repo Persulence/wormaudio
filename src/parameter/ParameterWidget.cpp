@@ -2,6 +2,7 @@
 
 #include <utility>
 
+#include "ContinuousParameterConfig.hpp"
 #include "editor/Editor.hpp"
 #include "widget/SliderWidget.hpp"
 
@@ -123,7 +124,7 @@ namespace ui
         label.addMouseListener(this, true);
 
         label.setEditable(true);
-        label.setText(String{parameter->getName()}, NotificationType::dontSendNotification);
+        label.setText(String{parameter->getName()}, dontSendNotification);
         label.onTextChange = [this]
         {
             auto& editor = editor::Editor::getInstance();
@@ -160,11 +161,18 @@ namespace ui
         if (event.mods.isRightButtonDown())
         {
             PopupMenu menu;
-            menu.addItem("Edit", [this]()
+            menu.addItem("Edit", [this]
             {
-                // DialogWindow window{String{"Edit Parameter"}, Colours::darkgreen, true, true};
-                // auto leak = new SliderWidget{};
-                // window.showDialog("eee", leak, leak, Colours::green, true, true, true);
+                auto visitor = ConfigComponentVisitor{};
+                auto leak = std::visit(visitor, *parameter);
+                leak->onChange.setup(this, [this]{ refresh(); });
+
+                DialogWindow::LaunchOptions o;
+                o.content.setOwned(leak.release());
+                o.resizable = false;
+                o.content->setBounds(Rectangle{0, 0, 500, 500});
+                o.dialogBackgroundColour = Colours::grey;
+                o.launchAsync();
             });
             menu.showMenuAsync(PopupMenu::Options{});
         }

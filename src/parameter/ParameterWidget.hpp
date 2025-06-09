@@ -1,4 +1,5 @@
 #pragma once
+#include "ParameterConfigWidget.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 import sm;
@@ -7,10 +8,9 @@ import parameter;
 
 namespace ui
 {
-    class ParameterWidget : public juce::Component
+    class ParameterWidget : public juce::Component, public ParameterConfig::OnChange::Listener
     {
         std::unique_ptr<Component> child;
-        // parameter::ParameterInstance& instance;
         sm::ParameterLookup& lookup;
         parameter::Parameter parameter;
         juce::Label label;

@@ -21,19 +21,6 @@ namespace ui
         {6, {GreaterEqual{}}},
     };
 
-    struct Processor
-    {
-        virtual ~Processor() = default;
-
-        // Return false to mark invalid
-        // virtual bool thing(std::string text, );
-    };
-
-    struct ParameterProcessor : Processor
-    {
-
-    };
-
     void addOperandItems(ComparisonComboBox& combo)
     {
         int i = 1;
