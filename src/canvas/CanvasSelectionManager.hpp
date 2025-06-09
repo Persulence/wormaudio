@@ -37,6 +37,14 @@ namespace ui
             return current;
         }
 
+        template <class T>
+        std::shared_ptr<T> getCurrent()
+        {
+            std::shared_ptr<CanvasSelectionTarget> shared = current.lock();
+
+            return std::dynamic_pointer_cast<T>(shared);
+        }
+
         void select(const std::shared_ptr<CanvasSelectionTarget> &target)
         {
             if (!current.expired())

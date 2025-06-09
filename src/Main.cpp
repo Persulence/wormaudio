@@ -7,6 +7,8 @@
 */
 
 #include <JuceHeader.h>
+
+#include "Commands.hpp"
 #include "TestMainComponent.h"
 #include "UiMainComponent.hpp"
 
@@ -58,7 +60,7 @@ public:
         This class implements the desktop window that contains an instance of
         our MainComponent class.
     */
-    class MainWindow    : public juce::DocumentWindow
+    class MainWindow : public juce::DocumentWindow
     {
     public:
         explicit MainWindow(const juce::String& name)
@@ -67,17 +69,22 @@ public:
                                                           .findColour (juce::ResizableWindow::backgroundColourId),
                               DocumentWindow::allButtons)
         {
+            addKeyListener(ui::Commands::getInstance().getKeyMappings());
+
+            // The horror
             setUsingNativeTitleBar(true);
             setContentOwned(new ui::UiMainComponent(), true);
             glContext.attachTo(*getTopLevelComponent());
-            // setContentOwned(new ResourceTestComponent(), true);
-            // setContentOwned (new TestMainComponent(), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
            #else
-            setResizable (true, true);
-            centreWithSize (getWidth(), getHeight());
+            setResizable(true, true);
+            // None of this works on a tiling window manager
+            centreWithSize(700, 400);
+            // getTopLevelComponent()->setBounds(0, 0, 1000, 700);
+            // centreWithSize(1000, 800);
+            // setBoundsRelative(0, 0, 0.5, 0.5);
            #endif
 
             setVisible (true);

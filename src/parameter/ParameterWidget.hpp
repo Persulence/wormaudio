@@ -23,6 +23,7 @@ namespace ui
         void mouseDown(const juce::MouseEvent &event) override;
 
     private:
-        parameter::ParameterInstance &getParameter() const;
+        [[nodiscard]] parameter::ParameterInstance &getParameter() const;
+        std::unique_ptr<juce::FileChooser> c;
     };
 }

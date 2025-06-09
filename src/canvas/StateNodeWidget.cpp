@@ -180,17 +180,17 @@ namespace ui
 
     bool StateNodeWidget::keyPressed(const juce::KeyPress &key)
     {
-        if (key.getKeyCode() == KeyPress::deleteKey)
-        {
-            if (selected)
-            {
-                auto parent = findParentComponentOfClass<StateCanvasPanel>();
-                if (parent != nullptr)
-                {
-                    parent->removeNode(shared_from_this());
-                }
-            }
-        }
+        // if (key.getKeyCode() == KeyPress::deleteKey)
+        // {
+        //     if (selected)
+        //     {
+        //         auto parent = findParentComponentOfClass<StateCanvasPanel>();
+        //         if (parent != nullptr)
+        //         {
+        //             parent->removeNode(shared_from_this());
+        //         }
+        //     }
+        // }
 
         return false;
     }

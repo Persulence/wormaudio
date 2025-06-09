@@ -1,9 +1,13 @@
 #include "ParameterWidget.hpp"
 
 #include <utility>
+#include <X11/Xlib.h>
+
+#include "juce_gui_basics/juce_gui_basics.h"
 
 #include "ContinuousParameterConfig.hpp"
 #include "editor/Editor.hpp"
+#include "juce_gui_basics/native/juce_XWindowSystem_linux.h"
 #include "widget/SliderWidget.hpp"
 
 namespace ui
@@ -160,6 +164,9 @@ namespace ui
     {
         if (event.mods.isRightButtonDown())
         {
+            // c = std::make_unique<FileChooser>("thing", File{}, "*", false);
+            // c->launchAsync(FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles, [](auto& fc){});
+
             PopupMenu menu;
             menu.addItem("Edit", [this]
             {
@@ -172,7 +179,24 @@ namespace ui
                 o.resizable = false;
                 o.content->setBounds(Rectangle{0, 0, 500, 500});
                 o.dialogBackgroundColour = Colours::grey;
-                o.launchAsync();
+                o.escapeKeyTriggersCloseButton = true;
+
+                DialogWindow *window = o.create();
+                // auto handle = reinterpret_cast<Window>(window->getWindowHandle());
+                // auto display = XWindowSystem::getInstance()->getDisplay();
+                // auto atoms = XWindowSystemUtilities::Atoms{display};
+                // XWindowSystemUtilities::GetXProperty get{display, handle, atoms.pid,
+                //               0L,
+                //               std::numeric_limits<long>::max(),
+                //               false,
+                //     atoms.pid
+                // };
+                //
+                // std::cout << get.success << "\n";
+                // std::cout << "data: " << get.data << "\n";
+
+                window->enterModalState(true, nullptr, true);
+
             });
             menu.showMenuAsync(PopupMenu::Options{});
         }

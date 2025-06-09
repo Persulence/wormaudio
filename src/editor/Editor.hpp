@@ -3,10 +3,11 @@
 #include <cassert>
 #include <runtime/Runtime.hpp>
 
+#include "juce_gui_basics/juce_gui_basics.h"
+
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
 #include "state/StateMachineDefinition.hpp"
-#include "signal/Signal.hpp"
 
 import event;
 import transport;
@@ -34,6 +35,12 @@ namespace editor
 
             globalParameters.changed.setup(this, [this](){ refreshParameters(); });
             // EditorParameterList::Changed::Listener::listen(globalParameters.changed, [this](){ refreshParameters(); });
+
+            // quit.setInfo("Quit", "Quit the application", "app", 0);
+            // commands.registerCommand(quit);
+            // commands.registerAllCommandsForTarget()
+
+            // commands.invokeDirectly(quit.commandID, false);
         }
 
         void refreshParameters()

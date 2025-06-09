@@ -4,6 +4,7 @@
 #include <state/StateMachineDefinition.hpp>
 
 #include "CanvasConnectionManager.hpp"
+#include "Commands.hpp"
 #include "editor/Editor.hpp"
 
 import sm;
@@ -16,6 +17,9 @@ namespace ui
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
         definition(editor::Editor::getInstance().getDefinition())
     {
+        Commands::getInstance().registerAllCommandsForTarget(this);
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL, KeyPress{KeyPress::deleteKey});
+
         for (auto& state : definition->getStates())
         {
             addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
@@ -179,5 +183,42 @@ namespace ui
 
         return Rectangle<int>::leftTopRightBottom(minX, minY, maxX, maxY);
         // return Rectangle{0, 0, maxX - minX, maxY - minY};
+    }
+
+    ApplicationCommandTarget * StateCanvasPanel::getNextCommandTarget()
+    {
+        return findFirstTargetParentComponent();
+    }
+
+    void StateCanvasPanel::getAllCommands(Array<int> &commands)
+    {
+        commands.add(ui::Commands::DEL);
+    }
+
+    void StateCanvasPanel::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result)
+    {
+        switch (commandID)
+        {
+            case ui::Commands::DEL:
+                result.setInfo("Delete node", "Delete selected node", "Node", 0);
+        }
+    }
+
+    bool StateCanvasPanel::perform(const InvocationInfo &info)
+    {
+        switch (info.commandID)
+        {
+            case Commands::DEL:
+                const auto manager = findParentComponentOfClass<CanvasSelectionManager>();
+                if (manager)
+                {
+                    if (auto shared = manager->getCurrent<StateNodeWidget>())
+                        removeNode(shared);
+
+                    return true;
+                }
+        }
+
+        return false;
     }
 }
