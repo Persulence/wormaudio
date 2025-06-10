@@ -39,7 +39,7 @@ namespace ui
             ImplWidget(def, instance_)
         {
             addAndMakeVisible(slider);
-            slider.setRange(def.min, def.max, 0);
+            slider.setRange(def.min.getValue(), def.max.getValue(), 0);
             slider.setValue(instance.getValue(), false);
             slider.onChanged.setup(this, [this](double value){ this->instance.setValue(value); });
         }
@@ -128,6 +128,10 @@ namespace ui
     {
         std::unique_ptr<ParameterConfig> operator()(ContinuousParameterDef& def) const
         {
+            {
+                std::make_unique<ContinuousParameterConfig>(def);
+            }
+
             return std::make_unique<ContinuousParameterConfig>(def);
         }
 

@@ -9,6 +9,7 @@ module;
 #include <vector>
 
 #include "juce_core/system/juce_PlatformDefs.h"
+#include "juce_data_structures/juce_data_structures.h"
 
 export module parameter;
 
@@ -28,8 +29,8 @@ namespace parameter
 
     export struct ContinuousParameterDef
     {
-        ParameterValue min;
-        ParameterValue max;
+        juce::Value min;
+        juce::Value max;
 
         std::string name;
 
@@ -41,7 +42,7 @@ namespace parameter
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
-            return std::clamp(value, min, max);
+            return std::clamp(value, static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
         }
     };
 

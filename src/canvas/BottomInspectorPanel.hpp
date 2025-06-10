@@ -8,6 +8,8 @@ namespace ui
     class BottomInspectorPanel : public Panel
     {
         CanvasSelectionManager& selectionManager;
+
+        std::mutex configMutex;
         std::shared_ptr<Component> configComponent;
 
     public:
@@ -18,6 +20,7 @@ namespace ui
 
         void updateSelection()
         {
+            std::lock_guard lock{configMutex};
             if (configComponent)
             {
                 removeChildComponent(configComponent.get());

@@ -73,7 +73,14 @@ namespace ui
         }
         else
         {
-            current = std::clamp(value, min, max);
+            if (min < max)
+            {
+                current = std::clamp(value, min, max);
+            }
+            else
+            {
+                current = std::clamp(value, max, min);
+            }
         }
 
         if (current != oldCurrent)
