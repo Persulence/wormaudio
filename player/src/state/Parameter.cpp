@@ -1,6 +1,9 @@
 module;
 
+#include <cassert>
+#include <format>
 #include <regex>
+#include <variant>
 
 module parameter;
 
@@ -23,5 +26,28 @@ namespace parameter
         {
             return 0;
         }
+    }
+
+    std::string toString(ParameterValue value)
+    {
+        return std::format("{:.2f}", value);
+    }
+
+    ParameterType getType(const ParameterDef& def)
+    {
+        if (std::holds_alternative<ContinuousParameterDef>(def))
+        {
+            return CONTINUOUS;
+        }
+        if (std::holds_alternative<DiscreteParameterDef>(def))
+        {
+            return DISCRETE;
+        }
+        if (std::holds_alternative<EnumParameterDef>(def))
+        {
+            return ENUM;
+        }
+
+        assert(false);
     }
 }

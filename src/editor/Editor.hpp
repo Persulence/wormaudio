@@ -16,6 +16,7 @@ namespace editor
 {
     using EventChanged = signal_event::Callback<>;
     using Lifecycle = signal_event::Callback<int>;
+    using ParametersChanged = signal_event::Callback<>;
 
     class Editor :
         player::TransportCallback::Listener,
@@ -48,6 +49,8 @@ namespace editor
             // Set up global parameters
             if (runtime)
                 runtime->getParameters().refresh(globalParameters);
+
+            parametersChanged.emit();
         }
 
         void loadEvent(const event::Event::Ptr& event)
@@ -59,7 +62,9 @@ namespace editor
     public:
         player::TransportCallback::Signal transportSignal;
         EventChanged::Signal eventChanged;
+
         Lifecycle::Signal lifecycleChanged;
+        ParametersChanged::Signal parametersChanged;
 
         static Editor& getInstance()
         {

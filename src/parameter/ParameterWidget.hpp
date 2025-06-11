@@ -1,5 +1,5 @@
 #pragma once
-#include "ParameterConfigWidget.hpp"
+#include "ParameterConfigPanel.hpp"
 #include "canvas/CanvasSelectionManager.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 

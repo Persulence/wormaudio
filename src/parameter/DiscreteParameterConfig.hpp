@@ -1,8 +1,8 @@
 #pragma once
 
-#include "juce_gui_basics/juce_gui_basics.h"
 #include "signal/Signal.hpp"
-#include "ParameterConfigWidget.hpp"
+#include "ParameterConfigPanel.hpp"
+#include "editor/Editor.hpp"
 
 import parameter;
 
@@ -10,40 +10,32 @@ namespace ui
 {
     class DiscreteParameterConfig : public ParameterConfig
     {
-        juce::Label minValue;
-        juce::Label maxValue;
         parameter::DiscreteParameterDef &def;
 
     public:
-        explicit DiscreteParameterConfig(parameter::DiscreteParameterDef& def_):
+        explicit DiscreteParameterConfig(const parameter::Parameter &parameter_, parameter::DiscreteParameterDef& def_):
+            ParameterConfig(parameter_),
             def(def_)
         {
-            addAndMakeVisible(minValue);
-            minValue.setEditable(true);
-            minValue.setText(juce::String{def_.min}, juce::dontSendNotification);
-            minValue.onTextChange = [this]()
+            auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue, parameter::toString));
+            min.setValue(def.min);
+            min.listener = [this, &min](auto val)
             {
-                def.min = std::roundf(parameter::parseValue(minValue.getText().toStdString()));
+                def.min = std::round(val);
+                min.setValue(def.min);
                 onChange.emit();
             };
 
-            addAndMakeVisible(maxValue);
-            maxValue.setEditable(true);
-            maxValue.setText(juce::String{def_.max}, juce::dontSendNotification);
-            maxValue.onTextChange = [this]()
+            auto& max = add(std::make_shared<ValueEntry>("Max value", parameter::parseValue, parameter::toString));
+            max.setValue(def.max);
+            max.listener = [this, &max](auto val)
             {
-                def.max = std::roundf(parameter::parseValue(maxValue.getText().toStdString()));
+                def.max = std::round(val);
+                max.setValue(def.max);
                 onChange.emit();
             };
         }
 
         ~DiscreteParameterConfig() override = default;
-
-        void resized() override
-        {
-            auto rect = getLocalBounds();
-            minValue.setBounds(rect.removeFromTop(30));
-            maxValue.setBounds(rect.removeFromTop(30));
-        }
     };
 }

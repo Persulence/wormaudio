@@ -8,7 +8,7 @@ import sm;
 
 namespace ui
 {
-    class ParameterPanel : public Panel, public editor::Lifecycle::Listener
+    class ParameterPanel : public Panel, public editor::Lifecycle::Listener, public editor::ParametersChanged::Listener
     {
         // parameter::Parameter testParameter;
         // parameter::ParameterInstance testInstance;

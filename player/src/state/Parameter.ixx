@@ -8,7 +8,6 @@ module;
 #include <memory>
 #include <vector>
 
-#include "juce_core/system/juce_PlatformDefs.h"
 #include "juce_data_structures/juce_data_structures.h"
 
 export module parameter;
@@ -17,8 +16,7 @@ export using ParameterValue = float;
 
 namespace parameter
 {
-    export bool isValidName(const std::string &name);
-    export ParameterValue parseValue(const std::string& text);
+    export class ParameterDef;
 
     export enum ParameterType
     {
@@ -27,10 +25,15 @@ namespace parameter
         ENUM,
     };
 
+    export bool isValidName(const std::string &name);
+    export ParameterValue parseValue(const std::string& text);
+    export std::string toString(ParameterValue value);
+    export ParameterType getType(const ParameterDef& def);
+
     export struct ContinuousParameterDef
     {
-        juce::Value min;
-        juce::Value max;
+        ParameterValue min;
+        ParameterValue max;
 
         std::string name;
 
@@ -42,7 +45,7 @@ namespace parameter
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
-            return std::clamp(value, static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
+            return std::clamp(value, min, max);
         }
     };
 
@@ -100,6 +103,7 @@ namespace parameter
 
     using ParameterDefVariant = std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef>;
 
+
     export class ParameterDef : public ParameterDefVariant
     {
     public:
@@ -124,7 +128,12 @@ namespace parameter
             std::visit([&newName](auto& r){ r.name = newName; }, *this);
         }
 
-        JUCE_DECLARE_NON_COPYABLE(ParameterDef)
+        ParameterType getType() const
+        {
+            return parameter::getType(*this);
+        }
+
+        // JUCE_DECLARE_NON_COPYABLE(ParameterDef)
     };
 
     export using Parameter = std::shared_ptr<ParameterDef>;
@@ -149,7 +158,7 @@ namespace parameter
             value = value_;
         }
 
-        ParameterValue getValue() const
+        [[nodiscard]] ParameterValue getValue() const
         {
             return value;
         }

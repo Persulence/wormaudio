@@ -34,5 +34,17 @@ namespace editor
         }
 
         bool rename(const parameter::Parameter& parameter, const std::string & newName);
+
+        bool changeType(const parameter::Parameter& parameter, const parameter::Parameter& newParameter)
+        {
+            using namespace parameter;
+
+            *parameter = *newParameter;
+            // ParameterList::remove(parameter);
+            // ParameterList::insert(newParameter);
+
+            changed.emit();
+            return true;
+        }
     };
 }

@@ -8,7 +8,6 @@
 #include "ContinuousParameterConfig.hpp"
 #include "DiscreteParameterConfig.hpp"
 #include "editor/Editor.hpp"
-#include "juce_gui_basics/native/juce_XWindowSystem_linux.h"
 #include "widget/SliderWidget.hpp"
 
 namespace ui
@@ -39,7 +38,7 @@ namespace ui
             ImplWidget(def, instance_)
         {
             addAndMakeVisible(slider);
-            slider.setRange(def.min.getValue(), def.max.getValue(), 0);
+            slider.setRange(def.min, def.max, 0);
             slider.setValue(instance.getValue(), false);
             slider.onChanged.setup(this, [this](double value){ this->instance.setValue(value); });
         }
@@ -126,18 +125,16 @@ namespace ui
 
     struct ConfigComponentVisitor
     {
+        Parameter parameter;
+
         std::unique_ptr<ParameterConfig> operator()(ContinuousParameterDef& def) const
         {
-            {
-                std::make_unique<ContinuousParameterConfig>(def);
-            }
-
-            return std::make_unique<ContinuousParameterConfig>(def);
+            return std::make_unique<ContinuousParameterConfig>(parameter, def);
         }
 
         std::unique_ptr<ParameterConfig> operator()(DiscreteParameterDef& def) const
         {
-            return std::make_unique<DiscreteParameterConfig>(def);
+            return std::make_unique<DiscreteParameterConfig>(parameter, def);
         }
 
         std::unique_ptr<ParameterConfig> operator()(EnumParameterDef& def) const
@@ -164,7 +161,10 @@ namespace ui
                 // Return to previous name
                 label.setText(parameter->getName(), dontSendNotification);
             }
-            refresh();
+
+            // Here lies an unfortunate conundrum. The above function may cause this object to be freed, which results in undefined behaviour when we call refresh.
+            // This could be mitigated by better design, but I don't know how to design it better.
+            // refresh();
         };
     }
 
@@ -174,6 +174,7 @@ namespace ui
 
         ParameterVisitor visitor{getParameter()};
         child = std::visit(visitor, *parameter);
+        label.setText(parameter->getName(), dontSendNotification);
         addAndMakeVisible(child.get());
         addAndMakeVisible(label);
         resized();
@@ -242,7 +243,7 @@ namespace ui
 
     std::shared_ptr<Component> ParameterWidget::createConfig()
     {
-        auto ptr = std::visit(ConfigComponentVisitor{}, *parameter);
+        auto ptr = std::visit(ConfigComponentVisitor{parameter}, *parameter);
         ptr->onChange.setup(this, [this]{ refresh(); });
         return std::move(ptr);
     }
