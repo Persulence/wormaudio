@@ -7,6 +7,7 @@ namespace event
     {
         auto handle = elements.emplace_back(std::move(element));
         automation.reg(handle.ptr);
+        onChange.emit();
         return handle;
     }
 
@@ -17,6 +18,12 @@ namespace event
         {
             automation.removeAll(handle.ptr);
             elements.erase(it);
+            onChange.emit();
         }
+    }
+
+    std::vector<ElementHandle> ElementList::getElements() const
+    {
+        return elements;
     }
 }

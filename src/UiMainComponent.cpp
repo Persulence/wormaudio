@@ -11,6 +11,7 @@ using namespace juce;
 namespace ui
 {
     LeftPanel::LeftPanel():
+        elementBrowserBorder(BorderPanel<ElementBrowserPanel>{editor::getInstance().getEvent()}),
         bar1(&layout, 1, false),
         bar2(&layout, 3, false)
     {

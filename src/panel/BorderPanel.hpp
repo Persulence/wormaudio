@@ -10,18 +10,11 @@ namespace ui
         float borderWidth{1};
 
     public:
-        // using ChildVariant = std::variant<Child, Child*>;
         Child child;
 
-        // BorderPanel(Child& child_):
-        //     child(&child_)
-        // {
-        //     addAndMakeVisible(child_);
-        // }
-
         template <typename... Args>
-        explicit BorderPanel(Args&... args):
-            child(Child{args...})
+        explicit BorderPanel(Args&&... args):
+            child(Child{std::forward<Args>(args)...})
         {
             addAndMakeVisible(child);
         }
@@ -32,31 +25,8 @@ namespace ui
             addAndMakeVisible(child);
         }
 
-        // template <class... Ts>
-        // struct Visitor : Ts... { using Ts::operator()...; };
-
-        // struct Visitor2
-        // {
-        //     const Child* operator()(const Child& c)
-        //     {
-        //         return &c;
-        //     }
-        //
-        //     const Child* operator()(const Child* c)
-        //     {
-        //         return c;
-        //     }
-        // };
-
         Child* operator->() noexcept
         {
-            // return std::visit(Visitor{
-            //     [](const Child& c){ return &c; },
-            //     [](const Child* c){ return c; }
-            // }, child);
-
-            // return std::visit(Visitor{}, child);
-
             return &child;
         }
 

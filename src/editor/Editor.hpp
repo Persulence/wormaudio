@@ -159,4 +159,10 @@ namespace editor
         }
 
     };
+
+    // Saves a handful of characters
+    inline Editor& getInstance()
+    {
+        return Editor::getInstance();
+    }
 }

@@ -4,6 +4,11 @@ namespace ui
 {
     using namespace juce;
 
+    Entry::Entry(event::ElementHandle handle)
+    {
+
+    }
+
     void Entry::paint(Graphics &g)
     {
         float cornerSize = 5;
@@ -16,21 +21,10 @@ namespace ui
         g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
         g.setColour(Colours::black);
-        // g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
     }
 
     ElementListPanel::ElementListPanel()
     {
-        entries.push_back(std::make_shared<Entry>());
-        entries.push_back(std::make_shared<Entry>());
-        entries.push_back(std::make_shared<Entry>());
-
-        expectedHeight = (entries.size() + entryOffset) * EntryListPanel::getEntryHeight();
-
-        for (auto entry : entries)
-        {
-            addChildComponent(entry.get());
-        }
     }
 
     void ElementListPanel::resized()
@@ -40,5 +34,22 @@ namespace ui
     void ElementListPanel::paint(Graphics &g)
     {
         // g.fillRect(getLocalBounds());
+    }
+
+    void ElementListPanel::refresh(const event::ElementList &elements)
+    {
+        removeAllChildren();
+        entries.clear();
+
+        for (auto& element : elements.getElements())
+        {
+            auto& ptr = entries.emplace_back(std::make_shared<Entry>(element));
+            addChildComponent(ptr.get());
+        }
+
+        expectedHeight = (entries.size() + entryOffset) * EntryListPanel::getEntryHeight();
+        setBounds(getBounds().withHeight(getExpectedHeight()));
+
+        updateVisibilities();
     }
 }
