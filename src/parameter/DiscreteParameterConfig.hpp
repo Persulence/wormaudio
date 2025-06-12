@@ -20,20 +20,20 @@ namespace ui
         void initProperties() override
         {
             auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue, parameter::toString));
-            min.setValue(def.min);
+            min.setValue(def.min.getValue());
             min.listener = [this, &min](auto val)
             {
                 def.min = std::round(val);
-                min.setValue(def.min);
+                min.setValue(def.min.getValue());
                 onChanged();
             };
 
             auto& max = add(std::make_shared<ValueEntry>("Max value", parameter::parseValue, parameter::toString));
-            max.setValue(def.max);
+            max.setValue(def.max.getValue());
             max.listener = [this, &max](auto val)
             {
                 def.max = std::round(val);
-                max.setValue(def.max);
+                max.setValue(def.max.getValue());
                 onChanged();
             };
         }

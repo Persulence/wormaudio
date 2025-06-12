@@ -33,8 +33,12 @@ namespace parameter
 
     export struct ContinuousParameterDef
     {
-        ParameterValue min;
-        ParameterValue max;
+        // TODO cache for playing events
+        // ParameterValue min;
+        // ParameterValue max;
+
+        juce::Value min;
+        juce::Value max;
 
         std::string name;
 
@@ -46,14 +50,14 @@ namespace parameter
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
-            return std::clamp(value, min, max);
+            return std::clamp(value, static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
         }
     };
 
     export struct DiscreteParameterDef
     {
-        ParameterValue min;
-        ParameterValue max;
+        juce::Value min;
+        juce::Value max;
 
         std::string name;
 
@@ -65,7 +69,7 @@ namespace parameter
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
-            return std::clamp(std::roundf(value), min, max);
+            return std::clamp(std::roundf(value), static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
         }
     };
 

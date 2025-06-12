@@ -6,6 +6,7 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 
 #include "editor/Editor.hpp"
+#include "util/WrappedValue.hpp"
 #include "widget/SliderWidget.hpp"
 
 namespace ui
@@ -31,14 +32,30 @@ namespace ui
     {
     public:
         SliderWidget slider;
+        WrappedValue min;
+        WrappedValue max;
 
-        ContinuousWidget(ContinuousParameterDef& def, ParameterInstance& instance_):
-            ImplWidget(def, instance_)
+        ContinuousWidget(ContinuousParameterDef& def_, ParameterInstance& instance_):
+            ImplWidget(def_, instance_)
         {
+            auto rangeCallback = [this](auto&)
+            {
+                slider.setRange(def.min.getValue(), def.max.getValue(), 0);
+                slider.setValue(instance.getValue(), false);
+                repaint();
+            };
+
+            max.callback = rangeCallback;
+            min.callback = rangeCallback;
+
+            min.value.referTo(def.min);
+            max.value.referTo(def.max);
+
             addAndMakeVisible(slider);
-            slider.setRange(def.min, def.max, 0);
-            slider.setValue(instance.getValue(), false);
-            slider.onChanged.setup(this, [this](double value){ this->instance.setValue(value); });
+            slider.onChanged.setup(this, [this](const double value)
+            {
+                this->instance.setValue(static_cast<ParameterValue>(value));
+            });
         }
 
         void resized() override
@@ -51,14 +68,29 @@ namespace ui
     {
         SliderWidget slider;
 
+        WrappedValue min;
+        WrappedValue max;
+
     public:
         explicit DiscreteWidget(DiscreteParameterDef& def_, ParameterInstance& instance_):
             ImplWidget(def_, instance_)
         {
+            auto rangeCallback = [this](auto&)
+            {
+                slider.setRange(def.min.getValue(), def.max.getValue(), 1);
+                slider.setValue(instance.getValue(), false);
+                repaint();
+            };
+            max.callback = rangeCallback;
+            min.callback = rangeCallback;
+            min.value.referTo(def.min);
+            max.value.referTo(def.max);
+
             addAndMakeVisible(slider);
-            slider.setRange(def.min, def.max, 1);
-            slider.setValue(instance.getValue(), false);
-            slider.onChanged.setup(this, [this](double value){ this->instance.setValue(value); });
+            slider.onChanged.setup(this, [this](double value)
+            {
+                this->instance.setValue(value);
+            });
         }
 
         void resized() override

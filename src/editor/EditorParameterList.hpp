@@ -39,7 +39,7 @@ namespace editor
         {
             using namespace parameter;
 
-            *parameter = *newParameter;
+            *parameter = std::move(*newParameter);
             // ParameterList::remove(parameter);
             // ParameterList::insert(newParameter);
 
