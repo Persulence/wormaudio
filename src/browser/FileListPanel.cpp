@@ -123,6 +123,7 @@ namespace ui
     // FileBrowserPanel
 
     FileListPanel::FileListPanel():
+        EntryListPanel(1),
         header(font),
         updateThread("update files"),
         filter(WildcardFileFilter{"*", "*", "Some files?"})
@@ -156,44 +157,9 @@ namespace ui
         // setBounds(getBounds().withHeight(getExpectedHeight()));
     }
 
-    void FileListPanel::updateVisibilities()
-    {
-        const auto h = getEntryHeight();
-
-        int hidden = 0;
-        int visible = 0;
-
-        const int offset = std::floor(fileWidgets.size() * std::min(scrollFraction, 1.0));
-
-        int i = 1;
-        for (const auto& element : fileWidgets)
-        {
-            // const auto elementY = element->getBoundsInParent().getY();
-
-            // auto viewportArea = getParentComponent()->getBounds();
-            // if (elementY < viewportArea.getY() || elementY > viewportArea.getBottom())
-            auto parentHeight = getParentHeight();
-            if (i > offset && (i - offset) * h < parentHeight)
-            {
-                element->setVisible(true);
-                element->setBounds(0, (i - offset) * h, getWidth(), h);
-                visible++;
-            }
-            else
-            {
-                element->setVisible(false);
-                hidden++;
-            }
-
-            ++i;
-        }
-
-        // std::cout << "visible: " << visible << " hidden " << hidden << "\n";
-    }
-
     void FileListPanel::setScroll(double fraction)
     {
-        if (std::floor(scrollFraction * fileWidgets.size()) != std::floor(fraction * fileWidgets.size()))
+        if (std::floor(scrollFraction * entries.size()) != std::floor(fraction * entries.size()))
         {
             scrollFraction = fraction;
             updateVisibilities();
@@ -225,7 +191,7 @@ namespace ui
 
     void FileListPanel::changeListenerCallback(ChangeBroadcaster *source)
     {
-        fileWidgets.clear();
+        entries.clear();
         removeAllChildren();
 
         addAndMakeVisible(header);
@@ -233,7 +199,7 @@ namespace ui
         for (int i = 0; i < contents->getNumFiles(); ++i)
         {
             auto file = contents->getFile(i);
-            auto& widget = fileWidgets.emplace_back(std::make_shared<FileWidget>(file, font, [this](const auto& source, bool open, const auto& f)
+            auto& widget = entries.emplace_back(std::make_shared<FileWidget>(file, font, [this](const auto& source, bool open, const auto& f)
             {
                 if (open)
                 {
@@ -247,14 +213,14 @@ namespace ui
             addAndMakeVisible(widget.get());
         }
 
-        expectedHeight = (fileWidgets.size() + 1) * getEntryHeight();
+        expectedHeight = (entries.size() + 1) * getEntryHeight();
 
         setBounds(getBounds().withHeight(getExpectedHeight()));
         resized();
         updateVisibilities();
         repaint();
 
-        callback(fileWidgets.size());
+        callback(entries.size());
     }
 
 }

@@ -80,7 +80,6 @@ namespace ui
         void resized() override;
         void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
-        void updateVisibilities();
         void setScroll(double fraction);
         void openFile(const juce::File &file);
         void selectWidget(const std::weak_ptr<FileWidget> &widget);
