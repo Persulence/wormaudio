@@ -1,5 +1,11 @@
 #include "ElementBrowserPanel.hpp"
 
+#include "FileDragSource.hpp"
+#include "runtime/Runtime.hpp"
+
+import Resource;
+import ElementTypes;
+
 // #define MEMFN(fn) std::bind(&fn, this)
 // #define MEMFN(fn, arg1) [this](auto arg1){ fn(arg1); };
 
@@ -52,4 +58,26 @@ void ui::ElementBrowserPanel::resized()
 void ui::ElementBrowserPanel::refreshElements()
 {
     listPanel.refresh(event->getElements());
+}
+
+bool ui::ElementBrowserPanel::isInterestedInDragSource(const SourceDetails &dragSourceDetails)
+{
+    const auto source = dragSourceDetails.sourceComponent.get();
+
+    if (dynamic_cast<FileDragSource*>(source))
+        return true;
+
+    return false;
+}
+
+void ui::ElementBrowserPanel::itemDropped(const SourceDetails &dragSourceDetails)
+{
+    auto source = dragSourceDetails.sourceComponent.get();
+    if (auto other = dynamic_cast<FileDragSource*>(source))
+    {
+        // Create and register a new clip element
+        auto resource = runtime::createResource(other->getFile());
+        auto element = std::make_shared<element::ClipElement>(resource);
+        auto handle = event->getElements().reg(element);
+    }
 }

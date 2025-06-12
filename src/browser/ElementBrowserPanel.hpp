@@ -8,7 +8,10 @@ import event;
 
 namespace ui
 {
-    class ElementBrowserPanel : public Panel, public event::ElementList::OnChange::Listener
+    class ElementBrowserPanel :
+        public Panel,
+        public juce::DragAndDropTarget,
+        public event::ElementList::OnChange::Listener
     {
     public:
         explicit ElementBrowserPanel(event::Event::Ptr event_);
@@ -18,6 +21,11 @@ namespace ui
     private:
         void refreshElements();
 
+    public:
+        bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override;
+        void itemDropped(const SourceDetails &dragSourceDetails) override;
+
+    private:
         ElementListPanel listPanel;
         event::Event::Ptr event;
     };

@@ -5,6 +5,7 @@
 #include "StateNodeWidget.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "CanvasConnectionManager.hpp"
+#include "browser/ElementDragSource.hpp"
 #include "browser/FileListPanel.hpp"
 #include "state/StatePropertyPanel.hpp"
 
@@ -219,20 +220,25 @@ namespace ui
         if (dynamic_cast<StateNodeWidget*>(source))
             return true;
 
-        if (dynamic_cast<FileWidget*>(source))
+        if (dynamic_cast<FileDragSource*>(source))
+            return true;
+
+        if (dynamic_cast<ElementDragSource*>(source))
             return true;
 
         return false;
     }
 
-    void StateNodeWidget::itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails)
+    void StateNodeWidget::itemDropped(const SourceDetails &dragSourceDetails)
     {
         auto source = dragSourceDetails.sourceComponent.get();
-        if (auto* other = dynamic_cast<StateNodeWidget*>(source))
+        if (auto other = dynamic_cast<StateNodeWidget*>(source))
             manager->makeConnection(other, this);
-
-        if (auto* other = dynamic_cast<FileWidget*>(source))
+        if (auto other = dynamic_cast<FileDragSource*>(source))
             dynamic_cast<StatePropertyPanel*>(createConfig().get())->receiveFile(other->getFile());
+        if (auto other = dynamic_cast<ElementDragSource*>(source))
+            dynamic_cast<StatePropertyPanel*>(createConfig().get())->receiveElement(other->getHandle());
+
 
         dragEnter = false;
         repaint();

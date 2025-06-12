@@ -5,6 +5,7 @@
 #include <panel/Panel.hpp>
 
 #include "ElementRegion.hpp"
+#include "browser/ElementDragSource.hpp"
 #include "editor/Editor.hpp"
 
 #include "runtime/Runtime.hpp"
@@ -53,26 +54,35 @@ namespace ui
 
         bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override
         {
-            return dynamic_cast<FileDragSource*>(dragSourceDetails.sourceComponent.get());
+            const auto source = dragSourceDetails.sourceComponent.get();
+            return dynamic_cast<FileDragSource*>(source)
+                   || dynamic_cast<ElementDragSource*>(source);
         }
 
         void itemDropped(const SourceDetails &dragSourceDetails) override
         {
-            if (auto source = dynamic_cast<FileDragSource*>(dragSourceDetails.sourceComponent.get()))
-            {
-                receiveFile(source->getFile());
-            }
+            const auto source = dragSourceDetails.sourceComponent.get();
+            if (auto other = dynamic_cast<FileDragSource*>(source))
+                receiveFile(other->getFile());
+
+            if (auto other = dynamic_cast<ElementDragSource*>(source))
+                receiveElement(other->getHandle());
         }
 
         void receiveFile(const juce::File &file)
         {
+            auto resource = runtime::createResource(file);
+            auto element = std::make_shared<element::ClipElement>(resource);
+
+            const auto event = editor::Editor::getInstance().getEvent();
+            const auto handle = event->getElements().reg(std::move(element));
+            receiveElement(handle);
+        }
+
+        void receiveElement(const event::ElementHandle &handle)
+        {
             if (const auto shared = parent.lock())
             {
-                auto resource = runtime::createResource(file);
-                auto element = std::make_shared<element::ClipElement>(resource);
-
-                const auto event = editor::Editor::getInstance().getEvent();
-                const auto handle = event->getElements().reg(std::move(element));
                 shared->getState()->insertElement(handle);
 
                 update();

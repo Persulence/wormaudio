@@ -4,8 +4,8 @@ namespace ui
 {
     using namespace juce;
 
-    Entry::Entry(event::ElementHandle handle)
-    {
+    Entry::Entry(event::ElementHandle handle_):
+        handle(std::move(handle_)) {
 
     }
 
@@ -21,6 +21,23 @@ namespace ui
         g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
         g.setColour(Colours::black);
+        g.drawText(handle->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
+    }
+
+    void Entry::mouseDrag(const MouseEvent &event)
+    {
+        constexpr auto offset = Point(30, -30);
+        if (const auto container = DragAndDropContainer::findParentDragContainerFor(this))
+        {
+            container->startDragging(
+                    "FILE", this,
+                    ScaledImage{},
+                    // ScaledImage{icon, 2},
+                    false,
+                    &offset,
+                    nullptr
+                    );
+        }
     }
 
     ElementListPanel::ElementListPanel()
