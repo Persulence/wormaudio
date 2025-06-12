@@ -77,6 +77,8 @@ namespace ui
         using OnChange = signal_event::Callback<>;
         OnChange::Signal onChange;
 
+        parameter::Parameter parameter;
+
         explicit ParameterProperties(parameter::Parameter parameter_):
             parameter(std::move(parameter_))
         {
@@ -84,7 +86,6 @@ namespace ui
         }
 
     protected:
-        parameter::Parameter parameter;
 
     public:
         void initProperties() override;
@@ -131,28 +132,28 @@ namespace ui
                 using namespace parameter;
                 auto& editor = editor::Editor::getInstance();
 
-                std::shared_ptr<ParameterDef> newParameter;
-
-                switch (id)
+                if (auto parent = findParentComponentOfClass<ParameterProperties>())
                 {
-                    case CONTINUOUS:
-                        newParameter = std::make_shared<ParameterDef>(ContinuousParameterDef{0, 1, def.name});
-                        break;
-                    case DISCRETE:
-                        newParameter = std::make_shared<ParameterDef>(DiscreteParameterDef{0, 1, def.name});
-                        break;
-                    case ENUM:
-                        newParameter = std::make_shared<ParameterDef>(EnumParameterDef{def.name});
-                        break;
+                    std::shared_ptr<ParameterDef> newParameter;
+
+                    switch (id)
+                    {
+                        case CONTINUOUS:
+                            newParameter = std::make_shared<ParameterDef>(ContinuousParameterDef{0, 1, def.name});
+                            break;
+                        case DISCRETE:
+                            newParameter = std::make_shared<ParameterDef>(DiscreteParameterDef{0, 1, def.name});
+                            break;
+                        case ENUM:
+                            newParameter = std::make_shared<ParameterDef>(EnumParameterDef{def.name});
+                            break;
+                    }
+
+                    if (editor.getGlobalParameters().changeType(parent->parameter, newParameter))
+                    {
+                        onChanged(HARD);
+                    }
                 }
-
-                // TODO
-                // if (editor.getGlobalParameters().changeType(parameter, newParameter))
-                // {
-                //     onChange.emit();
-                // }
-
-                onChanged(HARD);
             };
         }
     };

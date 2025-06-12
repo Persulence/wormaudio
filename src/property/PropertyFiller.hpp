@@ -9,7 +9,6 @@ namespace ui
     class PropertyFiller : public PropertyMember
     {
     public:
-
         auto add(auto property) -> decltype(*property)&
         {
             addInner(property);
@@ -17,13 +16,14 @@ namespace ui
         }
 
         void resized() override;
-        float getDesiredHeight() const override;
-        void refresh(PropertyFiller* child, RefreshLevel level);
+        [[nodiscard]] float getDesiredHeight() const override;
+        void refresh(PropertyFiller* child = nullptr);
 
         /// Creates all property components. Must be called in the constructor. Also called when properties must be refreshed.
         virtual void initProperties() = 0;
 
     protected:
+        /// Call when a property is modified.
         void onChanged(RefreshLevel level = SOFT);
 
     private:

@@ -41,8 +41,6 @@ namespace ui
 
     void PropertyFiller::resized()
     {
-        // float elementH = 30;
-
         float yOff = 0;
         for (const auto& widget: children)
         {
@@ -62,20 +60,31 @@ namespace ui
         return h;
     }
 
-    void PropertyFiller::refresh(PropertyFiller *child, RefreshLevel level)
+    void PropertyFiller::refresh(PropertyFiller *child)
     {
         // if (const auto found = std::ranges::find_if(children, [&child](auto& c){ return c.get() == child; }); found != children.end())
         // {
         // }
+
+        removeAllChildren();
+        children.clear();
+        initProperties();
     }
 
     void PropertyFiller::onChanged(RefreshLevel level)
     {
-        // Since this is a component, we can cheat
-        auto comp = getParentComponent();
-        if (auto parent = dynamic_cast<PropertyFiller*>(comp))
+        switch (level)
         {
-            parent->refresh(this, level);
+            case SOFT:
+                refresh();
+            case HARD:
+                // Since this is a component, we can cheat
+                auto comp = getParentComponent();
+                if (auto parent = dynamic_cast<PropertyFiller*>(comp))
+                {
+                    parent->refresh(this);
+                }
+                break;
         }
     }
 }

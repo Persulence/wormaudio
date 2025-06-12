@@ -9,7 +9,10 @@ namespace ui
     public:
         enum RefreshLevel
         {
+            /// This member should be reinitialised.
             SOFT,
+
+            /// This member should be completely reconstructed by the parent member.
             HARD
         };
 
