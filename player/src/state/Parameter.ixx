@@ -31,7 +31,25 @@ namespace parameter
     export ParameterType getType(const ParameterDef& def);
     export template<class T> ParameterType getType();
 
-    export struct ContinuousParameterDef
+    struct ParameterDefBase
+    {
+        juce::Value name;
+
+        ParameterDefBase() = default;
+
+        explicit ParameterDefBase(const std::string& name_):
+            name(juce::String{name_})
+        {
+
+        }
+
+        std::string getName() const
+        {
+            return static_cast<juce::String>(name.getValue()).toStdString();
+        }
+    };
+
+    export struct ContinuousParameterDef : ParameterDefBase
     {
         // TODO cache for playing events
         // ParameterValue min;
@@ -40,10 +58,10 @@ namespace parameter
         juce::Value min;
         juce::Value max;
 
-        std::string name;
+        // std::string name;
 
-        ContinuousParameterDef(const ParameterValue min_, const ParameterValue max_, std::string name_):
-            min(min_), max(max_), name(std::move(name_))
+        ContinuousParameterDef(const ParameterValue min_, const ParameterValue max_, const std::string &name_):
+            ParameterDefBase(name_), min(min_), max(max_)
         {
 
         }
@@ -54,15 +72,13 @@ namespace parameter
         }
     };
 
-    export struct DiscreteParameterDef
+    export struct DiscreteParameterDef : ParameterDefBase
     {
         juce::Value min;
         juce::Value max;
 
-        std::string name;
-
-        DiscreteParameterDef(const ParameterValue min_, const ParameterValue max_, std::string name_):
-            min(min_), max(max_), name(std::move(name_))
+        DiscreteParameterDef(const ParameterValue min_, const ParameterValue max_, const std::string& name_):
+            ParameterDefBase(name_), min(min_), max(max_)
         {
 
         }
@@ -73,7 +89,7 @@ namespace parameter
         }
     };
 
-    export struct EnumParameterDef
+    export struct EnumParameterDef : ParameterDefBase
     {
         struct Entry
         {
@@ -81,19 +97,19 @@ namespace parameter
             int value;
         };
 
-        std::string name;
+        juce::Value name;
 
         std::vector<Entry> values;
 
-        static EnumParameterDef createDefault(const std::string &name)
+        static EnumParameterDef createDefault(const std::string &name_)
         {
-            EnumParameterDef def{name};
+            EnumParameterDef def{name_};
             def.values.emplace_back("value", 0);
             return def;
         }
 
-        explicit EnumParameterDef(std::string name_):
-            name(std::move(name_))
+        explicit EnumParameterDef(const std::string &name_):
+            ParameterDefBase(name_)
         {
         }
 
@@ -107,7 +123,6 @@ namespace parameter
     };
 
     using ParameterDefVariant = std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef>;
-
 
     export class ParameterDef : public ParameterDefVariant
     {
@@ -125,12 +140,18 @@ namespace parameter
 
         [[nodiscard]] std::string getName() const
         {
+            // return std::visit([](auto& r){ return juce::String(r.name.getValue()).toStdString(); }, *this);
+            return std::visit([](auto& r){ return r.getName(); }, *this);
+        }
+
+        [[nodiscard]] juce::Value getNameAsValue() const
+        {
             return std::visit([](auto& r){ return r.name; }, *this);
         }
 
         void setName(const std::string& newName)
         {
-            std::visit([&newName](auto& r){ r.name = newName; }, *this);
+            std::visit([&newName](auto& r){ r.name.setValue(juce::String(newName)); }, *this);
         }
 
         ParameterType getType() const

@@ -87,20 +87,23 @@ namespace ui
         {
             auto name = std::make_shared<EntryPropertyWidget<std::string>>("Parameter name", std::identity{}, std::identity{});
             add(name);
-            name->setValue(def.name);
+            name->setValue(def.getName());
             name->listener = [this, &name](const auto& val)
             {
                 // TODO
-                // auto& editor = editor::Editor::getInstance();
-                // if (editor.getGlobalParameters().rename(parameter, val))
-                // {
-                //     onChange.emit();
-                // }
-                // else
-                // {
-                //     name->setValue(parameter->getName());
-                // }
-                onChanged(SOFT);
+                if (auto parent = findParentComponentOfClass<ParameterProperties>())
+                {
+                    auto parameter = parent->parameter;
+                    auto& editor = editor::Editor::getInstance();
+                    if (editor.getGlobalParameters().rename(parameter, val))
+                    {
+                        onChanged(SOFT);
+                    }
+                    else
+                    {
+                        name->setValue(parameter->getName());
+                    }
+                }
             };
 
             type = std::make_shared<ParameterTypePropertyWidget>("Type");
@@ -118,13 +121,13 @@ namespace ui
                     switch (id)
                     {
                         case CONTINUOUS:
-                            newParameter = std::make_shared<ParameterDef>(ContinuousParameterDef{0, 1, def.name});
+                            newParameter = std::make_shared<ParameterDef>(ContinuousParameterDef{0, 1, def.getName()});
                             break;
                         case DISCRETE:
-                            newParameter = std::make_shared<ParameterDef>(DiscreteParameterDef{0, 1, def.name});
+                            newParameter = std::make_shared<ParameterDef>(DiscreteParameterDef{0, 1, def.getName()});
                             break;
                         case ENUM:
-                            newParameter = std::make_shared<ParameterDef>(EnumParameterDef{def.name});
+                            newParameter = std::make_shared<ParameterDef>(EnumParameterDef{def.getName()});
                             break;
                     }
 

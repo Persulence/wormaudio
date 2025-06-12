@@ -156,6 +156,9 @@ namespace ui
     ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
         lookup(lookup_), parameter(std::move(parameter_))
     {
+        // label.getTextValue().referTo(name.value);
+        label.getTextValue().referTo(parameter->getNameAsValue());
+
         refresh();
         label.addMouseListener(this, true);
 

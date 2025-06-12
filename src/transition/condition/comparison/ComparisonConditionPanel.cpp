@@ -89,7 +89,7 @@ namespace ui
         op.setText(condition.getOp().getSymbol());
     }
 
-    Operand updateOperand(std::string &text)
+    static Operand updateOperand(std::string &text)
     {
         if (parameter::isValidName(text))
         {
