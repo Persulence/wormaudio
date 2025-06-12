@@ -29,6 +29,7 @@ namespace parameter
     export ParameterValue parseValue(const std::string& text);
     export std::string toString(ParameterValue value);
     export ParameterType getType(const ParameterDef& def);
+    export template<class T> ParameterType getType();
 
     export struct ContinuousParameterDef
     {
@@ -163,4 +164,20 @@ namespace parameter
             return value;
         }
     };
+
+
+    export template<> ParameterType getType<ContinuousParameterDef>()
+    {
+        return CONTINUOUS;
+    }
+
+    export template<> ParameterType getType<DiscreteParameterDef>()
+    {
+        return DISCRETE;
+    }
+
+    export template<> ParameterType getType<EnumParameterDef>()
+    {
+        return ENUM;
+    }
 }

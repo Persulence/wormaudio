@@ -1,30 +1,9 @@
 #pragma once
-#include "juce_gui_basics/juce_gui_basics.h"
+
+#include "property/PropertyFiller.hpp"
 
 namespace ui
 {
-    class PropertyWidget : public juce::Component
-    {
-    public:
-        // virtual ~PropertyWidget() = default;
-
-        explicit PropertyWidget(std::string label);
-        float getDesiredLabelWidth() const;
-        void setLabelWidth(float labelWidth_);
-
-        void resized() override;
-        void paint(juce::Graphics &g) override;
-
-    protected:
-        virtual void setContentBounds(juce::Rectangle<int> bounds) = 0;
-
-    private:
-        std::string label;
-        float labelWidth;
-
-        juce::Label labelComponent;
-    };
-
     template<typename Value>
     class EntryPropertyWidget : public PropertyWidget
     {
@@ -65,25 +44,5 @@ namespace ui
     private:
         juce::Label content;
         Parse parse;
-    };
-
-
-    class MyPropertyPanel : public juce::Component
-    {
-    public:
-
-        auto add(auto property) -> decltype(*property)&
-        {
-            addInner(property);
-            return *property;
-        }
-
-        void resized() override;
-        void paint(juce::Graphics &g) override;
-
-    private:
-        struct Priv;
-        PropertyWidget &addInner(std::shared_ptr<PropertyWidget> property);
-        std::vector<std::shared_ptr<PropertyWidget>> widgets;
     };
 }

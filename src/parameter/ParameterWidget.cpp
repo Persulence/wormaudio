@@ -5,8 +5,6 @@
 
 #include "juce_gui_basics/juce_gui_basics.h"
 
-#include "ContinuousParameterConfig.hpp"
-#include "DiscreteParameterConfig.hpp"
 #include "editor/Editor.hpp"
 #include "widget/SliderWidget.hpp"
 
@@ -123,27 +121,6 @@ namespace ui
         }
     };
 
-    struct ConfigComponentVisitor
-    {
-        Parameter parameter;
-
-        std::unique_ptr<ParameterConfig> operator()(ContinuousParameterDef& def) const
-        {
-            return std::make_unique<ContinuousParameterConfig>(parameter, def);
-        }
-
-        std::unique_ptr<ParameterConfig> operator()(DiscreteParameterDef& def) const
-        {
-            return std::make_unique<DiscreteParameterConfig>(parameter, def);
-        }
-
-        std::unique_ptr<ParameterConfig> operator()(EnumParameterDef& def) const
-        {
-            // return std::make_unique<ContinuousParameterConfig>(def);
-            throw std::exception{};
-        }
-    };
-
     ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
         lookup(lookup_), parameter(std::move(parameter_))
     {
@@ -243,8 +220,10 @@ namespace ui
 
     std::shared_ptr<Component> ParameterWidget::createConfig()
     {
-        auto ptr = std::visit(ConfigComponentVisitor{parameter}, *parameter);
-        ptr->onChange.setup(this, [this]{ refresh(); });
-        return std::move(ptr);
+        // auto ptr = std::make_shared<Parameter
+        // auto ptr = std::visit(ConfigComponentVisitor{parameter}, *parameter);
+        // ptr->onChange.setup(this, [this]{ refresh(); });
+        // return std::move(ptr);
+        return std::make_shared<ParameterProperties>(parameter);
     }
 }

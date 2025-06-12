@@ -8,14 +8,16 @@ import parameter;
 
 namespace ui
 {
-    class DiscreteParameterConfig : public ParameterConfig
+    class DiscreteParameterConfig : public BaseParameterDefProperties<parameter::DiscreteParameterDef>
     {
-        parameter::DiscreteParameterDef &def;
-
     public:
-        explicit DiscreteParameterConfig(const parameter::Parameter &parameter_, parameter::DiscreteParameterDef& def_):
-            ParameterConfig(parameter_),
-            def(def_)
+        explicit DiscreteParameterConfig(parameter::DiscreteParameterDef& def_):
+            BaseParameterDefProperties(def_)
+        {
+            DiscreteParameterConfig::initProperties();
+        }
+
+        void initProperties() override
         {
             auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue, parameter::toString));
             min.setValue(def.min);
@@ -23,7 +25,7 @@ namespace ui
             {
                 def.min = std::round(val);
                 min.setValue(def.min);
-                onChange.emit();
+                onChanged();
             };
 
             auto& max = add(std::make_shared<ValueEntry>("Max value", parameter::parseValue, parameter::toString));
@@ -32,10 +34,8 @@ namespace ui
             {
                 def.max = std::round(val);
                 max.setValue(def.max);
-                onChange.emit();
+                onChanged();
             };
         }
-
-        ~DiscreteParameterConfig() override = default;
     };
 }

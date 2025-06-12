@@ -36,15 +36,18 @@ private:
 
 namespace ui
 {
-    class ContinuousParameterConfig : public ParameterConfig
+    class ContinuousParameterConfig : public BaseParameterDefProperties<parameter::ContinuousParameterDef>
     {
-        parameter::ContinuousParameterDef &def;
-
     public:
         JUCE_DECLARE_NON_COPYABLE(ContinuousParameterConfig)
-        explicit ContinuousParameterConfig(const parameter::Parameter &parameter_, parameter::ContinuousParameterDef& def_):
-            ParameterConfig(parameter_),
-            def(def_)
+        explicit ContinuousParameterConfig(parameter::ContinuousParameterDef& def_):
+            BaseParameterDefProperties(def_)
+        {
+            ContinuousParameterConfig::initProperties();
+        }
+
+    protected:
+        void initProperties() override
         {
             auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue));
             min.toString = parameter::toString;
@@ -52,7 +55,7 @@ namespace ui
             min.listener = [this](auto val)
             {
                 def.min = val;
-                onChange.emit();
+                onChanged();
             };
 
             auto& max = add(std::make_shared<ValueEntry>("Max value", parameter::parseValue));
@@ -61,10 +64,8 @@ namespace ui
             max.listener = [this](auto val)
             {
                 def.max = val;
-                onChange.emit();
+                onChanged();
             };
         }
-
-        ~ContinuousParameterConfig() override = default;
     };
 }
