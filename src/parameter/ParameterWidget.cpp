@@ -6,7 +6,7 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 
 #include "editor/Editor.hpp"
-#include "util/WrappedValue.hpp"
+#include "../../player/src/util/WrappedValue.hpp"
 #include "widget/SliderWidget.hpp"
 
 namespace ui

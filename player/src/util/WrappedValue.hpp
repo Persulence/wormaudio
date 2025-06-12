@@ -2,8 +2,8 @@
 
 #include "juce_data_structures/juce_data_structures.h"
 
-namespace ui
-{
+// namespace ui
+// {
     struct WrappedValue : juce::Value::Listener
     {
         juce::Value value;
@@ -24,4 +24,4 @@ namespace ui
             return value;
         }
     };
-}
+// }
