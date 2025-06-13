@@ -1,0 +1,144 @@
+#include "ElementRegionWidget.hpp"
+
+#include "automation/AutomationTable.hpp"
+#include "automation/Mapping.hpp"
+#include "editor/Editor.hpp"
+#include "resource/ChoiceElement.hpp"
+
+import ElementTypes;
+
+namespace ui
+{
+    using namespace juce;
+    using namespace element;
+
+    class Impl : public Component
+    {
+
+    };
+
+    class ClipImpl : public Impl
+    {
+    public:
+        explicit ClipImpl(ClipElement &element_) :
+            element(element_) {}
+
+        void paint(Graphics &g) override
+        {
+            float cornerSize = 5;
+            float thickness = 2;
+
+            auto reduced = getLocalBounds().toFloat().reduced(thickness / 2);
+            g.setColour(Colours::rebeccapurple);
+            g.fillRoundedRectangle(reduced, cornerSize);
+            g.setColour(Colours::mediumpurple);
+            g.drawRoundedRectangle(reduced, cornerSize, thickness);
+
+            g.setColour(Colours::black);
+            g.drawText(element.getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
+        }
+
+        void mouseDown(const MouseEvent &event) override
+        {
+            if (event.mods.isRightButtonDown())
+            {
+                auto& editor = editor::Editor::getInstance();
+
+                // Menu for selecting a parameter
+                PopupMenu parameters;
+                for (const auto& parameter : editor.getGlobalParameters().parameters)
+                {
+                    parameters.addItem({parameter->getName()}, [this, &editor, parameter]
+                    {
+                        const automation::AutomationLink link{parameter, element.volume, automation::MappingFunction{}};
+                        editor.getEvent()->getAutomation().setup(link);
+                    });
+                }
+
+                PopupMenu menu;
+                // menu.addItem("ooer", []{});
+                menu.addSubMenu("Automate volume", parameters);
+
+                menu.showMenuAsync(PopupMenu::Options{});
+            }
+        }
+
+    private:
+        ClipElement& element;
+
+    };
+
+    class ChoiceImpl : public Impl
+    {
+    public:
+        explicit ChoiceImpl(ChoiceElement &element_) :
+            element(element_) {}
+
+        void paint(Graphics &g) override
+        {
+            float cornerSize = 5;
+            float thickness = 2;
+
+            auto reduced = getLocalBounds().toFloat().reduced(thickness / 2);
+            g.setColour(Colours::darkgreen);
+            g.fillRoundedRectangle(reduced, cornerSize);
+            g.setColour(Colours::green);
+            g.drawRoundedRectangle(reduced, cornerSize, thickness);
+
+            g.setColour(Colours::black);
+            g.drawText(element.getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
+        }
+
+    private:
+        ChoiceElement& element;
+
+    };
+
+    // struct ImplVisitor
+    // {
+    //     std::unique_ptr<Impl> operator()(ClipElement& element) const
+    //     {
+    //         return std::make_unique<ClipImpl>(element);
+    //     }
+    //
+    //     std::unique_ptr<Impl> operator()(ChoiceElement& element) const
+    //     {
+    //         return std::make_unique<ChoiceImpl>(element);
+    //     }
+    // };
+
+    void ElementRegionWidget::mouseDown(const MouseEvent &event)
+    {
+    }
+
+    void ElementRegionWidget::paint(Graphics &g)
+    {
+    }
+
+    void ElementRegionWidget::resized()
+    {
+        impl->setBounds(getLocalBounds());
+    }
+
+    // Cursed RTTI experiment
+#define THING(ElementType, ImplType) map.emplace(std::type_index(typeid(ElementType)), [](const event::ElementHandle &h)\
+    {\
+        return std::make_unique<ImplType>(dynamic_cast<ElementType&>(*h.ptr));\
+    });
+
+    static std::unordered_map<std::type_index, std::function<std::unique_ptr<Impl>(event::ElementHandle)>> map;
+
+    static auto _clip = THING(ClipElement, ClipImpl)
+    static auto _choice = THING(ChoiceElement, ChoiceImpl)
+
+    void ElementRegionWidget::refresh()
+    {
+        removeAllChildren();
+        if (const auto it = map.find(std::type_index{typeid(*element.ptr)}); it != map.end())
+        {
+            impl = it->second(element);
+            addAndMakeVisible(impl.get());
+            resized();
+        }
+    }
+}

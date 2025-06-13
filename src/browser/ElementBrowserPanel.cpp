@@ -1,6 +1,7 @@
 #include "ElementBrowserPanel.hpp"
 
 #include "FileDragSource.hpp"
+#include "resource/ChoiceElement.hpp"
 #include "runtime/Runtime.hpp"
 
 import Resource;
@@ -68,7 +69,7 @@ namespace ui
             // TODO: modal dialogues
             menu.addItem("New choice element", [this]
             {
-
+                this->event->getElements().reg(std::make_shared<element::ChoiceElement>());
             });
 
             menu.showMenuAsync(PopupMenu::Options{});

@@ -4,7 +4,7 @@
 #include <canvas/StateNodeWidget.hpp>
 #include <panel/Panel.hpp>
 
-#include "ElementRegion.hpp"
+#include "ElementRegionWidget.hpp"
 #include "browser/ElementDragSource.hpp"
 #include "editor/Editor.hpp"
 
@@ -23,7 +23,7 @@ namespace ui
     class StatePropertyPanel : public Panel, public juce::DragAndDropTarget
     {
         std::weak_ptr<StateNodeWidget> parent;
-        std::vector<std::shared_ptr<ElementRegion>> elements;
+        std::vector<std::shared_ptr<ElementRegionWidget>> elements;
 
     public:
         StatePropertyPanel(std::weak_ptr<StateNodeWidget> parent_):
@@ -46,7 +46,7 @@ namespace ui
             {
                 for (auto& element : shared->getState()->elements())
                 {
-                    auto& widget = elements.emplace_back(std::make_shared<ElementRegion>(element));
+                    auto& widget = elements.emplace_back(std::make_shared<ElementRegionWidget>(element));
                     addAndMakeVisible(*widget);
                 }
             }
