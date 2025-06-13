@@ -26,58 +26,79 @@ import ElementTypes;
 //     }
 // };
 
-ui::ElementBrowserPanel::ElementBrowserPanel(event::Event::Ptr event_):
-    event(std::move(event_))
+namespace ui
 {
-    addAndMakeVisible(listPanel);
+    using namespace juce;
 
-    // std::function<void(int)> fn = MEMFN(ElementBrowserPanel::thing, igg);
-
-    // auto f = &ElementBrowserPanel::thing;
-    // f(this, 1);
-
-    // S<int>::thing([](int i){});
-
-    event->getElements().onChange.setup(this, [this]()
+    ElementBrowserPanel::ElementBrowserPanel(event::Event::Ptr event_):
+        event(std::move(event_))
     {
-        refreshElements();
-    });
-}
+        addAndMakeVisible(listPanel);
 
-void ui::ElementBrowserPanel::paint(juce::Graphics &g)
-{
-    paintBackground(g);
-}
+        // std::function<void(int)> fn = MEMFN(ElementBrowserPanel::thing, igg);
 
-void ui::ElementBrowserPanel::resized()
-{
-    listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
-    listPanel.updateVisibilities();
-}
+        // auto f = &ElementBrowserPanel::thing;
+        // f(this, 1);
 
-void ui::ElementBrowserPanel::refreshElements()
-{
-    listPanel.refresh(event->getElements());
-}
+        // S<int>::thing([](int i){});
 
-bool ui::ElementBrowserPanel::isInterestedInDragSource(const SourceDetails &dragSourceDetails)
-{
-    const auto source = dragSourceDetails.sourceComponent.get();
+        event->getElements().onChange.setup(this, [this]()
+        {
+            refreshElements();
+        });
+    }
 
-    if (dynamic_cast<FileDragSource*>(source))
-        return true;
-
-    return false;
-}
-
-void ui::ElementBrowserPanel::itemDropped(const SourceDetails &dragSourceDetails)
-{
-    auto source = dragSourceDetails.sourceComponent.get();
-    if (auto other = dynamic_cast<FileDragSource*>(source))
+    void ElementBrowserPanel::paint(juce::Graphics &g)
     {
-        // Create and register a new clip element
-        auto resource = runtime::createResource(other->getFile());
-        auto element = std::make_shared<element::ClipElement>(resource);
-        auto handle = event->getElements().reg(element);
+        paintBackground(g);
+    }
+
+    void ElementBrowserPanel::resized()
+    {
+        listPanel.setBounds(getLocalBounds().withHeight(listPanel.getExpectedHeight()));
+        listPanel.updateVisibilities();
+    }
+
+    void ElementBrowserPanel::mouseDown(const MouseEvent &event)
+    {
+        if (event.mods.isRightButtonDown())
+        {
+            PopupMenu menu;
+
+            // TODO: modal dialogues
+            menu.addItem("New choice element", [this]
+            {
+
+            });
+
+            menu.showMenuAsync(PopupMenu::Options{});
+        }
+    }
+
+    void ElementBrowserPanel::refreshElements()
+    {
+        listPanel.refresh(event->getElements());
+    }
+
+    bool ElementBrowserPanel::isInterestedInDragSource(const SourceDetails &dragSourceDetails)
+    {
+        const auto source = dragSourceDetails.sourceComponent.get();
+
+        if (dynamic_cast<FileDragSource*>(source))
+            return true;
+
+        return false;
+    }
+
+    void ElementBrowserPanel::itemDropped(const SourceDetails &dragSourceDetails)
+    {
+        auto source = dragSourceDetails.sourceComponent.get();
+        if (auto other = dynamic_cast<FileDragSource*>(source))
+        {
+            // Create and register a new clip element
+            auto resource = runtime::createResource(other->getFile());
+            auto element = std::make_shared<element::ClipElement>(resource);
+            auto handle = event->getElements().reg(element);
+        }
     }
 }

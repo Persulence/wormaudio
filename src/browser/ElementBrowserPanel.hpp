@@ -17,6 +17,7 @@ namespace ui
         explicit ElementBrowserPanel(event::Event::Ptr event_);
         void paint(juce::Graphics &g) override;
         void resized() override;
+        void mouseDown(const juce::MouseEvent &event) override;
 
     private:
         void refreshElements();

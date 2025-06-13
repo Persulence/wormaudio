@@ -34,6 +34,16 @@ namespace player
             formatManager.registerBasicFormats();
         }
 
+        explicit LeanSamplePlayer(): LeanSamplePlayer(resource::EMPTY_BUFFER)
+        {
+        }
+
+        void setBuffer(resource::ElementSampleBuffer::Ptr buffer_)
+        {
+            // TODO: synchronisation
+            buffer = buffer_;
+        }
+
         void setGainDb(const float volumeDb_)
         {
             gain = juce::Decibels::decibelsToGain(volumeDb_);
