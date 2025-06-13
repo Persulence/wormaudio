@@ -2,6 +2,7 @@
 
 #include "automation/AutomationTable.hpp"
 #include "automation/Mapping.hpp"
+#include "browser/FileDragSource.hpp"
 #include "editor/Editor.hpp"
 #include "resource/ChoiceElement.hpp"
 
@@ -68,7 +69,7 @@ namespace ui
 
     };
 
-    class ChoiceImpl : public Impl
+    class ChoiceImpl : public Impl, public DragAndDropTarget
     {
     public:
         explicit ChoiceImpl(ChoiceElement &element_) :
@@ -80,13 +81,44 @@ namespace ui
             float thickness = 2;
 
             auto reduced = getLocalBounds().toFloat().reduced(thickness / 2);
-            g.setColour(Colours::darkgreen);
+            g.setColour(Colours::darkolivegreen);
             g.fillRoundedRectangle(reduced, cornerSize);
+
+            g.setColour(Colours::darkgreen);
+            const float size = element.getClips().size();
+            auto centreBounds = getLocalBounds().expanded(-thickness);
+            for (int i = 0; i < size; ++i)
+            {
+                const float h = centreBounds.getHeight() / size;
+
+                auto clip = element.getClips().at(i);
+                Rectangle clipBounds{static_cast<float>(centreBounds.getX()), centreBounds.getY() + i * h, static_cast<float>(centreBounds.getWidth()), h};
+                clipBounds.expand(-2., -2.);
+
+                g.fillRect(clipBounds);
+            }
+
             g.setColour(Colours::green);
             g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
             g.setColour(Colours::black);
             g.drawText(element.getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
+        }
+
+        bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override
+        {
+            return FileDragSource::test(dragSourceDetails);
+        }
+
+        void itemDropped(const SourceDetails &dragSourceDetails) override
+        {
+            if (auto source = FileDragSource::test(dragSourceDetails))
+            {
+                auto resource = runtime::createResource(source->getFile());
+                element.addClip(resource);
+
+                repaint();
+            }
         }
 
     private:

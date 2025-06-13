@@ -5,7 +5,8 @@ namespace ui
     using namespace juce;
 
     Entry::Entry(event::ElementHandle handle_):
-        handle(std::move(handle_)) {
+        handle(std::move(handle_))
+    {
 
     }
 

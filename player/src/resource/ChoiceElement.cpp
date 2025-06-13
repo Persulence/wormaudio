@@ -65,7 +65,7 @@ namespace element
 
     std::string ChoiceElement::getName()
     {
-        return "Choice";
+        return "Choice (" + std::to_string(clips.size()) + " clips)";
     }
 
     void ChoiceElement::addClip(const Resource::Ptr &resource)

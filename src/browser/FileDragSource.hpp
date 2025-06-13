@@ -1,14 +1,19 @@
 #pragma once
 
-#include "juce_core/juce_core.h"
+#include "juce_gui_basics/juce_gui_basics.h"
 
 namespace ui
 {
     class FileDragSource
     {
     public:
-        virtual ~FileDragSource() = default;
+        static FileDragSource* test(const juce::DragAndDropTarget::SourceDetails &details)
+        {
+            return dynamic_cast<FileDragSource*>(details.sourceComponent.get());
+        }
 
         virtual juce::File getFile() = 0;
+
+        virtual ~FileDragSource() = default;
     };
 }

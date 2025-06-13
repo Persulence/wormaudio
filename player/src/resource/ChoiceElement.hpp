@@ -26,6 +26,8 @@ namespace element
 
         void addClip(const resource::Resource::Ptr &resource);
 
+        const std::vector<resource::Resource::Ptr>& getClips() const { return clips; }
+
     private:
         void cacheBuffers();
 

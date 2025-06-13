@@ -3,8 +3,6 @@
 #include "EntryListPanel.hpp"
 #include "event/ElementList.hpp"
 
-// import event;
-
 namespace ui
 {
     class Entry : public juce::Component, public ElementDragSource
