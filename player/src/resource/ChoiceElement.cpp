@@ -13,7 +13,6 @@ namespace element
 
     class ChoiceElementInstance : public ElementInstance
     {
-        ElementSampleBuffer::Ptr buffer;
         PropertyInstanceContainer properties;
         std::vector<ElementSampleBuffer::Ptr> buffers;
         player::LeanSamplePlayer player;
@@ -29,7 +28,7 @@ namespace element
         void start() override
         {
             const int idx = random.nextInt(buffers.size());
-            buffer = buffers[idx];
+            player.setBuffer(buffers[idx]);
 
             player.changeState(player::PLAYING);
         }

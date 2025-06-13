@@ -6,6 +6,7 @@ namespace automation
 {
     void AutomationRegistry::reg(const std::shared_ptr<PropertyProvider> &provider)
     {
+        registry[provider];
         for (auto& property : provider->getProperties())
         {
             // registry.insert({Identifier{provider, property->getId()}, property});
