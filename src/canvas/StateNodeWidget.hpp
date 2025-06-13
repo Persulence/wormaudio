@@ -28,7 +28,7 @@ namespace ui
 
     class StateNodeWidget : public juce::Component,
                             public juce::DragAndDropTarget,
-                            public CanvasSelectionTarget,
+                            public SelectionTarget,
                             public std::enable_shared_from_this<StateNodeWidget>
     {
         int headerHeight{15};

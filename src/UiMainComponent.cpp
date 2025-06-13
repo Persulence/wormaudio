@@ -49,26 +49,30 @@ namespace ui
     }
 
     MainSceneComponent::MainSceneComponent():
+        rightPanel(*this),
         // leftHandle(ResizeHandle{ResizeHandle::Direction::VERTICAL, 250})
-        bar(&layout, 1, true)
+        bar1(&layout, 1, true),
+        bar2(&layout, 3, true)
     {
         LookAndFeel::setDefaultLookAndFeel(&MainLookAndFeel::getInstance());
 
         addAndMakeVisible(leftPanel);
         addAndMakeVisible(centrePanel);
-        // addAndMakeVisible(leftHandle);
-        addAndMakeVisible(bar);
+        addAndMakeVisible(rightPanel);
+        addAndMakeVisible(bar1);
+        addAndMakeVisible(bar2);
 
         layout.setItemLayout(0, -0.2, -0.9, -0.2);
         layout.setItemLayout(1, 5, 5, 5);
         layout.setItemLayout(2, -0.2, -0.9, -0.8);
+        layout.setItemLayout(3, 5, 5, 5);
+        layout.setItemLayout(4, -0.1, -0.9, -0.2);
     }
 
     void MainSceneComponent::resized()
     {
-        std::array<Component*, 3> comps = {&leftPanel, &bar, &centrePanel};
+        std::array<Component*, 5> comps = {&leftPanel, &bar1, &centrePanel, &bar2, &rightPanel};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0,  getWidth(), getHeight(), false, true);
-
 
         // FlexBox leftPanelBox;
         // leftPanelBox.flexWrap = FlexBox::Wrap::noWrap;

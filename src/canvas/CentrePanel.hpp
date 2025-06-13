@@ -5,11 +5,12 @@
 #include "CanvasSelectionManager.hpp"
 #include "CanvasViewport.hpp"
 #include "BottomInspectorPanel.hpp"
+#include "InspectorSelectionManager.hpp"
 #include "parameter/ParameterPanel.hpp"
 
 namespace ui
 {
-    class CentrePanel : public ui::Panel, public CanvasSelectionManager
+    class CentrePanel : public Panel, public CanvasSelectionManager
     {
     public:
         BorderPanel<ParameterPanel> parameterPanel;
@@ -22,16 +23,6 @@ namespace ui
 
         CentrePanel();
         void resized() override;
-
-        void onSelect() override
-        {
-            editor->updateSelection();
-        }
-
-        void onDeselectAll() override
-        {
-            editor->updateSelection();
-        }
     };
 }
 

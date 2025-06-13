@@ -10,7 +10,7 @@ import parameter;
 
 namespace ui
 {
-    class ParameterWidget : public juce::Component, public CanvasSelectionTarget, public ParameterProperties::OnChange::Listener, public std::enable_shared_from_this<ParameterWidget>
+    class ParameterWidget : public juce::Component, public SelectionTarget, public ParameterProperties::OnChange::Listener, public std::enable_shared_from_this<ParameterWidget>
     {
         std::unique_ptr<Component> child;
         sm::ParameterLookup& lookup;

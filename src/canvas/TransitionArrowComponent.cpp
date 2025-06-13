@@ -1,5 +1,6 @@
 #include "TransitionArrowComponent.hpp"
 
+#include "InspectorSelectionManager.hpp"
 #include "StateNodeWidget.hpp"
 #include "transition/TransitionPropertyPanel.hpp"
 
@@ -150,7 +151,7 @@ namespace ui
 
     void TransitionArrowComponent::mouseDown(const MouseEvent &event)
     {
-        if (const auto manager = findParentComponentOfClass<CanvasSelectionManager>())
+        if (const auto manager = findParentComponentOfClass<InspectorSelectionManager>())
         {
             manager->select(shared_from_this());
         }

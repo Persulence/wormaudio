@@ -7,6 +7,7 @@
 #include "browser/ElementBrowserPanel.hpp"
 #include "browser/FileBrowserPanel.hpp"
 #include "canvas/CentrePanel.hpp"
+#include "inspector/RightInspectorPanel.hpp"
 #include "transport/TransportPanel.hpp"
 
 namespace ui
@@ -33,18 +34,35 @@ namespace ui
         void resized() override;
     };
 
-    class MainSceneComponent : public Panel, public juce::DragAndDropContainer
+    class RightPanel : public Panel
     {
+        BorderPanel<RightInspectorPanel> inspector;
 
+    public:
+        explicit RightPanel(InspectorSelectionManager& manager):
+            inspector(manager)
+        {
+            addAndMakeVisible(inspector);
+        }
+
+        void resized() override
+        {
+            inspector.setBounds(getLocalBounds());
+        }
+    };
+
+    class MainSceneComponent : public Panel, public juce::DragAndDropContainer, public InspectorSelectionManager
+    {
         LeftPanel leftPanel;
         CentrePanel centrePanel;
+        RightPanel rightPanel;
 
         // ResizeHandle leftHandle;
         juce::StretchableLayoutManager layout;
-        juce::StretchableLayoutResizerBar bar;
+        juce::StretchableLayoutResizerBar bar1;
+        juce::StretchableLayoutResizerBar bar2;
 
     public:
-
         MainSceneComponent();
 
         void resized() override;

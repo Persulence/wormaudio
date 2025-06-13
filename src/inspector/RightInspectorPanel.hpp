@@ -1,26 +1,25 @@
 #pragma once
 
-#include "../panel/Panel.hpp"
-#include "CanvasSelectionManager.hpp"
+#include "canvas/InspectorSelectionManager.hpp"
+
+#include "panel/Panel.hpp"
 
 namespace ui
 {
-    class BottomInspectorPanel : public Panel
+    class RightInspectorPanel : public Panel
     {
-        CanvasSelectionManager& selectionManager;
+        InspectorSelectionManager::ChangeCallback::Listener onSelect;
+        InspectorSelectionManager::ChangeCallback::Listener onDeselectAll;
 
         std::mutex configMutex;
         std::shared_ptr<Component> configComponent;
 
-        CanvasSelectionManager::ChangeCallback::Listener onSelect;
-        CanvasSelectionManager::ChangeCallback::Listener onDeselectAll;
-
     public:
-        explicit BottomInspectorPanel(CanvasSelectionManager& parent):
-            selectionManager(parent)
+        explicit RightInspectorPanel(InspectorSelectionManager &manager):
+            manager(manager)
         {
-            onSelect.listen(selectionManager.onSelect, [this]{ updateSelection(); });
-            onDeselectAll.listen(selectionManager.onDeselectAll, [this]{ updateSelection(); });
+            onSelect.listen(manager.onSelect, [this]{ updateSelection(); });
+            onDeselectAll.listen(manager.onDeselectAll, [this]{ updateSelection(); });
         }
 
         void updateSelection()
@@ -31,7 +30,7 @@ namespace ui
                 removeChildComponent(configComponent.get());
             }
 
-            if (const auto shared = selectionManager.getCurrent().lock(); shared != nullptr)
+            if (const auto shared = manager.getCurrent().lock(); shared != nullptr)
             {
                 configComponent = shared->createConfig();
                 addAndMakeVisible(configComponent.get());
@@ -47,7 +46,6 @@ namespace ui
         void paint(juce::Graphics &g) override
         {
             paintBackground(g);
-            // paintBorder(g);
         }
 
         void resized() override
@@ -57,5 +55,8 @@ namespace ui
                 configComponent->setBounds(getLocalBounds());
             }
         }
+
+    private:
+        InspectorSelectionManager& manager;
     };
 }

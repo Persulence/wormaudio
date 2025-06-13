@@ -2,7 +2,6 @@ module;
 
 #include <iostream>
 #include <memory>
-#include <string>
 #include <utility>
 #include <vector>
 #include <variant>
@@ -17,7 +16,6 @@ import :ComparisonCondition;
 
 namespace condition
 {
-
     export struct ThingCondition : ConditionBase<ThingCondition>
     {
         ThingCondition() = default;

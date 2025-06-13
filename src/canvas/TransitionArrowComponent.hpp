@@ -7,7 +7,7 @@
 
 namespace ui
 {
-    class TransitionArrowComponent : public juce::Component, public CanvasSelectionTarget, public std::enable_shared_from_this<TransitionArrowComponent>
+    class TransitionArrowComponent : public juce::Component, public SelectionTarget, public std::enable_shared_from_this<TransitionArrowComponent>
     {
         std::weak_ptr<StateNodeWidget> from;
         std::weak_ptr<StateNodeWidget> to;

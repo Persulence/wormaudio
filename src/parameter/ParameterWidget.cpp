@@ -7,6 +7,7 @@
 
 #include "editor/Editor.hpp"
 #include "../../player/src/util/WrappedValue.hpp"
+#include "canvas/InspectorSelectionManager.hpp"
 #include "widget/SliderWidget.hpp"
 
 namespace ui
@@ -203,7 +204,7 @@ namespace ui
 
     void ParameterWidget::mouseDown(const MouseEvent &event)
     {
-        if (auto manager = findParentComponentOfClass<CanvasSelectionManager>())
+        if (auto manager = findParentComponentOfClass<InspectorSelectionManager>())
         {
             manager->select(shared_from_this());
         }

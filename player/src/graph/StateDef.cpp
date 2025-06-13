@@ -8,6 +8,7 @@ module;
 module sm;
 
 import element;
+import :Condition;
 
 namespace sm
 {
@@ -15,7 +16,8 @@ namespace sm
     // StateDef::StateDef(const std::shared_ptr<automation::AutomationRegistry> &registry)
         // automation(registry)
     {
-
+        // Doesn't work
+        // insertTransition(std::make_shared<Transition1>(condition::ConditionList{}, shared_from_this()));
     }
 
     void StateDef::insertElement(const event::ElementHandle &entry)
