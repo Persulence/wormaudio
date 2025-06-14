@@ -2,19 +2,18 @@
 #include "ElementDragSource.hpp"
 #include "../EntryListPanel.hpp"
 #include "event/ElementList.hpp"
+#include "widget/BaseElementWidget.hpp"
 
 namespace ui
 {
-    class Entry : public juce::Component, public ElementDragSource
+    class Entry : public BaseElementWidget, public ElementDragSource
     {
     public:
-        explicit Entry(event::ElementHandle handle_);
+        explicit Entry(const event::ElementHandle &handle_);
         void paint(juce::Graphics &g) override;
 
         event::ElementHandle getHandle() override { return handle; }
         void mouseDrag(const juce::MouseEvent &event) override;
-
-        event::ElementHandle handle;
     };
 
     class ElementListPanel : public EntryListPanel<Entry>

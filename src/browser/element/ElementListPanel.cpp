@@ -4,8 +4,8 @@ namespace ui
 {
     using namespace juce;
 
-    Entry::Entry(event::ElementHandle handle_):
-        handle(std::move(handle_))
+    Entry::Entry(const event::ElementHandle &handle_):
+        BaseElementWidget(handle_)
     {
 
     }

@@ -4,6 +4,27 @@
 
 namespace ui
 {
+    class BoolPropertyWidget : public PropertyWidget
+    {
+    public:
+        explicit BoolPropertyWidget(const std::string &label, juce::Value value_) :
+            PropertyWidget(label), value(std::move(value_))
+        {
+            addAndMakeVisible(button);
+            button.getToggleStateValue().referTo(value);
+        }
+
+    protected:
+        void setContentBounds(juce::Rectangle<int> bounds) override
+        {
+            button.setBounds(bounds);
+        }
+
+    private:
+        juce::ToggleButton button;
+        juce::Value value;
+    };
+
     template<typename Value>
     class EntryPropertyWidget : public PropertyWidget
     {

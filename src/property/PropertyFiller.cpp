@@ -87,4 +87,15 @@ namespace ui
                 break;
         }
     }
+
+    class EmptyPropertyFiller final : public PropertyFiller
+    {
+    public:
+        void initProperties() override
+        {
+
+        }
+    };
+
+    std::shared_ptr<PropertyFiller> EMPTY_PROPERTY_FILLER{std::make_shared<EmptyPropertyFiller>()};
 }

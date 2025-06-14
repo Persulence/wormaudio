@@ -34,4 +34,6 @@ namespace ui
 
         std::vector<std::shared_ptr<PropertyMember>> children;
     };
+
+    extern std::shared_ptr<PropertyFiller> EMPTY_PROPERTY_FILLER;
 }

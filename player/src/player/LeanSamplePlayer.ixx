@@ -2,6 +2,8 @@ module;
 
 #include <JuceHeader.h>
 
+#include <utility>
+
 export module LeanSamplePlayer;
 
 import SamplePlayer;
@@ -41,7 +43,7 @@ namespace player
         void setBuffer(resource::ElementSampleBuffer::Ptr buffer_)
         {
             // TODO: synchronisation
-            buffer = buffer_;
+            buffer = std::move(buffer_);
         }
 
         void setGainDb(const float volumeDb_)
