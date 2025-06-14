@@ -1,6 +1,6 @@
 #pragma once
 #include "ElementDragSource.hpp"
-#include "EntryListPanel.hpp"
+#include "../EntryListPanel.hpp"
 #include "event/ElementList.hpp"
 
 namespace ui

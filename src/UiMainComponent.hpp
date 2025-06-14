@@ -4,7 +4,7 @@
 #include <panel/BorderPanel.hpp>
 
 #include "panel/Panel.hpp"
-#include "browser/ElementBrowserPanel.hpp"
+#include "browser/element/ElementBrowserPanel.hpp"
 #include "browser/FileBrowserPanel.hpp"
 #include "canvas/CentrePanel.hpp"
 #include "inspector/RightInspectorPanel.hpp"

@@ -5,7 +5,7 @@
 #include "StateNodeWidget.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "CanvasConnectionManager.hpp"
-#include "browser/ElementDragSource.hpp"
+#include "../browser/element/ElementDragSource.hpp"
 #include "browser/FileListPanel.hpp"
 #include "state/StatePropertyPanel.hpp"
 

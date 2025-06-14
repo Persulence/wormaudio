@@ -68,6 +68,7 @@ namespace element
     export class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
     {
         resource::Resource::Ptr resource;
+        bool loop{false};
 
     public:
         explicit ClipElement(resource::Resource::Ptr resource_):

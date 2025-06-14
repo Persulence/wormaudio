@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ElementListPanel.hpp"
-#include "../panel/Panel.hpp"
+#include "panel/Panel.hpp"
 #include "event/ElementList.hpp"
 
 import event;

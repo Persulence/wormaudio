@@ -5,7 +5,7 @@
 #include <panel/Panel.hpp>
 
 #include "ElementRegionWidget.hpp"
-#include "browser/ElementDragSource.hpp"
+#include "../browser/element/ElementDragSource.hpp"
 #include "editor/Editor.hpp"
 
 #include "runtime/Runtime.hpp"

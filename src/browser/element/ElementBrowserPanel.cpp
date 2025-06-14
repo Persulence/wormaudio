@@ -1,6 +1,6 @@
 #include "ElementBrowserPanel.hpp"
 
-#include "FileDragSource.hpp"
+#include "../FileDragSource.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "runtime/Runtime.hpp"
 
