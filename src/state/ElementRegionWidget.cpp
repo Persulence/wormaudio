@@ -6,7 +6,7 @@
 #include "editor/Editor.hpp"
 #include "resource/ChoiceElement.hpp"
 
-import ElementTypes;
+#include "resource/ClipElement.hpp"
 
 namespace ui
 {
@@ -85,11 +85,11 @@ namespace ui
             g.fillRoundedRectangle(reduced, cornerSize);
 
             g.setColour(Colours::darkgreen);
-            const float size = element.getClips().size();
-            auto centreBounds = getLocalBounds().expanded(-thickness);
-            for (int i = 0; i < size; ++i)
+            const auto size = static_cast<float>(element.getClips().size());
+            auto centreBounds = getLocalBounds().expanded(-static_cast<int>(thickness));
+            for (size_t i = 0; i < size; ++i)
             {
-                const float h = centreBounds.getHeight() / size;
+                const float h = static_cast<float>(centreBounds.getHeight()) / size;
 
                 auto clip = element.getClips().at(i);
                 Rectangle clipBounds{static_cast<float>(centreBounds.getX()), centreBounds.getY() + i * h, static_cast<float>(centreBounds.getWidth()), h};

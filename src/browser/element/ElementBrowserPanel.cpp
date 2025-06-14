@@ -3,9 +3,9 @@
 #include "../FileDragSource.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "runtime/Runtime.hpp"
+#include "resource/ClipElement.hpp"
 
 import Resource;
-import ElementTypes;
 
 // #define MEMFN(fn) std::bind(&fn, this)
 // #define MEMFN(fn, arg1) [this](auto arg1){ fn(arg1); };

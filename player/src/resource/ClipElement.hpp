@@ -1,27 +1,22 @@
-module;
+#pragma once
 
-#include <JuceHeader.h>
+#include <memory>
 
-#include <utility>
+#include <juce_data_structures/juce_data_structures.h>
+#include <juce_audio_basics/juce_audio_basics.h>
 
-#include "../automation/Property.hpp"
+#include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 
-export module ElementTypes;
-
 import element;
+import Resource;
 import ElementInstance;
 import AudioContext;
-import SamplePlayer;
 import ElementSampleBuffer;
 import LeanSamplePlayer;
-import io;
-import Resource;
 
 namespace element
 {
-    using Buffer = juce::AudioBuffer<float>;
-
     class ClipElementInstance : public ElementInstance
     {
         player::LeanSamplePlayer player;
@@ -73,7 +68,7 @@ namespace element
         }
     };
 
-    export class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
+    class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
     {
         resource::Resource::Ptr resource;
 

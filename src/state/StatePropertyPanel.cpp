@@ -3,13 +3,13 @@
 #include "canvas/StateNodeWidget.hpp"
 #include "util/GuiUtil.hpp"
 
-import ElementTypes;
+#include "resource/ClipElement.hpp"
 
 namespace ui
 {
     using namespace juce;
 
-    void StatePropertyPanel::paint(juce::Graphics &g)
+    void StatePropertyPanel::paint(Graphics &g)
     {
         // if (auto shared = parent.lock())
         // {

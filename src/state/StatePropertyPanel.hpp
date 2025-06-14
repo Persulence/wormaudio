@@ -9,8 +9,8 @@
 #include "editor/Editor.hpp"
 
 #include "runtime/Runtime.hpp"
+#include "resource/ClipElement.hpp"
 
-import ElementTypes;
 import Resource;
 
 namespace ui

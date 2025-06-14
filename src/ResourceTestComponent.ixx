@@ -2,12 +2,13 @@ module;
 
 #include <juce_audio_utils/juce_audio_utils.h>
 
+#include "resource/ClipElement.hpp"
+
 export module ui:ResourceTestComponent;
 
 import AudioContext;
 import Resource;
 import element;
-import ElementTypes;
 import ElementInstance;
 import ElementInstanceManager;
 

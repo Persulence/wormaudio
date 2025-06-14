@@ -1,8 +1,7 @@
 #include "ElementPropertyFiller.hpp"
 
 #include "panel/MyPropertyPanel.hpp"
-
-import ElementTypes;
+#include "resource/ClipElement.hpp"
 
 namespace ui
 {
