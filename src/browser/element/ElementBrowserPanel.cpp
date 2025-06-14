@@ -5,7 +5,7 @@
 #include "runtime/Runtime.hpp"
 #include "resource/ClipElement.hpp"
 
-import Resource;
+import resource;
 
 // #define MEMFN(fn) std::bind(&fn, this)
 // #define MEMFN(fn, arg1) [this](auto arg1){ fn(arg1); };

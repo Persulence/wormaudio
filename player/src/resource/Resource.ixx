@@ -2,7 +2,7 @@ module;
 
 #include <juce_core/juce_core.h>
 
-export module Resource;
+export module resource;
 
 export import :ResourceLoader;
 import ElementSampleBuffer;

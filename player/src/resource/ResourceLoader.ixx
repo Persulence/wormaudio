@@ -2,7 +2,7 @@ module;
 
 #include <juce_audio_formats/juce_audio_formats.h>
 
-export module Resource:ResourceLoader;
+export module resource:ResourceLoader;
 
 import ElementSampleBuffer;
 import io;

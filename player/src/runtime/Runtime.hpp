@@ -9,7 +9,7 @@
 #include "LogicTicker.hpp"
 #include "../event/ParameterList.hpp"
 
-import Resource;
+import resource;
 import event;
 import ElementInstanceManager;
 import sm;

@@ -3,7 +3,7 @@
 import element;
 import AudioContext;
 import ElementInstance;
-import Resource;
+import resource;
 import ElementSampleBuffer;
 
 #include <memory>

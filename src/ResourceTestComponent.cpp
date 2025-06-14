@@ -11,7 +11,7 @@ module ui;
 import :ResourceTestComponent;
 
 import AudioContext;
-import Resource;
+import resource;
 import element;
 import ElementInstance;
 import ElementInstanceManager;

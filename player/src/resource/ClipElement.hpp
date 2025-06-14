@@ -9,7 +9,7 @@
 #include "automation/instance/AutomationRegistryInstance.hpp"
 
 import element;
-import Resource;
+import resource;
 import ElementInstance;
 import AudioContext;
 import ElementSampleBuffer;

@@ -11,7 +11,7 @@
 #include "runtime/Runtime.hpp"
 #include "resource/ClipElement.hpp"
 
-import Resource;
+import resource;
 
 namespace ui
 {
