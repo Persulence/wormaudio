@@ -66,6 +66,11 @@ namespace player
 
         }
 
+        TransportState getState() const
+        {
+            return transportState;
+        }
+
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
         {
             const auto& ref = *buffer;
@@ -87,32 +92,23 @@ namespace player
                 auto samplesThisTime = juce::jmin (outputSamplesRemaining, refSamplesRemaining);
                 for (auto channel = 0; channel < numOutputChannels; ++channel)
                 {
-                    // if (additive)
-                    // {
-                        bufferToFill.buffer->addFrom(channel,
-                            outputSamplesOffset,
-                            ref,
-                            channel % numBufferChannels,
-                            position,
-                            samplesThisTime,
-                            gain);
-                    // }
-                    // else
-                    // {
-                    //     bufferToFill.buffer->copyFrom(channel,
-                    //         outputSamplesOffset,
-                    //         ref,
-                    //         channel % numBufferChannels,
-                    //         position,
-                    //         samplesThisTime);
-                    // }
+                    bufferToFill.buffer->addFrom(channel,
+                        outputSamplesOffset,
+                        ref,
+                        channel % numBufferChannels,
+                        position,
+                        samplesThisTime,
+                        gain);
                 }
                 outputSamplesRemaining -= samplesThisTime;
                 outputSamplesOffset += samplesThisTime;
                 position += samplesThisTime;
 
                 if (position == ref.getNumSamples())
+                {
                     position = 0;
+                    transportState = STOPPED;
+                }
             }
         }
 

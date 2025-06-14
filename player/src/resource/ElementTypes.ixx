@@ -29,15 +29,19 @@ namespace element
 
         automation::PropertyInstance::OnChanged::Listener gainListener;
 
+        bool loop;
+
     public:
-        explicit ClipElementInstance(const player::AudioContext &context_, const resource::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_):
+        explicit ClipElementInstance(const player::AudioContext &context_, const resource::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_,
+                                     bool loop_):
             ElementInstance(context_),
             player(std::move(audio_)),
-            properties(std::move(properties_))
+            properties(std::move(properties_)),
+            loop(loop_)
         {
             player.prepareToPlay(audioContext.samplesPerBlock, audioContext.sampleRate);
 
-            properties.instances[0]->onChanged.setup(&gainListener, [this](auto val){ player.setGainDb(val); });
+            properties.instances[0]->onChanged.setup(&gainListener, [this](auto val) { player.setGainDb(val); });
         }
 
         ~ClipElementInstance() override = default;
@@ -61,6 +65,10 @@ namespace element
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToAdd) override
         {
+            if (loop && player.getState() == player::STOPPED)
+            {
+                player.changeState(player::PLAYING);
+            }
             player.getNextAudioBlock(bufferToAdd);
         }
     };
@@ -79,7 +87,8 @@ namespace element
 
         ElementInstancePtr createInstance(player::AudioContext context, automation::AutomationRegistryInstance& automation) override
         {
-            return std::make_shared<ClipElementInstance>(context, getAudio(), automation.getContainer(shared_from_this()));
+            return std::make_shared<ClipElementInstance>(context, getAudio(), automation.getContainer(shared_from_this()),
+                loop.getValue());
         }
 
         std::string getName() override
