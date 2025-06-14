@@ -75,6 +75,7 @@ namespace sm
         void removeTransitionTo(StateDef* other);
         void setName(const std::string &name_);
 
+        bool hasSelfTransition();
         const std::vector<event::ElementHandle>& elements();
         const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitions() const;
 

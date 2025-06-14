@@ -51,6 +51,11 @@ namespace sm
         name = name_;
     }
 
+    bool StateDef::hasSelfTransition()
+    {
+        return transitions.contains(this);
+    }
+
     const std::vector<event::ElementHandle> & StateDef::elements()
     {
         return elements_;

@@ -26,8 +26,6 @@ namespace ui
 
         std::weak_ptr<StateNodeWidget> selectedNode;
 
-        // juce::ComponentDragger dragger;
-
     public:
         StateCanvasPanel();
 

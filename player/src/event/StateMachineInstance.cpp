@@ -49,6 +49,7 @@ namespace event
 
     bool StateMachineInstance::logicTick(const sm::ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport)
     {
+        bool transitionOccurred = false;
         auto prevState = currentState;
         if (currentState != nullptr)
         {
@@ -57,12 +58,13 @@ namespace event
                 if (conditions->test(parameters))
                 {
                     currentState = nextState;
+                    transitionOccurred = true;
                     // std::cout << "Moving to state " << nextState->instance->getName() << "\n";
                 }
             }
         }
 
-        if (currentState != nullptr && currentState != prevState)
+        if (currentState != nullptr && transitionOccurred)
         {
             if (prevState)
                 prevState->instance->deactivate();

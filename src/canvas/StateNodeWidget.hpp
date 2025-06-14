@@ -91,7 +91,7 @@ namespace ui
         }
 
     private:
-        class ConnectionCreationBox : public juce::Component
+        class ConnectionCreationBox : public Component
         {
             CanvasConnectionManager::Ptr manager;
 

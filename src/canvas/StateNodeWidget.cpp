@@ -161,9 +161,31 @@ namespace ui
                 selectionManager->select(shared_from_this());
             }
         }
+        else if (event.mods.isRightButtonDown())
+        {
+            PopupMenu menu;
+            PopupMenu::Item loop;
+            loop.text = "Loop (self transition)";
+            loop.setID(1);
+            loop.isTicked = getState()->hasSelfTransition();
+            loop.setAction([this]()
+            {
+                if (!getState()->hasSelfTransition())
+                {
+                    manager->makeConnection(this, this);
+                    // getState()->insertTransition(std::make_shared<sm::Transition1>(condition::ConditionList{}, getState()));
+                }
+                else
+                {
+                    // getState()->removeTransitionTo(getState().get());
+                }
+            });
+            menu.addItem(loop);
+            menu.showMenuAsync(PopupMenu::Options{});
+        }
     }
 
-    void StateNodeWidget::mouseDrag(const juce::MouseEvent &event)
+    void StateNodeWidget::mouseDrag(const MouseEvent &event)
     {
         if (event.mods.isLeftButtonDown())
         {

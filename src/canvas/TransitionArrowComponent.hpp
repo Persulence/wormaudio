@@ -27,6 +27,7 @@ namespace ui
         bool keyPressed(const juce::KeyPress &key) override;
 
         bool isTwoWay() const;
+        bool isSelf() const;
 
         std::shared_ptr<Component> createConfig() override;
         void onSelect() override;
