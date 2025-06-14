@@ -2,6 +2,7 @@
 
 #include <ranges>
 
+#include "InspectorSelectionManager.hpp"
 #include "StateNodeWidget.hpp"
 
 import sm;
@@ -107,7 +108,7 @@ namespace ui
 
     void CanvasConnectionManager::removeSelectedTransition()
     {
-        auto manager = findParentComponentOfClass<CanvasSelectionManager>();
+        auto manager = findParentComponentOfClass<InspectorSelectionManager>();
         if (manager)
         {
             if (auto shared = manager->getCurrent<TransitionArrowComponent>())
