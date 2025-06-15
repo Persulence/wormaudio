@@ -16,7 +16,9 @@ set(CMAKE_CXX_COMPILER /usr/bin/clang++)
 #set(CMAKE_GENERATOR Ninja)
 set(CMAKE_LINKER_TYPE MOLD)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-fsanitize=address")
+set(CMAKE_CXX_FLAGS_DEBUG
+        "-fsanitize=undefined,address"
+)
 
 cmake_minimum_required(VERSION 4.0)
 

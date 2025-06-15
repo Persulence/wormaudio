@@ -117,7 +117,7 @@ namespace ui
 
     void StateCanvasPanel::updateCanvas(const StateNodeWidget::Ptr &node)
     {
-        if (!getLocalBounds().contains(node->getBounds()))
+        if (getParentComponent() && !getLocalBounds().contains(node->getBounds()))
         {
             auto oldBounds = getBoundsInParent();
             auto localNewBounds = calculateBounds();
