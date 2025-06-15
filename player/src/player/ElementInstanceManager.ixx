@@ -4,11 +4,12 @@ module;
 
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "util/AudioContext.hpp"
+
 export module ElementInstanceManager;
 
 import element;
 import ElementInstance;
-import AudioContext;
 
 namespace player
 {

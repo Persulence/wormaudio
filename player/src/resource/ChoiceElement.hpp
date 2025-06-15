@@ -1,7 +1,6 @@
 #pragma once
 
 import element;
-import AudioContext;
 import ElementInstance;
 import resource;
 import ElementSampleBuffer;
@@ -11,6 +10,7 @@ import ElementSampleBuffer;
 
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
+#include "util/AudioContext.hpp"
 
 namespace element
 {

@@ -3,11 +3,11 @@ module;
 #include <memory>
 
 #include "automation/instance/AutomationRegistryInstance.hpp"
+#include "util/AudioContext.hpp"
 
 export module element;
 
 import ElementInstance;
-import AudioContext;
 
 export import :ElementInstanceContext;
 

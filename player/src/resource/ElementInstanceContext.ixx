@@ -3,10 +3,11 @@ module;
 #include <vector>
 #include <memory>
 
+#include "util/AudioContext.hpp"
+
 export module element:ElementInstanceContext;
 
 import ElementInstance;
-import AudioContext;
 
 namespace element
 {

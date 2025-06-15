@@ -1,10 +1,8 @@
-module;
-
-export module AudioContext;
+#pragma once
 
 namespace player
 {
-    export struct AudioContext
+    struct AudioContext
     {
         int samplesPerBlock;
         double sampleRate;

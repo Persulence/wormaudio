@@ -4,13 +4,14 @@ module;
 
 #include <utility>
 
+#include "util/AudioContext.hpp"
+
 export module LeanSamplePlayer;
 
 import SamplePlayer;
 import transport;
 import ElementSampleBuffer;
 import io;
-import AudioContext;
 
 namespace player
 {
