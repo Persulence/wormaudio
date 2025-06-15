@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <memory>
 
@@ -8,17 +8,15 @@ module;
 #include "juce_core/juce_core.h"
 #include "../state/StateMachineDefinition.hpp"
 
-export module event:Event;
-
 import sm;
 import parameter;
 import element;
 
 namespace event
 {
-    export class EventInstance;
+    class EventInstance;
 
-    export class Event : public juce::ReferenceCountedObject
+    class Event : public juce::ReferenceCountedObject
     {
         sm::StateMachineDefinition::Ptr definition;
         // Per-event parameters

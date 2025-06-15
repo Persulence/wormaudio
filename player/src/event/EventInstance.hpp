@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <memory>
 #include <utility>
@@ -6,19 +6,18 @@ module;
 #include "AutomationTableInstance.hpp"
 #include "EventElementInstancer.hpp"
 
-export module event:EventInstance;
+#include "Event.hpp"
+#include "StateMachineInstance.hpp"
 
 import sm;
 
-import :StateManager;
-import :Event;
 import ElementInstanceManager;
 
 import transport;
 
 namespace event
 {
-    export class EventInstance
+    class EventInstance
     {
     protected:
         Event::Ptr parent;
@@ -61,10 +60,5 @@ namespace event
             stateManager.stop();
         }
     };
-
-    EventInstance::Ptr Event::instantiate()
-    {
-        return std::make_shared<EventInstance>(this);
-    }
 }
 

@@ -8,9 +8,9 @@
 #include  "AudioEntryPoint.hpp"
 #include "LogicTicker.hpp"
 #include "../event/ParameterList.hpp"
+#include "event/EventInstance.hpp"
 
 import resource;
-import event;
 import ElementInstanceManager;
 import sm;
 import transport;

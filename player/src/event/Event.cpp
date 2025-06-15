@@ -1,10 +1,10 @@
-module;
+#include "Event.hpp"
 
 #include <memory>
+
+#include "EventInstance.hpp"
 #include "automation/AutomationTable.hpp"
 #include "state/StateMachineDefinition.hpp"
-
-module event;
 
 namespace event
 {
@@ -14,5 +14,10 @@ namespace event
         elementList(*automation)
     {
 
+    }
+
+    std::shared_ptr<EventInstance> Event::instantiate()
+    {
+        return std::make_shared<EventInstance>(this);
     }
 }

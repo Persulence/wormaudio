@@ -1,10 +1,8 @@
-module;
+#pragma once
 
 #include <unordered_map>
 #include <vector>
 #include <memory>
-
-export module event:StateManager;
 
 import sm;
 import element;
@@ -26,7 +24,7 @@ namespace event
         std::vector<Transition> transitions;
     };
 
-    export class StateMachineInstance
+    class StateMachineInstance
     {
         StateEntry* currentState = nullptr;
         std::vector<std::unique_ptr<StateEntry>> entries;

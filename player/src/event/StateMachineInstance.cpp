@@ -1,14 +1,10 @@
-module;
+#include "StateMachineInstance.hpp"
 
 #include <iostream>
 #include <memory>
 #include <vector>
 #include <ranges>
 #include <unordered_map>
-
-module event;
-
-import :StateManager;
 
 import sm;
 import element;

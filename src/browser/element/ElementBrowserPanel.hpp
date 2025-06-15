@@ -3,8 +3,7 @@
 #include "ElementListPanel.hpp"
 #include "panel/Panel.hpp"
 #include "event/ElementList.hpp"
-
-import event;
+#include "event/Event.hpp"
 
 namespace ui
 {

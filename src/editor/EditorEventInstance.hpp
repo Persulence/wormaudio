@@ -2,7 +2,7 @@
 
 #include <memory>
 
-import event;
+#include "event/EventInstance.hpp"
 
 namespace editor
 {
@@ -11,7 +11,7 @@ namespace editor
     public:
         using Ptr = std::shared_ptr<EditorEventInstance>;
 
-        EditorEventInstance(event::Event::Ptr parent_);
+        explicit EditorEventInstance(event::Event::Ptr parent_);
         void refresh();
     };
 }

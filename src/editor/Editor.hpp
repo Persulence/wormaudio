@@ -3,13 +3,11 @@
 #include <cassert>
 #include <runtime/Runtime.hpp>
 
-#include "juce_gui_basics/juce_gui_basics.h"
-
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
+#include "event/Event.hpp"
 #include "state/StateMachineDefinition.hpp"
 
-import event;
 import transport;
 
 namespace editor

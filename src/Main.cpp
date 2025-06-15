@@ -12,8 +12,6 @@
 #include "TestMainComponent.h"
 #include "UiMainComponent.hpp"
 
-import ui;
-
 //==============================================================================
 class juce_testApplication  : public juce::JUCEApplication
 {
