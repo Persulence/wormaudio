@@ -30,7 +30,7 @@ namespace element
         explicit ClipElementInstance(const player::AudioContext &context_, const resource::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_,
                                      bool loop_):
             ElementInstance(context_),
-            player(std::move(audio_)),
+            player(audio_),
             properties(std::move(properties_)),
             loop(loop_)
         {
@@ -60,10 +60,12 @@ namespace element
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToAdd) override
         {
+            // TODO continuous sound when clip ends mid-block
             if (loop && player.getState() == player::STOPPED)
             {
                 player.changeState(player::PLAYING);
             }
+
             player.getNextAudioBlock(bufferToAdd);
         }
     };

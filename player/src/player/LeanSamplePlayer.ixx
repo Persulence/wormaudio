@@ -109,6 +109,8 @@ namespace player
                 {
                     position = 0;
                     transportState = STOPPED;
+                    bufferToFill.buffer->clear(outputSamplesOffset, bufferToFill.numSamples - outputSamplesOffset);
+                    break;
                 }
             }
         }

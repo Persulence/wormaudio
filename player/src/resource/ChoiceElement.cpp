@@ -40,7 +40,14 @@ namespace element
 
         void getNextAudioBlock(const AudioSourceChannelInfo &bufferToAdd) override
         {
-            return player.getNextAudioBlock(bufferToAdd);
+            // TODO continuous sound when clip ends mid-block
+            if (player.getState() == player::STOPPED)
+            {
+                start();
+            }
+
+            player.getNextAudioBlock(bufferToAdd);
+
         }
     };
 
