@@ -10,6 +10,7 @@ import ElementSampleBuffer;
 
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
+#include "juce_data_structures/juce_data_structures.h"
 #include "util/AudioContext.hpp"
 
 namespace element
@@ -17,6 +18,8 @@ namespace element
     class ChoiceElement : public Element, public std::enable_shared_from_this<ChoiceElement>
     {
     public:
+        juce::Value loop{false};
+
         [[nodiscard]] std::vector<std::shared_ptr<::automation::PropertyDef>> getProperties() override;
 
         [[nodiscard]] ElementInstancePtr createInstance(::player::AudioContext,

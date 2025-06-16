@@ -1,5 +1,7 @@
 #include "ChoiceElement.hpp"
 
+#include <utility>
+
 #include "juce_audio_basics/juce_audio_basics.h"
 
 import LeanSamplePlayer;
@@ -18,16 +20,21 @@ namespace element
         player::LeanSamplePlayer player;
 
         Random random;
+        bool loop;
 
     public:
-        explicit ChoiceElementInstance(const player::AudioContext &context_, const PropertyInstanceContainer &properties_, std::vector<ElementSampleBuffer::Ptr> buffers_) :
-            ElementInstance(context_), properties(properties_), buffers(std::move(buffers_))
+        explicit ChoiceElementInstance(const player::AudioContext &context_, PropertyInstanceContainer properties_,
+                                       std::vector<ElementSampleBuffer::Ptr> buffers_,
+                                       const bool _loop
+                                       ) :
+            ElementInstance(context_), properties(std::move(properties_)), buffers(std::move(buffers_)), loop(_loop)
         {
+
         }
 
         void start() override
         {
-            const int idx = random.nextInt(buffers.size());
+            const int idx = random.nextInt(static_cast<int>(buffers.size()));
             player.setBuffer(buffers[idx]);
 
             player.changeState(player::PLAYING);
@@ -41,13 +48,12 @@ namespace element
         void getNextAudioBlock(const AudioSourceChannelInfo &bufferToAdd) override
         {
             // TODO continuous sound when clip ends mid-block
-            if (player.getState() == player::STOPPED)
+            if (loop && player.getState() == player::STOPPED)
             {
                 start();
             }
 
             player.getNextAudioBlock(bufferToAdd);
-
         }
     };
 
@@ -66,7 +72,7 @@ namespace element
         return std::make_shared<ChoiceElementInstance>(
             audioContext,
             automation.getContainer(shared_from_this()),
-            cachedBuffers);
+            cachedBuffers, loop.getValue());
     }
 
     std::string ChoiceElement::getName()

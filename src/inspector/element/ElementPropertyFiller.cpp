@@ -1,6 +1,7 @@
 #include "ElementPropertyFiller.hpp"
 
 #include "panel/MyPropertyPanel.hpp"
+#include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
 
 namespace ui
@@ -25,6 +26,23 @@ namespace ui
                 add(std::make_shared<BoolPropertyWidget>("Loop", element.loop));
             }
         };
+
+        class ChoiceImpl : public PropertyFiller
+        {
+            ChoiceElement& element;
+
+        public:
+            explicit ChoiceImpl(ChoiceElement &element) :
+                element(element)
+            {
+                ChoiceImpl::initProperties();
+            }
+
+            void initProperties() override
+            {
+                add(std::make_shared<BoolPropertyWidget>("Loop", element.loop));
+            }
+        };
     }
 
     ElementPropertyFiller::ElementPropertyFiller(event::ElementHandle handle_):
@@ -39,6 +57,10 @@ namespace ui
         if (typeid(*handle.ptr) == typeid(ClipElement))
         {
             add(std::make_shared<element_property_filler::ClipImpl>(dynamic_cast<ClipElement&>(*handle.ptr)));
+        }
+        else if (typeid(*handle.ptr) == typeid(ChoiceElement))
+        {
+            add(std::make_shared<element_property_filler::ChoiceImpl>(dynamic_cast<ChoiceElement&>(*handle.ptr)));
         }
     }
 }
