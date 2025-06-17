@@ -3,8 +3,6 @@
 #include "SubComponentTest.h"
 #include "player/LeanSamplePlayer.hpp"
 
-import ElementSampleBuffer;
-
 using namespace player;
 
 //==============================================================================

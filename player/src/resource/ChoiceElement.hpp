@@ -3,11 +3,11 @@
 import element;
 import ElementInstance;
 import resource;
-import ElementSampleBuffer;
 
 #include <memory>
 #include <vector>
 
+#include "ElementSampleBuffer.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "juce_data_structures/juce_data_structures.h"

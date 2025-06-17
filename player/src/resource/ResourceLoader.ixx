@@ -2,9 +2,10 @@ module;
 
 #include <juce_audio_formats/juce_audio_formats.h>
 
+#include "ElementSampleBuffer.hpp"
+
 export module resource:ResourceLoader;
 
-import ElementSampleBuffer;
 import io;
 
 namespace resource

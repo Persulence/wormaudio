@@ -1,9 +1,6 @@
-module;
+#include "ElementSampleBuffer.hpp"
 
-#include <iostream>
 #include <memory>
-
-module ElementSampleBuffer;
 
 namespace resource
 {

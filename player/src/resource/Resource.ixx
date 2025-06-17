@@ -2,10 +2,11 @@ module;
 
 #include <juce_core/juce_core.h>
 
+#include "ElementSampleBuffer.hpp"
+
 export module resource;
 
 export import :ResourceLoader;
-import ElementSampleBuffer;
 
 namespace resource
 {

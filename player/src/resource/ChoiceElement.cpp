@@ -5,8 +5,6 @@
 #include "juce_audio_basics/juce_audio_basics.h"
 #include "player/LeanSamplePlayer.hpp"
 
-import ElementSampleBuffer;
-
 namespace element
 {
     using namespace juce;

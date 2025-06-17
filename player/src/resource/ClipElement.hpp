@@ -5,6 +5,7 @@
 #include <juce_data_structures/juce_data_structures.h>
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "ElementSampleBuffer.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "player/LeanSamplePlayer.hpp"
@@ -13,7 +14,6 @@
 import element;
 import resource;
 import ElementInstance;
-import ElementSampleBuffer;
 
 namespace element
 {
