@@ -7,13 +7,13 @@
 
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
+#include "player/LeanSamplePlayer.hpp"
 #include "util/AudioContext.hpp"
 
 import element;
 import resource;
 import ElementInstance;
 import ElementSampleBuffer;
-import LeanSamplePlayer;
 
 namespace element
 {

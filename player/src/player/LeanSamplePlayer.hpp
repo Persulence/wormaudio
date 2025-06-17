@@ -1,12 +1,10 @@
-module;
+#pragma once
 
 #include <JuceHeader.h>
 
 #include <utility>
 
 #include "util/AudioContext.hpp"
-
-export module LeanSamplePlayer;
 
 import SamplePlayer;
 import transport;
@@ -15,7 +13,7 @@ import io;
 
 namespace player
 {
-    export class LeanSamplePlayer : public SamplePlayer
+    class LeanSamplePlayer : public SamplePlayer
     {
         resource::ElementSampleBuffer::Ptr buffer;
         juce::AudioFormatManager formatManager;

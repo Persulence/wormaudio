@@ -1,8 +1,8 @@
 #include "../src/TestMainComponent.h"
 
 #include "SubComponentTest.h"
+#include "player/LeanSamplePlayer.hpp"
 
-import LeanSamplePlayer;
 import ElementSampleBuffer;
 
 using namespace player;
