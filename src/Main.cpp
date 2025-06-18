@@ -9,7 +9,6 @@
 #include <JuceHeader.h>
 
 #include "command/Commands.hpp"
-#include "TestMainComponent.h"
 #include "UiMainComponent.hpp"
 
 //==============================================================================
