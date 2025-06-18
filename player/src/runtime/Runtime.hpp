@@ -9,9 +9,9 @@
 #include "LogicTicker.hpp"
 #include "../event/ParameterList.hpp"
 #include "event/EventInstance.hpp"
+#include "resource/Resource.hpp"
 #include "resource/ResourceLoader.hpp"
 
-import resource;
 import ElementInstanceManager;
 import sm;
 import transport;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <juce_audio_utils/juce_audio_utils.h>
+#include "juce_audio_basics/juce_audio_basics.h"
 
 namespace resource
 {
@@ -15,5 +15,5 @@ namespace resource
         ElementSampleBuffer() = default;
     };
 
-    const auto EMPTY_BUFFER = std::make_shared<ElementSampleBuffer>();
+    const extern std::shared_ptr<ElementSampleBuffer> EMPTY_BUFFER;
 }

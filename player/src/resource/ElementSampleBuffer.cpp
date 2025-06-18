@@ -8,4 +8,6 @@ namespace resource
     {
         return std::make_shared<ElementSampleBuffer>();
     }
+
+    const std::shared_ptr<ElementSampleBuffer> EMPTY_BUFFER = std::make_shared<ElementSampleBuffer>();
 }

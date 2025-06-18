@@ -11,8 +11,6 @@
 #include "runtime/Runtime.hpp"
 #include "resource/ClipElement.hpp"
 
-import resource;
-
 namespace ui
 {
     class StateNodeWidget;

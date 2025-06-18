@@ -1,17 +1,16 @@
 #pragma once
 
-import element;
-import ElementInstance;
-import resource;
-
 #include <memory>
 #include <vector>
 
-#include "ElementSampleBuffer.hpp"
+#include "Resource.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "juce_data_structures/juce_data_structures.h"
 #include "util/AudioContext.hpp"
+
+import element;
+import ElementInstance;
 
 namespace element
 {
@@ -37,6 +36,6 @@ namespace element
         std::vector<resource::Resource::Ptr> clips;
 
         bool dirty{true};
-        std::vector<resource::ElementSampleBuffer::Ptr> cachedBuffers;
+        std::vector<std::shared_ptr<resource::ElementSampleBuffer>> cachedBuffers;
     };
 }

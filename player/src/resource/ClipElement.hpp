@@ -6,13 +6,13 @@
 #include <juce_audio_basics/juce_audio_basics.h>
 
 #include "ElementSampleBuffer.hpp"
+#include "Resource.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "player/LeanSamplePlayer.hpp"
 #include "util/AudioContext.hpp"
 
 import element;
-import resource;
 import ElementInstance;
 
 namespace element
