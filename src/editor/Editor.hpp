@@ -30,10 +30,10 @@ namespace editor
         std::unique_ptr<EditorParameterList> globalParameters;
 
         // TODO: using a single, hardcoded event for testing
-        Editor():
-            event(event::Event::create())
+        Editor()
         {
             project = resource::make<resource::Project>();
+            event = project->addEvent(event::Event::create());
 
             globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
             loadEvent(event);

@@ -16,8 +16,8 @@ namespace event
         using OnChange = signal_event::Callback<>;
         OnChange::Signal onChange;
 
-        explicit ElementList(automation::AutomationRegistry& automation):
-            automation(automation)
+        explicit ElementList(automation::AutomationRegistry& automation_):
+            automation(automation_)
         {
 
         }
