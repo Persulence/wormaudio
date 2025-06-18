@@ -4,10 +4,11 @@ module;
 
 #include <utility>
 
+#include "player/SamplePlayer1.hpp"
+
 export module sample_selector;
 
 import transport;
-import SamplePlayer;
 
 namespace player
 {

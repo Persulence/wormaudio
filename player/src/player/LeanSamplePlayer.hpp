@@ -4,10 +4,10 @@
 
 #include <utility>
 
+#include "SamplePlayer1.hpp"
 #include "resource/ElementSampleBuffer.hpp"
 #include "util/AudioContext.hpp"
 
-import SamplePlayer;
 import transport;
 import io;
 

@@ -8,8 +8,6 @@ module;
 
 export module ElementInstance;
 
-import SamplePlayer;
-
 namespace element
 {
     export class ElementInstance

@@ -1,16 +1,14 @@
-module;
+#pragma once
 
 #include <JuceHeader.h>
 
 #include <utility>
 
-export module SamplePlayer;
-
 import transport;
 
 namespace player
 {
-    export class SamplePlayer : public juce::AudioSource
+    class SamplePlayer : public juce::AudioSource
     {
     public:
         virtual void setFile(juce::File&& file) = 0;
@@ -18,7 +16,7 @@ namespace player
         virtual void setTransportCallback(TransportCallback1 callback) = 0;
     };
 
-    export class SamplePlayer1 : public SamplePlayer, juce::ChangeListener
+    class SamplePlayer1 : public SamplePlayer, juce::ChangeListener
     {
         TransportState transportState = STOPPED;
         juce::AudioFormatManager formatManager;

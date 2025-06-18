@@ -4,6 +4,7 @@
 #include <juce_audio_formats/juce_audio_formats.h>
 #include <juce_audio_utils/juce_audio_utils.h>
 #include "SubComponentTest.fwd.h"
+#include "player/SamplePlayer1.hpp"
 #include "util/AudioContext.hpp"
 
 // import sample_selector;
@@ -16,7 +17,6 @@
 */
 
 import sample_selector;
-import SamplePlayer;
 
 class TestMainComponent  : public juce::AudioAppComponent
 {
