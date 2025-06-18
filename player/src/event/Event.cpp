@@ -18,6 +18,6 @@ namespace event
 
     std::shared_ptr<EventInstance> Event::instantiate()
     {
-        return std::make_shared<EventInstance>(this);
+        return std::make_shared<EventInstance>(shared_from_this());
     }
 }

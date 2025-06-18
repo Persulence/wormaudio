@@ -2,11 +2,13 @@
 
 #include <memory>
 
+#include "juce_data_structures/juce_data_structures.h"
+
 #include "ElementList.hpp"
 #include "ParameterList.hpp"
 #include "../automation/AutomationTable.hpp"
-#include "juce_core/juce_core.h"
 #include "../state/StateMachineDefinition.hpp"
+#include "resource/SharedResource.hpp"
 
 import sm;
 import parameter;
@@ -16,27 +18,19 @@ namespace event
 {
     class EventInstance;
 
-    class Event : public juce::ReferenceCountedObject
+    class Event : public resource::SharedResource, public std::enable_shared_from_this<Event>
     {
-        sm::StateMachineDefinition::Ptr definition;
-        // Per-event parameters
-        ParameterList parameters;
-
-        // Automation registry and mappings
-        std::unique_ptr<automation::AutomationTable> automation;
-
-        ElementList elementList;
-
         struct Private {};
 
     public:
-        using Ptr = juce::ReferenceCountedObjectPtr<Event>;
+        // using Ptr = juce::ReferenceCountedObjectPtr<Event>;
+        using Ptr = std::shared_ptr<Event>;
 
         Event(Private, std::unique_ptr<automation::AutomationTable> automationTable);
 
         static Ptr create()
         {
-            return new Event(Private{}, std::make_unique<automation::AutomationTable>());
+            return std::make_shared<Event>(Private{}, std::make_unique<automation::AutomationTable>());
         }
 
         const sm::StateMachineDefinition::Ptr& getDefinition()
@@ -61,5 +55,21 @@ namespace event
 
         // Defined after EventInstance
         std::shared_ptr<EventInstance> instantiate();
+
+        juce::Value nameValue() { return name; }
+
+    private:
+        sm::StateMachineDefinition::Ptr definition;
+
+        // Per-event parameters
+        ParameterList parameters;
+
+        // Automation registry and mappings
+        std::unique_ptr<automation::AutomationTable> automation;
+
+        ElementList elementList;
+
+        juce::Value name;
+
     };
 }

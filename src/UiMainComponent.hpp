@@ -6,6 +6,7 @@
 #include "panel/Panel.hpp"
 #include "browser/element/ElementBrowserPanel.hpp"
 #include "browser/FileBrowserPanel.hpp"
+#include "browser/outline/OutlinePanel.hpp"
 #include "canvas/CentrePanel.hpp"
 #include "inspector/RightInspectorPanel.hpp"
 #include "transport/TransportPanel.hpp"
@@ -21,6 +22,8 @@ namespace ui
         BorderPanel<FileBrowserPanel> fileBrowserBorder{};
         BorderPanel<ElementBrowserPanel> elementBrowserBorder{};
         BorderPanel<TransportPanel> transport{};
+
+        BorderPanel<OutlinePanel> outline;
 
         juce::StretchableLayoutManager layout;
         juce::StretchableLayoutResizerBar bar1;
