@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
 
-namespace resource
+namespace asset
 {
-    class Resource;
-    using ResourceHandle = std::shared_ptr<Resource>;
+    class Asset;
+    using AssetHandle = std::shared_ptr<Asset>;
 
     class ElementSampleBuffer;
     using ElementSampleBufferHandle = std::shared_ptr<ElementSampleBuffer>;

@@ -15,7 +15,7 @@ namespace player
 {
     class LeanSamplePlayer : public SamplePlayer
     {
-        resource::ElementSampleBuffer::Ptr buffer;
+        asset::ElementSampleBuffer::Ptr buffer;
         juce::AudioFormatManager formatManager;
         TransportState transportState{STOPPED};
         TransportCallback1 transportCallback{[](TransportState){}};
@@ -29,13 +29,13 @@ namespace player
     public:
         bool loop;
 
-        explicit LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_, bool loop_);
+        explicit LeanSamplePlayer(asset::ElementSampleBuffer::Ptr buffer_, bool loop_);
 
-        explicit LeanSamplePlayer(): LeanSamplePlayer(resource::EMPTY_BUFFER, false)
+        explicit LeanSamplePlayer(): LeanSamplePlayer(asset::EMPTY_BUFFER, false)
         {
         }
 
-        void setBuffer(resource::ElementSampleBuffer::Ptr buffer_)
+        void setBuffer(asset::ElementSampleBuffer::Ptr buffer_)
         {
             // TODO: synchronisation
             buffer = std::move(buffer_);

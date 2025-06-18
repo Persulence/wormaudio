@@ -1,6 +1,6 @@
 #include "ClipElement.hpp"
 
-#include "Resource.hpp"
+#include "Asset.hpp"
 #include "player/LeanSamplePlayer.hpp"
 
 namespace element
@@ -15,7 +15,7 @@ namespace element
         // bool loop;
 
     public:
-        explicit ClipElementInstance(const player::AudioContext &context_, const resource::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_,
+        explicit ClipElementInstance(const player::AudioContext &context_, const asset::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_,
                                      bool loop_):
             ElementInstance(context_),
             player(audio_, loop_),

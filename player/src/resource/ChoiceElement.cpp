@@ -3,13 +3,13 @@
 #include <utility>
 
 #include "player/LeanSamplePlayer.hpp"
-#include "Resource.hpp"
+#include "Asset.hpp"
 
 namespace element
 {
     using namespace juce;
     using namespace automation;
-    using namespace resource;
+    using namespace asset;
 
     class ChoiceElementInstance : public ElementInstance
     {
@@ -78,7 +78,7 @@ namespace element
         return "Choice (" + std::to_string(clips.size()) + " clips)";
     }
 
-    void ChoiceElement::addClip(const ResourceHandle &resource)
+    void ChoiceElement::addClip(const AssetHandle &resource)
     {
         clips.push_back(resource);
         dirty = true;

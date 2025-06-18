@@ -1,15 +1,15 @@
-#include "Resource.hpp"
+#include "Asset.hpp"
 
-namespace resource
+namespace asset
 {
-    Resource::Resource(ResourceLoader::Ptr loader_, juce::File file_):
+    Asset::Asset(ResourceLoader::Ptr loader_, juce::File file_):
         file(std::move(file_)),
         loader(loader_)
     {
 
     }
 
-    ElementSampleBuffer::Ptr Resource::getAudio()
+    ElementSampleBuffer::Ptr Asset::getAudio()
     {
         if (buffer == nullptr)
         {

@@ -2,7 +2,7 @@
 
 using namespace player;
 
-LeanSamplePlayer::LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_, bool loop_):
+LeanSamplePlayer::LeanSamplePlayer(asset::ElementSampleBuffer::Ptr buffer_, bool loop_):
     buffer(std::move(buffer_)), loop(loop_)
 {
     formatManager.registerBasicFormats();

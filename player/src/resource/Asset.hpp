@@ -4,7 +4,7 @@
 #include "Resource.fwd.hpp"
 #include "ResourceLoader.hpp"
 
-namespace resource
+namespace asset
 {
     enum class Settings : int
     {
@@ -13,7 +13,7 @@ namespace resource
         PRELOAD
     };
 
-    class Resource
+    class Asset
     {
         const juce::File file;
         Settings settings{Settings::LAZY};
@@ -21,10 +21,10 @@ namespace resource
 
         ElementSampleBufferHandle buffer = nullptr;
 
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Resource)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Asset)
 
     public:
-        Resource(ResourceLoader::Ptr loader_, juce::File file_);
+        Asset(ResourceLoader::Ptr loader_, juce::File file_);
 
         ElementSampleBuffer::Ptr getAudio();
 

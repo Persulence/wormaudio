@@ -17,12 +17,12 @@ namespace element
 {
     class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
     {
-        resource::ResourceHandle resource;
+        asset::AssetHandle resource;
 
     public:
         juce::Value loop{false};
 
-        explicit ClipElement(resource::ResourceHandle resource_):
+        explicit ClipElement(asset::AssetHandle resource_):
             resource(std::move(resource_))
         {
         }

@@ -3,7 +3,7 @@
 #include <memory>
 #include "juce_audio_basics/juce_audio_basics.h"
 
-namespace resource
+namespace asset
 {
     class ElementSampleBuffer : public juce::AudioBuffer<float>
     {

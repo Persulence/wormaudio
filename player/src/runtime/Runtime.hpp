@@ -10,7 +10,7 @@
 #include "../event/ParameterList.hpp"
 #include "event/EventInstance.hpp"
 #include "resource/Resource.fwd.hpp"
-#include "resource/Resource.hpp"
+#include "resource/Asset.hpp"
 #include "resource/ResourceLoader.hpp"
 
 import ElementInstanceManager;
@@ -21,14 +21,14 @@ namespace runtime
 {
     class Runtime;
 
-    inline resource::ResourceLoader::Ptr getResourceLoader()
+    inline asset::ResourceLoader::Ptr getResourceLoader()
     {
-        return resource::ResourceLoader::getInstance();
+        return asset::ResourceLoader::getInstance();
     }
 
-    inline resource::ResourceHandle createResource(const juce::File& file)
+    inline asset::AssetHandle createResource(const juce::File& file)
     {
-        return std::make_shared<resource::Resource>(getResourceLoader(), file);
+        return std::make_shared<asset::Asset>(getResourceLoader(), file);
     }
 
     class Runtime : AudioEntryPoint, player::TransportCallback::Listener

@@ -4,7 +4,7 @@
 
 import io;
 
-namespace resource
+namespace asset
 {
     bool ResourceLoader::loadFile(const juce::File &file, ElementSampleBuffer &destination)
     {

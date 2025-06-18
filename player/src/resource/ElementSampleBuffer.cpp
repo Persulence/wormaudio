@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace resource
+namespace asset
 {
     ElementSampleBuffer::Ptr ElementSampleBuffer::create()
     {

@@ -27,16 +27,16 @@ namespace element
 
         std::string getName() override;
 
-        void addClip(const resource::ResourceHandle &resource);
+        void addClip(const asset::AssetHandle &resource);
 
-        const std::vector<resource::ResourceHandle>& getClips() const { return clips; }
+        const std::vector<asset::AssetHandle>& getClips() const { return clips; }
 
     private:
         void cacheBuffers();
 
-        std::vector<resource::ResourceHandle> clips;
+        std::vector<asset::AssetHandle> clips;
 
         bool dirty{true};
-        std::vector<resource::ElementSampleBufferHandle> cachedBuffers;
+        std::vector<asset::ElementSampleBufferHandle> cachedBuffers;
     };
 }
