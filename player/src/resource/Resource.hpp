@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ElementSampleBuffer.hpp"
+#include "Resource.fwd.hpp"
 #include "ResourceLoader.hpp"
 
 namespace resource
@@ -18,7 +19,7 @@ namespace resource
         Settings settings{Settings::LAZY};
         const ResourceLoader::Ptr loader;
 
-        std::shared_ptr<ElementSampleBuffer> buffer = nullptr;
+        ElementSampleBufferHandle buffer = nullptr;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Resource)
 

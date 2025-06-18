@@ -3,11 +3,11 @@
 #include <memory>
 #include <vector>
 
+#include "juce_data_structures/juce_data_structures.h"
+
 #include "Resource.fwd.hpp"
-#include "Resource.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
-#include "juce_data_structures/juce_data_structures.h"
 #include "util/AudioContext.hpp"
 
 import element;
@@ -37,6 +37,6 @@ namespace element
         std::vector<resource::ResourceHandle> clips;
 
         bool dirty{true};
-        std::vector<std::shared_ptr<resource::ElementSampleBuffer>> cachedBuffers;
+        std::vector<resource::ElementSampleBufferHandle> cachedBuffers;
     };
 }

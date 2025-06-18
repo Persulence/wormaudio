@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "player/LeanSamplePlayer.hpp"
+#include "Resource.hpp"
 
 namespace element
 {
