@@ -1,4 +1,5 @@
 #pragma once
+#include "outline/OutlineTypes.hpp"
 #include "panel/Panel.hpp"
 
 namespace ui
@@ -15,5 +16,7 @@ namespace ui
     private:
         std::unique_ptr<juce::TreeViewItem> root;
         juce::TreeView treeView;
+
+        OutlineTypeRegistry registry;
     };
 }
