@@ -24,18 +24,14 @@ namespace player
 
         int position{0};
 
-        // bool additive{true};
-
         float gain = 1;
 
     public:
-        explicit LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_):
-            buffer(std::move(buffer_))
-        {
-            formatManager.registerBasicFormats();
-        }
+        bool loop;
 
-        explicit LeanSamplePlayer(): LeanSamplePlayer(resource::EMPTY_BUFFER)
+        explicit LeanSamplePlayer(resource::ElementSampleBuffer::Ptr buffer_, bool loop_);
+
+        explicit LeanSamplePlayer(): LeanSamplePlayer(resource::EMPTY_BUFFER, false)
         {
         }
 
@@ -70,48 +66,7 @@ namespace player
             return transportState;
         }
 
-        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override
-        {
-            const auto& ref = *buffer;
-
-            auto numBufferChannels = ref.getNumChannels();
-            if (transportState != PLAYING || numBufferChannels == 0)
-            {
-                bufferToFill.clearActiveBufferRegion();
-                return;
-            }
-
-            auto numOutputChannels = bufferToFill.buffer->getNumChannels();
-            auto outputSamplesRemaining = bufferToFill.numSamples;
-            auto outputSamplesOffset = bufferToFill.startSample;
-
-            while (outputSamplesRemaining > 0)
-            {
-                auto refSamplesRemaining = buffer->getNumSamples() - position;
-                auto samplesThisTime = juce::jmin (outputSamplesRemaining, refSamplesRemaining);
-                for (auto channel = 0; channel < numOutputChannels; ++channel)
-                {
-                    bufferToFill.buffer->addFrom(channel,
-                        outputSamplesOffset,
-                        ref,
-                        channel % numBufferChannels,
-                        position,
-                        samplesThisTime,
-                        gain);
-                }
-                outputSamplesRemaining -= samplesThisTime;
-                outputSamplesOffset += samplesThisTime;
-                position += samplesThisTime;
-
-                if (position == ref.getNumSamples())
-                {
-                    position = 0;
-                    transportState = STOPPED;
-                    bufferToFill.buffer->clear(outputSamplesOffset, bufferToFill.numSamples - outputSamplesOffset);
-                    break;
-                }
-            }
-        }
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
 
         void setTransportCallback(TransportCallback1 callback) override
         {

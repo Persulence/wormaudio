@@ -8,7 +8,7 @@ using namespace player;
 //==============================================================================
 TestMainComponent::TestMainComponent():
     random(juce::Random{}),
-    player(std::make_shared<LeanSamplePlayer>(std::make_shared<resource::ElementSampleBuffer>())),
+    player(std::make_shared<LeanSamplePlayer>(std::make_shared<resource::ElementSampleBuffer>(), true)),
     sampleSelector(player, [this]() { shutdownAudio(); },
         [this](const int in, const int out) { setAudioChannels(in, out); }),
     testPanel(std::make_unique<SubComponentTest>())

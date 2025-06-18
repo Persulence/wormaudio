@@ -1,17 +1,15 @@
-module;
+#pragma once
 
 #include <juce_audio_formats/juce_audio_formats.h>
 
 #include "ElementSampleBuffer.hpp"
-
-export module resource:ResourceLoader;
 
 import io;
 
 namespace resource
 {
     /// Responsible for loading audio files. All Resource instances load their data through here.
-    export class ResourceLoader
+    class ResourceLoader
     {
 
         juce::AudioFormatManager formatManager;
