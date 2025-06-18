@@ -6,16 +6,17 @@ namespace ui
 {
     using namespace juce;
 
-    OutlineItemComponent::OutlineItemComponent(const std::string &icon):
-        icon(juce::ImageCache::getFromFile(loadResource(icon)))
+    OutlineItemComponent::OutlineItemComponent(const std::string &icon, bool editable):
+        icon(ImageCache::getFromFile(loadResource(icon)))
     {
-        label.setEditable(false, true);
+        if (editable)
+            label.setEditable(false, true);
 
         addAndMakeVisible(label);
     }
 
     OutlineItemComponent::OutlineItemComponent():
-        OutlineItemComponent("icon/resource.png")
+        OutlineItemComponent("icon/resource.png", true)
     {
         label.setEditable(false, true);
 

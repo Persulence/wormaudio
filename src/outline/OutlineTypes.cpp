@@ -15,12 +15,6 @@ namespace ui
         explicit SoundEventItem(const resource::Handle<event::Event> &resource) :
             SharedResourceItem(resource) {}
 
-    private:
-        bool mightContainSubItems() override
-        {
-            return true;
-        }
-
         class Comp : public OutlineItemComponent
         {
         public:
@@ -44,11 +38,6 @@ namespace ui
     public:
         explicit StateMachineDefinitionItem(const resource::Handle<sm::StateMachineDefinition> &resource) :
             SharedResourceItem(resource) {}
-
-        bool mightContainSubItems() override
-        {
-            return true;
-        }
 
         std::unique_ptr<Component> createItemComponent() override
         {
@@ -82,6 +71,34 @@ namespace ui
         }
     };
 
+    class ParameterListItem : public SharedResourceItem<event::ParameterList>
+    {
+    public:
+        explicit ParameterListItem(const resource::Handle<event::ParameterList> &resource) :
+            SharedResourceItem(resource) {}
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            auto ptr = std::make_unique<OutlineItemComponent>("icon/folder.png");
+            ptr->label.setText("Global parameters", dontSendNotification);
+            return ptr;
+        }
+    };
+
+    class ParameterDefItem : public SharedResourceItem<parameter::ParameterDef>
+    {
+    public:
+        explicit ParameterDefItem(const resource::Handle<parameter::ParameterDef> &resource) :
+            SharedResourceItem(resource) {}
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            auto ptr = std::make_unique<OutlineItemComponent>("icon/parameter.png");
+            ptr->label.getTextValue().referTo(resource->getNameAsValue());
+            return ptr;
+        }
+    };
+
 #define REG(Type, factory) reg<Type>([](auto handle) { return factory; });
 
     void OutlineTypeRegistry::regDefaults()
@@ -90,5 +107,7 @@ namespace ui
         REG(event::Event, make_unique<SoundEventItem>(handle); )
         REG(sm::StateMachineDefinition, make_unique<StateMachineDefinitionItem>(handle); )
         REG(sm::StateDef, make_unique<StateDefItem>(handle); )
+        REG(event::ParameterListImpl, make_unique<ParameterListItem>(handle); )
+        REG(parameter::ParameterDef, make_unique<ParameterDefItem>(handle); )
     }
 }

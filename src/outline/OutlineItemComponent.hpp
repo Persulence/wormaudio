@@ -7,7 +7,7 @@ namespace ui
     class OutlineItemComponent : public juce::Component
     {
     public:
-        explicit OutlineItemComponent(const std::string &icon);
+        explicit OutlineItemComponent(const std::string &icon, bool editable = true);
         OutlineItemComponent();
 
         void paint(juce::Graphics &g) override;

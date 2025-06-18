@@ -31,6 +31,11 @@ namespace ui
             }
         }
 
+        bool mightContainSubItems() override
+        {
+            return true;
+        }
+
         resource::Handle<T> resource;
     };
 }
