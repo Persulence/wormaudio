@@ -25,4 +25,9 @@ namespace event
     {
         return parameters;
     }
+
+    std::vector<resource::ResourceHandle> ParameterListImpl::getChildResources()
+    {
+        return std::vector<resource::ResourceHandle>{parameters.begin(), parameters.end()};
+    }
 }

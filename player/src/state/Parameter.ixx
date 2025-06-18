@@ -9,6 +9,7 @@ module;
 #include <vector>
 
 #include "juce_data_structures/juce_data_structures.h"
+#include "resource/SharedResource.hpp"
 
 export module parameter;
 
@@ -124,7 +125,7 @@ namespace parameter
 
     using ParameterDefVariant = std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef>;
 
-    export class ParameterDef : public ParameterDefVariant
+    export class ParameterDef : public resource::SharedResource, public ParameterDefVariant
     {
     public:
         explicit ParameterDef(std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef> value):
@@ -162,7 +163,7 @@ namespace parameter
         // JUCE_DECLARE_NON_COPYABLE(ParameterDef)
     };
 
-    export using Parameter = std::shared_ptr<ParameterDef>;
+    export using Parameter = resource::Handle<ParameterDef>;
 
     export struct ParameterInstance
     {

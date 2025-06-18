@@ -2,15 +2,19 @@
 
 #include "editor/Editor.hpp"
 #include "outline/OutlineItemComponent.hpp"
+#include "outline/SharedResourceOutlineItem.hpp"
 #include "util/GuiResources.hpp"
 
 namespace ui
 {
     using namespace juce;
 
-    class RootItem : public TreeViewItem
+    class RootItem : public SharedResourceItem<resource::Project>
     {
     public:
+        explicit RootItem(const resource::Handle<resource::Project> &resource) :
+            SharedResourceItem(resource) {}
+
         bool mightContainSubItems() override
         {
             return true;
@@ -50,27 +54,17 @@ namespace ui
     // };
 
     OutlinePanel::OutlinePanel():
-        root(std::make_unique<RootItem>())
+        root(std::make_unique<RootItem>(editor::getInstance().getProject()))
     {
         auto& editor = editor::getInstance();
 
         addAndMakeVisible(treeView);
         treeView.setRootItem(root.get());
 
-        // auto machine = new StateMachineItem{};
-        // auto state1 = new StateItem{};
-        // auto state2 = new StateItem{};
-        // auto state3 = new StateItem{};
+        // auto& registry = OutlineTypeRegistry::getInstance();
 
-        // machine->addSubItem(state1);
-        // machine->addSubItem(state2);
-        // machine->addSubItem(state3);
-        // eventItem->addSubItem(machine);
-
-        auto& registry = OutlineTypeRegistry::getInstance();
-
-        auto soundEvent = registry.get(editor.getEvent());
-        treeView.getRootItem()->addSubItem(soundEvent.release());
+        // auto soundEvent = registry.get(editor.getEvent());
+        // treeView.getRootItem()->addSubItem(soundEvent.release());
     }
 
     void OutlinePanel::resized()

@@ -162,6 +162,10 @@ namespace editor
             return *globalParameters;
         }
 
+        resource::Handle<resource::Project> getProject() const
+        {
+            return project;
+        }
     };
 
     // Saves a handful of characters

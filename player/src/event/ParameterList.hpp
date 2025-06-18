@@ -30,6 +30,7 @@ namespace event
         void insert(const parameter::Parameter &parameter) override;
         bool remove(const parameter::Parameter &parameter) override;
         std::vector<parameter::Parameter> & getParameters() override;
+        std::vector<resource::ResourceHandle> getChildResources() override;
 
         JUCE_DECLARE_NON_COPYABLE(ParameterListImpl)
 
