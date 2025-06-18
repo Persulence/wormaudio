@@ -24,15 +24,16 @@ namespace editor
 
         event::Event::Ptr event;
         EditorEventInstance::Ptr instance;
-        EditorParameterList globalParameters;
+        resource::Handle<EditorParameterList> globalParameters;
 
         // TODO: using a single, hardcoded event for testing
         Editor():
             event(event::Event::create())
         {
+            globalParameters = resource::make<EditorParameterList>();
             loadEvent(event);
 
-            globalParameters.changed.setup(this, [this](){ refreshParameters(); });
+            globalParameters->changed.setup(this, [this](){ refreshParameters(); });
             // EditorParameterList::Changed::Listener::listen(globalParameters.changed, [this](){ refreshParameters(); });
 
             // quit.setInfo("Quit", "Quit the application", "app", 0);
@@ -46,7 +47,7 @@ namespace editor
         {
             // Set up global parameters
             if (runtime)
-                runtime->getParameters().refresh(globalParameters);
+                runtime->getParameters().refresh(*globalParameters);
 
             parametersChanged.emit();
         }
@@ -153,7 +154,7 @@ namespace editor
 
         EditorParameterList& getGlobalParameters()
         {
-            return globalParameters;
+            return *globalParameters;
         }
 
     };

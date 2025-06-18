@@ -4,15 +4,16 @@
 #include <vector>
 
 #include "juce_core/system/juce_PlatformDefs.h"
+#include "resource/SharedResource.hpp"
 
 import parameter;
 
 namespace event
 {
-    class ParameterList
+    class ParameterList : public resource::SharedResource
     {
     public:
-        virtual ~ParameterList() = default;
+        ~ParameterList() override = default;
 
         std::vector<parameter::Parameter> parameters;
 
