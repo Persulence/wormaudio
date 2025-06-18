@@ -43,7 +43,7 @@ namespace resource
         }
     };
 
-    ResourceLoader::Ptr ResourceLoader::getInstance()
+    inline ResourceLoader::Ptr ResourceLoader::getInstance()
     {
         // static std::mutex mutex;
         // std::lock_guard lock(mutex);

@@ -3,10 +3,9 @@ module;
 #include <juce_core/juce_core.h>
 
 #include "ElementSampleBuffer.hpp"
+#include "ResourceLoader.hpp"
 
 export module resource;
-
-export import :ResourceLoader;
 
 namespace resource
 {
