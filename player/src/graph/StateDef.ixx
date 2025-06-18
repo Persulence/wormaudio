@@ -8,6 +8,7 @@ module;
 #include <juce_core/juce_core.h>
 
 #include "../event/ElementHandle.hpp"
+#include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
 
 export module sm:Node;
@@ -52,7 +53,7 @@ namespace sm
     public:
         // using Ptr = :Handle<StateDef>;
         using Weak = std::weak_ptr<StateDef>;
-        std::string name{"State"};
+        juce::Value name{"State"};
         Flags flags{NORMAL};
 
     private:
@@ -80,7 +81,7 @@ namespace sm
         const std::vector<event::ElementHandle>& elements();
         const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitions() const;
 
-        std::string getName();
+        std::string getName() const;
     };
 
     export class StateInstance
@@ -106,7 +107,7 @@ namespace sm
 
         [[nodiscard]] std::string getName() const
         {
-            return parent->name;
+            return parent->getName();
         }
 
         void activate(element::ElementInstanceContext& context)

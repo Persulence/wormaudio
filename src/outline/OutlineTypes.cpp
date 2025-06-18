@@ -71,6 +71,15 @@ namespace ui
         {
             return false;
         }
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            auto ptr = std::make_unique<OutlineItemComponent>();
+
+            ptr->label.getTextValue().referTo(resource->name);
+
+            return ptr;
+        }
     };
 
 #define REG(Type, factory) reg<Type>([](auto handle) { return factory; });
@@ -80,5 +89,6 @@ namespace ui
         // registry.reg<event::Event>([](auto handle) { return std::make_unique<SoundEventItem>(handle); });
         REG(event::Event, make_unique<SoundEventItem>(handle); )
         REG(sm::StateMachineDefinition, make_unique<StateMachineDefinitionItem>(handle); )
+        REG(sm::StateDef, make_unique<StateDefItem>(handle); )
     }
 }

@@ -3,6 +3,9 @@ module;
 #include <memory>
 #include <vector>
 #include <unordered_map>
+
+#include "juce_core/juce_core.h"
+
 #include "../event/ElementHandle.hpp"
 
 module sm;
@@ -48,7 +51,7 @@ namespace sm
 
     void StateDef::setName(const std::string &name_)
     {
-        name = name_;
+        name.setValue(juce::String{name_});
     }
 
     bool StateDef::hasSelfTransition()
@@ -66,8 +69,8 @@ namespace sm
         return transitions;
     }
 
-    std::string StateDef::getName()
+    std::string StateDef::getName() const
     {
-        return name;
+        return static_cast<juce::String>(name.getValue()).toStdString();
     }
 }

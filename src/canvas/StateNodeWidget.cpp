@@ -6,7 +6,6 @@
 #include "juce_graphics/juce_graphics.h"
 #include "CanvasConnectionManager.hpp"
 #include "../browser/element/ElementDragSource.hpp"
-#include "browser/FileListPanel.hpp"
 #include "state/StatePropertyPanel.hpp"
 
 
@@ -19,10 +18,12 @@ namespace ui
     StateNodeHeader::StateNodeHeader(StateNodeWidget& parent):
         parent(parent)
     {
-        setText(parent.getState()->name, dontSendNotification);
+        // setText(parent.getState()->getName(), dontSendNotification);
+        getTextValue().referTo(parent.getState()->name);
+
         setEditable(false, true);
         setJustificationType(Justification::left);
-        onTextChange = [this, &parent](){ parent.setName(getText()); };
+        // onTextChange = [this, &parent](){ parent.setName(getText()); };
     }
 
     void StateNodeHeader::paint(Graphics &g)
