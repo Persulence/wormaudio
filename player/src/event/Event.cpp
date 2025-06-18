@@ -8,12 +8,12 @@
 
 namespace event
 {
-    Event::Event(Private, std::unique_ptr<automation::AutomationTable> automationTable):
+    Event::Event(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name_):
         definition(std::make_shared<sm::StateMachineDefinition>()),
         automation(std::move(automationTable)),
         elementList(*automation)
     {
-
+        name = juce::String{name_};
     }
 
     std::shared_ptr<EventInstance> Event::instantiate()

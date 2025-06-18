@@ -26,11 +26,11 @@ namespace event
         // using Ptr = juce::ReferenceCountedObjectPtr<Event>;
         using Ptr = std::shared_ptr<Event>;
 
-        Event(Private, std::unique_ptr<automation::AutomationTable> automationTable);
+        Event(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
 
         static Ptr create()
         {
-            return std::make_shared<Event>(Private{}, std::make_unique<automation::AutomationTable>());
+            return std::make_shared<Event>(Private{}, std::make_unique<automation::AutomationTable>(), "Event");
         }
 
         const resource::Handle<sm::StateMachineDefinition>& getDefinition()
