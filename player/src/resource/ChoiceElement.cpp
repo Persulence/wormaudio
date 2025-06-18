@@ -77,7 +77,7 @@ namespace element
         return "Choice (" + std::to_string(clips.size()) + " clips)";
     }
 
-    void ChoiceElement::addClip(const Resource::Ptr &resource)
+    void ChoiceElement::addClip(const ResourceHandle &resource)
     {
         clips.push_back(resource);
         dirty = true;

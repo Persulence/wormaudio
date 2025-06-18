@@ -6,6 +6,7 @@
 #include <juce_audio_basics/juce_audio_basics.h>
 
 #include "ElementSampleBuffer.hpp"
+#include "Resource.fwd.hpp"
 #include "Resource.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
@@ -72,12 +73,12 @@ namespace element
 
     class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
     {
-        resource::Resource::Ptr resource;
+        resource::ResourceHandle resource;
 
     public:
         juce::Value loop{false};
 
-        explicit ClipElement(resource::Resource::Ptr resource_):
+        explicit ClipElement(resource::ResourceHandle resource_):
             resource(std::move(resource_))
         {
         }

@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "Resource.fwd.hpp"
 #include "Resource.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
@@ -26,14 +27,14 @@ namespace element
 
         std::string getName() override;
 
-        void addClip(const resource::Resource::Ptr &resource);
+        void addClip(const resource::ResourceHandle &resource);
 
-        const std::vector<resource::Resource::Ptr>& getClips() const { return clips; }
+        const std::vector<resource::ResourceHandle>& getClips() const { return clips; }
 
     private:
         void cacheBuffers();
 
-        std::vector<resource::Resource::Ptr> clips;
+        std::vector<resource::ResourceHandle> clips;
 
         bool dirty{true};
         std::vector<std::shared_ptr<resource::ElementSampleBuffer>> cachedBuffers;

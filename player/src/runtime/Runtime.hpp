@@ -9,6 +9,7 @@
 #include "LogicTicker.hpp"
 #include "../event/ParameterList.hpp"
 #include "event/EventInstance.hpp"
+#include "resource/Resource.fwd.hpp"
 #include "resource/Resource.hpp"
 #include "resource/ResourceLoader.hpp"
 
@@ -25,7 +26,7 @@ namespace runtime
         return resource::ResourceLoader::getInstance();
     }
 
-    inline resource::Resource::Ptr createResource(const juce::File& file)
+    inline resource::ResourceHandle createResource(const juce::File& file)
     {
         return std::make_shared<resource::Resource>(getResourceLoader(), file);
     }

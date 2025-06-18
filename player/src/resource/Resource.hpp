@@ -23,8 +23,6 @@ namespace resource
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Resource)
 
     public:
-        using Ptr = std::shared_ptr<Resource>;
-
         Resource(ResourceLoader::Ptr loader_, juce::File file_);
 
         ElementSampleBuffer::Ptr getAudio();
