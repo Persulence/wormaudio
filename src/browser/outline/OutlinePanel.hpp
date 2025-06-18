@@ -16,7 +16,5 @@ namespace ui
     private:
         std::unique_ptr<juce::TreeViewItem> root;
         juce::TreeView treeView;
-
-        OutlineTypeRegistry registry;
     };
 }

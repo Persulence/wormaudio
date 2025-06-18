@@ -6,6 +6,7 @@
 
 #include "CanvasSelectionManager.hpp"
 #include "CanvasConnectionManager.hpp"
+#include "resource/SharedResource.hpp"
 
 import sm;
 
@@ -36,7 +37,7 @@ namespace ui
         bool selected{false};
         bool dragEnter{false};
 
-        sm::StateDef::Ptr state;
+        resource::Handle<sm::StateDef> state;
 
         juce::ComponentDragger dragger;
 
@@ -48,14 +49,14 @@ namespace ui
     public:
         using Ptr = std::shared_ptr<StateNodeWidget>;
 
-        static Ptr create(const sm::StateDef::Ptr& state, CanvasConnectionManager::Ptr &manager, juce::Point<int> pos)
+        static Ptr create(const resource::Handle<sm::StateDef>& state, CanvasConnectionManager::Ptr &manager, juce::Point<int> pos)
         {
             auto ptr = std::make_shared<StateNodeWidget>(state, manager);
             ptr->setBounds(pos.x, pos.y, 150, 120);
             return ptr;
         }
 
-        explicit StateNodeWidget(sm::StateDef::Ptr state, CanvasConnectionManager::Ptr &connectionManager_);
+        explicit StateNodeWidget(resource::Handle<sm::StateDef> state, CanvasConnectionManager::Ptr &connectionManager_);
 
         void paint(juce::Graphics &g) override;
         void resized() override;
@@ -71,7 +72,7 @@ namespace ui
         void itemDragExit(const SourceDetails &dragSourceDetails) override;
         void itemDropped(const SourceDetails &dragSourceDetails) override;
 
-        sm::StateDef::Ptr& getState();
+        resource::Handle<sm::StateDef>& getState();
 
         std::shared_ptr<Component> createConfig() override;
 

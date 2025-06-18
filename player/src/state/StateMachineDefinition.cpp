@@ -17,7 +17,7 @@ namespace sm
         states.push_back(end);
     }
 
-    void StateMachineDefinition::remove(const StateDef::Ptr &state)
+    void StateMachineDefinition::remove(const resource::Handle<StateDef> &state)
     {
         if (auto it = std::ranges::find(states, state); *it)
         {
@@ -32,12 +32,12 @@ namespace sm
         }
     }
 
-    const std::vector <StateDef::Ptr> &StateMachineDefinition::getStates()
+    const std::vector <resource::Handle<StateDef>> &StateMachineDefinition::getStates()
     {
         return states;
     }
 
-    StateDef::Ptr StateMachineDefinition::getStart()
+    resource::Handle<StateDef> StateMachineDefinition::getStart()
     {
         return start;
     }

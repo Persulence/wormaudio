@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include "resource/SharedResource.hpp"
 
 import sm;
 import element;
@@ -30,13 +31,13 @@ namespace event
         std::vector<std::unique_ptr<StateEntry>> entries;
 
     public:
-        explicit StateMachineInstance(const std::vector<sm::StateDef::Ptr>& states, const sm::StateDef::Ptr &start);
+        explicit StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>>& states, const resource::Handle<sm::StateDef> &start);
 
         bool logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport);
         void stop() const;
 
     private:
-        StateEntry& getOrCreateEntry(std::unordered_map<sm::StateDef::Ptr, StateEntry*>& map, sm::StateDef::Ptr state);
+        StateEntry& getOrCreateEntry(std::unordered_map<resource::Handle<sm::StateDef>, StateEntry*>& map, resource::Handle<sm::StateDef> state);
     };
 
 }

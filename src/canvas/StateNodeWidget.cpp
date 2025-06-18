@@ -13,6 +13,8 @@
 namespace ui
 {
     using namespace juce;
+    using namespace sm;
+    using namespace resource;
 
     StateNodeHeader::StateNodeHeader(StateNodeWidget& parent):
         parent(parent)
@@ -97,7 +99,7 @@ namespace ui
                 );
     }
 
-    juce::Point<float> StateNodeWidget::ConnectionCreationBox::getCentrePos() const
+    Point<float> StateNodeWidget::ConnectionCreationBox::getCentrePos() const
     {
         auto centre = localPointToGlobal(getLocalBounds().getCentre());
         return {static_cast<float>(centre.getX()), static_cast<float>(centre.getY())};
@@ -105,7 +107,7 @@ namespace ui
 
     // StateNodeWidget
 
-    StateNodeWidget::StateNodeWidget(sm::StateDef::Ptr state_, CanvasConnectionManager::Ptr &connectionManager_):
+    StateNodeWidget::StateNodeWidget(Handle<StateDef> state_, CanvasConnectionManager::Ptr &connectionManager_):
         header(StateNodeHeader{*this}),
         connectionBox(ConnectionCreationBox{*this, connectionManager_}),
         manager(connectionManager_),
@@ -218,7 +220,7 @@ namespace ui
         return false;
     }
 
-    sm::StateDef::Ptr& StateNodeWidget::getState()
+    Handle<StateDef>& StateNodeWidget::getState()
     {
         return state;
     }

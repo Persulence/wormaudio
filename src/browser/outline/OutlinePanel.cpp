@@ -52,8 +52,6 @@ namespace ui
     OutlinePanel::OutlinePanel():
         root(std::make_unique<RootItem>())
     {
-        regDefaults(registry);
-
         auto& editor = editor::getInstance();
 
         addAndMakeVisible(treeView);
@@ -68,6 +66,8 @@ namespace ui
         // machine->addSubItem(state2);
         // machine->addSubItem(state3);
         // eventItem->addSubItem(machine);
+
+        auto& registry = OutlineTypeRegistry::getInstance();
 
         auto soundEvent = registry.get(editor.getEvent());
         treeView.getRootItem()->addSubItem(soundEvent.release());

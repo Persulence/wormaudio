@@ -5,19 +5,19 @@
 #include <memory>
 #include <vector>
 
+#include "resource/SharedResource.hpp"
+
 import sm;
 
 namespace sm
 {
-    class StateMachineDefinition
+    class StateMachineDefinition : public resource::SharedResource
     {
-        StateDef::Ptr start;
-        StateDef::Ptr end;
-        std::vector<StateDef::Ptr> states;
+        resource::Handle<StateDef> start;
+        resource::Handle<StateDef> end;
+        std::vector<resource::Handle<StateDef>> states;
 
     public:
-        using Ptr = std::shared_ptr<StateMachineDefinition>;
-
         StateMachineDefinition();
 
         template <typename... T>
@@ -26,9 +26,14 @@ namespace sm
             (states.push_back(entries),...);
         }
 
-        void remove(const StateDef::Ptr &state);
+        void remove(const resource::Handle<StateDef> &state);
 
-        const std::vector<StateDef::Ptr>& getStates();
-        StateDef::Ptr getStart();
+        const std::vector<resource::Handle<StateDef>>& getStates();
+        resource::Handle<StateDef> getStart();
+
+        std::vector<resource::ResourceHandle> getChildResources() override
+        {
+            return std::vector<resource::ResourceHandle>{states.begin(), states.end()};
+        }
     };
 }

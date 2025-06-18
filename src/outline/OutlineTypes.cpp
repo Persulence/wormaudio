@@ -39,10 +39,46 @@ namespace ui
         }
     };
 
-#define REG(registry, Type, factory) registry.reg<Type>([](auto handle) { return factory; });
-
-    void regDefaults(OutlineTypeRegistry& registry)
+    class StateMachineDefinitionItem : public SharedResourceItem<sm::StateMachineDefinition>
     {
-        registry.reg<event::Event>([](auto handle) { return std::make_unique<SoundEventItem>(handle); });
+    public:
+        explicit StateMachineDefinitionItem(const resource::Handle<sm::StateMachineDefinition> &resource) :
+            SharedResourceItem(resource) {}
+
+        bool mightContainSubItems() override
+        {
+            return true;
+        }
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            auto ptr = std::make_unique<OutlineItemComponent>();
+
+            ptr->label.setText("State machine", dontSendNotification);
+            ptr->label.setEditable(false, false);
+
+            return ptr;
+        }
+    };
+
+    class StateDefItem : public SharedResourceItem<sm::StateDef>
+    {
+    public:
+        explicit StateDefItem(const resource::Handle<sm::StateDef> &resource) :
+            SharedResourceItem(resource) {}
+
+        bool mightContainSubItems() override
+        {
+            return false;
+        }
+    };
+
+#define REG(Type, factory) reg<Type>([](auto handle) { return factory; });
+
+    void OutlineTypeRegistry::regDefaults()
+    {
+        // registry.reg<event::Event>([](auto handle) { return std::make_unique<SoundEventItem>(handle); });
+        REG(event::Event, make_unique<SoundEventItem>(handle); )
+        REG(sm::StateMachineDefinition, make_unique<StateMachineDefinitionItem>(handle); )
     }
 }

@@ -1,6 +1,5 @@
 #include "StateMachineInstance.hpp"
 
-#include <iostream>
 #include <memory>
 #include <vector>
 #include <ranges>
@@ -12,7 +11,10 @@ import transport;
 
 namespace event
 {
-    StateMachineInstance::StateMachineInstance(const std::vector<sm::StateDef::Ptr> &states, const sm::StateDef::Ptr &start)
+    using namespace sm;
+    using namespace resource;
+
+    StateMachineInstance::StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>> &states, const resource::Handle<sm::StateDef> &start)
     {
         // TODO: simple handling for single-state instances
 
@@ -20,7 +22,7 @@ namespace event
         // Slightly concerned by the use of raw pointers.
 
         // Associates all nodes that have been encountered so far with an entry
-        std::unordered_map<sm::StateDef::Ptr, StateEntry*> map;
+        std::unordered_map<Handle<StateDef>, StateEntry*> map;
 
         for (const auto& state : states)
         {
@@ -87,8 +89,8 @@ namespace event
         }
     }
 
-    StateEntry & StateMachineInstance::getOrCreateEntry(std::unordered_map<sm::StateDef::Ptr, StateEntry *> &map,
-            sm::StateDef::Ptr state) {
+    StateEntry & StateMachineInstance::getOrCreateEntry(std::unordered_map<resource::Handle<sm::StateDef>, StateEntry *> &map,
+            Handle<StateDef> state) {
         StateEntry* entry;
         if (const auto it = map.find(state); it != map.end())
         {

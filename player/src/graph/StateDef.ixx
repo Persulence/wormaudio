@@ -8,6 +8,7 @@ module;
 #include <juce_core/juce_core.h>
 
 #include "../event/ElementHandle.hpp"
+#include "resource/SharedResource.hpp"
 
 export module sm:Node;
 
@@ -46,10 +47,10 @@ namespace sm
     };
 
     // For now only one state type
-    export class StateDef : public std::enable_shared_from_this<StateDef>
+    export class StateDef : public resource::SharedResource, public std::enable_shared_from_this<StateDef>
     {
     public:
-        using Ptr = std::shared_ptr<StateDef>;
+        // using Ptr = :Handle<StateDef>;
         using Weak = std::weak_ptr<StateDef>;
         std::string name{"State"};
         Flags flags{NORMAL};
@@ -92,7 +93,7 @@ namespace sm
         StateInstance(StateInstance&&) = default;
         StateInstance& operator=(StateInstance&&) = default;
 
-        explicit StateInstance(StateDef::Ptr parent_):
+        explicit StateInstance(resource::Handle<StateDef> parent_):
             parent(std::move(parent_))
         {
 

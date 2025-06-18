@@ -15,6 +15,22 @@ namespace ui
 
         }
 
+        void itemOpennessChanged(bool isNowOpen) override
+        {
+            if (isNowOpen)
+            {
+                for (auto child : resource->getChildResources())
+                {
+                    auto result = OutlineTypeRegistry::getInstance().get(child);
+                    addSubItem(result.release());
+                }
+            }
+            else
+            {
+                clearSubItems();
+            }
+        }
+
         resource::Handle<T> resource;
     };
 }

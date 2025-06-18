@@ -12,7 +12,7 @@ namespace resource
 
     using ResourceHandle = std::shared_ptr<SharedResource>;
 
-    template<class T> requires std::convertible_to<T&, SharedResource&>
+    template<IsResource T>
     using Handle = std::shared_ptr<T>;
 
     class SharedResource

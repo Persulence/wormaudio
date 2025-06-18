@@ -33,7 +33,7 @@ namespace event
             return std::make_shared<Event>(Private{}, std::make_unique<automation::AutomationTable>());
         }
 
-        const sm::StateMachineDefinition::Ptr& getDefinition()
+        const resource::Handle<sm::StateMachineDefinition>& getDefinition()
         {
             return definition;
         }
@@ -53,13 +53,18 @@ namespace event
             return elementList;
         }
 
+        std::vector<resource::ResourceHandle> getChildResources() override
+        {
+            return {definition};
+        }
+
         // Defined after EventInstance
         std::shared_ptr<EventInstance> instantiate();
 
         juce::Value nameValue() { return name; }
 
     private:
-        sm::StateMachineDefinition::Ptr definition;
+        resource::Handle<sm::StateMachineDefinition> definition;
 
         // Per-event parameters
         ParameterList parameters;

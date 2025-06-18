@@ -9,15 +9,44 @@ namespace ui
 {
     class OutlineTypeRegistry
     {
+        class EmptyResult : public juce::TreeViewItem
+        {
+        public:
+            bool mightContainSubItems() override
+            {
+                return false;
+            }
+
+            void paintItem(juce::Graphics &g, int width, int height) override
+            {
+                g.setColour(juce::Colours::red);
+                g.fillRect(0, 0, width, height);
+            }
+        };
+
     public:
         using Result = std::unique_ptr<juce::TreeViewItem>;
+
         template <resource::IsResource T>
         using FactoryT = std::function<Result(resource::Handle<T>)>;
         using Factory = std::function<Result(std::any)>;
 
+        static OutlineTypeRegistry& getInstance()
+        {
+            static OutlineTypeRegistry instance;
+            return instance;
+        }
+
         Result get(resource::ResourceHandle handle) const
         {
-            return map.at(std::type_index{typeid(*handle)})(handle);
+            if (const auto it = map.find(std::type_index{typeid(*handle)}); it != map.end())
+            {
+                return it->second(handle);
+            }
+            else
+            {
+                return std::make_unique<EmptyResult>();
+            }
         }
 
         template <resource::IsResource T>
@@ -39,29 +68,17 @@ namespace ui
             };
         }
 
-        // Convertible to Factory
-        // struct Entry
-        // {
-        //     std::function<Result(std::any)> mapping;
-        //
-        //     template <resource::IsResource T>
-        //     explicit Entry(auto mappingIn)
-        //     {
-        //         mapping = [mappingIn](auto& a)
-        //         {
-        //             return mappingIn(dynamic_cast<resource::Handle<T>>(a));
-        //         };
-        //     }
-        //
-        //     Result operator()(const std::any &obj) const
-        //     {
-        //         return mapping(obj);
-        //     }
-        // };
-
     private:
+        JUCE_DECLARE_NON_COPYABLE(OutlineTypeRegistry)
+
         std::unordered_map<std::type_index, Factory> map;
+
+        OutlineTypeRegistry()
+        {
+            regDefaults();
+        }
+
+        void regDefaults();
     };
 
-    void regDefaults(OutlineTypeRegistry& registry);
 }
