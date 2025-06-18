@@ -67,7 +67,7 @@ namespace event
         resource::Handle<sm::StateMachineDefinition> definition;
 
         // Per-event parameters
-        ParameterList parameters;
+        ParameterListImpl parameters;
 
         // Automation registry and mappings
         std::unique_ptr<automation::AutomationTable> automation;

@@ -58,8 +58,8 @@ namespace ui
     void ParameterPanel::addNewParameter(const Parameter &parameter)
     {
         auto& editor = editor::Editor::getInstance();
-        parameter->setName(std::format("Parameter{}", editor.getGlobalParameters().parameters.size()));
-        editor.getGlobalParameters().insert(parameter);
+        parameter->setName(std::format("Parameter{}", editor.getEditorParameters().getParameters().size()));
+        editor.getEditorParameters().insert(parameter);
         refresh();
     }
 

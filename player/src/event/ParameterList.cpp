@@ -4,12 +4,12 @@ namespace event
 {
     using namespace parameter;
 
-    void ParameterList::insert(const Parameter &parameter)
+    void ParameterListImpl::insert(const Parameter &parameter)
     {
         parameters.push_back(parameter);
     }
 
-    bool ParameterList::remove(const Parameter &parameter)
+    bool ParameterListImpl::remove(const Parameter &parameter)
     {
         auto p = Parameter{};
         if (const auto it = std::ranges::find(parameters, parameter); *it)
@@ -19,5 +19,10 @@ namespace event
         }
 
         return false;
+    }
+
+    std::vector<Parameter> & ParameterListImpl::getParameters()
+    {
+        return parameters;
     }
 }

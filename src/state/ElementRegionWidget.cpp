@@ -47,7 +47,7 @@ namespace ui
 
                 // Menu for selecting a parameter
                 PopupMenu parameters;
-                for (const auto& parameter : editor.getGlobalParameters().parameters)
+                for (const auto& parameter : editor.getEditorParameters().getParameters())
                 {
                     parameters.addItem({parameter->getName()}, [this, &editor, parameter]
                     {

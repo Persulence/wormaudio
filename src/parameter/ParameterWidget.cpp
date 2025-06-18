@@ -169,7 +169,7 @@ namespace ui
         {
             auto& editor = editor::Editor::getInstance();
 
-            if (!editor.getGlobalParameters().rename(parameter, label.getText().toStdString()))
+            if (!editor.getEditorParameters().rename(parameter, label.getText().toStdString()))
             {
                 // Return to previous name
                 label.setText(parameter->getName(), dontSendNotification);

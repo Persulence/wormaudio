@@ -95,7 +95,7 @@ namespace ui
                 {
                     auto parameter = parent->parameter;
                     auto& editor = editor::Editor::getInstance();
-                    if (editor.getGlobalParameters().rename(parameter, val))
+                    if (editor.getEditorParameters().rename(parameter, val))
                     {
                         onChanged(SOFT);
                     }
@@ -131,7 +131,7 @@ namespace ui
                             break;
                     }
 
-                    if (editor.getGlobalParameters().changeType(parent->parameter, newParameter))
+                    if (editor.getEditorParameters().changeType(parent->parameter, newParameter))
                     {
                         onChanged(HARD);
                     }

@@ -6,6 +6,7 @@
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
 #include "event/Event.hpp"
+#include "resource/Project.hpp"
 #include "state/StateMachineDefinition.hpp"
 
 import transport;
@@ -23,14 +24,18 @@ namespace editor
         std::unique_ptr<runtime::Runtime> runtime;
 
         event::Event::Ptr event;
+
+        resource::Handle<resource::Project> project;
         EditorEventInstance::Ptr instance;
-        resource::Handle<EditorParameterList> globalParameters;
+        std::unique_ptr<EditorParameterList> globalParameters;
 
         // TODO: using a single, hardcoded event for testing
         Editor():
             event(event::Event::create())
         {
-            globalParameters = resource::make<EditorParameterList>();
+            project = resource::make<resource::Project>();
+
+            globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
             loadEvent(event);
 
             globalParameters->changed.setup(this, [this](){ refreshParameters(); });
@@ -47,7 +52,7 @@ namespace editor
         {
             // Set up global parameters
             if (runtime)
-                runtime->getParameters().refresh(*globalParameters);
+                runtime->getParameters().refresh(*project->globalParameters);
 
             parametersChanged.emit();
         }
@@ -152,7 +157,7 @@ namespace editor
             event = nullptr;
         }
 
-        EditorParameterList& getGlobalParameters()
+        EditorParameterList& getEditorParameters() const
         {
             return *globalParameters;
         }

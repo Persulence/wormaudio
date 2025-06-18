@@ -29,7 +29,7 @@ namespace ui
         combo.addItem("<parameter>", i);
         i++;
         auto& editor = editor::Editor::getInstance();
-        for (auto& parameter : editor.getGlobalParameters().parameters)
+        for (auto& parameter : editor.getEditorParameters().getParameters())
         {
             combo.addItem(parameter->getName(), i);
             i++;

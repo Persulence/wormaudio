@@ -9,6 +9,8 @@ namespace editor
     bool EditorParameterList::rename(const parameter::Parameter &parameter, const std::string &newName)
     {
         // Fail if the name would conflict with an existing parameter
+        auto& parameters = target->parameters;
+
         if (const auto it = std::ranges::find_if(parameters, [newName](auto& p){ return p->getName() == newName; }); it != parameters.end())
         {
             auto s = (*it)->getName();
@@ -22,7 +24,7 @@ namespace editor
         }
         else
         {
-            ParameterList::insert(parameter);
+            target->insert(parameter);
         }
 
         parameter->setName(newName);

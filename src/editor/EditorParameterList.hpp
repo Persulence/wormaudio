@@ -9,22 +9,27 @@ namespace editor
     public:
         using Changed = signal_event::Callback<>;
 
+        resource::Handle<event::ParameterListImpl> target;
         Changed::Signal changed;
+
+        explicit EditorParameterList(const resource::Handle<event::ParameterListImpl> &target_):
+            target(target_)
+        {}
 
         auto size() const
         {
-            return parameters.size();
+            return target->parameters.size();
         }
 
         void insert(const parameter::Parameter &parameter) override
         {
-            ParameterList::insert(parameter);
+            target->insert(parameter);
             changed.emit();
         }
 
         bool remove(const parameter::Parameter &parameter) override
         {
-            if (ParameterList::remove(parameter))
+            if (target->remove(parameter))
             {
                 changed.emit();
                 return true;
@@ -45,6 +50,11 @@ namespace editor
 
             changed.emit();
             return true;
+        }
+
+        std::vector<parameter::Parameter> & getParameters() override
+        {
+            return target->getParameters();
         }
     };
 }

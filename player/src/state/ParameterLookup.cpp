@@ -17,7 +17,7 @@ namespace sm
 // #ifdef DEBUG
         // std::cout << "Refreshing parameters\n";
 // #endif
-        for (auto& parameter : list.parameters)
+        for (auto& parameter : list.getParameters())
         {
             // Retain previous value if the parameter existed before
             ParameterValue value{};
