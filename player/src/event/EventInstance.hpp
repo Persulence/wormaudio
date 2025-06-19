@@ -9,8 +9,6 @@
 #include "Event.hpp"
 #include "StateMachineInstance.hpp"
 
-import sm;
-
 import ElementInstanceManager;
 
 import transport;

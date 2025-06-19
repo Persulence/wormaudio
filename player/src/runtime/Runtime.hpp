@@ -14,7 +14,6 @@
 #include "resource/ResourceLoader.hpp"
 
 import ElementInstanceManager;
-import sm;
 import transport;
 
 namespace runtime

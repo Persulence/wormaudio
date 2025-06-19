@@ -3,7 +3,9 @@
 #include "ConditionListPanel.hpp"
 #include "panel/Panel.hpp"
 
-import sm;
+namespace sm {
+    class Transition1;
+}
 
 namespace ui
 {

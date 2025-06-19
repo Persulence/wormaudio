@@ -4,12 +4,17 @@
 #include <vector>
 #include <memory>
 
+#include "graph/StateDef.hpp"
 #include "resource/ElementInstanceContext.hpp"
 #include "resource/SharedResource.hpp"
 #include "state/ConditionList.hpp"
 
-import sm;
 import transport;
+
+namespace sm
+{
+    class StateInstance;
+}
 
 namespace event
 {

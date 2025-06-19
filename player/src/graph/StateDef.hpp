@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <unordered_map>
 #include <memory>
@@ -12,15 +12,13 @@ module;
 #include "resource/SharedResource.hpp"
 #include "state/ConditionList.hpp"
 
-export module sm:Node;
-
 import ElementInstance;
 
 namespace sm
 {
-    export class StateDef;
+    class StateDef;
 
-    export class Transition1
+    class Transition1
     {
     public:
         using Ptr = std::shared_ptr<Transition1>;
@@ -33,20 +31,20 @@ namespace sm
         { }
     };
 
-    export enum StateType
+    enum StateType
     {
         START,
         NORMAL,
         END
     };
 
-    export struct Flags
+    struct Flags
     {
         StateType type;
     };
 
     // For now only one state type
-    export class StateDef : public resource::SharedResource, public std::enable_shared_from_this<StateDef>
+    class StateDef : public resource::SharedResource, public std::enable_shared_from_this<StateDef>
     {
     public:
         // using Ptr = :Handle<StateDef>;
@@ -82,7 +80,7 @@ namespace sm
         std::string getName() const;
     };
 
-    export class StateInstance
+    class StateInstance
     {
         std::shared_ptr<StateDef> parent;
         std::vector<element::ElementInstancePtr> instances;
@@ -130,8 +128,5 @@ namespace sm
         }
     };
 
-    export std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<StateDef>& node)
-    {
-        return std::make_unique<StateInstance>(node);
-    }
+    std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<StateDef>& node);
 }

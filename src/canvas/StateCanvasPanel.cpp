@@ -6,8 +6,7 @@
 #include "CanvasConnectionManager.hpp"
 #include "command/Commands.hpp"
 #include "editor/Editor.hpp"
-
-import sm;
+#include "graph/StateDef.hpp"
 
 using namespace juce;
 

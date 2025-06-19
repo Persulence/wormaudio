@@ -1,4 +1,4 @@
-module;
+#include "StateDef.hpp"
 
 #include <memory>
 #include <vector>
@@ -7,8 +7,6 @@ module;
 #include "juce_core/juce_core.h"
 
 #include "event/ElementHandle.hpp"
-
-module sm;
 
 namespace sm
 {
@@ -70,4 +68,10 @@ namespace sm
     {
         return static_cast<juce::String>(name.getValue()).toStdString();
     }
+
+    std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<StateDef> &node)
+    {
+        return std::make_unique<StateInstance>(node);
+    }
 }
+

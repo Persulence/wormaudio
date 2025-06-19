@@ -6,8 +6,6 @@
 #include "StateNodeWidget.hpp"
 #include "state/ConditionList.hpp"
 
-import sm;
-
 namespace ui
 {
     using namespace juce;

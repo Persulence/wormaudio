@@ -1,8 +1,9 @@
 #include "TransitionPropertyPanel.hpp"
 
+#include "graph/StateDef.hpp"
+
 namespace ui
 {
-
     TransitionPropertyPanel::TransitionPropertyPanel(std::shared_ptr<sm::Transition1> transition_):
         transition(std::move(transition_)),
         conditionList(transition->conditions)

@@ -1,6 +1,7 @@
 #include "AutomationTableInstance.hpp"
 
 #include "automation/Property.hpp"
+#include "state/ParameterLookup.hpp"
 
 namespace automation
 {

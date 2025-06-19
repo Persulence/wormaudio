@@ -3,8 +3,6 @@
 #include "panel/Panel.hpp"
 #include "state/ConditionList.hpp"
 
-import sm;
-
 namespace ui
 {
     class ConditionPanel : public Panel

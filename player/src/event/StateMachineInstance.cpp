@@ -5,9 +5,9 @@
 #include <ranges>
 #include <unordered_map>
 
+#include "graph/StateDef.hpp"
 #include "resource/ElementInstanceContext.hpp"
 
-import sm;
 import transport;
 
 namespace event
@@ -15,7 +15,7 @@ namespace event
     using namespace sm;
     using namespace resource;
 
-    StateMachineInstance::StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>> &states, const resource::Handle<sm::StateDef> &start)
+    StateMachineInstance::StateMachineInstance(const std::vector<Handle<StateDef>> &states, const Handle<StateDef> &start)
     {
         // TODO: simple handling for single-state instances
 

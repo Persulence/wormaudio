@@ -6,11 +6,10 @@
 
 #include "ElementList.hpp"
 #include "ParameterList.hpp"
-#include "../automation/AutomationTable.hpp"
-#include "../state/StateMachineDefinition.hpp"
+#include "automation/AutomationTable.hpp"
+#include "state/StateMachineDefinition.hpp"
 #include "resource/SharedResource.hpp"
 
-import sm;
 import parameter;
 
 namespace event

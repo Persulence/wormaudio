@@ -1,10 +1,10 @@
 #pragma once
+
 #include "ParameterWidget.hpp"
 #include "editor/Editor.hpp"
 #include "panel/Panel.hpp"
 
 import parameter;
-import sm;
 
 namespace ui
 {

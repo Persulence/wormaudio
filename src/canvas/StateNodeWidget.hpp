@@ -6,9 +6,8 @@
 
 #include "CanvasSelectionManager.hpp"
 #include "CanvasConnectionManager.hpp"
+#include "graph/StateDef.hpp"
 #include "resource/SharedResource.hpp"
-
-import sm;
 
 namespace ui
 {

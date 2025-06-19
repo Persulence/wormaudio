@@ -4,8 +4,6 @@
 #include "canvas/CanvasConnectionManager.hpp"
 #include "../panel/Panel.hpp"
 
-import sm;
-
 namespace sm
 {
     class StateMachineDefinition;

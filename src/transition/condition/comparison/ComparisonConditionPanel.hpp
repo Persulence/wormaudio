@@ -1,8 +1,7 @@
 #pragma once
+
 #include "ComparisonComboBox.hpp"
 #include "../ConditionPanel.hpp"
-
-import sm;
 
 namespace ui
 {

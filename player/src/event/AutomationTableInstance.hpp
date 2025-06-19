@@ -6,7 +6,6 @@
 #include "automation/PropertyProvider.hpp"
 
 import transport;
-import sm;
 
 namespace sm
 {

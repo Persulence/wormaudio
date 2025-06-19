@@ -1,11 +1,7 @@
 #pragma once
-#include <variant>
-#include <variant>
 
 #include "condition/ConditionPanel.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
-
-import sm;
 
 namespace ui
 {

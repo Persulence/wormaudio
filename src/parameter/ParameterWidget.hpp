@@ -1,10 +1,9 @@
 #pragma once
+
 #include "ParameterConfigPanel.hpp"
 #include "canvas/CanvasSelectionManager.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "util/WrappedValue.hpp"
-
-import sm;
 
 import parameter;
 

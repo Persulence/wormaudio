@@ -5,9 +5,8 @@
 #include <memory>
 #include <vector>
 
+#include "graph/StateDef.hpp"
 #include "resource/SharedResource.hpp"
-
-import sm;
 
 namespace sm
 {

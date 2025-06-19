@@ -6,7 +6,10 @@
 #include "juce_graphics/juce_graphics.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
-import sm;
+namespace sm
+{
+    class StateDef;
+}
 
 namespace ui
 {
