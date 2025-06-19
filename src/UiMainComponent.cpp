@@ -19,7 +19,7 @@ namespace ui
         // addAndMakeVisible(withNoname<BorderPanel>(elementBrowser));
         addAndMakeVisible(fileBrowserBorder);
         addAndMakeVisible(bar1);
-        addAndMakeVisible(elementBrowserBorder);
+        addAndMakeVisible(outline);
         addAndMakeVisible(bar2);
         addAndMakeVisible(transport);
 
@@ -44,7 +44,7 @@ namespace ui
         // flexBox.items.add(FlexItem(elementBrowserBorder).withFlex(100));
         // flexBox.performLayout(getLocalBounds());
 
-        std::array<Component*, 5> comps = {&fileBrowserBorder, &bar1, &elementBrowserBorder, &bar2, &transport};
+        std::array<Component*, 5> comps = {&fileBrowserBorder, &bar1, &outline, &bar2, &transport};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
     }
 
