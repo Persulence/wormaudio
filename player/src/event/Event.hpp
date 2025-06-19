@@ -12,7 +12,6 @@
 
 import sm;
 import parameter;
-import element;
 
 namespace event
 {

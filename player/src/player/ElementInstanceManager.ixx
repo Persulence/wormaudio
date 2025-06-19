@@ -8,7 +8,6 @@ module;
 
 export module ElementInstanceManager;
 
-import element;
 import ElementInstance;
 
 namespace player

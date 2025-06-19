@@ -3,8 +3,6 @@
 #include "event/ElementHandle.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 
-import element;
-
 namespace ui
 {
     class ElementRegionWidget : public juce::Component

@@ -5,8 +5,9 @@
 #include <ranges>
 #include <unordered_map>
 
+#include "resource/ElementInstanceContext.hpp"
+
 import sm;
-import element;
 import transport;
 
 namespace event
@@ -45,7 +46,7 @@ namespace event
         }
     }
 
-    bool StateMachineInstance::logicTick(const sm::ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport)
+    bool StateMachineInstance::logicTick(const ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport)
     {
         bool transitionOccurred = false;
         auto prevState = currentState;

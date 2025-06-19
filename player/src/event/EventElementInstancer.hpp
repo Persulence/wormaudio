@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../automation/instance/AutomationRegistryInstance.hpp"
+#include "resource/Element.hpp"
 
-import element;
 import ElementInstance;
 import ElementInstanceManager;
 

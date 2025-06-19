@@ -7,14 +7,13 @@ module;
 
 #include <juce_core/juce_core.h>
 
-#include "../event/ElementHandle.hpp"
+#include "event/ElementHandle.hpp"
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
 #include "state/ConditionList.hpp"
 
 export module sm:Node;
 
-import element;
 import ElementInstance;
 
 namespace sm

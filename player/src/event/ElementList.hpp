@@ -7,8 +7,6 @@
 #include "resource/SharedResource.hpp"
 #include "signal/Signal.hpp"
 
-import element;
-
 namespace event
 {
     class ElementList : public resource::SharedResource

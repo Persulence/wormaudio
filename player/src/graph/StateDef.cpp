@@ -6,11 +6,9 @@ module;
 
 #include "juce_core/juce_core.h"
 
-#include "../event/ElementHandle.hpp"
+#include "event/ElementHandle.hpp"
 
 module sm;
-
-import element;
 
 namespace sm
 {

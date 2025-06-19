@@ -5,12 +5,12 @@
 #include <juce_data_structures/juce_data_structures.h>
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "Element.hpp"
 #include "Resource.fwd.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
 
-import element;
 import ElementInstance;
 
 namespace element

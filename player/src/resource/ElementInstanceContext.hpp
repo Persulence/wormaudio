@@ -1,19 +1,14 @@
-module;
+#pragma once
 
-#include <vector>
 #include <memory>
-
-#include "util/AudioContext.hpp"
-
-export module element:ElementInstanceContext;
 
 import ElementInstance;
 
 namespace element
 {
-    export class Element;
+    class Element;
 
-    export class ElementInstanceContext
+    class ElementInstanceContext
     {
     public:
         ElementInstanceContext() = default;

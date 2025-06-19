@@ -1,21 +1,18 @@
-module;
+#pragma once
 
 #include <memory>
 
 #include "SharedResource.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
-
-export module element;
+#include "ElementInstanceContext.hpp"
 
 import ElementInstance;
-
-export import :ElementInstanceContext;
 
 namespace element
 {
     // Elements are shared resources
-    export class Element : public resource::SharedResource, public automation::PropertyProvider
+    class Element : public resource::SharedResource, public automation::PropertyProvider
     {
     public:
         automation::Property volume{automation::createProperty("volume", 0, automation::Unit::DBFS)};
@@ -29,7 +26,7 @@ namespace element
         JUCE_DECLARE_NON_COPYABLE(Element)
     };
 
-    export class RandomElement : public Element
+    class RandomElement : public Element
     {
         std::string getName() override { return "random"; }
     };

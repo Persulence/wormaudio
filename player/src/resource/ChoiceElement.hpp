@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "Element.hpp"
 #include "juce_data_structures/juce_data_structures.h"
 
 #include "Resource.fwd.hpp"
@@ -10,7 +11,6 @@
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
 
-import element;
 import ElementInstance;
 
 namespace element

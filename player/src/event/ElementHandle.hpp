@@ -1,7 +1,8 @@
 #pragma once
+
 #include <memory>
 
-import element;
+#include "resource/Element.hpp"
 
 namespace event
 {
