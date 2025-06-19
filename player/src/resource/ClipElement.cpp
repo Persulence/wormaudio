@@ -69,6 +69,6 @@ namespace element
 
     std::string ClipElement::getName()
     {
-        return resource->getFile().getFileName().toStdString();
+        return "Clip: " + resource->getFile().getFileName().toStdString();
     }
 }

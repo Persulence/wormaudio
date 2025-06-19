@@ -10,11 +10,12 @@
 namespace ui
 {
     using namespace juce;
+    using namespace resource;
 
     class SoundEventItem : public SharedResourceItem<event::Event>
     {
     public:
-        explicit SoundEventItem(const resource::Handle<event::Event> &resource) :
+        explicit SoundEventItem(const Handle<event::Event> &resource) :
             SharedResourceItem(resource) {}
 
         class Comp : public OutlineItemComponent
@@ -38,12 +39,12 @@ namespace ui
     class StateMachineDefinitionItem : public SharedResourceItem<sm::StateMachineDefinition>
     {
     public:
-        explicit StateMachineDefinitionItem(const resource::Handle<sm::StateMachineDefinition> &resource) :
+        explicit StateMachineDefinitionItem(const Handle<sm::StateMachineDefinition> &resource) :
             SharedResourceItem(resource) {}
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>();
+            auto ptr = std::make_unique<OutlineItemComponent>("icon/folder.png");
 
             ptr->label.setText("State machine", dontSendNotification);
             ptr->label.setEditable(false, false);
@@ -65,7 +66,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>();
+            auto ptr = std::make_unique<OutlineItemComponent>("icon/state_def.png");
 
             ptr->label.getTextValue().referTo(resource->name);
 
@@ -99,6 +100,8 @@ namespace ui
             ptr->label.getTextValue().referTo(resource->getNameAsValue());
             return ptr;
         }
+
+        bool mightContainSubItems() override { return false; }
     };
 
     class ElementListItem : public SharedResourceItem<event::ElementList>
@@ -106,13 +109,37 @@ namespace ui
     public:
         explicit ElementListItem(const ::resource::Handle<event::ElementList> &resource) :
             SharedResourceItem(resource) {}
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            auto ptr = std::make_unique<OutlineItemComponent>("icon/folder.png", false);
+            ptr->label.setText("Elements", dontSendNotification);
+            return ptr;
+        }
+    };
+
+    class ElementItemComponent : public OutlineItemComponent
+    {
+    public:
+        explicit ElementItemComponent(const Handle<element::Element> &element): OutlineItemComponent("icon/clip.png", false)
+        {
+            label.setText(element->getName(), dontSendNotification);
+        }
     };
 
     class ElementItem : public SharedResourceItem<element::Element>
     {
     public:
-        explicit ElementItem(const ::resource::Handle<element::Element> &resource) :
-            SharedResourceItem(resource) {}
+        explicit ElementItem(const Handle<element::Element> &resource) :
+            SharedResourceItem(resource)
+        {
+
+        }
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            return std::make_unique<ElementItemComponent>(resource);
+        }
 
         bool mightContainSubItems() override { return false; }
     };
