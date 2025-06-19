@@ -28,4 +28,21 @@ namespace sm
 
         instances = std::move(newInstances);
     }
+
+    void ParameterLookup::resetTimer()
+    {
+
+    }
+
+    player::Seconds ParameterLookup::getTime(player::TimeType type) const
+    {
+        if (type == player::TimeType::IN_STATE)
+        {
+            return static_cast<player::Seconds>(0);
+        }
+        else
+        {
+            return static_cast<player::Seconds>(0);
+        }
+    }
 }

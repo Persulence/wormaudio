@@ -20,11 +20,6 @@ namespace ui
         {
             return std::make_unique<ComparisonConditionPanel>(condition);
         }
-
-        // std::shared_ptr<ConditionPanel> operator()(Condition& condition) const
-        // {
-        //     return std::make_shared<ConditionPanel>(condition);
-        // }
     };
 
     std::unique_ptr<ConditionPanel> ConditionPanel::create(Condition &condition)

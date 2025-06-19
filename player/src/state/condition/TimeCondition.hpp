@@ -2,19 +2,15 @@
 #include "Condition.hpp"
 
 #include "juce_data_structures/juce_data_structures.h"
+#include "util/Time.hpp"
+#include "util/WrappedValue.hpp"
 
 namespace condition
 {
     struct TimePos
     {
-        enum Type
-        {
-            IN_STATE,
-            SINCE_EVENT_START
-        };
-
-        juce::Value value;
-        Type type;
+        ExplicitValue<player::Seconds> value;
+        player::TimeType type;
     };
 
     class TimeCondition : public ConditionBase<TimeCondition>
