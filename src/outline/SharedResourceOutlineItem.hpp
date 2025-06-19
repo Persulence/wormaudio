@@ -36,6 +36,11 @@ namespace ui
             return true;
         }
 
+        std::unique_ptr<juce::Component> createItemComponent() override
+        {
+            return std::make_unique<OutlineItemComponent>("icon/file.png", false);
+        }
+
         resource::Handle<T> resource;
     };
 }

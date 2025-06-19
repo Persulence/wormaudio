@@ -1,6 +1,8 @@
 
 #include "ElementList.hpp"
 
+#include <ranges>
+
 namespace event
 {
     ElementHandle ElementList::reg(std::shared_ptr<element::Element> element)
@@ -25,5 +27,14 @@ namespace event
     std::vector<ElementHandle> ElementList::getElements() const
     {
         return elements;
+    }
+
+    std::vector<resource::ResourceHandle> ElementList::getChildResources()
+    {
+        // no std::ranges::to in c++20
+        auto result = std::vector<resource::ResourceHandle>{};
+        result.resize(elements.size());
+        std::ranges::transform(elements, result.begin(), [](auto a){return a.ptr; });
+        return result;
     }
 }

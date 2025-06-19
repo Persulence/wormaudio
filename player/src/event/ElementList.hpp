@@ -4,13 +4,14 @@
 
 #include "ElementHandle.hpp"
 #include "automation/AutomationRegistry.hpp"
+#include "resource/SharedResource.hpp"
 #include "signal/Signal.hpp"
 
 import element;
 
 namespace event
 {
-    class ElementList
+    class ElementList : public resource::SharedResource
     {
     public:
         using OnChange = signal_event::Callback<>;
@@ -29,7 +30,9 @@ namespace event
 
         void unReg(ElementHandle handle);
 
-        std::vector<ElementHandle> getElements() const;
+        [[nodiscard]] std::vector<ElementHandle> getElements() const;
+
+        std::vector<resource::ResourceHandle> getChildResources() override;
 
     private:
         std::vector<ElementHandle> elements;

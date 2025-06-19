@@ -3,6 +3,8 @@
 #include "OutlineItemComponent.hpp"
 #include "SharedResourceOutlineItem.hpp"
 #include "event/Event.hpp"
+#include "resource/ChoiceElement.hpp"
+#include "resource/ClipElement.hpp"
 #include "util/GuiResources.hpp"
 
 namespace ui
@@ -99,6 +101,22 @@ namespace ui
         }
     };
 
+    class ElementListItem : public SharedResourceItem<event::ElementList>
+    {
+    public:
+        explicit ElementListItem(const ::resource::Handle<event::ElementList> &resource) :
+            SharedResourceItem(resource) {}
+    };
+
+    class ElementItem : public SharedResourceItem<element::Element>
+    {
+    public:
+        explicit ElementItem(const ::resource::Handle<element::Element> &resource) :
+            SharedResourceItem(resource) {}
+
+        bool mightContainSubItems() override { return false; }
+    };
+
 #define REG(Type, factory) reg<Type>([](auto handle) { return factory; });
 
     void OutlineTypeRegistry::regDefaults()
@@ -109,5 +127,9 @@ namespace ui
         REG(sm::StateDef, make_unique<StateDefItem>(handle); )
         REG(event::ParameterListImpl, make_unique<ParameterListItem>(handle); )
         REG(parameter::ParameterDef, make_unique<ParameterDefItem>(handle); )
+        REG(event::ElementList, make_unique<ElementListItem>(handle); )
+
+        REG(element::ClipElement, make_unique<ElementItem>(handle); )
+        REG(element::ChoiceElement, make_unique<ElementItem>(handle); )
     }
 }

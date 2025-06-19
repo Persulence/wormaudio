@@ -2,6 +2,7 @@ module;
 
 #include <memory>
 
+#include "SharedResource.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
 
@@ -14,7 +15,7 @@ export import :ElementInstanceContext;
 namespace element
 {
     // Elements are shared resources
-    export class Element : public automation::PropertyProvider
+    export class Element : public resource::SharedResource, public automation::PropertyProvider
     {
     public:
         automation::Property volume{automation::createProperty("volume", 0, automation::Unit::DBFS)};

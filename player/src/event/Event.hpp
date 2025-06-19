@@ -48,14 +48,14 @@ namespace event
             return *automation;
         }
 
-        ElementList& getElements()
+        ElementList& getElements() const
         {
-            return elementList;
+            return *elementList;
         }
 
         std::vector<resource::ResourceHandle> getChildResources() override
         {
-            return {definition};
+            return {definition, elementList};
         }
 
         // Defined after EventInstance
@@ -72,7 +72,7 @@ namespace event
         // Automation registry and mappings
         std::unique_ptr<automation::AutomationTable> automation;
 
-        ElementList elementList;
+        resource::Handle<ElementList> elementList;
 
         juce::Value name;
 
