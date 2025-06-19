@@ -1,6 +1,7 @@
 #pragma once
 
 #include "juce_gui_basics/juce_gui_basics.h"
+#include "juce_opengl/juce_opengl.h"
 #include "resource/SharedResource.hpp"
 
 namespace ui
@@ -17,8 +18,16 @@ namespace ui
 
         void itemOpennessChanged(bool isNowOpen) override
         {
-            if (isNowOpen)
+            refresh(true);
+        }
+
+        void refresh(bool clear = true)
+        {
+            if (getOpenness() == Openness::opennessOpen)
             {
+                if (clear)
+                    clearSubItems();
+
                 for (auto child : resource->getChildResources())
                 {
                     auto result = OutlineTypeRegistry::getInstance().get(child);

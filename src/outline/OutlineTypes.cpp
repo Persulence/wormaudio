@@ -2,9 +2,13 @@
 
 #include "OutlineItemComponent.hpp"
 #include "SharedResourceOutlineItem.hpp"
+#include "browser/FileDragSource.hpp"
+#include "browser/element/ElementDragSource.hpp"
+#include "editor/Editor.hpp"
 #include "event/Event.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
+#include "runtime/Runtime.hpp"
 #include "util/GuiResources.hpp"
 
 namespace ui
@@ -56,7 +60,7 @@ namespace ui
     class StateDefItem : public SharedResourceItem<sm::StateDef>
     {
     public:
-        explicit StateDefItem(const resource::Handle<sm::StateDef> &resource) :
+        explicit StateDefItem(const Handle<sm::StateDef> &resource) :
             SharedResourceItem(resource) {}
 
         bool mightContainSubItems() override
@@ -74,11 +78,14 @@ namespace ui
         }
     };
 
-    class ParameterListItem : public SharedResourceItem<event::ParameterList>
+    class ParameterListItem : public SharedResourceItem<event::ParameterList>, public editor::EditorParameterList::Changed::Listener
     {
     public:
-        explicit ParameterListItem(const resource::Handle<event::ParameterList> &resource) :
-            SharedResourceItem(resource) {}
+        explicit ParameterListItem(const Handle<event::ParameterList> &resource) :
+            SharedResourceItem(resource)
+        {
+            editor::getInstance().getEditorParameters().changed.setup(this, [this]{ refresh(); });
+        }
 
         std::unique_ptr<Component> createItemComponent() override
         {
@@ -91,7 +98,7 @@ namespace ui
     class ParameterDefItem : public SharedResourceItem<parameter::ParameterDef>
     {
     public:
-        explicit ParameterDefItem(const resource::Handle<parameter::ParameterDef> &resource) :
+        explicit ParameterDefItem(const Handle<parameter::ParameterDef> &resource) :
             SharedResourceItem(resource) {}
 
         std::unique_ptr<Component> createItemComponent() override
@@ -107,7 +114,7 @@ namespace ui
     class ElementListItem : public SharedResourceItem<event::ElementList>
     {
     public:
-        explicit ElementListItem(const ::resource::Handle<event::ElementList> &resource) :
+        explicit ElementListItem(const Handle<event::ElementList> &resource) :
             SharedResourceItem(resource) {}
 
         std::unique_ptr<Component> createItemComponent() override
@@ -116,15 +123,78 @@ namespace ui
             ptr->label.setText("Elements", dontSendNotification);
             return ptr;
         }
+
+        bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails) override
+        {
+            return FileDragSource::test(dragSourceDetails);
+        }
+
+        void itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails, int insertIndex) override
+        {
+            if (auto source = FileDragSource::test(dragSourceDetails))
+            {
+                auto asset = runtime::createResource(source->getFile());
+                auto handle = resource->reg(std::make_unique<element::ClipElement>(asset));
+                refresh();
+            }
+        }
+
+        bool customComponentUsesTreeViewMouseHandler() const override
+        {
+            return true;
+        }
+
+        void itemClicked(const MouseEvent& event) override
+        {
+            if (event.mods.isRightButtonDown())
+            {
+                PopupMenu menu;
+                menu.addSectionHeader("Element");
+                menu.addItem("New choice element", [this]
+                {
+                    auto element = std::make_unique<element::ChoiceElement>();
+                    resource->reg(std::move(element));
+                    refresh();
+                });
+                menu.showMenuAsync(PopupMenu::Options{});
+            }
+        }
     };
 
-    class ElementItemComponent : public OutlineItemComponent
+    class ElementItemComponent : public OutlineItemComponent, public ElementDragSource
     {
     public:
-        explicit ElementItemComponent(const Handle<element::Element> &element): OutlineItemComponent("icon/clip.png", false)
+        explicit ElementItemComponent(const Handle<element::Element> &element): OutlineItemComponent("icon/clip.png", false),
+            element(element)
         {
             label.setText(element->getName(), dontSendNotification);
+            label.addMouseListener(this, false);
         }
+
+        void mouseDown(const MouseEvent &event) override
+        {
+            constexpr auto offset = Point(30, -30);
+            if (const auto container = DragAndDropContainer::findParentDragContainerFor(this))
+            {
+                container->startDragging( "ELEMENT", this,
+                        ScaledImage{},
+                        false,
+                        &offset,
+                        nullptr
+                        );
+            }
+        }
+
+        void mouseDrag(const MouseEvent &event) override
+        {
+        }
+
+        event::ElementHandle getHandle() override
+        {
+            return event::ElementHandle{element};
+        }
+
+        const Handle<element::Element> &element;
     };
 
     class ElementItem : public SharedResourceItem<element::Element>
