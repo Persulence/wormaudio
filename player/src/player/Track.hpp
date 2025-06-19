@@ -1,12 +1,10 @@
-module;
+#pragma once
 
 #include <JuceHeader.h>
 
-export module Track;
-
 import ElementInstance;
 
-export class Track : public juce::AudioSource
+class Track : public juce::AudioSource
 {
         std::vector<element::ElementInstancePtr> active;
 
