@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <vector>
 
@@ -7,13 +7,11 @@ module;
 #include "resource/ElementInstance.hpp"
 #include "util/AudioContext.hpp"
 
-export module ElementInstanceManager;
-
 namespace player
 {
     using namespace element;
 
-    export class ElementInstanceManager : public juce::AudioSource
+    class ElementInstanceManager : public juce::AudioSource
     {
         std::vector<ElementInstancePtr> active;
         std::mutex activeMutex;

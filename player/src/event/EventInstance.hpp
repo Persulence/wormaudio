@@ -10,8 +10,6 @@
 #include "StateMachineInstance.hpp"
 #include "player/transport.hpp"
 
-import ElementInstanceManager;
-
 namespace event
 {
     class EventInstance

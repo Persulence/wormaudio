@@ -13,8 +13,6 @@
 #include "resource/Asset.hpp"
 #include "resource/ResourceLoader.hpp"
 
-import ElementInstanceManager;
-
 namespace runtime
 {
     class Runtime;

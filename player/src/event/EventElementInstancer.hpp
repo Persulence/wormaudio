@@ -1,10 +1,9 @@
 #pragma once
 
+#include "player/ElementInstanceManager.hpp"
 #include "resource/Element.hpp"
 #include "resource/ElementInstance.hpp"
 #include "resource/ElementInstanceContext.hpp"
-
-import ElementInstanceManager;
 
 namespace event
 {
