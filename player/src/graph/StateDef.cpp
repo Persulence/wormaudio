@@ -8,8 +8,16 @@
 
 #include "event/ElementHandle.hpp"
 
+#include "state/ConditionList.hpp"
+
 namespace sm
 {
+    Transition1::Transition1(const condition::ConditionList &conditions_, std::weak_ptr<StateDef> nextState_):
+        conditions(std::make_unique<condition::ConditionList>(conditions_)), nextState(std::move(nextState_))
+    {
+
+    }
+
     StateDef::StateDef()
     // StateDef::StateDef(const std::shared_ptr<automation::AutomationRegistry> &registry)
         // automation(registry)

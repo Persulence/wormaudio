@@ -31,26 +31,15 @@ namespace ui
         if (event.mods.isRightButtonDown())
         {
             PopupMenu menu;
-            menu.addItem(1, "New comparison");
-            menu.addItem(2, "New true");
-            menu.addItem(3, "New thing");
-            menu.showMenuAsync(PopupMenu::Options{}, [this] (int result)
+            menu.addItem("New comparison condition", [this]
             {
-                switch (result)
-                {
-                    case 1:
-                        addCondition(ComparisonCondition{});
-                        break;
-                    case 2:
-                        addCondition(TrueCondition{});
-                        break;
-                    case 3:
-                        addCondition(ThingCondition{});
-                        break;
-                    default:
-                        break;
-                }
+                addCondition(ComparisonCondition{});
             });
+            menu.addItem("New time condition", [this]
+            {
+                addCondition(TimeCondition{});
+            });
+            menu.showMenuAsync(PopupMenu::Options{});
         }
     }
 

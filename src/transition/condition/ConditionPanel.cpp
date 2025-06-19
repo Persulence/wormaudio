@@ -1,6 +1,7 @@
 #include "ConditionPanel.hpp"
 
 #include "comparison/ComparisonConditionPanel.hpp"
+#include "comparison/TimeConditionPanel.hpp"
 
 namespace ui
 {
@@ -10,14 +11,9 @@ namespace ui
     struct Visitor
     {
 
-        std::unique_ptr<ConditionPanel> operator()(TrueCondition& condition) const
+        std::unique_ptr<ConditionPanel> operator()(TimeCondition& condition) const
         {
-            return std::make_unique<ConditionPanel>();
-        }
-
-        std::unique_ptr<ConditionPanel> operator()(ThingCondition& condition) const
-        {
-            return std::make_unique<ConditionPanel>();
+            return std::make_unique<TimeConditionPanel>(condition);
         }
 
         std::unique_ptr<ConditionPanel> operator()(ComparisonCondition& condition) const

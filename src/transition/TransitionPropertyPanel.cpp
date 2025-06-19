@@ -6,7 +6,7 @@ namespace ui
 {
     TransitionPropertyPanel::TransitionPropertyPanel(std::shared_ptr<sm::Transition1> transition_):
         transition(std::move(transition_)),
-        conditionList(transition->conditions)
+        conditionList(*transition->conditions)
     {
         // bg = juce::Colours::;
         update();

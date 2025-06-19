@@ -27,7 +27,7 @@ namespace ui
         // FOR TESTING
         auto node = addState({400, 400});
         auto transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, node->getState());
-        transition->conditions.insertCondition(condition::ComparisonCondition{});
+        transition->conditions->insertCondition(condition::ComparisonCondition{});
         definition->getStart()->insertTransition(transition);
         connectionManager->refreshTransitionWidgets();
 

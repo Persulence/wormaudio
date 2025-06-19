@@ -34,7 +34,7 @@ namespace event
                 {
                     StateEntry& nextStateEntry = getOrCreateEntry(map, shared);
 
-                    stateEntry.transitions.emplace_back(Transition{&transition->conditions, &nextStateEntry});
+                    stateEntry.transitions.emplace_back(Transition{transition->conditions.get(), &nextStateEntry});
                 }
             }
 

@@ -5,14 +5,14 @@
 #include <utility>
 #include <vector>
 
-#include <juce_core/juce_core.h>
+#include "juce_core/juce_core.h"
+#include "juce_data_structures/juce_data_structures.h"
 
 #include "event/ElementHandle.hpp"
-#include "juce_data_structures/juce_data_structures.h"
 #include "resource/ElementInstance.hpp"
 #include "resource/ElementInstanceContext.hpp"
 #include "resource/SharedResource.hpp"
-#include "state/ConditionList.hpp"
+#include "state/ConditionList.fwd.hpp"
 
 namespace sm
 {
@@ -23,12 +23,10 @@ namespace sm
     public:
         using Ptr = std::shared_ptr<Transition1>;
 
-        condition::ConditionList conditions;
+        std::unique_ptr<condition::ConditionList> conditions;
         std::weak_ptr<StateDef> nextState;
 
-        Transition1(condition::ConditionList conditions_, std::weak_ptr<StateDef> nextState_):
-            conditions(std::move(conditions_)), nextState(std::move(nextState_))
-        { }
+        Transition1(const condition::ConditionList& conditions_, std::weak_ptr<StateDef> nextState_);
     };
 
     enum StateType

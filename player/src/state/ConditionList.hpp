@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ConditionList.fwd.hpp"
+
 #include <iostream>
 #include <memory>
 #include <utility>
@@ -8,37 +10,37 @@
 
 #include "condition/ComparisonCondition.hpp"
 #include "condition/Condition.hpp"
+#include "condition/TimeCondition.hpp"
 
 namespace condition
 {
-    struct ThingCondition : ConditionBase<ThingCondition>
-    {
-        ThingCondition() = default;
-
-        [[nodiscard]] static bool testImpl(const sm::ParameterLookup& pl)
-        {
-            std::cout << "testing thing\n";
-            return false;
-        }
-    };
-
-    struct TrueCondition : ConditionBase<TrueCondition>
-    {
-        TrueCondition() = default;
-
-        [[nodiscard]] static bool testImpl(const sm::ParameterLookup& pl)
-        {
-            return true;
-        }
-    };
+    // struct ThingCondition : ConditionBase<ThingCondition>
+    // {
+    //     ThingCondition() = default;
+    //
+    //     [[nodiscard]] static bool testImpl(const sm::ParameterLookup& pl)
+    //     {
+    //         std::cout << "testing thing\n";
+    //         return false;
+    //     }
+    // };
+    //
+    // struct TrueCondition : ConditionBase<TrueCondition>
+    // {
+    //     TrueCondition() = default;
+    //
+    //     [[nodiscard]] static bool testImpl(const sm::ParameterLookup& pl)
+    //     {
+    //         return true;
+    //     }
+    // };
 
     template <class... T>
     using Thing = std::variant<T...>;
 
     using Condition = Thing<
-        TrueCondition,
         ComparisonCondition,
-        ThingCondition
+        TimeCondition
     >;
 
     class ConditionList
