@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "resource/SharedResource.hpp"
+#include "state/ConditionList.hpp"
 
 import sm;
 import element;

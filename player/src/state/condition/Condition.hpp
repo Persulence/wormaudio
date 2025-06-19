@@ -1,12 +1,13 @@
-module;
+#pragma once
 
-export module sm:Condition;
-
-import :ParameterLookup;
+namespace sm
+{
+    class ParameterLookup;
+}
 
 namespace condition
 {
-    export template <class T>
+    template <class T>
     struct ConditionBase
     {
         [[nodiscard]] bool test(const sm::ParameterLookup& pl) const

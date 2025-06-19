@@ -11,7 +11,6 @@ module;
 module sm;
 
 import element;
-import :Condition;
 
 namespace sm
 {

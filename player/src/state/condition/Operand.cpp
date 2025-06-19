@@ -1,9 +1,7 @@
-module;
+#include "Operand.hpp"
 
 #include <format>
 #include <string>
-
-module sm;
 
 namespace condition
 {

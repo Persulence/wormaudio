@@ -10,13 +10,12 @@ module;
 #include "../event/ElementHandle.hpp"
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
+#include "state/ConditionList.hpp"
 
 export module sm:Node;
 
 import element;
 import ElementInstance;
-
-import :Transition;
 
 namespace sm
 {

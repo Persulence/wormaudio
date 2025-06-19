@@ -1,17 +1,16 @@
-module;
+#pragma once
 
 #include <string>
 #include <variant>
 #include <format>
 
-export module sm:Operand;
+#include "state/ParameterLookup.hpp"
 
 import parameter;
-import :ParameterLookup;
 
 namespace condition
 {
-    export struct ParameterOperand
+    struct ParameterOperand
     {
         std::string paramName;
 
@@ -20,13 +19,13 @@ namespace condition
             return lookup.getValue(paramName);
         }
 
-        std::string toString() const
+        [[nodiscard]] std::string toString() const
         {
             return paramName;
         }
     };
 
-    export struct ConstantOperand
+    struct ConstantOperand
     {
         ParameterValue value;
 
@@ -35,10 +34,10 @@ namespace condition
             return value;
         }
 
-        std::string toString() const;
+        [[nodiscard]] std::string toString() const;
     };
 
-    export struct Operand
+    struct Operand
     {
         using Value = std::variant<
             ParameterOperand,
@@ -46,14 +45,14 @@ namespace condition
 
         Value value;
 
-        constexpr Operand(Value value_): value(std::move(value_)) {}
+        constexpr explicit Operand(Value value_): value(std::move(value_)) {}
 
         ParameterValue operator()(const sm::ParameterLookup& lookup) const
         {
             return std::visit([&lookup](auto& o){ return o(lookup); }, value);
         }
 
-        std::string toString() const
+        [[nodiscard]] std::string toString() const
         {
             return std::visit([](auto& o){ return o.toString(); }, value);
         }

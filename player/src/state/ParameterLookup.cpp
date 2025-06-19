@@ -1,12 +1,10 @@
-module;
+#include "ParameterLookup.hpp"
 
 #include <iostream>
 #include <memory>
 #include <unordered_map>
 
 #include "../event/ParameterList.hpp"
-
-module sm;
 
 namespace sm
 {

@@ -4,6 +4,7 @@
 
 #include "InspectorSelectionManager.hpp"
 #include "StateNodeWidget.hpp"
+#include "state/ConditionList.hpp"
 
 import sm;
 

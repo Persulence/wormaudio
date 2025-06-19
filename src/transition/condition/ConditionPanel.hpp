@@ -1,6 +1,7 @@
 #pragma once
 
 #include "panel/Panel.hpp"
+#include "state/ConditionList.hpp"
 
 import sm;
 

@@ -8,6 +8,11 @@
 import transport;
 import sm;
 
+namespace sm
+{
+    class ParameterLookup;
+}
+
 namespace automation
 {
     class AutomationTableInstance : public AutomationRegistryInstance

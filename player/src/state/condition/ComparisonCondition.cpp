@@ -1,8 +1,4 @@
-module;
-
-#include <mutex>
-
-module sm;
+#include "ComparisonCondition.hpp"
 
 namespace condition
 {

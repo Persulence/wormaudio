@@ -1,20 +1,21 @@
-module;
+#pragma once
 
 #include <variant>
-#include <mutex>
 
-export module sm:ComparisonCondition;
+#include "Condition.hpp"
+#include "Operand.hpp"
+#include "Operator.hpp"
 
-import :Condition;
-import :ParameterLookup;
-import :Operand;
-import :Operator;
+namespace sm
+{
+    class ParameterLookup;
+}
 
 namespace condition
 {
     // export auto DEFAULT_OPERAND{Operand{Operand::Value{ConstantOperand{0}}}};
 
-    export class ComparisonCondition : public ConditionBase<ComparisonCondition>
+    class ComparisonCondition : public ConditionBase<ComparisonCondition>
     {
         Operand left{ConstantOperand{}};
         Operand right{ConstantOperand{}};
@@ -24,21 +25,19 @@ namespace condition
         // std::mutex mutex;
 
     public:
-        ComparisonCondition()
-        {
-
-        }
+        ComparisonCondition() = default;
 
         void setLeft(const Operand &operand);
+
         void setRight(const Operand &operand);
+
         void setOp(const Operator &op);
 
         Operand getLeft() { return left; }
         Operand getRight() { return right; }
         Operator getOp() { return op; }
 
-        [[nodiscard]] bool testImpl(const sm::ParameterLookup& pl) const;
+        [[nodiscard]] bool testImpl(const sm::ParameterLookup &pl) const;
     };
 
 }
-

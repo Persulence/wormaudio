@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <iostream>
 #include <memory>
@@ -6,17 +6,14 @@ module;
 #include <vector>
 #include <variant>
 
-export module sm:Transition;
+#include "condition/ComparisonCondition.hpp"
+#include "condition/Condition.hpp"
 
-import :ParameterLookup;
-import :Condition;
 import parameter;
-
-import :ComparisonCondition;
 
 namespace condition
 {
-    export struct ThingCondition : ConditionBase<ThingCondition>
+    struct ThingCondition : ConditionBase<ThingCondition>
     {
         ThingCondition() = default;
 
@@ -27,7 +24,7 @@ namespace condition
         }
     };
 
-    export struct TrueCondition : ConditionBase<TrueCondition>
+    struct TrueCondition : ConditionBase<TrueCondition>
     {
         TrueCondition() = default;
 
@@ -40,13 +37,13 @@ namespace condition
     template <class... T>
     using Thing = std::variant<T...>;
 
-    export using Condition = Thing<
+    using Condition = Thing<
         TrueCondition,
         ComparisonCondition,
         ThingCondition
     >;
 
-    export class ConditionList
+    class ConditionList
     {
     public:
 

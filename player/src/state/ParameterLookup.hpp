@@ -1,17 +1,15 @@
-module;
+#pragma once
 
 #include <string>
 #include <unordered_map>
 
 #include "../event/ParameterList.hpp"
 
-export module sm:ParameterLookup;
-
 import parameter;
 
 namespace sm
 {
-    export class ParameterLookup
+    class ParameterLookup
     {
 
     public:

@@ -1,11 +1,6 @@
-module;
+#pragma once
 
 #include <juce_core/juce_core.h>
-
-export module sm:Operator;
-
-import :Operand;
-import :ParameterLookup;
 
 namespace condition
 {
@@ -16,7 +11,7 @@ namespace condition
     }
 
     #define DECLARE_OPERATOR_INFIX(Name, op, symbol) \
-    export struct Name\
+    struct Name\
     {\
         bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
         {\
@@ -26,7 +21,7 @@ namespace condition
     };
 
     #define DECLARE_OPERATOR_FUNC(Name, func, symbol) \
-    export struct Name\
+    struct Name\
     {\
         bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
         {\
@@ -50,7 +45,7 @@ namespace condition
     //     }
     // };
 
-    export struct Operator
+    struct Operator
     {
         using Value = std::variant<
             Equal,
