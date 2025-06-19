@@ -98,8 +98,6 @@ namespace parameter
             int value;
         };
 
-        juce::Value name;
-
         std::vector<Entry> values;
 
         static EnumParameterDef createDefault(const std::string &name_)
