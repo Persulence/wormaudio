@@ -21,9 +21,9 @@ namespace ui
 
         BorderPanel<FileBrowserPanel> fileBrowserBorder{};
         BorderPanel<ElementBrowserPanel> elementBrowserBorder{};
+        BorderPanel<OutlinePanel> outline;
         BorderPanel<TransportPanel> transport{};
 
-        BorderPanel<OutlinePanel> outline;
 
         juce::StretchableLayoutManager layout;
         juce::StretchableLayoutResizerBar bar1;
