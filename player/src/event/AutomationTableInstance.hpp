@@ -5,7 +5,10 @@
 #include "automation/AutomationTable.hpp"
 #include "automation/PropertyProvider.hpp"
 
-import transport;
+namespace player
+{
+    class TransportControl;
+}
 
 namespace sm
 {

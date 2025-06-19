@@ -8,10 +8,9 @@
 
 #include "Event.hpp"
 #include "StateMachineInstance.hpp"
+#include "player/transport.hpp"
 
 import ElementInstanceManager;
-
-import transport;
 
 namespace event
 {

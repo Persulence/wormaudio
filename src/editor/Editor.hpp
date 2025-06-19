@@ -9,8 +9,6 @@
 #include "resource/Project.hpp"
 #include "state/StateMachineDefinition.hpp"
 
-import transport;
-
 namespace editor
 {
     using EventChanged = signal_event::Callback<>;

@@ -8,7 +8,6 @@
 #include "resource/ElementSampleBuffer.hpp"
 #include "util/AudioContext.hpp"
 
-import transport;
 import io;
 
 namespace player

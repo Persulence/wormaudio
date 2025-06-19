@@ -1,14 +1,13 @@
-module;
+#pragma once
 
 #include <functional>
 #include "../signal/Signal.hpp"
-#include "juce_core/system/juce_PlatformDefs.h"
 
-export module transport;
+#include "juce_core/system/juce_PlatformDefs.h"
 
 namespace player
 {
-    export enum TransportState
+    enum TransportState
     {
         STOPPED,
         STARTING,
@@ -16,10 +15,10 @@ namespace player
         STOPPING
     };
 
-    export using TransportCallback1 = std::function<void(TransportState)>;
-    export using TransportCallback = signal_event::Callback<TransportState>;
+    using TransportCallback1 = std::function<void(TransportState)>;
+    using TransportCallback = signal_event::Callback<TransportState>;
 
-    export class TransportControl
+    class TransportControl
     {
         TransportState state{STOPPED};
 

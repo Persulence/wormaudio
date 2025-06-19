@@ -9,7 +9,9 @@
 #include "resource/SharedResource.hpp"
 #include "state/ConditionList.hpp"
 
-import transport;
+namespace player {
+    class TransportControl;
+}
 
 namespace sm
 {

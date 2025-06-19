@@ -1,16 +1,15 @@
-module;
+#include "transport.hpp"
 
-module transport;
-
-void player::TransportControl::setState(TransportState state_)
+namespace player
 {
-    state = state_;
-    signal.emit(state);
+    void TransportControl::setState(TransportState state_)
+    {
+        state = state_;
+        signal.emit(state);
+    }
+
+    bool TransportControl::stopped() const
+    {
+        return state == STOPPED;
+    }
 }
-
-bool player::TransportControl::stopped() const
-{
-    return state == STOPPED;
-}
-
-

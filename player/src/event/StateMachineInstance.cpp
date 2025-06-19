@@ -6,9 +6,8 @@
 #include <unordered_map>
 
 #include "graph/StateDef.hpp"
+#include "player/transport.hpp"
 #include "resource/ElementInstanceContext.hpp"
-
-import transport;
 
 namespace event
 {
