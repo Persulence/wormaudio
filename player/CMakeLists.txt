@@ -77,6 +77,9 @@ target_include_directories(${LIBRARY_TARGET}
         PUBLIC
             ../JuceLibraryCode
             src
+#            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1
+#            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu
+#            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward
 
 )
 
@@ -151,3 +154,24 @@ target_link_libraries(${LIBRARY_TARGET}
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags)
+
+target_precompile_headers(${LIBRARY_TARGET}
+    PRIVATE
+        "$<$<COMPILE_LANGUAGE:CXX>:vector>"
+        "$<$<COMPILE_LANGUAGE:CXX>:algorithm>"
+        "$<$<COMPILE_LANGUAGE:CXX>:ranges>"
+        "$<$<COMPILE_LANGUAGE:CXX>:memory>"
+        "$<$<COMPILE_LANGUAGE:CXX>:string>"
+        "$<$<COMPILE_LANGUAGE:CXX>:cmath>"
+        "$<$<COMPILE_LANGUAGE:CXX>:iostream>"
+        "$<$<COMPILE_LANGUAGE:CXX>:variant>"
+        "$<$<COMPILE_LANGUAGE:CXX>:utility>"
+
+        # PCH is not supported by JUCE. Yay. Wish I'd know that earlier.
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_gui_basics/juce_gui_basics.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_basics/juce_audio_basics.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_core/juce_core.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_data_structures/juce_data_structures.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_devices/juce_audio_devices.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
+    )
