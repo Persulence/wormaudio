@@ -12,8 +12,8 @@ namespace ui
     class RootItem : public SharedResourceItem<resource::Project>
     {
     public:
-        explicit RootItem(const resource::Handle<resource::Project> &resource) :
-            SharedResourceItem(resource) {}
+        explicit RootItem(const resource::Handle<resource::Project> &resource_) :
+            SharedResourceItem(resource_) {}
 
         bool mightContainSubItems() override
         {

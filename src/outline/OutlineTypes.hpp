@@ -39,7 +39,8 @@ namespace ui
 
         Result get(resource::ResourceHandle handle) const
         {
-            if (const auto it = map.find(std::type_index{typeid(*handle)}); it != map.end())
+            auto& object = *handle;
+            if (const auto it = map.find(std::type_index{typeid(object)}); it != map.end())
             {
                 return it->second(handle);
             }

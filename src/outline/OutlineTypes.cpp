@@ -214,6 +214,50 @@ namespace ui
         bool mightContainSubItems() override { return false; }
     };
 
+    class ChoiceElementItem : public ElementItem
+    {
+        class ChoiceClipItem : public AssetOutlineItem
+        {
+        public:
+            explicit ChoiceClipItem(const asset::AssetHandle &asset) :
+                AssetOutlineItem(asset) {}
+        };
+
+    public:
+        explicit ChoiceElementItem(const Handle<element::Element> &resource) :
+            ElementItem(resource) {}
+
+        void createChildren() override
+        {
+            auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
+            auto& clips = choice->getClips();
+            for (auto& clip : clips)
+            {
+                addSubItem(new AssetOutlineItem{clip});
+            }
+        }
+
+        bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails) override
+        {
+            return FileDragSource::test(dragSourceDetails);
+        }
+
+        void itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails, int insertIndex) override
+        {
+            if (auto source = FileDragSource::test(dragSourceDetails))
+            {
+                auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
+                choice->addClip(runtime::createResource(source->getFile()));
+                refresh(this, true);
+            }
+        }
+
+        bool mightContainSubItems() override
+        {
+            return true;
+        }
+    };
+
 #define REG(Type, factory) reg<Type>([](auto handle) { return factory; });
 
     void OutlineTypeRegistry::regDefaults()
@@ -227,6 +271,6 @@ namespace ui
         REG(event::ElementList, make_unique<ElementListItem>(handle); )
 
         REG(element::ClipElement, make_unique<ElementItem>(handle); )
-        REG(element::ChoiceElement, make_unique<ElementItem>(handle); )
+        REG(element::ChoiceElement, make_unique<ChoiceElementItem>(handle); )
     }
 }
