@@ -7,8 +7,7 @@
 #include "SamplePlayer1.hpp"
 #include "resource/ElementSampleBuffer.hpp"
 #include "util/AudioContext.hpp"
-
-import io;
+#include "util/io.hpp"
 
 namespace player
 {

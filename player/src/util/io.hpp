@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <memory>
 
@@ -6,11 +6,9 @@ module;
 #include <juce_audio_formats/juce_audio_formats.h>
 #include <juce_core/juce_core.h>
 
-export module io;
-
 namespace io
 {
-    export bool readFile(const juce::File& file, juce::AudioFormatManager& formatManager, juce::AudioSampleBuffer& outputBuffer, float maxDuration)
+    inline bool readFile(const juce::File& file, juce::AudioFormatManager& formatManager, juce::AudioSampleBuffer& outputBuffer, float maxDuration)
     {
         if (file == juce::File{})
             return false;

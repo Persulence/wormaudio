@@ -1,8 +1,7 @@
 #include "ResourceLoader.hpp"
 
 #include "ElementSampleBuffer.hpp"
-
-import io;
+#include "util/io.hpp"
 
 namespace asset
 {
