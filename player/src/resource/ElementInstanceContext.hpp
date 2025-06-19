@@ -2,8 +2,6 @@
 
 #include <memory>
 
-import ElementInstance;
-
 namespace element
 {
     class Element;

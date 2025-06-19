@@ -9,10 +9,10 @@
 
 #include "event/ElementHandle.hpp"
 #include "juce_data_structures/juce_data_structures.h"
+#include "resource/ElementInstance.hpp"
+#include "resource/ElementInstanceContext.hpp"
 #include "resource/SharedResource.hpp"
 #include "state/ConditionList.hpp"
-
-import ElementInstance;
 
 namespace sm
 {

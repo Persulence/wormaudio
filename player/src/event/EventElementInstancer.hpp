@@ -1,8 +1,9 @@
 #pragma once
 
 #include "resource/Element.hpp"
+#include "resource/ElementInstance.hpp"
+#include "resource/ElementInstanceContext.hpp"
 
-import ElementInstance;
 import ElementInstanceManager;
 
 namespace event

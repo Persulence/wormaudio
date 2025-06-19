@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <memory>
 
@@ -6,11 +6,9 @@ module;
 
 #include "util/AudioContext.hpp"
 
-export module ElementInstance;
-
 namespace element
 {
-    export class ElementInstance
+    class ElementInstance
     {
     protected:
         player::AudioContext audioContext;
@@ -37,6 +35,6 @@ namespace element
         virtual ~ElementInstance() = default;
     };
 
-    export using ElementInstancePtr = std::shared_ptr<ElementInstance>;
+    using ElementInstancePtr = std::shared_ptr<ElementInstance>;
 }
 

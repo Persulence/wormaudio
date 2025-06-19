@@ -2,12 +2,10 @@
 
 #include <memory>
 
+#include "ElementInstance.hpp"
 #include "SharedResource.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
-#include "ElementInstanceContext.hpp"
-
-import ElementInstance;
 
 namespace element
 {

@@ -3,6 +3,8 @@ module;
 #include <vector>
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "resource/ElementInstance.hpp"
+
 module ElementInstanceManager;
 
 namespace player

@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 
-import ElementInstance;
+#include "resource/ElementInstance.hpp"
 
 class Track : public juce::AudioSource
 {
