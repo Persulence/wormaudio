@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Condition.hpp"
 
 #include "juce_data_structures/juce_data_structures.h"
@@ -10,7 +11,7 @@ namespace condition
     struct TimePos
     {
         ExplicitValue<player::Seconds> value;
-        player::TimeType type;
+        player::TimeType type{player::IN_STATE};
     };
 
     class TimeCondition : public ConditionBase<TimeCondition>

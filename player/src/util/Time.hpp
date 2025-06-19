@@ -3,8 +3,13 @@
 
 namespace player
 {
-    using Clock = std::chrono::steady_clock;
     using Seconds = std::chrono::duration<double>;
+
+    using TimePoint = std::chrono::time_point<std::chrono::steady_clock>;
+
+    struct Clock : std::chrono::steady_clock
+    {
+    };
 
     enum TimeType
     {

@@ -31,7 +31,7 @@ namespace event
             automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))
         {}
 
-        void logicTick(const sm::ParameterLookup& parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport)
+        void logicTick(sm::ParameterLookup &parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport)
         {
             if (!transport.stopped())
             {

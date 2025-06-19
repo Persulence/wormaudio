@@ -6,10 +6,7 @@ namespace condition
 {
     bool TimeCondition::testImpl(const sm::ParameterLookup &pl) const
     {
-        auto seconds = pl.getTime(time.type);
-
-
-
-        return true;
+        const auto seconds = pl.getTime(time.type);
+        return seconds > *time.value;
     }
 }

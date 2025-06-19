@@ -42,7 +42,7 @@ namespace event
     public:
         explicit StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>>& states, const resource::Handle<sm::StateDef> &start);
 
-        bool logicTick(const sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport);
+        bool logicTick(sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport);
         void stop() const;
 
     private:

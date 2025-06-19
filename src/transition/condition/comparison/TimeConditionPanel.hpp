@@ -6,15 +6,17 @@ namespace ui
     class TimeConditionPanel : public ConditionPanel
     {
     public:
-        explicit TimeConditionPanel(condition::TimeCondition& condition_):
-            condition(condition_)
-        {
-
-        }
+        explicit TimeConditionPanel(condition::TimeCondition& condition_);
 
         void paint(juce::Graphics &g) override;
 
+        void resized() override
+        {
+            label.setBounds(getLocalBounds());
+        }
+
     private:
         condition::TimeCondition &condition;
+        juce::Label label;
     };
 }

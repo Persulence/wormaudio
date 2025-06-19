@@ -8,6 +8,7 @@
 
 namespace sm
 {
+    using namespace player;
     void ParameterLookup::refresh(event::ParameterList &list)
     {
         std::unordered_map<std::string, std::unique_ptr<parameter::ParameterInstance>> newInstances;
@@ -29,20 +30,20 @@ namespace sm
         instances = std::move(newInstances);
     }
 
-    void ParameterLookup::resetTimer()
+    void ParameterLookup::resetStateTimer()
     {
-
+        lastStateEnter = Clock::now();
     }
 
-    player::Seconds ParameterLookup::getTime(player::TimeType type) const
+    Seconds ParameterLookup::getTime(TimeType type) const
     {
-        if (type == player::TimeType::IN_STATE)
+        if (type == IN_STATE)
         {
-            return static_cast<player::Seconds>(0);
+            return std::chrono::duration_cast<Seconds>(Clock::now() - lastStateEnter);
         }
         else
         {
-            return static_cast<player::Seconds>(0);
+            return static_cast<Seconds>(0);
         }
     }
 }

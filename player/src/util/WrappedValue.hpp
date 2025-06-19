@@ -7,29 +7,31 @@
     template<typename T>
     struct ExplicitValue final : juce::Value::Listener
     {
-        T currentValue{};
-
         juce::Value backing;
 
         ExplicitValue()
         {
-            backing.addListener(this);
+            // backing.addListener(this);
         }
 
         void valueChanged(juce::Value &value) override
         {
-            currentValue = static_cast<T>(value.getValue());
+            // currentValue = static_cast<T>(value.getValue());
         }
 
-        operator const T&()
+        T operator*() const
         {
-            return currentValue;
+            // return currentValue;
+            return  static_cast<T>(backing.getValue());
         }
 
         void operator=(const T& val)
         {
             backing.setValue(val);
         }
+
+    private:
+        // T currentValue{};
     };
 
     struct WrappedValue : juce::Value::Listener

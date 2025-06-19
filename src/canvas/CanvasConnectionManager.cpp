@@ -127,7 +127,7 @@ namespace ui
     void CanvasConnectionManager::makeConnection(StateNodeWidget *from, StateNodeWidget *to)
     {
         sm::Transition1::Ptr transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, to->getState());
-        transition->conditions->insertCondition(condition::ComparisonCondition{});
+        // transition->conditions->insertCondition(condition::ComparisonCondition{});
         from->getState()->insertTransition(transition);
 
         refreshTransitionWidgets();

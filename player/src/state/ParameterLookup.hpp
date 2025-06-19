@@ -15,7 +15,7 @@ namespace sm
 
         void refresh(event::ParameterList& list);
 
-        void resetTimer();
+        void resetStateTimer();
 
         player::Seconds getTime(player::TimeType type) const;
 
@@ -38,5 +38,8 @@ namespace sm
         {
             return *instances.at(name);
         }
+
+    private:
+        player::TimePoint lastStateEnter;
     };
 }

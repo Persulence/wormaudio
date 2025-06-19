@@ -45,7 +45,7 @@ namespace event
         }
     }
 
-    bool StateMachineInstance::logicTick(const ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport)
+    bool StateMachineInstance::logicTick(ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport)
     {
         bool transitionOccurred = false;
         auto prevState = currentState;
@@ -57,6 +57,7 @@ namespace event
                 {
                     currentState = nextState;
                     transitionOccurred = true;
+                    parameters.resetStateTimer();
                     // std::cout << "Moving to state " << nextState->instance->getName() << "\n";
                 }
             }
