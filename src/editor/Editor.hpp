@@ -153,6 +153,7 @@ namespace editor
                 runtime = nullptr;
             }
 
+            project = nullptr;
             instance = nullptr;
             event = nullptr;
         }
