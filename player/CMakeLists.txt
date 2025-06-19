@@ -80,15 +80,9 @@ target_include_directories(${LIBRARY_TARGET}
 
 )
 
-#target_sources(${LIBRARY_TARGET}
-#        PRIVATE
-#        Source/Main.cpp
-#        Source/MainComponent.cpp
-#)
-
-file(GLOB_RECURSE ModuleFiles
-        CONFIGURE_DEPENDS
-        "src/*.ixx")
+#file(GLOB_RECURSE ModuleFiles
+#        CONFIGURE_DEPENDS
+#        "src/*.ixx")
 
 file(GLOB_RECURSE SourceFiles
         CONFIGURE_DEPENDS
@@ -96,10 +90,10 @@ file(GLOB_RECURSE SourceFiles
         "src/*.h")
 
 target_sources("${LIBRARY_TARGET}"
-        PUBLIC
-            FILE_SET CXX_MODULES
-            FILES
-            ${ModuleFiles}
+#        PUBLIC
+#            FILE_SET CXX_MODULES
+#            FILES
+#            ${ModuleFiles}
         PUBLIC
             ${SourceFiles})
 
