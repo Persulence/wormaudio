@@ -20,7 +20,7 @@ namespace ui
         // ElementBrowserPanel elementBrowser;
 
         BorderPanel<FileBrowserPanel> fileBrowserBorder{};
-        BorderPanel<ElementBrowserPanel> elementBrowserBorder{};
+        BorderPanel<ElementBrowserPanel> elementBrowserBorder;
         BorderPanel<OutlinePanel> outline;
         BorderPanel<TransportPanel> transport{};
 

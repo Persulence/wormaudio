@@ -14,7 +14,7 @@ namespace parameter
         return regex_match(name, PARAMETER_REGEX);
     }
 
-    ParameterValue parameter::parseValue(const std::string &text)
+    ParameterValue parseValue(const std::string &text)
     {
         try
         {

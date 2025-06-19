@@ -12,7 +12,7 @@
 set(LIBRARY_TARGET player)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
-set(CMAKE_CXX_COMPILER /usr/bin/clang++)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)
 #set(CMAKE_GENERATOR Ninja)
 
 cmake_minimum_required(VERSION 4.0)
