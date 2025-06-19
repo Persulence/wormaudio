@@ -1,9 +1,6 @@
 #pragma once
 
-#include "juce_gui_basics/juce_gui_basics.h"
 #include "ParameterConfigPanel.hpp"
-
-import parameter;
 
 struct Eraser
 {
@@ -11,7 +8,7 @@ struct Eraser
     {
     };
 
-    Eraser(auto data)
+    explicit Eraser(auto data)
     {
         using Type = std::decay_t<decltype(data)>;
         // using Type = decltype(data);

@@ -9,8 +9,6 @@
 #include "condition/ComparisonCondition.hpp"
 #include "condition/Condition.hpp"
 
-import parameter;
-
 namespace condition
 {
     struct ThingCondition : ConditionBase<ThingCondition>

@@ -6,8 +6,6 @@
 
 #include "state/ParameterLookup.hpp"
 
-import parameter;
-
 namespace condition
 {
     struct ParameterOperand

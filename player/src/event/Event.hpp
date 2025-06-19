@@ -10,8 +10,6 @@
 #include "state/StateMachineDefinition.hpp"
 #include "resource/SharedResource.hpp"
 
-import parameter;
-
 namespace event
 {
     class EventInstance;

@@ -5,8 +5,7 @@
 
 #include "juce_core/system/juce_PlatformDefs.h"
 #include "resource/SharedResource.hpp"
-
-import parameter;
+#include "state/Parameter.hpp"
 
 namespace event
 {

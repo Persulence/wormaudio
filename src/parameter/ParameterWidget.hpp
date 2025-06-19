@@ -5,8 +5,6 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "util/WrappedValue.hpp"
 
-import parameter;
-
 namespace ui
 {
     class ParameterWidget : public juce::Component, public SelectionTarget, public ParameterProperties::OnChange::Listener, public std::enable_shared_from_this<ParameterWidget>

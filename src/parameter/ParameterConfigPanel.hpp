@@ -7,8 +7,6 @@
 #include "panel/MyPropertyPanel.hpp"
 #include "signal/Signal.hpp"
 
-import parameter;
-
 namespace ui
 {
     class ParameterTypePropertyWidget : public PropertyWidget

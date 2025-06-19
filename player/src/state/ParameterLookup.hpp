@@ -5,8 +5,6 @@
 
 #include "../event/ParameterList.hpp"
 
-import parameter;
-
 namespace sm
 {
     class ParameterLookup

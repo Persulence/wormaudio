@@ -4,8 +4,6 @@
 #include "editor/Editor.hpp"
 #include "panel/Panel.hpp"
 
-import parameter;
-
 namespace ui
 {
     class ParameterPanel : public Panel, public editor::Lifecycle::Listener, public editor::ParametersChanged::Listener

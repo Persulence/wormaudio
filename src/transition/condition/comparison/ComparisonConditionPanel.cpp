@@ -3,8 +3,6 @@
 #include "ComparisonComboBox.hpp"
 #include "editor/Editor.hpp"
 
-import parameter;
-
 namespace ui
 {
     using namespace juce;

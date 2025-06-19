@@ -1,4 +1,4 @@
-module;
+#pragma once
 
 #include <algorithm>
 #include <string>
@@ -11,26 +11,24 @@ module;
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
 
-export module parameter;
-
-export using ParameterValue = float;
+using ParameterValue = float;
 
 namespace parameter
 {
-    export class ParameterDef;
+    class ParameterDef;
 
-    export enum ParameterType
+    enum ParameterType
     {
         CONTINUOUS,
         DISCRETE,
         ENUM,
     };
 
-    export bool isValidName(const std::string &name);
-    export ParameterValue parseValue(const std::string& text);
-    export std::string toString(ParameterValue value);
-    export ParameterType getType(const ParameterDef& def);
-    export template<class T> ParameterType getType();
+    bool isValidName(const std::string &name);
+    ParameterValue parseValue(const std::string& text);
+    std::string toString(ParameterValue value);
+    ParameterType getType(const ParameterDef& def);
+    template<class T> ParameterType getType();
 
     struct ParameterDefBase
     {
@@ -50,7 +48,7 @@ namespace parameter
         }
     };
 
-    export struct ContinuousParameterDef : ParameterDefBase
+    struct ContinuousParameterDef : ParameterDefBase
     {
         // TODO cache for playing events
         // ParameterValue min;
@@ -73,7 +71,7 @@ namespace parameter
         }
     };
 
-    export struct DiscreteParameterDef : ParameterDefBase
+    struct DiscreteParameterDef : ParameterDefBase
     {
         juce::Value min;
         juce::Value max;
@@ -90,7 +88,7 @@ namespace parameter
         }
     };
 
-    export struct EnumParameterDef : ParameterDefBase
+    struct EnumParameterDef : ParameterDefBase
     {
         struct Entry
         {
@@ -123,7 +121,7 @@ namespace parameter
 
     using ParameterDefVariant = std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef>;
 
-    export class ParameterDef : public resource::SharedResource, public ParameterDefVariant
+    class ParameterDef : public resource::SharedResource, public ParameterDefVariant
     {
     public:
         explicit ParameterDef(std::variant<ContinuousParameterDef, DiscreteParameterDef, EnumParameterDef> value):
@@ -161,9 +159,9 @@ namespace parameter
         // JUCE_DECLARE_NON_COPYABLE(ParameterDef)
     };
 
-    export using Parameter = resource::Handle<ParameterDef>;
+    using Parameter = resource::Handle<ParameterDef>;
 
-    export struct ParameterInstance
+    struct ParameterInstance
     {
         Parameter parameter;
         ParameterValue value{};
@@ -190,17 +188,20 @@ namespace parameter
     };
 
 
-    export template<> ParameterType getType<ContinuousParameterDef>()
+    template<>
+    inline ParameterType getType<ContinuousParameterDef>()
     {
         return CONTINUOUS;
     }
 
-    export template<> ParameterType getType<DiscreteParameterDef>()
+    template<>
+    inline ParameterType getType<DiscreteParameterDef>()
     {
         return DISCRETE;
     }
 
-    export template<> ParameterType getType<EnumParameterDef>()
+    template<>
+    inline ParameterType getType<EnumParameterDef>()
     {
         return ENUM;
     }

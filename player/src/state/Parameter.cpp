@@ -1,11 +1,9 @@
-module;
+#include "Parameter.hpp"
 
 #include <cassert>
 #include <format>
 #include <regex>
 #include <variant>
-
-module parameter;
 
 namespace parameter
 {

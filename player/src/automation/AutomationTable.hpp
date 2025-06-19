@@ -3,8 +3,7 @@
 #include "AutomationRegistry.hpp"
 #include "Mapping.hpp"
 #include "juce_core/juce_core.h"
-
-import parameter;
+#include "state/Parameter.hpp"
 
 namespace automation
 {

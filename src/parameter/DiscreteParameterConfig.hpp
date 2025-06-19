@@ -4,8 +4,6 @@
 #include "ParameterConfigPanel.hpp"
 #include "editor/Editor.hpp"
 
-import parameter;
-
 namespace ui
 {
     class DiscreteParameterConfig : public BaseParameterDefProperties<parameter::DiscreteParameterDef>
