@@ -11,23 +11,10 @@
 #include "LogicTicker.hpp"
 #include "../event/ParameterList.hpp"
 #include "event/EventInstance.hpp"
-#include "resource/Resource.fwd.hpp"
-#include "resource/Asset.hpp"
-#include "resource/ResourceLoader.hpp"
 
 namespace runtime
 {
     class Runtime;
-
-    inline asset::ResourceLoader::Ptr getResourceLoader()
-    {
-        return asset::ResourceLoader::getInstance();
-    }
-
-    inline asset::AssetHandle createResource(const juce::File& file)
-    {
-        return std::make_shared<asset::Asset>(getResourceLoader(), file);
-    }
 
     class Runtime : AudioEntryPoint, player::TransportCallback::Listener
     {

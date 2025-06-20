@@ -8,8 +8,6 @@
 #include "event/Event.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
-#include "runtime/Runtime.hpp"
-#include "util/GuiResources.hpp"
 
 namespace ui
 {
@@ -133,7 +131,7 @@ namespace ui
         {
             if (auto source = FileDragSource::test(dragSourceDetails))
             {
-                auto asset = runtime::createResource(source->getFile());
+                auto asset = asset::createAsset(source->getFile());
                 auto handle = resource->reg(std::make_unique<element::ClipElement>(asset));
                 refresh();
             }
@@ -247,7 +245,7 @@ namespace ui
             if (auto source = FileDragSource::test(dragSourceDetails))
             {
                 auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
-                choice->addClip(runtime::createResource(source->getFile()));
+                choice->addClip(asset::createAsset(source->getFile()));
                 refresh(this, true);
             }
         }

@@ -4,10 +4,10 @@
 #include "automation/Mapping.hpp"
 #include "browser/FileDragSource.hpp"
 #include "editor/Editor.hpp"
+#include "resource/Asset.hpp"
 #include "resource/ChoiceElement.hpp"
 
 #include "resource/ClipElement.hpp"
-#include "runtime/Runtime.hpp"
 
 namespace ui
 {
@@ -115,7 +115,7 @@ namespace ui
         {
             if (auto source = FileDragSource::test(dragSourceDetails))
             {
-                auto resource = runtime::createResource(source->getFile());
+                auto resource = asset::createAsset(source->getFile());
                 element.addClip(resource);
 
                 repaint();

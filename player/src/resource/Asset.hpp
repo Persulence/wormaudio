@@ -13,6 +13,16 @@ namespace asset
         PRELOAD
     };
 
+    inline ResourceLoader::Ptr getResourceLoader()
+    {
+        return ResourceLoader::getInstance();
+    }
+
+    inline AssetHandle createAsset(const juce::File& file)
+    {
+        return std::make_shared<Asset>(getResourceLoader(), file);
+    }
+
     class Asset
     {
         const juce::File file;

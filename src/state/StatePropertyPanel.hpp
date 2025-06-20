@@ -7,8 +7,8 @@
 #include "ElementRegionWidget.hpp"
 #include "../browser/element/ElementDragSource.hpp"
 #include "editor/Editor.hpp"
+#include "resource/Asset.hpp"
 
-#include "runtime/Runtime.hpp"
 #include "resource/ClipElement.hpp"
 
 namespace ui
@@ -69,7 +69,7 @@ namespace ui
 
         void receiveFile(const juce::File &file)
         {
-            auto resource = runtime::createResource(file);
+            auto resource = asset::createAsset(file);
             auto element = std::make_shared<element::ClipElement>(resource);
 
             const auto event = editor::Editor::getInstance().getEvent();

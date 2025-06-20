@@ -1,8 +1,8 @@
 #include "ElementBrowserPanel.hpp"
 
 #include "../FileDragSource.hpp"
+#include "resource/Asset.hpp"
 #include "resource/ChoiceElement.hpp"
-#include "runtime/Runtime.hpp"
 #include "resource/ClipElement.hpp"
 
 // #define MEMFN(fn) std::bind(&fn, this)
@@ -95,7 +95,7 @@ namespace ui
         if (auto other = dynamic_cast<FileDragSource*>(source))
         {
             // Create and register a new clip element
-            auto resource = runtime::createResource(other->getFile());
+            auto resource = asset::createAsset(other->getFile());
             auto element = std::make_shared<element::ClipElement>(resource);
             auto handle = event->getElements().reg(element);
         }
