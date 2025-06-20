@@ -16,12 +16,10 @@ namespace runtime
 
     class Runtime : AudioEntryPoint, player::TransportCallback::Listener
     {
-        std::vector<event::EventInstance::Ptr> instances;
-        player::ElementInstanceManager elementManager;
-        sm::ParameterLookup parameters;
 
     public:
         player::TransportControl transport;
+        player::AudioContext audioContext;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime)
 
@@ -41,9 +39,14 @@ namespace runtime
         void releaseResources() override;
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
 
-        void logicTick();
-
     private:
+        std::vector<event::EventInstance::Ptr> instances;
+        player::ElementInstanceManager elementManager;
+        sm::ParameterLookup parameters;
+
+        size_t samplesPast{};
+
+        void logicTick();
     };
 
 }

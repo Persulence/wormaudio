@@ -4,8 +4,10 @@
 namespace player
 {
     using Seconds = std::chrono::duration<double>;
+    using TimePoint = std::chrono::time_point<std::chrono::steady_clock, Seconds>;
+    using Sample = int;
 
-    using TimePoint = std::chrono::time_point<std::chrono::steady_clock>;
+    constexpr Sample NULL_SAMPLE = -1;
 
     struct Clock : std::chrono::steady_clock
     {

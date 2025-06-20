@@ -15,9 +15,9 @@ namespace sm
 
         void refresh(event::ParameterList& list);
 
-        void resetStateTimer();
+        void resetStateTimer(player::Sample sample);
 
-        player::Seconds getTime(player::TimeType type) const;
+        player::Sample getReference(player::TimeType type) const;
 
         ParameterValue getValue(const std::string& name) const
         {
@@ -40,6 +40,6 @@ namespace sm
         }
 
     private:
-        player::TimePoint lastStateEnter;
+        player::Sample lastStateEnter{0};
     };
 }

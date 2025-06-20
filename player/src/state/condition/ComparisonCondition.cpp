@@ -1,5 +1,10 @@
 #include "ComparisonCondition.hpp"
 
+namespace event
+{
+    struct LogicTickInfo;
+}
+
 namespace condition
 {
     void ComparisonCondition::setLeft(const Operand &operand)
@@ -20,9 +25,9 @@ namespace condition
         op = op_;
     }
 
-    bool ComparisonCondition::testImpl(const sm::ParameterLookup &pl) const
+    size_t ComparisonCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const
     {
         // std::lock_guard guard{mutex};
-        return op(pl, left, right);
+        return op(pl, left, right) ? 0 : -1;
     }
 }

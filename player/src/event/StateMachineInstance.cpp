@@ -8,6 +8,7 @@
 #include "graph/StateDef.hpp"
 #include "player/transport.hpp"
 #include "resource/ElementInstanceContext.hpp"
+#include "event/LogicTickInfo.hpp"
 
 namespace event
 {
@@ -45,7 +46,8 @@ namespace event
         }
     }
 
-    bool StateMachineInstance::logicTick(ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport)
+    bool StateMachineInstance::logicTick(ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport,
+        const LogicTickInfo& info)
     {
         bool transitionOccurred = false;
         auto prevState = currentState;
@@ -53,12 +55,12 @@ namespace event
         {
             for (const auto& [conditions, nextState] : currentState->transitions)
             {
-                if (conditions->test(parameters))
+                const player::Sample sample = conditions->test(parameters, info);
+                if (sample != player::NULL_SAMPLE)
                 {
                     currentState = nextState;
                     transitionOccurred = true;
-                    parameters.resetStateTimer();
-                    // std::cout << "Moving to state " << nextState->instance->getName() << "\n";
+                    parameters.resetStateTimer(info.blockBeginSamples);
                 }
             }
         }
@@ -90,8 +92,9 @@ namespace event
         }
     }
 
-    StateEntry & StateMachineInstance::getOrCreateEntry(std::unordered_map<resource::Handle<sm::StateDef>, StateEntry *> &map,
-            Handle<StateDef> state) {
+    StateEntry& StateMachineInstance::getOrCreateEntry(std::unordered_map<Handle<StateDef>, StateEntry *> &map,
+            Handle<StateDef> state)
+    {
         StateEntry* entry;
         if (const auto it = map.find(state); it != map.end())
         {
@@ -100,7 +103,7 @@ namespace event
         else
         {
             entry = entries.emplace_back(std::make_unique<StateEntry>(
-                            std::make_unique<sm::StateInstance>(state), std::vector<Transition>{}))
+                            std::make_unique<StateInstance>(state), std::vector<Transition>{}))
                     .get();
 
             map.emplace(state, entry);

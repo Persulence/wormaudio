@@ -2,6 +2,7 @@
 
 #include <functional>
 #include "../signal/Signal.hpp"
+#include "util/Time.hpp"
 
 #include "util/class_util.h"
 
@@ -31,6 +32,5 @@ namespace player
         void setState(TransportState state_);
         [[nodiscard]] bool stopped() const;
     };
-
 }
 

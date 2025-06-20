@@ -20,6 +20,7 @@ namespace sm
 
 namespace event
 {
+    struct LogicTickInfo;
     struct StateEntry;
 
     struct Transition
@@ -42,7 +43,8 @@ namespace event
     public:
         explicit StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>>& states, const resource::Handle<sm::StateDef> &start);
 
-        bool logicTick(sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport);
+        bool logicTick(sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport,
+            const LogicTickInfo& info);
         void stop() const;
 
     private:

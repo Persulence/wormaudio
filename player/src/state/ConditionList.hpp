@@ -51,27 +51,25 @@ namespace condition
 
         ConditionList() = default;
 
-        Condition& insertCondition(Condition condition)
-        {
-            conditions.push_back(std::move(condition));
+        Condition& insertCondition(Condition condition);
 
-            // Hmmmm
-            return *(conditions.end() - 1);
-        }
+        // const TimeCondition* testTimeConditions(const sm::ParameterLookup& parameters, const event::LogicTickInfo& info) const
+        // {
+        //     for (const auto& condition : conditions)
+        //     {
+        //         if (auto timeCondition = std::get_if<TimeCondition>(&condition))
+        //         {
+        //             if (timeCondition->thisBlock(parameters, info))
+        //             {
+        //                 return timeCondition;
+        //             }
+        //         }
+        //     }
+        //
+        //     return nullptr;
+        // }
 
-        [[nodiscard]] bool test(const sm::ParameterLookup& parameters) const
-        {
-            bool result = true;
-            for (const auto& thing : conditions)
-            {
-                result &= std::visit([&parameters](const auto& cmp)
-                {
-                    return cmp.test(parameters);
-                }, thing);
-            }
-
-            return result;
-        }
+        [[nodiscard]] player::Sample test(const sm::ParameterLookup& parameters, const event::LogicTickInfo &info) const;
     };
 }
 

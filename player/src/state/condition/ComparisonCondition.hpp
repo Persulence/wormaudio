@@ -6,6 +6,11 @@
 #include "Operand.hpp"
 #include "Operator.hpp"
 
+namespace event
+{
+    struct LogicTickInfo;
+}
+
 namespace sm
 {
     class ParameterLookup;
@@ -37,7 +42,7 @@ namespace condition
         Operand getRight() { return right; }
         Operator getOp() { return op; }
 
-        [[nodiscard]] bool testImpl(const sm::ParameterLookup &pl) const;
+        [[nodiscard]] size_t testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
     };
 
 }

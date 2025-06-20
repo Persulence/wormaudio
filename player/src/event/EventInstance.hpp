@@ -7,6 +7,7 @@
 #include "EventElementInstancer.hpp"
 
 #include "EventDef.hpp"
+#include "LogicTickInfo.hpp"
 #include "StateMachineInstance.hpp"
 #include "player/transport.hpp"
 
@@ -31,13 +32,14 @@ namespace event
             automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))
         {}
 
-        void logicTick(sm::ParameterLookup &parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport)
+        void logicTick(sm::ParameterLookup &parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport,
+            const LogicTickInfo& info)
         {
             if (!transport.stopped())
             {
                 EventElementInstancer instancer{context, *automationInstance};
                 automationInstance->logicTick(parameters, transport);
-                stateManager.logicTick(parameters, instancer, transport);
+                stateManager.logicTick(parameters, instancer, transport, info);
             }
             else
             {

@@ -6,6 +6,10 @@
 #include "util/Time.hpp"
 #include "util/WrappedValue.hpp"
 
+namespace event {
+    struct LogicTickInfo;
+}
+
 namespace condition
 {
     struct TimePos
@@ -21,6 +25,8 @@ namespace condition
 
         TimeCondition() = default;
 
-        [[nodiscard]] bool testImpl(const sm::ParameterLookup &pl) const;
+        [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
+
+        bool thisBlock(const sm::ParameterLookup& pl, const event::LogicTickInfo & info) const;
     };
 }

@@ -1,5 +1,7 @@
 #include "Runtime.hpp"
 
+#include "event/LogicTickInfo.hpp"
+
 namespace runtime
 {
     Runtime::Runtime()
@@ -66,6 +68,7 @@ namespace runtime
 
     void Runtime::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     {
+        audioContext = {samplesPerBlockExpected, sampleRate};
         elementManager.prepareToPlay(samplesPerBlockExpected, sampleRate);
     }
 
@@ -76,23 +79,29 @@ namespace runtime
 
     void Runtime::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
     {
+
         if (transport.stopped())
         {
             bufferToFill.clearActiveBufferRegion();
-            return;
+        }
+        else
+        {
+            // TODO: look into making this async
+            logicTick();
+
+            elementManager.getNextAudioBlock(bufferToFill);
         }
 
-        // TODO: look into making this async
-        logicTick();
-
-        elementManager.getNextAudioBlock(bufferToFill);
+        samplesPast += audioContext.samplesPerBlock;
     }
 
     void Runtime::logicTick()
     {
+        // player::Seconds blockBegin = static_cast<player::Seconds>(samplesPast * audioContext.sampleDuration);
+        auto info = event::LogicTickInfo{audioContext, samplesPast};
         for (const auto& instance : instances)
         {
-            instance->logicTick(parameters, elementManager, transport);
+            instance->logicTick(parameters, elementManager, transport, info);
         }
 
         // TODO: make this async

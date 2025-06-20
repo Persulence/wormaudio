@@ -30,20 +30,20 @@ namespace sm
         instances = std::move(newInstances);
     }
 
-    void ParameterLookup::resetStateTimer()
+    void ParameterLookup::resetStateTimer(Sample sample)
     {
-        lastStateEnter = Clock::now();
+        lastStateEnter = sample;
     }
 
-    Seconds ParameterLookup::getTime(TimeType type) const
+    player::Sample ParameterLookup::getReference(TimeType type) const
     {
         if (type == IN_STATE)
         {
-            return std::chrono::duration_cast<Seconds>(Clock::now() - lastStateEnter);
+            return lastStateEnter;
         }
         else
         {
-            return static_cast<Seconds>(0);
+            return 0;
         }
     }
 }
