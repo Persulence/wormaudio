@@ -11,12 +11,10 @@ namespace runtime
                 case player::STARTING:
                     break;
                 case player::PLAYING:
-                    logicTicker->start();
                     break;
                 case player::STOPPING:
                     break;
                 case player::STOPPED:
-                    logicTicker->stop();
                     break;
                 default: ;
             }
@@ -49,18 +47,10 @@ namespace runtime
     void Runtime::connectToDevice()
     {
         start();
-        if (logicTicker == nullptr)
-        {
-            logicTicker = std::make_unique<LogicTicker>();
-            logicTicker->callback = [this]{ logicTick(); };
-        }
     }
 
     void Runtime::disconnect()
     {
-        logicTicker->stop();
-        logicTicker = nullptr;
-
         stop();
     }
 
@@ -91,6 +81,9 @@ namespace runtime
             bufferToFill.clearActiveBufferRegion();
             return;
         }
+
+        // TODO: look into making this async
+        logicTick();
 
         elementManager.getNextAudioBlock(bufferToFill);
     }

@@ -8,7 +8,6 @@
 #include <juce_core/juce_core.h>
 
 #include  "AudioEntryPoint.hpp"
-#include "LogicTicker.hpp"
 #include "event/EventInstance.hpp"
 
 namespace runtime
@@ -20,8 +19,6 @@ namespace runtime
         std::vector<event::EventInstance::Ptr> instances;
         player::ElementInstanceManager elementManager;
         sm::ParameterLookup parameters;
-
-        std::unique_ptr<LogicTicker> logicTicker;
 
     public:
         player::TransportControl transport;

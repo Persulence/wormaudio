@@ -231,11 +231,11 @@ namespace ui
         const auto sharedTo = to.lock();
         if (sharedFrom && sharedTo)
         {
-            return std::make_shared<TransitionPropertyPanel>(sharedFrom->getState()->getTransitions().at(sharedTo->getState().get()));
+            return std::make_unique<TransitionPropertyPanel>(sharedFrom->getState()->getTransitions().at(sharedTo->getState().get()));
         }
 
-        // TODO
-        throw std::exception{};
+        // Return an empty component if this is invalidated
+        return std::make_unique<Component>();
     }
 
     void TransitionArrowComponent::onSelect()
