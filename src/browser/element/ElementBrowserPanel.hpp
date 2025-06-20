@@ -3,7 +3,7 @@
 #include "ElementListPanel.hpp"
 #include "panel/Panel.hpp"
 #include "event/ElementList.hpp"
-#include "event/Event.hpp"
+#include "event/EventDef.hpp"
 
 namespace ui
 {
@@ -13,7 +13,7 @@ namespace ui
         public event::ElementList::OnChange::Listener
     {
     public:
-        explicit ElementBrowserPanel(event::Event::Ptr event_);
+        explicit ElementBrowserPanel(event::EventDef::Ptr event_);
         void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
@@ -27,7 +27,7 @@ namespace ui
 
     private:
         ElementListPanel listPanel;
-        event::Event::Ptr event;
+        event::EventDef::Ptr event;
     };
 }
 

@@ -6,7 +6,7 @@
 #include "AutomationTableInstance.hpp"
 #include "EventElementInstancer.hpp"
 
-#include "Event.hpp"
+#include "EventDef.hpp"
 #include "StateMachineInstance.hpp"
 #include "player/transport.hpp"
 
@@ -15,7 +15,7 @@ namespace event
     class EventInstance
     {
     protected:
-        Event::Ptr parent;
+        EventDef::Ptr parent;
         StateMachineInstance stateManager;
 
     public:
@@ -25,7 +25,7 @@ namespace event
 
         std::unique_ptr<automation::AutomationTableInstance> automationInstance;
 
-        explicit EventInstance(Event::Ptr parent_):
+        explicit EventInstance(EventDef::Ptr parent_):
             parent(std::move(parent_)),
             stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
             automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))

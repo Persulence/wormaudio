@@ -7,7 +7,7 @@ namespace editor
     Editor::Editor()
     {
         project = resource::make<resource::Project>();
-        event = project->addEvent(event::Event::create());
+        event = project->addEvent(event::EventDef::create());
 
         globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
         loadEvent(event);

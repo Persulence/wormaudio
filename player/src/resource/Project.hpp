@@ -1,6 +1,6 @@
 #pragma once
 #include "SharedResource.hpp"
-#include "event/Event.hpp"
+#include "event/EventDef.hpp"
 #include "event/ParameterList.hpp"
 
 namespace resource
@@ -9,7 +9,7 @@ namespace resource
     {
     public:
         Handle<event::ParameterListImpl> globalParameters;
-        std::vector<Handle<event::Event>> events;
+        std::vector<Handle<event::EventDef>> events;
 
         Project()
         {
@@ -29,7 +29,7 @@ namespace resource
             return result;
         }
 
-        Handle<event::Event> addEvent(Handle<event::Event> event)
+        Handle<event::EventDef> addEvent(Handle<event::EventDef> event)
         {
             events.push_back(event);
             return event;

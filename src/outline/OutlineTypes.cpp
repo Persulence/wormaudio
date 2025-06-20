@@ -5,7 +5,7 @@
 #include "browser/FileDragSource.hpp"
 #include "browser/element/ElementDragSource.hpp"
 #include "editor/Editor.hpp"
-#include "event/Event.hpp"
+#include "event/EventDef.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
 
@@ -14,10 +14,10 @@ namespace ui
     using namespace juce;
     using namespace resource;
 
-    class SoundEventItem : public SharedResourceItem<event::Event>
+    class SoundEventItem : public SharedResourceItem<event::EventDef>
     {
     public:
-        explicit SoundEventItem(const Handle<event::Event> &resource) :
+        explicit SoundEventItem(const Handle<event::EventDef> &resource) :
             SharedResourceItem(resource) {}
 
         class Comp : public OutlineItemComponent
@@ -261,7 +261,7 @@ namespace ui
     void OutlineTypeRegistry::regDefaults()
     {
         // registry.reg<event::Event>([](auto handle) { return std::make_unique<SoundEventItem>(handle); });
-        REG(event::Event, make_unique<SoundEventItem>(handle); )
+        REG(event::EventDef, make_unique<SoundEventItem>(handle); )
         REG(sm::StateMachineDefinition, make_unique<StateMachineDefinitionItem>(handle); )
         REG(sm::StateDef, make_unique<StateDefItem>(handle); )
         REG(event::ParameterListImpl, make_unique<ParameterListItem>(handle); )

@@ -14,19 +14,19 @@ namespace event
 {
     class EventInstance;
 
-    class Event : public resource::SharedResource, public std::enable_shared_from_this<Event>
+    class EventDef : public resource::SharedResource, public std::enable_shared_from_this<EventDef>
     {
         struct Private {};
 
     public:
         // using Ptr = juce::ReferenceCountedObjectPtr<Event>;
-        using Ptr = std::shared_ptr<Event>;
+        using Ptr = std::shared_ptr<EventDef>;
 
-        Event(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
+        EventDef(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
 
         static Ptr create()
         {
-            return std::make_shared<Event>(Private{}, std::make_unique<automation::AutomationTable>(), "Event");
+            return std::make_shared<EventDef>(Private{}, std::make_unique<automation::AutomationTable>(), "Event");
         }
 
         const resource::Handle<sm::StateMachineDefinition>& getDefinition()

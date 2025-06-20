@@ -29,7 +29,7 @@ namespace ui
 {
     using namespace juce;
 
-    ElementBrowserPanel::ElementBrowserPanel(event::Event::Ptr event_):
+    ElementBrowserPanel::ElementBrowserPanel(event::EventDef::Ptr event_):
         event(std::move(event_))
     {
         addAndMakeVisible(listPanel);

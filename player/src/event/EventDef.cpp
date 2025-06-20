@@ -1,4 +1,4 @@
-#include "Event.hpp"
+#include "EventDef.hpp"
 
 #include <memory>
 
@@ -8,7 +8,7 @@
 
 namespace event
 {
-    Event::Event(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name_):
+    EventDef::EventDef(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name_):
         definition(std::make_shared<sm::StateMachineDefinition>()),
         automation(std::move(automationTable)),
         elementList(resource::make<ElementList>(*automation)),
@@ -17,7 +17,7 @@ namespace event
         name = juce::String{name_};
     }
 
-    std::shared_ptr<EventInstance> Event::instantiate()
+    std::shared_ptr<EventInstance> EventDef::instantiate()
     {
         return std::make_shared<EventInstance>(shared_from_this());
     }

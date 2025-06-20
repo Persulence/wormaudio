@@ -11,7 +11,7 @@ namespace editor
     public:
         using Ptr = std::shared_ptr<EditorEventInstance>;
 
-        explicit EditorEventInstance(event::Event::Ptr parent_);
+        explicit EditorEventInstance(event::EventDef::Ptr parent_);
         void refresh();
     };
 }
