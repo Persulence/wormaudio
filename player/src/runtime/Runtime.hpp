@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Runtime.fwd.hpp"
+
 #include <memory>
 
 #include <juce_audio_basics/juce_audio_basics.h>

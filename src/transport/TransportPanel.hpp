@@ -1,7 +1,6 @@
 #pragma once
 
-#include <runtime/Runtime.hpp>
-#include <editor/Editor.hpp>
+#include "editor/Editor.hpp"
 
 #include "panel/Panel.hpp"
 #include "util/GuiResources.hpp"

@@ -3,8 +3,6 @@
 #include "canvas/StateNodeWidget.hpp"
 #include "util/GuiUtil.hpp"
 
-#include "resource/ClipElement.hpp"
-
 namespace ui
 {
     using namespace juce;

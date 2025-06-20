@@ -7,11 +7,7 @@
 #include "event/Event.hpp"
 #include "resource/Project.hpp"
 #include "state/StateMachineDefinition.hpp"
-
-namespace runtime
-{
-    class Runtime;
-}
+#include "runtime/Runtime.fwd.hpp"
 
 namespace editor
 {

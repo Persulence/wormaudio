@@ -5,6 +5,7 @@
 #include "theme/MainLookAndFeel.hpp"
 #include "panel/BorderPanel.hpp"
 #include "editor/Editor.hpp"
+#include "runtime/Runtime.hpp"
 
 using namespace juce;
 
