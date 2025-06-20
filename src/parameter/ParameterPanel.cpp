@@ -4,6 +4,7 @@
 #include <ranges>
 
 #include "editor/Editor.hpp"
+#include "runtime/Runtime.hpp"
 
 namespace ui
 {

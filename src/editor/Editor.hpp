@@ -1,13 +1,17 @@
 #pragma once
 
 #include <cassert>
-#include <runtime/Runtime.hpp>
 
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
 #include "event/Event.hpp"
 #include "resource/Project.hpp"
 #include "state/StateMachineDefinition.hpp"
+
+namespace runtime
+{
+    class Runtime;
+}
 
 namespace editor
 {
@@ -27,33 +31,10 @@ namespace editor
         EditorEventInstance::Ptr instance;
         std::unique_ptr<EditorParameterList> globalParameters;
 
-        // TODO: using a single, hardcoded event for testing
-        Editor()
-        {
-            project = resource::make<resource::Project>();
-            event = project->addEvent(event::Event::create());
+        Editor();
+        ~Editor();
 
-            globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
-            loadEvent(event);
-
-            globalParameters->changed.setup(this, [this](){ refreshParameters(); });
-            // EditorParameterList::Changed::Listener::listen(globalParameters.changed, [this](){ refreshParameters(); });
-
-            // quit.setInfo("Quit", "Quit the application", "app", 0);
-            // commands.registerCommand(quit);
-            // commands.registerAllCommandsForTarget()
-
-            // commands.invokeDirectly(quit.commandID, false);
-        }
-
-        void refreshParameters()
-        {
-            // Set up global parameters
-            if (runtime)
-                runtime->getParameters().refresh(*project->globalParameters);
-
-            parametersChanged.emit();
-        }
+        void refreshParameters();
 
         void loadEvent(const event::Event::Ptr& event)
         {
@@ -80,11 +61,7 @@ namespace editor
             return *runtime;
         }
 
-        void startRuntime()
-        {
-            runtime = std::make_unique<runtime::Runtime>();
-            lifecycleChanged.emit(0);
-        }
+        void startRuntime();
 
         event::Event::Ptr getEvent()
         {
@@ -96,65 +73,16 @@ namespace editor
             return event->getDefinition();
         }
 
-        void play()
-        {
-            // Rebuild the instance's state machine
-            instance->refresh();
+        void play();
 
-            auto& runtime = getRuntime();
-            transportSignal.emit(player::PLAYING);
-            // auto instance = runtime.instantiate(event);
-            runtime.addInstance(instance);
-
-            instance->transport.signal.setup(this, [this](auto state)
-            {
-                setState(state, true);
-            });
-
-            instance->transport.setState(player::PLAYING);
-
-            runtime.transport.setState(player::PLAYING);
-        }
-
-        void setState(player::TransportState state, bool notify)
-        {
-            switch (state)
-            {
-                case player::STOPPING:
-                    break;
-                case player::STOPPED:
-                    getRuntime().clearInstances();
-                    getRuntime().transport.setState(player::STOPPED);
-                    break;
-                case player::STARTING:
-                    // TODO
-                    break;
-                case player::PLAYING:
-                    // TODO
-                    break;
-            }
-            if (notify)
-                transportSignal.emit(state);
-        }
+        void setState(player::TransportState state, bool notify);
 
         void stop()
         {
             setState(player::STOPPED, true);
         }
 
-        void shutdown()
-        {
-            if (runtime)
-            {
-                stop();
-                runtime->disconnect();
-                runtime = nullptr;
-            }
-
-            project = nullptr;
-            instance = nullptr;
-            event = nullptr;
-        }
+        void shutdown();
 
         EditorParameterList& getEditorParameters() const
         {

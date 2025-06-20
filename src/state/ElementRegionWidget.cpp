@@ -7,6 +7,7 @@
 #include "resource/ChoiceElement.hpp"
 
 #include "resource/ClipElement.hpp"
+#include "runtime/Runtime.hpp"
 
 namespace ui
 {
