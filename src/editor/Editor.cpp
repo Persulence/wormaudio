@@ -12,7 +12,7 @@ namespace editor
         globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
         loadEvent(event);
 
-        globalParameters->changed.setup(this, [this](){ refreshParameters(); });
+        globalParameters->changed.setup(this, [this]() { refreshParameters(); });
     }
 
     Editor::~Editor() = default;
@@ -26,16 +26,18 @@ namespace editor
         parametersChanged.emit();
     }
 
-    void Editor::startRuntime() {
+    void Editor::startRuntime()
+    {
         runtime = std::make_unique<runtime::Runtime>();
         lifecycleChanged.emit(0);
     }
 
-    void Editor::play() {
+    void Editor::play()
+    {
         // Rebuild the instance's state machine
         instance->refresh();
 
-        auto& runtime = getRuntime();
+        auto &runtime = getRuntime();
         transportSignal.emit(player::PLAYING);
         // auto instance = runtime.instantiate(event);
         runtime.addInstance(instance);
@@ -50,7 +52,8 @@ namespace editor
         runtime.transport.setState(player::PLAYING);
     }
 
-    void Editor::setState(player::TransportState state, bool notify) {
+    void Editor::setState(player::TransportState state, bool notify)
+    {
         switch (state)
         {
             case player::STOPPING:
@@ -66,11 +69,16 @@ namespace editor
                 // TODO
                 break;
         }
+
         if (notify)
+        {
+            juce::MessageManagerLock lock;
             transportSignal.emit(state);
+        }
     }
 
-    void Editor::shutdown() {
+    void Editor::shutdown()
+    {
         if (runtime)
         {
             stop();
