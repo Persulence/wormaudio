@@ -1,9 +1,8 @@
 #pragma once
 #include <memory>
-#include <bits/stl_vector.h>
 
 #include "Automation.hpp"
-#include "juce_core/system/juce_PlatformDefs.h"
+#include "util/class_util.h"
 #include "signal/Signal.hpp"
 
 using AutomationValue = float;

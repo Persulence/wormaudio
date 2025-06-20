@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "juce_core/system/juce_PlatformDefs.h"
+#include "util/class_util.h"
 #include "resource/SharedResource.hpp"
 #include "state/Parameter.hpp"
 

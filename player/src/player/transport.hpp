@@ -3,7 +3,7 @@
 #include <functional>
 #include "../signal/Signal.hpp"
 
-#include "juce_core/system/juce_PlatformDefs.h"
+#include "util/class_util.h"
 
 namespace player
 {

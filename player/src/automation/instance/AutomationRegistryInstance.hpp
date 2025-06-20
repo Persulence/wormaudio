@@ -4,7 +4,7 @@
 
 #include "automation/AutomationRegistry.hpp"
 #include "automation/PropertyProvider.hpp"
-#include "juce_core/system/juce_PlatformDefs.h"
+#include "util/class_util.h"
 
 namespace automation
 {

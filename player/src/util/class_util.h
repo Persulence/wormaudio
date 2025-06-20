@@ -1,4 +1,5 @@
 #pragma once
 
-/// Gives access to this header with fewer characters
-#include "juce_core/system/juce_PlatformDefs.h"
+// TODO: Actually put something here or remove it
+
+#include "juce_core/juce_core.h"
