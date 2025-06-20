@@ -13,7 +13,7 @@ namespace ui
         public event::ElementList::OnChange::Listener
     {
     public:
-        explicit ElementBrowserPanel(event::EventDef::Ptr event_);
+        explicit ElementBrowserPanel(resource::Handle<event::EventDef> event_);
         void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
@@ -27,7 +27,7 @@ namespace ui
 
     private:
         ElementListPanel listPanel;
-        event::EventDef::Ptr event;
+        resource::Handle<event::EventDef> event;
     };
 }
 

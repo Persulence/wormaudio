@@ -23,7 +23,7 @@ namespace runtime
         });
     }
 
-    event::EventInstance::Ptr Runtime::instantiate(const event::EventDef::Ptr &event)
+    event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)
     {
         auto instance = event->instantiate();
         instances.push_back(instance);

@@ -19,12 +19,10 @@ namespace event
         struct Private {};
 
     public:
-        // using Ptr = juce::ReferenceCountedObjectPtr<Event>;
-        using Ptr = std::shared_ptr<EventDef>;
 
         EventDef(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
 
-        static Ptr create()
+        static resource::Handle<EventDef> create()
         {
             return std::make_shared<EventDef>(Private{}, std::make_unique<automation::AutomationTable>(), "Event");
         }

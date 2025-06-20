@@ -15,7 +15,7 @@ namespace event
     class EventInstance
     {
     protected:
-        EventDef::Ptr parent;
+        resource::Handle<EventDef> parent;
         StateMachineInstance stateManager;
 
     public:
@@ -25,7 +25,7 @@ namespace event
 
         std::unique_ptr<automation::AutomationTableInstance> automationInstance;
 
-        explicit EventInstance(EventDef::Ptr parent_):
+        explicit EventInstance(resource::Handle<EventDef> parent_):
             parent(std::move(parent_)),
             stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
             automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))

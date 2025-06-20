@@ -36,7 +36,7 @@ namespace runtime
         // void setupParameters(std::shared_ptr<event::ParameterList> list);
         sm::ParameterLookup& getParameters();
 
-        event::EventInstance::Ptr instantiate(const event::EventDef::Ptr &event);
+        event::EventInstance::Ptr instantiate(const resource::Handle<event::EventDef> &event);
         void addInstance(const event::EventInstance::Ptr &instance);
         void clearInstances();
 

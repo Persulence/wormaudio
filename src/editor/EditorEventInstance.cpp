@@ -9,7 +9,7 @@ namespace editor
 {
     using namespace event;
 
-    EditorEventInstance::EditorEventInstance(EventDef::Ptr parent_):
+    EditorEventInstance::EditorEventInstance(resource::Handle<EventDef> parent_):
         EventInstance(std::move(parent_))
     {
 

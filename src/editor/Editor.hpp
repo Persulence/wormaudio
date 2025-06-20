@@ -21,7 +21,7 @@ namespace editor
     {
         std::unique_ptr<runtime::Runtime> runtime;
 
-        event::EventDef::Ptr event;
+        resource::Handle<event::EventDef> event;
 
         resource::Handle<resource::Project> project;
         EditorEventInstance::Ptr instance;
@@ -32,7 +32,7 @@ namespace editor
 
         void refreshParameters();
 
-        void loadEvent(const event::EventDef::Ptr& event)
+        void loadEvent(const resource::Handle<event::EventDef>& event)
         {
             refreshParameters();
             instance = std::make_shared<EditorEventInstance>(event);
@@ -59,7 +59,7 @@ namespace editor
 
         void startRuntime();
 
-        event::EventDef::Ptr getEvent()
+        resource::Handle<event::EventDef> getEvent()
         {
             return event;
         }
