@@ -1,6 +1,7 @@
 #include "BaseElementWidget.hpp"
 
 #include "canvas/InspectorSelectionManager.hpp"
+#include "inspector/InspectorRoot.hpp"
 #include "inspector/filler/ElementInspectorFiller.hpp"
 
 namespace ui
@@ -21,6 +22,6 @@ namespace ui
 
     std::shared_ptr<juce::Component> BaseElementWidget::createConfig()
     {
-        return std::make_unique<ElementInspectorFiller>(handle);
+        return InspectorRoot::wrap(std::make_unique<ElementInspectorFiller>(handle));
     }
 }

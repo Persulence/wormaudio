@@ -10,7 +10,6 @@ namespace ui
         explicit EnumParameterConfig(parameter::EnumParameterDef& def_):
             BaseParameterDefProperties(def_)
         {
-            EnumParameterConfig::initProperties();
         }
 
     protected:

@@ -8,6 +8,7 @@
 #include "editor/Editor.hpp"
 #include "../../player/src/util/WrappedValue.hpp"
 #include "canvas/InspectorSelectionManager.hpp"
+#include "inspector/InspectorRoot.hpp"
 #include "widget/SliderWidget.hpp"
 
 namespace ui
@@ -256,10 +257,6 @@ namespace ui
 
     std::shared_ptr<Component> ParameterWidget::createConfig()
     {
-        // auto ptr = std::make_shared<Parameter
-        // auto ptr = std::visit(ConfigComponentVisitor{parameter}, *parameter);
-        // ptr->onChange.setup(this, [this]{ refresh(); });
-        // return std::move(ptr);
-        return std::make_unique<ParameterProperties>(parameter);
+        return InspectorRoot::wrap(std::make_unique<ParameterProperties>(parameter));
     }
 }

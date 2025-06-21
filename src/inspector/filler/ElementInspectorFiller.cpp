@@ -16,10 +16,7 @@ namespace ui
 
         public:
             explicit ClipImpl(ClipElement &element) :
-                element(element)
-            {
-                ClipImpl::initProperties();
-            }
+                element(element) { }
 
             void initProperties() override
             {
@@ -33,10 +30,7 @@ namespace ui
 
         public:
             explicit ChoiceImpl(ChoiceElement &element) :
-                element(element)
-            {
-                ChoiceImpl::initProperties();
-            }
+                element(element) { }
 
             void initProperties() override
             {

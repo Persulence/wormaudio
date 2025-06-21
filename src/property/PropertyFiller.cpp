@@ -32,6 +32,8 @@ namespace ui
 
     void PropertyFiller::addInner(std::shared_ptr<PropertyFiller> filler)
     {
+        filler->initProperties();
+
         children.push_back(filler);
         addAndMakeVisible(filler.get());
 

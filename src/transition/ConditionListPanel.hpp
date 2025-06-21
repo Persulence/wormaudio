@@ -9,7 +9,7 @@ namespace ui
     class ConditionListPanel : public Panel
     {
         condition::ConditionList& conditionList;
-        std::vector<std::unique_ptr<ConditionPanel>> conditions;
+        std::vector<std::unique_ptr<Component>> conditions;
 
     public:
         explicit ConditionListPanel(condition::ConditionList& conditionList_);

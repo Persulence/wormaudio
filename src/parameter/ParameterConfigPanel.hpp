@@ -58,10 +58,7 @@ namespace ui
 
         explicit ParameterProperties(parameter::Parameter parameter_):
             parameter(std::move(parameter_))
-        {
-            ParameterProperties::initProperties();
-        }
-
+        { }
     protected:
 
     public:

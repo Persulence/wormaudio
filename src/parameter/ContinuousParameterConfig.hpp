@@ -40,7 +40,6 @@ namespace ui
         explicit ContinuousParameterConfig(parameter::ContinuousParameterDef& def_):
             BaseParameterDefProperties(def_)
         {
-            ContinuousParameterConfig::initProperties();
         }
 
     protected:

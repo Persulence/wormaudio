@@ -7,7 +7,6 @@ namespace ui
     TimeConditionPanel::TimeConditionPanel(condition::TimeCondition &condition_):
         condition(condition_)
     {
-        TimeConditionPanel::initProperties();
     }
 
     void TimeConditionPanel::initProperties()

@@ -12,7 +12,6 @@ namespace ui
         explicit DiscreteParameterConfig(parameter::DiscreteParameterDef& def_):
             BaseParameterDefProperties(def_)
         {
-            DiscreteParameterConfig::initProperties();
         }
 
         void initProperties() override
