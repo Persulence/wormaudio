@@ -2,6 +2,7 @@
 
 #include "condition/ConditionPanel.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
+#include "panel/Panel.hpp"
 
 namespace ui
 {

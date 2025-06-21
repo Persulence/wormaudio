@@ -260,6 +260,6 @@ namespace ui
         // auto ptr = std::visit(ConfigComponentVisitor{parameter}, *parameter);
         // ptr->onChange.setup(this, [this]{ refresh(); });
         // return std::move(ptr);
-        return std::make_shared<ParameterProperties>(parameter);
+        return std::make_unique<ParameterProperties>(parameter);
     }
 }

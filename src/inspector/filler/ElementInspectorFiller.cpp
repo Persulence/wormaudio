@@ -1,4 +1,4 @@
-#include "ElementPropertyFiller.hpp"
+#include "ElementInspectorFiller.hpp"
 
 #include "panel/MyPropertyPanel.hpp"
 #include "resource/ChoiceElement.hpp"
@@ -45,13 +45,13 @@ namespace ui
         };
     }
 
-    ElementPropertyFiller::ElementPropertyFiller(event::ElementHandle handle_):
+    ElementInspectorFiller::ElementInspectorFiller(event::ElementHandle handle_):
         handle(std::move(handle_))
     {
-        ElementPropertyFiller::initProperties();
+        ElementInspectorFiller::initProperties();
     }
 
-    void ElementPropertyFiller::initProperties()
+    void ElementInspectorFiller::initProperties()
     {
         // Urgh
         if (typeid(*handle.ptr) == typeid(ClipElement))

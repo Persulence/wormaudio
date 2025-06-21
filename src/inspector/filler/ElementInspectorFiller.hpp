@@ -4,10 +4,10 @@
 
 namespace ui
 {
-    class ElementPropertyFiller : public PropertyFiller
+    class ElementInspectorFiller : public PropertyFiller
     {
     public:
-        explicit ElementPropertyFiller(event::ElementHandle handle_);
+        explicit ElementInspectorFiller(event::ElementHandle handle_);
         void initProperties() override;
 
     private:

@@ -17,6 +17,7 @@ namespace ui
 
     public:
         explicit ComparisonConditionPanel(condition::ComparisonCondition& condition_);
+        void initProperties() override;
 
         void paint(juce::Graphics &g) override;
         void mouseDown(const juce::MouseEvent &event) override;
@@ -24,5 +25,6 @@ namespace ui
         void refresh();
 
         void comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) override;
+
     };
 }

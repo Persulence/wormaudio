@@ -1,21 +1,17 @@
 #include "TimeConditionPanel.hpp"
 
+#include "panel/MyPropertyPanel.hpp"
+
 namespace ui
 {
     TimeConditionPanel::TimeConditionPanel(condition::TimeCondition &condition_):
         condition(condition_)
     {
-        bg = juce::Colours::grey;
-
-        addAndMakeVisible(label);
-        label.setEditable(true, true);
-        label.getTextValue().referTo(condition.time.value.backing);
+        TimeConditionPanel::initProperties();
     }
 
-    void TimeConditionPanel::paint(juce::Graphics &g)
+    void TimeConditionPanel::initProperties()
     {
-        // g.setColour(juce::Colours::rebeccapurple);
-        // g.fillRect(getLocalBounds());
-        paintBackground(g);
+        add(std::make_shared<ValuePropertyWidget>("data", condition.time.value.backing));
     }
 }

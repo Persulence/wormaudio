@@ -36,8 +36,6 @@ namespace ui
     ComparisonConditionPanel::ComparisonConditionPanel(ComparisonCondition &condition_):
         condition(condition_)
     {
-        bg = Colours::grey;
-
         addAndMakeVisible(left);
         addAndMakeVisible(right);
         addAndMakeVisible(op);
@@ -62,6 +60,11 @@ namespace ui
         layout.setItemLayout(2, -0.33, -0.4, -0.33);
 
         refresh();
+    }
+
+    void ComparisonConditionPanel::initProperties()
+    {
+
     }
 
     void ComparisonConditionPanel::paint(Graphics &g)

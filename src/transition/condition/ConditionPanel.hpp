@@ -1,20 +1,17 @@
 #pragma once
 
-#include "panel/Panel.hpp"
+#include "property/PropertyFiller.hpp"
 #include "state/ConditionList.hpp"
 
 namespace ui
 {
-    class ConditionPanel : public Panel
+    class ConditionPanel : public PropertyFiller
     {
-        // condition::Condition &condition;
-
     public:
         static std::unique_ptr<ConditionPanel> create(condition::Condition& condition);
 
         explicit ConditionPanel();
-        void paint(juce::Graphics &g) override;
-        void mouseDown(const juce::MouseEvent &event) override;
-
+        // void paint(juce::Graphics &g) override;
+        // void mouseDown(const juce::MouseEvent &event) override;
     };
 }

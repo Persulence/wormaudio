@@ -1,7 +1,7 @@
 #include "BaseElementWidget.hpp"
 
 #include "canvas/InspectorSelectionManager.hpp"
-#include "inspector/element/ElementPropertyFiller.hpp"
+#include "inspector/filler/ElementInspectorFiller.hpp"
 
 namespace ui
 {
@@ -21,6 +21,6 @@ namespace ui
 
     std::shared_ptr<juce::Component> BaseElementWidget::createConfig()
     {
-        return std::make_shared<ElementPropertyFiller>(handle);
+        return std::make_unique<ElementInspectorFiller>(handle);
     }
 }

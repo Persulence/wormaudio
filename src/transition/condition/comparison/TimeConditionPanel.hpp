@@ -8,15 +8,9 @@ namespace ui
     public:
         explicit TimeConditionPanel(condition::TimeCondition& condition_);
 
-        void paint(juce::Graphics &g) override;
-
-        void resized() override
-        {
-            label.setBounds(getLocalBounds());
-        }
+        void initProperties() override;
 
     private:
         condition::TimeCondition &condition;
-        juce::Label label;
     };
 }

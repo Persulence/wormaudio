@@ -4,6 +4,27 @@
 
 namespace ui
 {
+    class ValuePropertyWidget : public PropertyWidget
+    {
+    public:
+        explicit ValuePropertyWidget(const std::string &label, const juce::Value &value):
+            PropertyWidget(label)
+        {
+            addAndMakeVisible(field);
+            field.setEditable(true);
+            field.getTextValue().referTo(value);
+        }
+
+    protected:
+        void setContentBounds(juce::Rectangle<int> bounds) override
+        {
+            field.setBounds(bounds);
+        }
+
+    private:
+        juce::Label field;
+    };
+
     class BoolPropertyWidget : public PropertyWidget
     {
     public:

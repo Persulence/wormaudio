@@ -31,33 +31,33 @@ namespace ui
 
     ConditionPanel::ConditionPanel()
     {
-        bg = Colours::red;
+        // bg = Colours::red;
         // setInterceptsMouseClicks(true, true);
     }
 
-    void ConditionPanel::paint(Graphics &g)
-    {
-        paintBackground(g);
-        paintBorder(g);
-    }
+    // void ConditionPanel::paint(Graphics &g)
+    // {
+    //     paintBackground(g);
+    //     paintBorder(g);
+    // }
 
-    void ConditionPanel::mouseDown(const MouseEvent &event)
-    {
-        if (event.mods.isRightButtonDown())
-        {
-            PopupMenu menu;
-            menu.addItem(1, "Delete");
-            menu.showMenuAsync(PopupMenu::Options{}, [this] (int result)
-            {
-                switch (result)
-                {
-                    case 1:
-                        std::cout << "clicked\n";
-                        break;
-                    default:
-                        break;
-                }
-            });
-        }
-    }
+    // void ConditionPanel::mouseDown(const MouseEvent &event)
+    // {
+    //     if (event.mods.isRightButtonDown())
+    //     {
+    //         PopupMenu menu;
+    //         menu.addItem(1, "Delete");
+    //         menu.showMenuAsync(PopupMenu::Options{}, [this] (int result)
+    //         {
+    //             switch (result)
+    //             {
+    //                 case 1:
+    //                     std::cout << "clicked\n";
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //         });
+    //     }
+    // }
 }
