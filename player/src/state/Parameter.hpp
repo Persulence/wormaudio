@@ -10,6 +10,7 @@
 
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
+#include "signal/Signal.hpp"
 
 using ParameterValue = float;
 
@@ -30,16 +31,32 @@ namespace parameter
     ParameterType getType(const ParameterDef& def);
     template<class T> ParameterType getType();
 
-    struct ParameterDefBase
+    struct ParameterDefBase : juce::Value::Listener
     {
+        using Changed = signal_event::Callback<>;
+
         juce::Value name;
+        Changed::Signal changed;
 
         ParameterDefBase() = default;
 
         explicit ParameterDefBase(const std::string& name_):
             name(juce::String{name_})
         {
+            name.addListener(this);
+        }
 
+        // ParameterDefBase(ParameterDefBase&& other) noexcept
+        // {
+        //     other.name.removeListener(&other);
+        //
+        //     name.addListener(this);
+        // }
+
+        // Jank!
+        void valueChanged(juce::Value &value) override
+        {
+            changed.emit();
         }
 
         std::string getName() const
@@ -154,6 +171,11 @@ namespace parameter
         ParameterType getType() const
         {
             return parameter::getType(*this);
+        }
+
+        ParameterDefBase::Changed::Signal& getChanged()
+        {
+            return std::visit([](auto& r) -> auto& { return r.changed; }, *this);
         }
 
         // JUCE_DECLARE_NON_COPYABLE(ParameterDef)

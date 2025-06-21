@@ -1,6 +1,7 @@
 #pragma once
 
 #include "juce_gui_basics/juce_gui_basics.h"
+#include "settings/settings.hpp"
 
 namespace ui
 {
@@ -27,7 +28,7 @@ namespace ui
         explicit PropertyWidget(std::string label);
         float getDesiredLabelWidth() const override;
         void setLabelWidth(float labelWidth_) override;
-        float getDesiredHeight() const override { return 30; }
+        float getDesiredHeight() const override { return settings::browserEntryHeight; }
 
         void resized() override;
         void paint(juce::Graphics &g) override;

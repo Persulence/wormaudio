@@ -4,7 +4,7 @@
 
 namespace editor
 {
-    class EditorParameterList : public event::ParameterList
+    class EditorParameterList : public event::ParameterList, parameter::ParameterDefBase::Changed::Listener
     {
     public:
         using Changed = signal_event::Callback<>;
@@ -24,6 +24,7 @@ namespace editor
         void insert(const parameter::Parameter &parameter) override
         {
             target->insert(parameter);
+            parameter->getChanged().setup(this, [this](){ changed.emit(); });
             changed.emit();
         }
 
@@ -38,7 +39,7 @@ namespace editor
             return false;
         }
 
-        bool rename(const parameter::Parameter& parameter, const std::string & newName);
+        bool rename(const parameter::Parameter& parameter, const std::string& newName);
 
         bool changeType(const parameter::Parameter& parameter, const parameter::Parameter& newParameter)
         {

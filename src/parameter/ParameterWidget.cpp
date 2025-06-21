@@ -165,21 +165,22 @@ namespace ui
         label.addMouseListener(this, true);
 
         label.setEditable(false, true, true);
-        label.setText(String{parameter->getName()}, dontSendNotification);
-        label.onTextChange = [this]
-        {
-            auto& editor = editor::Editor::getInstance();
-
-            if (!editor.getEditorParameters().rename(parameter, label.getText().toStdString()))
-            {
-                // Return to previous name
-                label.setText(parameter->getName(), dontSendNotification);
-            }
-
-            // Here lies an unfortunate conundrum. The above function may cause this object to be freed, which results in undefined behaviour when we call refresh.
-            // This could be mitigated by better design, but I don't know how to design it better.
-            // refresh();
-        };
+        label.getTextValue().referTo(parameter->getNameAsValue());
+        // label.setText(String{parameter->getName()}, dontSendNotification);
+        // label.onTextChange = [this]
+        // {
+        //     auto& editor = editor::Editor::getInstance();
+        //
+        //     if (!editor.getEditorParameters().rename(parameter, label.getText().toStdString()))
+        //     {
+        //         // Return to previous name
+        //         label.setText(parameter->getName(), dontSendNotification);
+        //     }
+        //
+        //     // Here lies an unfortunate conundrum. The above function may cause this object to be freed, which results in undefined behaviour when we call refresh.
+        //     // This could be mitigated by better design, but I don't know how to design it better.
+        //     // refresh();
+        // };
     }
 
     void ParameterWidget::refresh()

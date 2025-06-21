@@ -13,7 +13,7 @@ namespace editor
 
         if (const auto it = std::ranges::find_if(parameters, [newName](auto& p){ return p->getName() == newName; }); it != parameters.end())
         {
-            auto s = (*it)->getName();
+            // auto s = (*it)->getName();
             return false;
         }
 

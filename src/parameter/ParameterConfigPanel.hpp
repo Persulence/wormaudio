@@ -80,26 +80,9 @@ namespace ui
         explicit BaseParameterDefProperties(T& def_):
             def(def_)
         {
-            auto name = std::make_shared<EntryPropertyWidget<std::string>>("Parameter name", std::identity{}, std::identity{});
+            // auto name = std::make_shared<EntryPropertyWidget<std::string>>("Parameter name", std::identity{}, std::identity{});
+            auto name = std::make_shared<ValuePropertyWidget>("Parameter name", def.name);
             add(name);
-            name->setValue(def.getName());
-            name->listener = [this, &name](const auto& val)
-            {
-                // TODO
-                if (auto parent = findParentComponentOfClass<ParameterProperties>())
-                {
-                    auto parameter = parent->parameter;
-                    auto& editor = editor::Editor::getInstance();
-                    if (editor.getEditorParameters().rename(parameter, val))
-                    {
-                        onChanged(SOFT);
-                    }
-                    else
-                    {
-                        name->setValue(parameter->getName());
-                    }
-                }
-            };
 
             type = std::make_shared<ParameterTypePropertyWidget>("Type");
             add(type);
