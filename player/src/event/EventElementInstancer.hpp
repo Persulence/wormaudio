@@ -24,6 +24,11 @@ namespace event
             return instance;
         }
 
+        void stageHandoff(player::Sample sample) override
+        {
+            manager.stageHandoff(sample);
+        }
+
     private:
         player::ElementInstanceManager& manager;
         automation::AutomationRegistryInstance& automation;

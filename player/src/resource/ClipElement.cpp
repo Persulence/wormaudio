@@ -36,7 +36,7 @@ namespace element
 
         void stop() override
         {
-            player.changeState(player::STOPPED);
+            // player.changeState(player::STOPPED);
             released = true;
         }
 

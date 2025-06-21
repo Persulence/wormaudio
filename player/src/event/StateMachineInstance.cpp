@@ -61,6 +61,8 @@ namespace event
                     currentState = nextState;
                     transitionOccurred = true;
                     parameters.resetStateTimer(info.blockBeginSamples);
+
+                    context.stageHandoff(sample);
                 }
             }
         }

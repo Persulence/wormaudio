@@ -44,7 +44,7 @@ namespace runtime
         player::ElementInstanceManager elementManager;
         sm::ParameterLookup parameters;
 
-        size_t samplesPast{};
+        player::Sample samplesPast{};
 
         void logicTick();
     };

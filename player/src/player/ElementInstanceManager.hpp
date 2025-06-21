@@ -1,11 +1,10 @@
 #pragma once
 
-#include <vector>
-
 #include <juce_audio_basics/juce_audio_basics.h>
 
 #include "resource/ElementInstance.hpp"
 #include "util/AudioContext.hpp"
+#include "util/Time.hpp"
 
 namespace player
 {
@@ -13,14 +12,9 @@ namespace player
 
     class ElementInstanceManager : public juce::AudioSource
     {
-        std::vector<ElementInstancePtr> active;
-        std::mutex activeMutex;
-
-        AudioContext audioContext;
-
-        juce::AudioSampleBuffer accumulator;
     public:
         ElementInstancePtr addInstance(const ElementInstancePtr& element);
+        void stageHandoff(Sample sample);
 
         void clear();
         void freeReleased();
@@ -30,6 +24,22 @@ namespace player
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
 
         [[nodiscard]] AudioContext getAudioContext() const { return audioContext; }
+
+    private:
+        // std::vector<ElementInstancePtr> active;
+        // Using a collection type that does not allow duplicates
+        // TODO: look into using data-oriented principles
+
+        std::queue<ElementInstancePtr> queue;
+        std::unordered_set<ElementInstancePtr> active;
+
+        std::mutex activeMutex;
+
+        AudioContext audioContext;
+
+        juce::AudioSampleBuffer accumulator;
+
+        Sample stagedHandoff{NULL_SAMPLE};
     };
 }
 

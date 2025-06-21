@@ -12,7 +12,7 @@ namespace condition
         player::Sample adjusted = reference + info.toSamples(*time.value);
         if (adjusted > info.blockBeginSamples && adjusted < info.blockEndSamples)
         {
-            return 0;
+            return adjusted - info.blockBeginSamples;
         }
         else
         {

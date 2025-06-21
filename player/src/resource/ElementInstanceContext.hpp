@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "util/Time.hpp"
+
 namespace element
 {
     class Element;
@@ -11,8 +13,9 @@ namespace element
     public:
         ElementInstanceContext() = default;
 
-        virtual ElementInstancePtr createInstance(Element &element) = 0;
-
         virtual ~ElementInstanceContext() = default;
+
+        virtual ElementInstancePtr createInstance(Element &element) = 0;
+        virtual void stageHandoff(player::Sample sample) = 0;
     };
 }

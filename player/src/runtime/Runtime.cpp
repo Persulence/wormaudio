@@ -90,6 +90,10 @@ namespace runtime
             logicTick();
 
             elementManager.getNextAudioBlock(bufferToFill);
+
+            // Happens after sample generation to allow handoff
+            // TODO: make this async
+            // elementManager.freeReleased();
         }
 
         samplesPast += audioContext.samplesPerBlock;
@@ -104,7 +108,5 @@ namespace runtime
             instance->logicTick(parameters, elementManager, transport, info);
         }
 
-        // TODO: make this async
-        elementManager.freeReleased();
     }
 }

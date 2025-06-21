@@ -1,6 +1,5 @@
 #include "ElementInstanceManager.hpp"
 
-#include <vector>
 #include <juce_audio_basics/juce_audio_basics.h>
 
 #include "resource/ElementInstance.hpp"
@@ -11,7 +10,13 @@ namespace player
     {
         // tODO: look into reusing identical instances
         std::lock_guard lock(activeMutex);
-        return active.emplace_back(element);
+        // active.insert(element);
+        return queue.emplace(element);
+    }
+
+    void ElementInstanceManager::stageHandoff(const Sample sample)
+    {
+        stagedHandoff = sample;
     }
 
     void ElementInstanceManager::clear()
@@ -50,11 +55,48 @@ namespace player
 
     void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
     {
-        // TODO: Ensure that this thread can always acquire the lock
-        std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
-        for (auto& instance : active)
+        if (stagedHandoff != NULL_SAMPLE)
         {
-            instance->getNextAudioBlock(bufferToFill);
+            std::lock_guard lock(activeMutex);
+
+            // Generate the block using current elements
+            for (auto& instance : active)
+            {
+                instance->getNextAudioBlock(bufferToFill);
+            }
+
+            // Clear the end of the buffer
+            auto startSample = bufferToFill.startSample + stagedHandoff;
+            auto numSamples = bufferToFill.numSamples - startSample;
+            bufferToFill.buffer->clear(startSample, numSamples);
+
+            // Remove finished elements
+            std::erase_if(active, [](const auto& e) { return e->canBeFreed(); });
+
+            // Add queued elements
+            while (!queue.empty())
+            {
+                active.insert(queue.front());
+                queue.pop();
+            }
+
+            // Fill the remaining portion of the buffer
+            juce::AudioSourceChannelInfo info2{bufferToFill.buffer, startSample, numSamples};
+            for (auto& instance : active)
+            {
+                instance->getNextAudioBlock(info2);
+            }
+
+            stagedHandoff = NULL_SAMPLE;
+        }
+        else
+        {
+            // TODO: Ensure that this thread can always acquire the lock
+            std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
+            for (auto& instance : active)
+            {
+                instance->getNextAudioBlock(bufferToFill);
+            }
         }
 
         // TODO tracks/buses
