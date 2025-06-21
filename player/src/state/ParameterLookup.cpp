@@ -35,7 +35,7 @@ namespace sm
         lastStateEnter = sample;
     }
 
-    player::Sample ParameterLookup::getReference(TimeType type) const
+    Sample ParameterLookup::getReference(TimeType type) const
     {
         if (type == IN_STATE)
         {

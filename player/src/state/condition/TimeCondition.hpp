@@ -6,7 +6,8 @@
 #include "util/Time.hpp"
 #include "util/WrappedValue.hpp"
 
-namespace event {
+namespace event
+{
     struct LogicTickInfo;
 }
 
