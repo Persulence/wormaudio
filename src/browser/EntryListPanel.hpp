@@ -2,6 +2,7 @@
 
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "../panel/Panel.hpp"
+#include "settings/settings.hpp"
 
 namespace ui
 {
@@ -62,8 +63,8 @@ namespace ui
     protected:
         juce::Font font{juce::Font{juce::FontOptions{}}};
         std::vector<std::shared_ptr<Entry>> entries;
-        int entryH{30};
-        int expectedHeight = 30;
+        int entryH{settings::browserEntryHeight};
+        int expectedHeight{entryH};
 
         const int entryOffset = 0;
 

@@ -56,8 +56,6 @@ namespace ui
     OutlinePanel::OutlinePanel():
         root(std::make_unique<RootItem>(editor::getInstance().getProject()))
     {
-        auto& editor = editor::getInstance();
-
         addAndMakeVisible(treeView);
         treeView.setRootItem(root.get());
 

@@ -3,6 +3,7 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "resource/SharedResource.hpp"
 #include "resource/Asset.hpp"
+#include "settings/settings.hpp"
 
 namespace ui
 {
@@ -43,6 +44,11 @@ namespace ui
             resource(resource)
         {
 
+        }
+
+        int getItemHeight() const override
+        {
+            return settings::browserEntryHeight;
         }
 
         void itemOpennessChanged(bool isNowOpen) override
