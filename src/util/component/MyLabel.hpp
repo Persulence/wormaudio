@@ -16,10 +16,11 @@ namespace ui
 
             data.setupListener(&listener, [this](auto& t)
             {
-                label.setText(t, juce::dontSendNotification);
+                setText(t, juce::dontSendNotification);
             });
 
-            label.setText(*data, juce::dontSendNotification);
+            setText(*data, juce::dontSendNotification);
+            addListener(this);
         }
 
         void labelTextChanged(Label *labelThatHasChanged) override
@@ -28,7 +29,6 @@ namespace ui
         }
 
     private:
-        Label label;
         typename util::Data<T>::Listener listener;
         util::Data<T> data{""};
     };
