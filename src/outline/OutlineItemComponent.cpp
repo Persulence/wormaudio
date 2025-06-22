@@ -9,10 +9,12 @@ namespace ui
     OutlineItemComponent::OutlineItemComponent(const std::string &icon, bool editable):
         icon(ImageCache::getFromFile(loadResource(icon)))
     {
+        addAndMakeVisible(label);
+
         if (editable)
             label.setEditable(false, true);
 
-        addAndMakeVisible(label);
+        // label.getTextValue().referTo(name.value);
     }
 
     OutlineItemComponent::OutlineItemComponent():

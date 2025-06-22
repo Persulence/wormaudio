@@ -2,6 +2,9 @@
 
 #include "juce_gui_basics/juce_gui_basics.h"
 
+#include "util/Data.hpp"
+#include "util/component/MyLabel.hpp"
+
 namespace ui
 {
     class OutlineItemComponent : public juce::Component
@@ -14,8 +17,10 @@ namespace ui
         void resized() override;
 
     public:
-        juce::Label label;
+        MyLabel<std::string> label;
+
         juce::Image icon;
+
 
     private:
         juce::Rectangle<int> iconBounds;

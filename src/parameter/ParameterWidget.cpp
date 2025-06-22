@@ -158,14 +158,11 @@ namespace ui
     ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
         lookup(lookup_), parameter(std::move(parameter_))
     {
-        // label.getTextValue().referTo(name.value);
-        label.getTextValue().referTo(parameter->getNameAsValue());
-
         refresh();
         label.addMouseListener(this, true);
 
         label.setEditable(false, true, true);
-        label.getTextValue().referTo(parameter->getNameAsValue());
+        label.setData(parameter->getNameAsValue());
         // label.setText(String{parameter->getName()}, dontSendNotification);
         // label.onTextChange = [this]
         // {

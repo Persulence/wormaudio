@@ -23,6 +23,11 @@ namespace ui
             });
         }
 
+        ~TransportButton() override
+        {
+
+        }
+
         void paintButton(juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
         {
             juce::Colour col;

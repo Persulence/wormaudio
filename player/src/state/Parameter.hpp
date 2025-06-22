@@ -11,6 +11,7 @@
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
 #include "signal/Signal.hpp"
+#include "util/Data.hpp"
 
 using ParameterValue = float;
 
@@ -31,19 +32,19 @@ namespace parameter
     ParameterType getType(const ParameterDef& def);
     template<class T> ParameterType getType();
 
-    struct ParameterDefBase : juce::Value::Listener
+    struct ParameterDefBase : util::Data<std::string>::Listener
     {
         using Changed = signal_event::Callback<>;
 
-        juce::Value name;
+        util::Data<std::string> name;
         Changed::Signal changed;
 
         ParameterDefBase() = default;
 
         explicit ParameterDefBase(const std::string& name_):
-            name(juce::String{name_})
+            name(name_)
         {
-            name.addListener(this);
+            name.setupListener(this, [](auto& a){ std::cout << "renamed to " << a << "\n"; });
         }
 
         // ParameterDefBase(ParameterDefBase&& other) noexcept
@@ -54,14 +55,10 @@ namespace parameter
         // }
 
         // Jank!
-        void valueChanged(juce::Value &value) override
-        {
-            changed.emit();
-        }
 
         std::string getName() const
         {
-            return static_cast<juce::String>(name.getValue()).toStdString();
+            return *name;
         }
     };
 
@@ -158,14 +155,14 @@ namespace parameter
             return std::visit([](auto& r){ return r.getName(); }, *this);
         }
 
-        [[nodiscard]] juce::Value getNameAsValue() const
-        {
-            return std::visit([](auto& r){ return r.name; }, *this);
-        }
+        // [[nodiscard]] juce::Value getNameAsValue() const
+        // {
+        //     return std::visit([](auto& r){ return r.name; }, *this);
+        // }
 
         void setName(const std::string& newName)
         {
-            std::visit([&newName](auto& r){ r.name.setValue(juce::String(newName)); }, *this);
+            std::visit([&newName](auto& r){ r.name = newName; }, *this);
         }
 
         ParameterType getType() const
@@ -176,6 +173,11 @@ namespace parameter
         ParameterDefBase::Changed::Signal& getChanged()
         {
             return std::visit([](auto& r) -> auto& { return r.changed; }, *this);
+        }
+
+        util::Data<std::string>& getNameAsValue()
+        {
+            return std::visit([](auto& r) -> auto& { return r.name; }, *this);
         }
 
         // JUCE_DECLARE_NON_COPYABLE(ParameterDef)

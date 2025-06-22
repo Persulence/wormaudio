@@ -96,13 +96,18 @@ namespace ui
     class ParameterDefItem : public SharedResourceItem<parameter::ParameterDef>
     {
     public:
+
         explicit ParameterDefItem(const Handle<parameter::ParameterDef> &resource) :
             SharedResourceItem(resource) {}
 
         std::unique_ptr<Component> createItemComponent() override
         {
             auto ptr = std::make_unique<OutlineItemComponent>("icon/parameter.png");
-            ptr->label.getTextValue().referTo(resource->getNameAsValue());
+            auto p = resource;
+            // resource->getNameAsValue().setupListener(ptr->labelListener);
+            // ptr->label.onTextChange = [p, ptr]{ p->getName() = ptr->label.getText().toStdString(); };
+            // resource->getNameAsValue().setupListener(&changeListener, [this](auto& newName){ field.setText(newName); });
+            // ptr->label.getTextValue().referTo(resource->getNameAsValue());
             return ptr;
         }
 

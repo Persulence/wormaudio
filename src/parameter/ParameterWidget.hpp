@@ -3,7 +3,6 @@
 #include "ParameterConfigPanel.hpp"
 #include "canvas/CanvasSelectionManager.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
-#include "util/WrappedValue.hpp"
 
 namespace ui
 {
@@ -12,9 +11,7 @@ namespace ui
         std::unique_ptr<Component> child;
         sm::ParameterLookup& lookup;
         parameter::Parameter parameter;
-        juce::Label label;
-
-        WrappedValue name;
+        MyLabel<std::string> label;
 
     public:
         explicit ParameterWidget(sm::ParameterLookup& lookup, parameter::Parameter parameter);

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "property/PropertyFiller.hpp"
+#include "util/Data.hpp"
+#include "util/component/MyLabel.hpp"
 
 namespace ui
 {
@@ -23,6 +25,28 @@ namespace ui
 
     private:
         juce::Label field;
+    };
+
+    class StringPropertyWidget : public PropertyWidget
+    {
+    public:
+        explicit StringPropertyWidget(const std::string& label, const util::Data<std::string> &data_):
+            PropertyWidget(label), data(data_)
+        {
+            field.setEditable(true);
+            field.setData(data);
+        }
+
+    protected:
+        void setContentBounds(juce::Rectangle<int> bounds) override
+        {
+            field.setBounds(bounds);
+        }
+
+    private:
+        util::Data<std::string> data;
+        MyLabel<std::string> field;
+        util::Data<std::string>::Listener changeListener;
     };
 
     class BoolPropertyWidget : public PropertyWidget

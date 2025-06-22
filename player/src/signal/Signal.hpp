@@ -82,12 +82,13 @@ namespace signal_event
     class Signal
     {
         using L = Listener<Args...>;
-        using Callback = std::function<void(Args...)>;
 
         std::vector<L*> listeners;
         // TODO: mutex
 
     public:
+        using Callback = std::function<void(Args...)>;
+
         ~Signal()
         {
             for (auto& listener : listeners)
@@ -108,7 +109,12 @@ namespace signal_event
 
         void unReg(L* listener)
         {
-            listeners.erase(std::ranges::find(listeners, listener));
+            listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
+            // listeners.erase(std::ranges::remove(listeners, listener), listeners.end());
+            // if (auto it = std::ranges::find(listeners, listener); it != listeners.end())
+            // {
+            //     listeners.erase(it);
+            // }
         }
 
         void emit(Args... args)

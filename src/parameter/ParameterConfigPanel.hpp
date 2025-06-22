@@ -81,7 +81,7 @@ namespace ui
             def(def_)
         {
             // auto name = std::make_shared<EntryPropertyWidget<std::string>>("Parameter name", std::identity{}, std::identity{});
-            auto name = std::make_shared<ValuePropertyWidget>("Parameter name", def.name);
+            auto name = std::make_shared<StringPropertyWidget>("Parameter name", def.name);
             add(name);
 
             type = std::make_shared<ParameterTypePropertyWidget>("Type");

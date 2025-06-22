@@ -15,7 +15,10 @@ namespace editor
         globalParameters->changed.setup(this, [this]() { refreshParameters(); });
     }
 
-    Editor::~Editor() = default;
+    Editor::~Editor()
+    {
+
+    }
 
     void Editor::refreshParameters()
     {

@@ -10,6 +10,7 @@
 
 #include "command/Commands.hpp"
 #include "UiMainComponent.hpp"
+#include "util/Data.hpp"
 
 //==============================================================================
 class juce_testApplication  : public juce::JUCEApplication
@@ -115,33 +116,19 @@ private:
 // This macro generates the main() routine that launches the app.
 START_JUCE_APPLICATION (juce_testApplication)
 
-// import control;
-// import ParameterLookup;
-// import Element;
-// import ElementTypes;
-// import Node;
-// import ElementInstanceManager;
-//
-// int main (int argc, char** argv)
+// int main()
 // {
-//     std::cout << "Something terribly amusing" << std::endl;
-//     // S s = {"ooer", 1};
+//     using namespace player;
+//     Data d1 = 1;
 //
-// //    ParameterLookup lookup;
-// //    sm::Transition1 transition;
-// //    transition.insertCondition(sm::Condition{sm::ParameterCondition("ooer", 123)});
-// //    transition.insertCondition(sm::Condition{sm::ThingCondition{}});
-// //    bool val = transition.test(lookup);
-// //    std::cout << "result: " << val << std::endl;
+//     Data<int>::OnChanged::Listener l;
 //
+//     d1.setupListener(l, [](auto& a){ std::cout << "changed\n"; });
 //
-//     // player::ElementInstanceManager manager;
-//     //
-//     // auto file = juce::File{"./fridge=1-stereo.wav"};
-//     //
-//     // auto element = std::make_shared<element::ClipElement>(file);
-//     // auto nodePtr = std::make_shared<sm::Node>();
-//     // nodePtr->insertElement(element);
-//     // auto ptr = createNodeInstance(nodePtr);
-//     // ptr->activate(manager);
+//     std::cout << *d1 << "\n";
+//
+//     d1 = *d1 + 1;
+//
+//     std::cout << *d1 << "\n";
+//
 // }
