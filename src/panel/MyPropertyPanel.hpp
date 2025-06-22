@@ -33,6 +33,7 @@ namespace ui
         explicit StringPropertyWidget(const std::string& label, const util::Data<std::string> &data_):
             PropertyWidget(label), data(data_)
         {
+            addAndMakeVisible(field);
             field.setEditable(true);
             field.setData(data);
         }

@@ -44,7 +44,12 @@ namespace parameter
         explicit ParameterDefBase(const std::string& name_):
             name(name_)
         {
-            name.setupListener(this, [](auto& a){ std::cout << "renamed to " << a << "\n"; });
+            name.setupListener(this, [this](auto& a)
+            {
+                // This object is moved
+                // But the original remains active and this is called
+                changed.emit();
+            });
         }
 
         // ParameterDefBase(ParameterDefBase&& other) noexcept

@@ -38,11 +38,11 @@ namespace signal_event
         using Callback = std::function<void(Args...)>;
 
     public:
-        // Copy constructor
         Listener() = default;
 
         Listener(const Listener& other)
         {
+            // Register this as a listener
             if (other.target)
             {
                 other.target->reg(this);
@@ -50,6 +50,19 @@ namespace signal_event
             }
 
             callback = other.callback;
+        }
+
+        // Move
+        Listener(Listener&& other) noexcept
+        {
+            // Unregister the other listener
+            other.unListen();
+        }
+
+        Listener& operator=(Listener&& other) noexcept
+        {
+            other.unListen();
+            return *this;
         }
 
         ~Listener()
@@ -136,6 +149,8 @@ namespace signal_event
     public:
         using Callback = std::function<void(Args...)>;
 
+        Signal(): ptr(std::make_unique<SharedSignal>()) {}
+
         void reg(L* listener)
         {
             ptr->reg(listener);
@@ -157,6 +172,6 @@ namespace signal_event
         }
 
     private:
-        std::unique_ptr<SharedSignal> ptr{std::make_unique<SharedSignal>()};
+        std::unique_ptr<SharedSignal> ptr;
     };
 }

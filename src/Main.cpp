@@ -118,17 +118,19 @@ START_JUCE_APPLICATION (juce_testApplication)
 
 // int main()
 // {
-//     using namespace player;
-//     Data d1 = 1;
+//     // Data d1 = 1;
+//     // Data<int>::OnChanged::Listener l;
+//     // d1.setupListener(l, [](auto& a){ std::cout << "changed\n"; });
+//     // std::cout << *d1 << "\n";
+//     // d1 = *d1 + 1;
+//     // std::cout << *d1 << "\n";
 //
-//     Data<int>::OnChanged::Listener l;
+//     using namespace signal_event;
 //
-//     d1.setupListener(l, [](auto& a){ std::cout << "changed\n"; });
+//     using Thing = Callback<>;
+//     Thing::Signal s1;
 //
-//     std::cout << *d1 << "\n";
+//     Thing::Listener l;
 //
-//     d1 = *d1 + 1;
-//
-//     std::cout << *d1 << "\n";
-//
+//     auto s2 = std::move(s1);
 // }
