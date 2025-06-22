@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <memory>
 #include <vector>
 
 namespace signal_event
@@ -36,12 +37,21 @@ namespace signal_event
     {
         using Callback = std::function<void(Args...)>;
 
-        Signal<Args...>* target{nullptr};
-        Callback callback;
-
-        friend class Signal<Args...>;
-
     public:
+        // Copy constructor
+        Listener() = default;
+
+        Listener(const Listener& other)
+        {
+            if (other.target)
+            {
+                other.target->reg(this);
+                target = other.target;
+            }
+
+            callback = other.callback;
+        }
+
         ~Listener()
         {
             unListen();
@@ -72,6 +82,12 @@ namespace signal_event
         {
             target = nullptr;
         }
+
+    private:
+        friend class Signal<Args...>;
+
+        Signal<Args...>* target{nullptr};
+        Callback callback;
     };
 
     /**
@@ -83,23 +99,46 @@ namespace signal_event
     {
         using L = Listener<Args...>;
 
-        std::vector<L*> listeners;
-        // TODO: mutex
+        class SharedSignal
+        {
+        public:
+            ~SharedSignal()
+            {
+                for (auto& listener : listeners)
+                {
+                    listener->targetDestroyed();
+                }
+            }
+
+            void reg(L* listener)
+            {
+                listeners.push_back(listener);
+            }
+
+            void unReg(L* listener)
+            {
+                listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
+            }
+
+            void emit(Args... args)
+            {
+                for (auto& l : listeners)
+                {
+                    l->callback(std::forward<Args>(args)...);
+                }
+            }
+
+        private:
+            std::vector<L*> listeners;
+            // TODO: mutex
+        };
 
     public:
         using Callback = std::function<void(Args...)>;
 
-        ~Signal()
-        {
-            for (auto& listener : listeners)
-            {
-                listener->targetDestroyed();
-            }
-        }
-
         void reg(L* listener)
         {
-            listeners.push_back(listener);
+            ptr->reg(listener);
         }
 
         void setup(L* listener, Callback callback_)
@@ -109,34 +148,15 @@ namespace signal_event
 
         void unReg(L* listener)
         {
-            listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
-            // listeners.erase(std::ranges::remove(listeners, listener), listeners.end());
-            // if (auto it = std::ranges::find(listeners, listener); it != listeners.end())
-            // {
-            //     listeners.erase(it);
-            // }
+            ptr->unReg(listener);
         }
 
         void emit(Args... args)
         {
-            for (auto& l : listeners)
-            {
-                l->callback(std::forward<Args>(args)...);
-            }
+            ptr->emit(args...);
         }
-    };
 
-    // inline void signalTest()
-    // {
-    //     // using Thing = std::function<void(int)>;
-    //     using Thing = Callback<int, bool>;
-    //
-    //     // Signal<int> s;
-    //     Thing::Signal s;
-    //
-    //     Thing::Listener l;
-    //     l.listen(s, [](int i, bool b) { std::cout << i << "\n"; });
-    //
-    //     s.emit(123, false);
-    // }
+    private:
+        std::unique_ptr<SharedSignal> ptr{std::make_unique<SharedSignal>()};
+    };
 }

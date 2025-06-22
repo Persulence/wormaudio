@@ -36,6 +36,11 @@ namespace util
             {
                 onChange.emit(object);
             }
+
+            ~DataContainer()
+            {
+
+            }
         };
 
         Data(): ptr(std::make_shared<DataContainer>({})) { }
