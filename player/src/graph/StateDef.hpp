@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <memory>
+#include <ranges>
 #include <utility>
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace sm
 {
     class StateDef;
 
-    class Transition1
+    class Transition1 : public resource::SharedResource
     {
     public:
         using Ptr = std::shared_ptr<Transition1>;
@@ -76,6 +77,12 @@ namespace sm
         const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitions() const;
 
         std::string getName() const;
+
+        std::vector<resource::ResourceHandle> getChildResources() override
+        {
+            auto values = transitions | std::views::values;
+            return std::vector<resource::ResourceHandle>{values.begin(), values.end()};
+        }
     };
 
     class StateInstance

@@ -63,7 +63,7 @@ namespace ui
 
         bool mightContainSubItems() override
         {
-            return false;
+            return true;
         }
 
         std::unique_ptr<Component> createItemComponent() override
@@ -74,6 +74,36 @@ namespace ui
 
             return ptr;
         }
+    };
+
+    class TransitionItem : public SharedResourceItem<sm::Transition1>
+    {
+    public:
+        explicit TransitionItem(const Handle<sm::Transition1> &resource) :
+            SharedResourceItem(resource)
+        {
+
+        }
+
+        bool mightContainSubItems() override
+        {
+            return false;
+        }
+
+        std::unique_ptr<Component> createItemComponent() override
+        {
+            auto ptr = std::make_unique<OutlineItemComponent>("icon/transition.png");
+
+            if (auto shared = resource->nextState.lock())
+            {
+                auto toName = shared->getName();
+                ptr->label.setText("Transition: " + toName, dontSendNotification);
+            }
+            ptr->label.setEditable(false);
+
+            return ptr;
+        }
+
     };
 
     class ParameterListItem : public SharedResourceItem<event::ParameterList>, public editor::EditorParameterList::Changed::Listener
@@ -271,6 +301,7 @@ namespace ui
         REG(event::EventDef, make_unique<SoundEventItem>(handle); )
         REG(sm::StateMachineDefinition, make_unique<StateMachineDefinitionItem>(handle); )
         REG(sm::StateDef, make_unique<StateDefItem>(handle); )
+        REG(sm::Transition1, make_unique<TransitionItem>(handle); )
         REG(event::ParameterListImpl, make_unique<ParameterListItem>(handle); )
         REG(parameter::ParameterDef, make_unique<ParameterDefItem>(handle); )
         REG(event::ElementList, make_unique<ElementListItem>(handle); )
