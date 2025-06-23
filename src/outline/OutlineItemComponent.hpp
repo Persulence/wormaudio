@@ -10,8 +10,8 @@ namespace ui
     class OutlineItemComponent : public juce::Component
     {
     public:
-        explicit OutlineItemComponent(const std::string &icon, bool editable = true);
-        OutlineItemComponent();
+        OutlineItemComponent(juce::TreeViewItem* item_, const std::string &icon, bool editable = true);
+        explicit OutlineItemComponent(juce::TreeViewItem* item_);
 
         void paint(juce::Graphics &g) override;
         void resized() override;
@@ -20,7 +20,7 @@ namespace ui
         MyLabel<std::string> label;
 
         juce::Image icon;
-
+        juce::TreeViewItem *item;
 
     private:
         juce::Rectangle<int> iconBounds;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "resource/SharedResource.hpp"
 #include "resource/Asset.hpp"
@@ -72,7 +74,17 @@ namespace ui
 
         std::unique_ptr<juce::Component> createItemComponent() override
         {
-            return std::make_unique<OutlineItemComponent>("icon/file.png", false);
+            return std::make_unique<OutlineItemComponent>(this, "icon/file.png", false);
+        }
+
+        bool customComponentUsesTreeViewMouseHandler() const override
+        {
+            return true;
+        }
+
+        void itemClicked(const juce::MouseEvent &) override
+        {
+            setSelected(true, true, juce::sendNotification);
         }
 
         resource::Handle<T> resource;
@@ -81,8 +93,8 @@ namespace ui
     class AssetOutlineItem : public juce::TreeViewItem
     {
     public:
-        explicit AssetOutlineItem(const asset::AssetHandle &asset) :
-            asset(asset) {}
+        explicit AssetOutlineItem(asset::AssetHandle asset) :
+            asset(std::move(asset)) {}
 
         bool mightContainSubItems() override
         {
@@ -97,7 +109,7 @@ namespace ui
 
     inline std::unique_ptr<juce::Component> AssetOutlineItem::createItemComponent()
     {
-        auto ptr = std::make_unique<OutlineItemComponent>("icon/audio.png", false);
+        auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/audio.png", false);
         ptr->label.setText(asset->getFile().getFileName(), juce::dontSendNotification);
         return ptr;
     }

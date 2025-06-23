@@ -20,17 +20,9 @@ namespace ui
         explicit SoundEventItem(const Handle<event::EventDef> &resource) :
             SharedResourceItem(resource) {}
 
-        class Comp : public OutlineItemComponent
-        {
-        public:
-            explicit Comp() :
-                OutlineItemComponent("icon/sound_event.png") {}
-
-        };
-
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<Comp>();
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/sound_event.png");
 
             ptr->label.getTextValue().referTo(resource->nameValue());
 
@@ -46,7 +38,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>("icon/folder.png");
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/folder.png");
 
             ptr->label.setText("State machine", dontSendNotification);
             ptr->label.setEditable(false, false);
@@ -68,7 +60,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>("icon/state_def.png");
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/state_def.png");
 
             ptr->label.getTextValue().referTo(resource->name);
 
@@ -90,9 +82,19 @@ namespace ui
             return false;
         }
 
+        bool customComponentUsesTreeViewMouseHandler() const override
+        {
+            return true;
+        }
+
+        void itemClicked(const MouseEvent& event) override
+        {
+            setSelected(true, true, sendNotification);
+        }
+
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>("icon/transition.png");
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/transition.png");
 
             if (auto shared = resource->nextState.lock())
             {
@@ -117,7 +119,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>("icon/folder.png");
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/folder.png");
             ptr->label.setText("Global parameters", dontSendNotification);
             return ptr;
         }
@@ -132,7 +134,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>("icon/parameter.png");
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/parameter.png");
             // auto p = resource;
             // resource->getNameAsValue().setupListener(ptr->labelListener);
             // ptr->label.onTextChange = [p, ptr]{ p->getName() = ptr->label.getText().toStdString(); };
@@ -153,7 +155,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>("icon/folder.png", false);
+            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/folder.png", false);
             ptr->label.setText("Elements", dontSendNotification);
             return ptr;
         }
@@ -198,7 +200,8 @@ namespace ui
     class ElementItemComponent : public OutlineItemComponent, public ElementDragSource
     {
     public:
-        explicit ElementItemComponent(const Handle<element::Element> &element): OutlineItemComponent("icon/clip.png", false),
+        explicit ElementItemComponent(juce::TreeViewItem* item_, const Handle<element::Element> &element):
+        OutlineItemComponent(item_, "icon/clip.png", false),
             element(element)
         {
             label.setText(element->getName(), dontSendNotification);
@@ -242,7 +245,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            return std::make_unique<ElementItemComponent>(resource);
+            return std::make_unique<ElementItemComponent>(this, resource);
         }
 
         bool mightContainSubItems() override { return false; }

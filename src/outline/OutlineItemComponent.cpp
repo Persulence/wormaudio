@@ -6,8 +6,8 @@ namespace ui
 {
     using namespace juce;
 
-    OutlineItemComponent::OutlineItemComponent(const std::string &icon, bool editable):
-        icon(ImageCache::getFromFile(loadResource(icon)))
+    OutlineItemComponent::OutlineItemComponent(juce::TreeViewItem* item_, const std::string &icon, bool editable):
+        icon(ImageCache::getFromFile(loadResource(icon))), item(item_)
     {
         addAndMakeVisible(label);
 
@@ -17,8 +17,8 @@ namespace ui
         // label.getTextValue().referTo(name.value);
     }
 
-    OutlineItemComponent::OutlineItemComponent():
-        OutlineItemComponent("icon/resource.png", true)
+    OutlineItemComponent::OutlineItemComponent(juce::TreeViewItem* item_):
+        OutlineItemComponent(item_, "icon/resource.png", true)
     {
         label.setEditable(false, true);
 
@@ -27,6 +27,12 @@ namespace ui
 
     void OutlineItemComponent::paint(juce::Graphics &g)
     {
+        if (item->isSelected())
+        {
+            g.setColour(juce::Colours::darkblue);
+            g.fillRect(getLocalBounds());
+        }
+
         if (!icon.isNull())
         {
             g.drawImage(icon, iconBounds.toFloat(), RectanglePlacement::fillDestination, false);

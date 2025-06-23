@@ -22,7 +22,7 @@ namespace ui
 
         std::unique_ptr<Component> createItemComponent() override
         {
-            auto ptr = std::make_unique<OutlineItemComponent>();
+            auto ptr = std::make_unique<OutlineItemComponent>(this);
 
             ptr->label.setEditable(false, false);
             ptr->label.setText("Project", dontSendNotification);
