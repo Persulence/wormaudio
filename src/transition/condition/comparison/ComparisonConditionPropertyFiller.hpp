@@ -5,7 +5,7 @@
 
 namespace ui
 {
-    class ComparisonConditionPropertyFiller : public ConditionPropertyFiller, public juce::ComboBox::Listener
+    class ComparisonPropertyWidget : public PropertyMember, juce::ComboBox::Listener
     {
         condition::ComparisonCondition& condition;
 
@@ -16,17 +16,27 @@ namespace ui
         juce::StretchableLayoutManager layout;
 
     public:
-        explicit ComparisonConditionPropertyFiller(condition::ComparisonCondition& condition_);
-        void initProperties() override;
+        explicit ComparisonPropertyWidget(condition::ComparisonCondition& condition_);
 
-        int getDesiredHeight() const override;
-
-        void paint(juce::Graphics &g) override;
-        void mouseDown(const juce::MouseEvent &event) override;
-        void resized() override;
-        void refresh();
+        int getDesiredHeight() const override
+        {
+            return settings::browserEntryHeight;
+        }
 
         void comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) override;
 
+        void refresh();
+
+        void resized() override;
+    };
+
+    class ComparisonConditionPropertyFiller : public ConditionPropertyFiller
+    {
+
+    public:
+        explicit ComparisonConditionPropertyFiller(condition::ComparisonCondition& condition_);
+        void initProperties() override;
+
+        condition::ComparisonCondition &condition;
     };
 }

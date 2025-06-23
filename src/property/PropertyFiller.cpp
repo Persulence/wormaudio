@@ -41,25 +41,28 @@ namespace ui
         }
     };
 
-    void PropertyFiller::addInner(const std::shared_ptr<PropertyWidget> &property)
+    void PropertyFiller::addInner(const std::shared_ptr<PropertyMember> &member)
     {
-        children.push_back(property);
-        addAndMakeVisible(property.get());
+        if (const auto filler = std::dynamic_pointer_cast<PropertyFiller>(member))
+            filler->initProperties();
+
+        children.push_back(member);
+        addAndMakeVisible(member.get());
 
         Priv::updateSize(*this);
         resized();
     }
 
-    void PropertyFiller::addInner(const std::shared_ptr<PropertyFiller>& filler)
-    {
-        filler->initProperties();
-
-        children.push_back(filler);
-        addAndMakeVisible(filler.get());
-
-        Priv::updateSize(*filler);
-        resized();
-    }
+    // void PropertyFiller::addInner(const std::shared_ptr<PropertyFiller>& filler)
+    // {
+    //     filler->initProperties();
+    //
+    //     children.push_back(filler);
+    //     addAndMakeVisible(filler.get());
+    //
+    //     Priv::updateSize(*filler);
+    //     resized();
+    // }
 
     void PropertyFiller::resized()
     {

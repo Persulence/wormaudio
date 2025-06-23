@@ -33,7 +33,7 @@ namespace ui
         }
     }
 
-    ComparisonConditionPropertyFiller::ComparisonConditionPropertyFiller(ComparisonCondition &condition_):
+    ComparisonPropertyWidget::ComparisonPropertyWidget(ComparisonCondition &condition_):
         condition(condition_)
     {
         addAndMakeVisible(left);
@@ -62,36 +62,10 @@ namespace ui
         refresh();
     }
 
-    void ComparisonConditionPropertyFiller::initProperties()
-    {
-
-    }
-
-    int ComparisonConditionPropertyFiller::getDesiredHeight() const
-    {
-        return settings::browserEntryHeight;
-    }
-
-    void ComparisonConditionPropertyFiller::paint(Graphics &g)
-    {
-        ConditionPropertyFiller::paint(g);
-    }
-
-    void ComparisonConditionPropertyFiller::mouseDown(const MouseEvent &event)
-    {
-    }
-
-    void ComparisonConditionPropertyFiller::resized()
+    void ComparisonPropertyWidget::resized()
     {
         std::array<Component*, 3> comps = {&left, &op, &right};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), false, true);
-    }
-
-    void ComparisonConditionPropertyFiller::refresh()
-    {
-        left.setText(condition.getLeft().toString());
-        right.setText(condition.getRight().toString());
-        op.setText(condition.getOp().getSymbol());
     }
 
     static Operand updateOperand(std::string &text)
@@ -111,7 +85,7 @@ namespace ui
         }
     }
 
-    void ComparisonConditionPropertyFiller::comboBoxChanged(ComboBox *comboBoxThatHasChanged)
+    void ComparisonPropertyWidget::comboBoxChanged(ComboBox *comboBoxThatHasChanged)
     {
         if (comboBoxThatHasChanged == &op)
         {
@@ -129,5 +103,24 @@ namespace ui
             condition.setRight(updateOperand(text));
             comboBoxThatHasChanged->setText(text);
         }
+    }
+
+    void ComparisonPropertyWidget::refresh()
+    {
+        left.setText(condition.getLeft().toString());
+        right.setText(condition.getRight().toString());
+        op.setText(condition.getOp().getSymbol());
+    }
+
+
+    ComparisonConditionPropertyFiller::ComparisonConditionPropertyFiller(ComparisonCondition &condition_):
+        condition(condition_)
+    {
+        setHeader(std::make_unique<SectionHeader>("Comparison"));
+    }
+
+    void ComparisonConditionPropertyFiller::initProperties()
+    {
+        add(std::make_unique<ComparisonPropertyWidget>(condition));
     }
 }

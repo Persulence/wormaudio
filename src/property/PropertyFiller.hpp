@@ -44,8 +44,8 @@ namespace ui
     private:
         struct Priv;
 
-        void addInner(const std::shared_ptr<PropertyWidget> &property);
-        void addInner(const std::shared_ptr<PropertyFiller>& filler);
+        void addInner(const std::shared_ptr<PropertyMember> &member);
+        // void addInner(const std::shared_ptr<PropertyFiller>& filler);
 
         std::vector<std::shared_ptr<PropertyMember>> children;
         std::unique_ptr<SectionHeader> header;
