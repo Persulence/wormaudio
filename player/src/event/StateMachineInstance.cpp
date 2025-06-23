@@ -80,6 +80,7 @@ namespace event
             }
 
             currentState->instance->activate(context);
+            onStateChange.emit(currentState->instance->getParent());
             return true;
         }
 

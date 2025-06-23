@@ -24,18 +24,35 @@ namespace ui
         addAndMakeVisible(connectionManager.get());
         connectionManager->toBack();
 
-        // FOR TESTING
+        // todo: FOR TESTING
         auto node = addState({400, 400});
         auto transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, node->getState());
         transition->conditions->insertCondition(condition::ComparisonCondition{});
         definition->getStart()->insertTransition(transition);
         connectionManager->refreshTransitionWidgets();
 
+        // Commands
         commands()
             .add(CommandAction{Commands::DEL, [this](auto&){ removeSelectedNode();}})
             .finish();
 
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
+
+        // Listen for runtime state changes
+        editor::getInstance().onStateChange.setup(&stateChangeListener, [this](const auto& newState)
+        {
+            if (currentState)
+            {
+                currentState->setCurrent(false);
+                currentState = nullptr;
+            }
+
+            if (auto it = stateToNode.find(newState); it != stateToNode.end())
+            {
+                it->second->setCurrent(true);
+                currentState = it->second;
+            }
+        });
     }
 
     StateNodeWidget::Ptr StateCanvasPanel::addNode(const std::shared_ptr<StateNodeWidget> &node)

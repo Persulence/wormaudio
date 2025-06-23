@@ -122,6 +122,7 @@ namespace ui
     {
         g.setColour(Colours::grey);
         float corner = 4;
+        int borderWidth = getBorderW();
         auto reduced = getLocalBounds().toFloat().reduced(borderWidth / 2, borderWidth / 2);
         g.fillRoundedRectangle(reduced, corner);
         g.setColour(getBorderCol());
@@ -136,8 +137,8 @@ namespace ui
         int boxDim = headerHeight;
         auto localBounds = getLocalBounds();
         Rectangle<int> boxBounds{
-            localBounds.getX() + getWidth() - boxDim - borderWidth,
-            localBounds.getY() + getHeight() - boxDim - borderWidth,
+            localBounds.getX() + getWidth() - boxDim - getBorderW(),
+            localBounds.getY() + getHeight() - boxDim - getBorderW(),
             boxDim,
             boxDim
         };

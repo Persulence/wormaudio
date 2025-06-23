@@ -32,8 +32,8 @@ namespace ui
                             public std::enable_shared_from_this<StateNodeWidget>
     {
         int headerHeight{15};
-        int borderWidth{1};
         bool selected{false};
+        bool isCurrent{false};
         bool dragEnter{false};
 
         resource::Handle<sm::StateDef> state;
@@ -78,7 +78,6 @@ namespace ui
         void onSelect() override
         {
             selected = true;
-            borderWidth = 2;
             repaint();
             // grabKeyboardFocus();
         }
@@ -86,7 +85,13 @@ namespace ui
         void onDeselect() override
         {
             selected = false;
-            borderWidth = 1;
+            repaint();
+        }
+
+        /// Set whether the state machine is currently on this state
+        void setCurrent(const bool current)
+        {
+            isCurrent = current;
             repaint();
         }
 
@@ -110,8 +115,19 @@ namespace ui
 
         ConnectionCreationBox connectionBox;
 
+        int getBorderW() const
+        {
+            if (isCurrent)
+                return 2;
+
+            return 1;
+        }
+
         juce::Colour getBorderCol() const
         {
+            if (isCurrent)
+                return juce::Colours::darkblue;
+
             if (dragEnter)
                 return juce::Colours::red;
 

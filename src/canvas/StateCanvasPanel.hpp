@@ -23,6 +23,9 @@ namespace ui
         std::shared_ptr<sm::StateMachineDefinition> definition;
 
         std::weak_ptr<StateNodeWidget> selectedNode;
+        sm::OnStateChange::Listener stateChangeListener;
+
+        std::shared_ptr<StateNodeWidget> currentState;
 
     public:
         StateCanvasPanel();

@@ -13,5 +13,10 @@ namespace editor
 
         explicit EditorEventInstance(resource::Handle<event::EventDef> parent_);
         void refresh();
+
+        event::StateMachineInstance& getStateMachine()
+        {
+            return stateManager;
+        }
     };
 }

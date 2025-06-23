@@ -41,6 +41,8 @@ namespace event
         std::vector<std::unique_ptr<StateEntry>> entries;
 
     public:
+        sm::OnStateChange::Signal onStateChange;
+
         explicit StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>>& states, const resource::Handle<sm::StateDef> &start);
 
         bool logicTick(sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport,

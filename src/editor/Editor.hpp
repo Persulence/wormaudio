@@ -26,17 +26,14 @@ namespace editor
         resource::Handle<resource::Project> project;
         EditorEventInstance::Ptr instance;
         std::unique_ptr<EditorParameterList> globalParameters;
+        sm::OnStateChange::Listener stateListener;
 
         Editor();
         ~Editor();
 
         void refreshParameters();
 
-        void loadEvent(const resource::Handle<event::EventDef>& event)
-        {
-            refreshParameters();
-            instance = std::make_shared<EditorEventInstance>(event);
-        }
+        void loadEvent(const resource::Handle<event::EventDef>& event);
 
     public:
         player::TransportCallback::Signal transportSignal;
@@ -44,6 +41,7 @@ namespace editor
 
         Lifecycle::Signal lifecycleChanged;
         ParametersChanged::Signal parametersChanged;
+        sm::OnStateChange::Signal onStateChange;
 
         static Editor& getInstance()
         {

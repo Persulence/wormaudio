@@ -29,6 +29,12 @@ namespace editor
         parametersChanged.emit();
     }
 
+    void Editor::loadEvent(const resource::Handle<event::EventDef> &event)
+    {
+        refreshParameters();
+        instance = std::make_shared<EditorEventInstance>(event);
+    }
+
     void Editor::startRuntime()
     {
         runtime = std::make_unique<runtime::Runtime>();
@@ -39,6 +45,15 @@ namespace editor
     {
         // Rebuild the instance's state machine
         instance->refresh();
+
+        // Connect to the new state machine's event
+        instance->getStateMachine().onStateChange.setup(&stateListener, [this](const auto& newState)
+        {
+            juce::MessageManager::callAsync([this, newState]
+            {
+                onStateChange.emit(newState);
+            });
+        });
 
         auto &runtime = getRuntime();
         transportSignal.emit(player::PLAYING);
@@ -64,6 +79,7 @@ namespace editor
             case player::STOPPED:
                 getRuntime().clearInstances();
                 getRuntime().transport.setState(player::STOPPED);
+                onStateChange.emit(nullptr);
                 break;
             case player::STARTING:
                 // TODO

@@ -13,6 +13,7 @@
 #include "resource/ElementInstance.hpp"
 #include "resource/ElementInstanceContext.hpp"
 #include "resource/SharedResource.hpp"
+#include "signal/Signal.hpp"
 #include "state/ConditionList.fwd.hpp"
 
 namespace sm
@@ -43,6 +44,7 @@ namespace sm
     };
 
     // For now only one state type
+
     class StateDef : public resource::SharedResource, public std::enable_shared_from_this<StateDef>
     {
     public:
@@ -131,7 +133,14 @@ namespace sm
 
             instances.clear();
         }
+
+        resource::Handle<StateDef> getParent() const
+        {
+            return parent;
+        }
     };
 
     std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<StateDef>& node);
+
+    using OnStateChange = signal_event::Callback<resource::Handle<StateDef>>;
 }
