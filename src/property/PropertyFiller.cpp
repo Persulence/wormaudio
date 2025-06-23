@@ -4,6 +4,26 @@ namespace ui
 {
     using namespace juce;
 
+    /// --- SectionHeader ---
+
+    PropertyFiller::SectionHeader::SectionHeader(const std::string &name_)
+    {
+        setText(name_, dontSendNotification);
+        setFont(
+            getFont().withStyle(Font::bold)
+        );
+    }
+
+    void PropertyFiller::SectionHeader::paint(Graphics &g)
+    {
+        g.setColour(Colours::darkblue);
+        g.fillRect(getLocalBounds());
+
+        Label::paint(g);
+    }
+
+    /// --- PropertyFiller ---
+
     struct PropertyFiller::Priv
     {
         static void updateSize(PropertyFiller& self)
@@ -44,6 +64,13 @@ namespace ui
     void PropertyFiller::resized()
     {
         int yOff = 0;
+
+        if (header)
+        {
+            header->setBounds(0, yOff, getWidth(), header->h);
+            yOff += header->h;
+        }
+
         for (const auto& widget: children)
         {
             widget->setBounds(0, yOff, getWidth(), widget->getDesiredHeight());
@@ -54,6 +81,10 @@ namespace ui
     int PropertyFiller::getDesiredHeight() const
     {
         int h = 0;
+
+        if (header)
+            h += header->h;
+
         for (const auto& widget: children)
         {
             h += widget->getDesiredHeight();
@@ -88,6 +119,13 @@ namespace ui
                 }
                 break;
         }
+    }
+
+    void PropertyFiller::setHeader(std::unique_ptr<SectionHeader> header_)
+    {
+        header = std::move(header_);
+        addAndMakeVisible(header.get());
+        resized();
     }
 
     class EmptyPropertyFiller final : public PropertyFiller

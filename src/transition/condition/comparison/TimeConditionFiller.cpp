@@ -10,6 +10,7 @@ namespace ui
     TimeConditionFiller::TimeConditionFiller(TimeCondition &condition_):
         condition(condition_)
     {
+        setHeader(std::make_unique<SectionHeader>("Time condition"));
     }
 
     void TimeConditionFiller::initProperties()
