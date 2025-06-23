@@ -115,6 +115,13 @@ namespace signal_event
         class SharedSignal
         {
         public:
+            SharedSignal(const SharedSignal&) = delete;
+            SharedSignal& operator=(const SharedSignal&) = delete;
+            SharedSignal(SharedSignal&&) = delete;
+            SharedSignal& operator=(SharedSignal&&) = delete;
+
+            SharedSignal() = default;
+
             ~SharedSignal()
             {
                 for (auto& listener : listeners)
