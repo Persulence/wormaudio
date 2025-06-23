@@ -5,7 +5,9 @@
 
 namespace ui
 {
-    TimeConditionFiller::TimeConditionFiller(condition::TimeCondition &condition_):
+    using namespace condition;
+
+    TimeConditionFiller::TimeConditionFiller(TimeCondition &condition_):
         condition(condition_)
     {
     }
@@ -21,5 +23,10 @@ namespace ui
             {"In state", player::TimeType::IN_STATE},
             {"Since event start", player::TimeType::SINCE_EVENT_START}
         }, &condition.time.type));
+        add(ChoicePropertyWidget<TimeOperator>::create("Condition", {
+            {"≤", TimeOperator::LESS_EQUAL},
+            {"≥", TimeOperator::GREATER_EQUAL}
+        }, &condition.op));
+
     }
 }
