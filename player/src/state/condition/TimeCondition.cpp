@@ -10,7 +10,7 @@ namespace condition
         auto reference = pl.getReference(time.type);
 
         const player::Sample adjusted = reference + info.toSamples(*time.value);
-        if (adjusted > info.blockBeginSamples && adjusted < info.blockEndSamples)
+        if (adjusted >= info.blockBeginSamples && adjusted < info.blockEndSamples)
         {
             return adjusted - info.blockBeginSamples;
         }

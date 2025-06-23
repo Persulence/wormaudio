@@ -50,7 +50,7 @@ namespace editor
             setState(state, true);
         });
 
-        instance->transport.setState(player::PLAYING);
+        instance->transport.setState(player::STARTING);
 
         runtime.transport.setState(player::PLAYING);
     }

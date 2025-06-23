@@ -30,6 +30,7 @@ namespace player
         TransportControl() = default;
 
         void setState(TransportState state_);
+        TransportState getState() const { return state; }
         [[nodiscard]] bool stopped() const;
     };
 }
