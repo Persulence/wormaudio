@@ -25,6 +25,26 @@ namespace ui
         virtual void onDeselect() {};
     };
 
+    class SimpleSelectionTarget : public SelectionTarget
+    {
+    public:
+        static std::shared_ptr<SimpleSelectionTarget> of(std::unique_ptr<juce::Component> config)
+        {
+            return std::make_unique<SimpleSelectionTarget>(std::move(config));
+        }
+
+        explicit SimpleSelectionTarget(std::unique_ptr<juce::Component> config_):
+            config(std::move(config_)) { }
+
+        std::shared_ptr<juce::Component> createConfig() override
+        {
+            return config;
+        }
+
+    private:
+        std::shared_ptr<juce::Component> config;
+    };
+
     class SelectionManager
     {
     protected:

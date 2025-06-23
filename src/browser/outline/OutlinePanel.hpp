@@ -4,17 +4,15 @@
 
 namespace ui
 {
-    class OutlinePanel : public Panel
+    class OutlinePanel : public juce::TreeView
     {
     public:
         OutlinePanel();
-
-        void resized() override;
+        ~OutlinePanel() override;
 
         void paint(juce::Graphics &g) override;
 
     private:
         std::unique_ptr<juce::TreeViewItem> root;
-        juce::TreeView treeView;
     };
 }

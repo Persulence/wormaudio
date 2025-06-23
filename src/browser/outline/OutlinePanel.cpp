@@ -31,33 +31,10 @@ namespace ui
         }
     };
 
-
-    // class StateMachineItem : public SharedResourceItem
-    // {
-    // public:
-    //     explicit StateMachineItem(const resource::ResourceHandle &resource) :
-    //         SharedResourceItem(resource) {}
-    //
-    // private:
-    //     bool mightContainSubItems() override
-    //     {
-    //         return true;
-    //     }
-    // };
-    //
-    // class StateItem : public TreeViewItem
-    // {
-    //     bool mightContainSubItems() override
-    //     {
-    //         return true;
-    //     }
-    // };
-
     OutlinePanel::OutlinePanel():
         root(std::make_unique<RootItem>(editor::getInstance().getProject()))
     {
-        addAndMakeVisible(treeView);
-        treeView.setRootItem(root.get());
+        setRootItem(root.get());
 
         // auto& registry = OutlineTypeRegistry::getInstance();
 
@@ -65,14 +42,14 @@ namespace ui
         // treeView.getRootItem()->addSubItem(soundEvent.release());
     }
 
-    void OutlinePanel::resized()
+    OutlinePanel::~OutlinePanel()
     {
-        Panel::resized();
-        treeView.setBounds(getLocalBounds());
+        setRootItem(nullptr);
     }
 
-    void OutlinePanel::paint(juce::Graphics &g)
+    void OutlinePanel::paint(Graphics &g)
     {
-        paintBackground(g);
+        g.setColour(Colours::grey);
+        g.fillRoundedRectangle(getLocalBounds().toFloat(), 5);
     }
 }

@@ -14,6 +14,17 @@ namespace ui
     public:
         virtual void createChildren() = 0;
 
+        template <class T>
+        T* findSelectionManager()
+        {
+            if (const auto owner = getOwnerView())
+            {
+                return owner->findParentComponentOfClass<T>();
+            }
+
+            return nullptr;
+        }
+
         void refresh(SharedResourceItemBase* origin = nullptr, bool strong = false)
         {
             if (strong)

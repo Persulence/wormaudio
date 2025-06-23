@@ -4,10 +4,14 @@
 #include "SharedResourceOutlineItem.hpp"
 #include "browser/FileDragSource.hpp"
 #include "browser/element/ElementDragSource.hpp"
+#include "canvas/InspectorSelectionManager.hpp"
 #include "editor/Editor.hpp"
 #include "event/EventDef.hpp"
+#include "inspector/InspectorRoot.hpp"
+#include "parameter/ParameterConfigPanel.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
+#include "transition/TransitionPropertyPanel.hpp"
 
 namespace ui
 {
@@ -106,6 +110,22 @@ namespace ui
             return ptr;
         }
 
+        void itemSelectionChanged(bool isNowSelected) override
+        {
+            if (isNowSelected)
+            {
+                if (const auto manager = findSelectionManager<InspectorSelectionManager>())
+                {
+                    auto config = std::make_unique<TransitionPropertyPanel>(resource);
+                    manager->select(SimpleSelectionTarget::of(std::move(config)));
+                }
+            }
+            else
+            {
+                if (const auto manager = findSelectionManager<InspectorSelectionManager>())
+                    manager->deselectAll();
+            }
+        }
     };
 
     class ParameterListItem : public SharedResourceItem<event::ParameterList>, public editor::EditorParameterList::Changed::Listener
@@ -135,16 +155,27 @@ namespace ui
         std::unique_ptr<Component> createItemComponent() override
         {
             auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/parameter.png");
-            // auto p = resource;
-            // resource->getNameAsValue().setupListener(ptr->labelListener);
-            // ptr->label.onTextChange = [p, ptr]{ p->getName() = ptr->label.getText().toStdString(); };
-            // resource->getNameAsValue().setupListener(&changeListener, [this](auto& newName){ field.setText(newName); });
-            // ptr->label.getTextValue().referTo(resource->getNameAsValue());
             ptr->label.setData(resource->getNameAsValue());
             return ptr;
         }
 
         bool mightContainSubItems() override { return false; }
+
+        void itemSelectionChanged(bool isNowSelected) override
+        {
+            if (auto parent = findSelectionManager<InspectorSelectionManager>())
+            {
+                if (isNowSelected)
+                {
+                    auto root = InspectorRoot::wrap(std::make_unique<ParameterProperties>(resource));
+                    parent->select(SimpleSelectionTarget::of(std::move(root)));
+                }
+                else
+                {
+                    parent->deselectAll();
+                }
+            }
+        }
     };
 
     class ElementListItem : public SharedResourceItem<event::ElementList>
