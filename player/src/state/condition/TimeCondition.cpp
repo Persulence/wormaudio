@@ -25,9 +25,4 @@ namespace condition
             return -1;
         }
     }
-
-    bool TimeCondition::thisBlock(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const
-    {
-        return *time.value > info.blockBegin && *time.value < info.blockEnd;
-    }
 }

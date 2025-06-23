@@ -11,8 +11,9 @@ namespace ui
     public:
         auto add(auto property) -> decltype(*property)&
         {
-            addInner(property);
-            return *property;
+            auto& ref = *property;
+            addInner(std::shared_ptr{std::move(property)});
+            return ref;
         }
 
         void resized() override;

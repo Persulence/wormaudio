@@ -14,6 +14,11 @@ namespace ui
             T value;
         };
 
+        static std::unique_ptr<ChoicePropertyWidget> create(std::string name, std::vector<Entry> values, T* target)
+        {
+            return std::make_unique<ChoicePropertyWidget>(name, values, target);
+        }
+
         explicit ChoicePropertyWidget(const std::string &label, const std::vector<Entry> &values_, T* target_);
 
     protected:

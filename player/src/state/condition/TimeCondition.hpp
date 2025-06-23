@@ -29,12 +29,10 @@ namespace condition
     {
     public:
         TimePos time;
-        TimeOperator op;
+        TimeOperator op{TimeOperator::GREATER_EQUAL};
 
         TimeCondition() = default;
 
         [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
-
-        bool thisBlock(const sm::ParameterLookup& pl, const event::LogicTickInfo & info) const;
     };
 }
