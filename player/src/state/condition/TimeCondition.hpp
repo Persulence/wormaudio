@@ -19,6 +19,12 @@ namespace condition
         player::TimeType type{player::IN_STATE};
     };
 
+    enum class TimeOperator
+    {
+        GREATER_EQUAL,
+        LESS_EQUAL
+    };
+
     class TimeCondition : public ConditionBase<TimeCondition>
     {
     public:

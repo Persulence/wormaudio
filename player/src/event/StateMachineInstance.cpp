@@ -55,14 +55,14 @@ namespace event
         {
             for (const auto& [conditions, nextState] : currentState->transitions)
             {
-                const player::Sample sample = conditions->test(parameters, info);
-                if (sample != player::NULL_SAMPLE)
+                const player::Sample handoff = conditions->test(parameters, info);
+                if (handoff != player::NULL_SAMPLE)
                 {
                     currentState = nextState;
                     transitionOccurred = true;
-                    parameters.resetStateTimer(info.blockBeginSamples);
+                    parameters.resetStateTimer(info.blockBeginSamples + handoff);
 
-                    context.stageHandoff(sample);
+                    context.stageHandoff(handoff);
                 }
             }
         }

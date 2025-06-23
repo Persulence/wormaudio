@@ -9,10 +9,16 @@ namespace condition
     {
         auto reference = pl.getReference(time.type);
 
-        const player::Sample adjusted = reference + info.toSamples(*time.value);
-        if (adjusted >= info.blockBeginSamples && adjusted < info.blockEndSamples)
+        const player::Sample timePoint = reference + info.toSamples(*time.value);
+        if (timePoint >= info.blockBeginSamples && timePoint < info.blockEndSamples)
         {
-            return adjusted - info.blockBeginSamples;
+            return timePoint - info.blockBeginSamples;
+        }
+        else if (info.blockBeginSamples >= timePoint)
+        {
+            // If time.value is less than the length of a block, and the previous transition occurs with a non-zero
+            // handoff offset, it will not be possible to perform the next transition until the next block.
+            return 0;
         }
         else
         {
