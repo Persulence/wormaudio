@@ -8,12 +8,7 @@ namespace ui
     class InspectorRoot : public juce::Component
     {
     public:
-        static std::unique_ptr<InspectorRoot> wrap(std::unique_ptr<PropertyFiller> filler)
-        {
-            auto ptr = std::make_unique<InspectorRoot>();
-            ptr->setFiller(std::move(filler));
-            return ptr;
-        }
+        static std::unique_ptr<InspectorRoot> wrap(std::unique_ptr<PropertyFiller> filler);
 
         void setFiller(std::unique_ptr<PropertyFiller> filler_)
         {
@@ -29,6 +24,16 @@ namespace ui
             {
                 filler->setBounds(getLocalBounds());
             }
+        }
+
+        int getDesiredHeight() const
+        {
+            if (filler)
+            {
+                return filler->getDesiredHeight();
+            }
+
+            return getHeight();
         }
 
     private:

@@ -29,6 +29,7 @@ namespace condition
     {
     public:
         TimePos time;
+        TimeOperator op;
 
         TimeCondition() = default;
 

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "ConditionListPanel.hpp"
+#include "ConditionListPropertyFiller.hpp"
 #include "panel/Panel.hpp"
 
-namespace sm {
+namespace sm
+{
     class Transition1;
 }
 
@@ -12,13 +13,10 @@ namespace ui
     class TransitionPropertyPanel : public Panel
     {
         std::shared_ptr<sm::Transition1> transition;
-
-        ConditionListPanel conditionList;
+        std::unique_ptr<Component> conditionList;
 
     public:
         explicit TransitionPropertyPanel(std::shared_ptr<sm::Transition1> transition_);
-
-        void update();
 
         void resized() override;
         void paint(juce::Graphics &g) override;

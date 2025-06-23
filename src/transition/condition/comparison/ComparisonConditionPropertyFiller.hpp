@@ -1,11 +1,11 @@
 #pragma once
 
 #include "ComparisonComboBox.hpp"
-#include "../ConditionPanel.hpp"
+#include "../ConditionPropertyFiller.hpp"
 
 namespace ui
 {
-    class ComparisonConditionPanel : public ConditionPanel, public juce::ComboBox::Listener
+    class ComparisonConditionPropertyFiller : public ConditionPropertyFiller, public juce::ComboBox::Listener
     {
         condition::ComparisonCondition& condition;
 
@@ -16,8 +16,10 @@ namespace ui
         juce::StretchableLayoutManager layout;
 
     public:
-        explicit ComparisonConditionPanel(condition::ComparisonCondition& condition_);
+        explicit ComparisonConditionPropertyFiller(condition::ComparisonCondition& condition_);
         void initProperties() override;
+
+        int getDesiredHeight() const override;
 
         void paint(juce::Graphics &g) override;
         void mouseDown(const juce::MouseEvent &event) override;

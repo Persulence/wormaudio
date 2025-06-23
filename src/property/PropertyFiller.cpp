@@ -21,7 +21,7 @@ namespace ui
         }
     };
 
-    void PropertyFiller::addInner(std::shared_ptr<PropertyWidget> property)
+    void PropertyFiller::addInner(const std::shared_ptr<PropertyWidget> &property)
     {
         children.push_back(property);
         addAndMakeVisible(property.get());
@@ -30,7 +30,7 @@ namespace ui
         resized();
     }
 
-    void PropertyFiller::addInner(std::shared_ptr<PropertyFiller> filler)
+    void PropertyFiller::addInner(const std::shared_ptr<PropertyFiller>& filler)
     {
         filler->initProperties();
 
@@ -43,7 +43,7 @@ namespace ui
 
     void PropertyFiller::resized()
     {
-        float yOff = 0;
+        int yOff = 0;
         for (const auto& widget: children)
         {
             widget->setBounds(0, yOff, getWidth(), widget->getDesiredHeight());
@@ -51,7 +51,7 @@ namespace ui
         }
     }
 
-    float PropertyFiller::getDesiredHeight() const
+    int PropertyFiller::getDesiredHeight() const
     {
         int h = 0;
         for (const auto& widget: children)

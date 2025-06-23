@@ -1,27 +1,20 @@
 #include "TransitionPropertyPanel.hpp"
 
 #include "graph/StateDef.hpp"
+#include "inspector/InspectorRoot.hpp"
 
 namespace ui
 {
     TransitionPropertyPanel::TransitionPropertyPanel(std::shared_ptr<sm::Transition1> transition_):
         transition(std::move(transition_)),
-        conditionList(*transition->conditions)
+        conditionList(InspectorRoot::wrap(std::make_unique<ConditionListPropertyFiller>(*transition->conditions)))
     {
-        // bg = juce::Colours::;
-        update();
-
-        addAndMakeVisible(conditionList);
-    }
-
-    void TransitionPropertyPanel::update()
-    {
-        conditionList.refresh();
+        addAndMakeVisible(conditionList.get());
     }
 
     void TransitionPropertyPanel::resized()
     {
-        conditionList.setBounds(getLocalBounds());
+        conditionList->setBounds(getLocalBounds());
     }
 
     void TransitionPropertyPanel::paint(juce::Graphics &g)

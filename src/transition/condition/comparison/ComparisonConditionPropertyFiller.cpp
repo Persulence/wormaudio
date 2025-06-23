@@ -1,4 +1,4 @@
-#include "ComparisonConditionPanel.hpp"
+#include "ComparisonConditionPropertyFiller.hpp"
 
 #include "ComparisonComboBox.hpp"
 #include "editor/Editor.hpp"
@@ -33,7 +33,7 @@ namespace ui
         }
     }
 
-    ComparisonConditionPanel::ComparisonConditionPanel(ComparisonCondition &condition_):
+    ComparisonConditionPropertyFiller::ComparisonConditionPropertyFiller(ComparisonCondition &condition_):
         condition(condition_)
     {
         addAndMakeVisible(left);
@@ -62,27 +62,32 @@ namespace ui
         refresh();
     }
 
-    void ComparisonConditionPanel::initProperties()
+    void ComparisonConditionPropertyFiller::initProperties()
     {
 
     }
 
-    void ComparisonConditionPanel::paint(Graphics &g)
+    int ComparisonConditionPropertyFiller::getDesiredHeight() const
     {
-        ConditionPanel::paint(g);
+        return settings::browserEntryHeight;
     }
 
-    void ComparisonConditionPanel::mouseDown(const MouseEvent &event)
+    void ComparisonConditionPropertyFiller::paint(Graphics &g)
+    {
+        ConditionPropertyFiller::paint(g);
+    }
+
+    void ComparisonConditionPropertyFiller::mouseDown(const MouseEvent &event)
     {
     }
 
-    void ComparisonConditionPanel::resized()
+    void ComparisonConditionPropertyFiller::resized()
     {
         std::array<Component*, 3> comps = {&left, &op, &right};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), false, true);
     }
 
-    void ComparisonConditionPanel::refresh()
+    void ComparisonConditionPropertyFiller::refresh()
     {
         left.setText(condition.getLeft().toString());
         right.setText(condition.getRight().toString());
@@ -106,7 +111,7 @@ namespace ui
         }
     }
 
-    void ComparisonConditionPanel::comboBoxChanged(ComboBox *comboBoxThatHasChanged)
+    void ComparisonConditionPropertyFiller::comboBoxChanged(ComboBox *comboBoxThatHasChanged)
     {
         if (comboBoxThatHasChanged == &op)
         {

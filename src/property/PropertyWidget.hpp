@@ -17,7 +17,7 @@ namespace ui
             HARD
         };
 
-        virtual float getDesiredHeight() const = 0;
+        virtual int getDesiredHeight() const = 0;
         virtual float getDesiredLabelWidth() const { return 0; };
         virtual void setLabelWidth(float labelWidth_) { }
     };
@@ -26,9 +26,10 @@ namespace ui
     {
     public:
         explicit PropertyWidget(std::string label);
-        float getDesiredLabelWidth() const override;
+        [[nodiscard]] float getDesiredLabelWidth() const override;
         void setLabelWidth(float labelWidth_) override;
-        float getDesiredHeight() const override { return settings::browserEntryHeight; }
+
+        [[nodiscard]] int getDesiredHeight() const override { return settings::browserEntryHeight; }
 
         void resized() override;
         void paint(juce::Graphics &g) override;

@@ -16,7 +16,7 @@ namespace ui
         }
 
         void resized() override;
-        [[nodiscard]] float getDesiredHeight() const override;
+        [[nodiscard]] int getDesiredHeight() const override;
         void refresh(PropertyFiller* child = nullptr);
 
         /// Creates all property components. Must be called in the constructor. Also called when properties must be refreshed.
@@ -29,8 +29,8 @@ namespace ui
     private:
         struct Priv;
 
-        void addInner(std::shared_ptr<PropertyWidget> property);
-        void addInner(std::shared_ptr<PropertyFiller> filler);
+        void addInner(const std::shared_ptr<PropertyWidget> &property);
+        void addInner(const std::shared_ptr<PropertyFiller>& filler);
 
         std::vector<std::shared_ptr<PropertyMember>> children;
     };
