@@ -8,7 +8,6 @@ namespace ui
     class ConditionListPropertyFiller : public PropertyFiller
     {
         condition::ConditionList& conditionList;
-        juce::Label label;
 
     public:
         explicit ConditionListPropertyFiller(condition::ConditionList& conditionList_);

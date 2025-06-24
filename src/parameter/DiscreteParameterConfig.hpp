@@ -6,16 +6,18 @@
 
 namespace ui
 {
-    class DiscreteParameterConfig : public BaseParameterDefProperties<parameter::DiscreteParameterDef>
+    class DiscreteParameterConfig : public BaseParameterDefFiller<parameter::DiscreteParameterDef>
     {
     public:
         explicit DiscreteParameterConfig(parameter::DiscreteParameterDef& def_):
-            BaseParameterDefProperties(def_)
+            BaseParameterDefFiller(def_)
         {
         }
 
         void initProperties() override
         {
+            BaseParameterDefFiller::initProperties();
+
             auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue, parameter::toString));
             min.setValue(def.min.getValue());
             min.listener = [this, &min](auto val)

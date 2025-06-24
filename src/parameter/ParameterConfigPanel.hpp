@@ -20,12 +20,12 @@ namespace ui
             using namespace parameter;
 
             // Argh
-            box.addItem("Continuous", CONTINUOUS + 1);
-            box.addItem("Discrete", DISCRETE + 1);
-            box.addItem("Enum", ENUM + 1);
+            box.addItem("Continuous", ParameterType::CONTINUOUS + 1);
+            box.addItem("Discrete", ParameterType::DISCRETE + 1);
+            box.addItem("Enum", ParameterType::ENUM + 1);
             box.onChange = [this]
             {
-                listener(static_cast<ParameterType>(box.getSelectedId() - 1));
+                listener(ParameterType::get(box.getSelectedId() - 1));
             };
 
             addAndMakeVisible(box);
@@ -67,26 +67,26 @@ namespace ui
 
     // Base class for ParameterDef properties
     template <class T>
-    class BaseParameterDefProperties : public PropertyFiller
+    class BaseParameterDefFiller : public PropertyFiller
     {
-        std::shared_ptr<EntryPropertyWidget<std::string>> name;
-        std::shared_ptr<ParameterTypePropertyWidget> type;
-
     protected:
         using ValueEntry = EntryPropertyWidget<float>;
 
         T& def;
 
-        explicit BaseParameterDefProperties(T& def_):
-            def(def_)
-        {
-            // auto name = std::make_shared<EntryPropertyWidget<std::string>>("Parameter name", std::identity{}, std::identity{});
-            auto name = std::make_shared<StringPropertyWidget>("Parameter name", def.name);
-            add(name);
+        explicit BaseParameterDefFiller(T& def_):
+            def(def_) { }
 
-            type = std::make_shared<ParameterTypePropertyWidget>("Type");
+        void initProperties() override
+        {
+            auto paramType = parameter::getType<T>();
+            setHeader(std::make_unique<SectionHeader>("Parameter (" + paramType.name + ")"));
+
+            add(std::make_shared<StringPropertyWidget>("Parameter name", def.name));
+
+            const auto type = std::make_shared<ParameterTypePropertyWidget>("Type");
             add(type);
-            type->setValue(parameter::getType<T>());
+            type->setValue(paramType);
             type->listener = [this](parameter::ParameterType id)
             {
                 using namespace parameter;
@@ -98,13 +98,13 @@ namespace ui
 
                     switch (id)
                     {
-                        case CONTINUOUS:
+                        case ParameterType::CONTINUOUS:
                             newParameter = std::make_shared<ParameterDef>(ContinuousParameterDef{0, 1, def.getName()});
                             break;
-                        case DISCRETE:
+                        case ParameterType::DISCRETE:
                             newParameter = std::make_shared<ParameterDef>(DiscreteParameterDef{0, 1, def.getName()});
                             break;
-                        case ENUM:
+                        case ParameterType::ENUM:
                             newParameter = std::make_shared<ParameterDef>(EnumParameterDef{def.getName()});
                             break;
                     }

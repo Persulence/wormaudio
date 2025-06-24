@@ -33,18 +33,20 @@ private:
 
 namespace ui
 {
-    class ContinuousParameterConfig : public BaseParameterDefProperties<parameter::ContinuousParameterDef>
+    class ContinuousParameterConfig : public BaseParameterDefFiller<parameter::ContinuousParameterDef>
     {
     public:
         JUCE_DECLARE_NON_COPYABLE(ContinuousParameterConfig)
         explicit ContinuousParameterConfig(parameter::ContinuousParameterDef& def_):
-            BaseParameterDefProperties(def_)
+            BaseParameterDefFiller(def_)
         {
         }
 
     protected:
         void initProperties() override
         {
+            BaseParameterDefFiller::initProperties();
+
             auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue));
             min.toString = parameter::toString;
             min.setValue(def.min.getValue());

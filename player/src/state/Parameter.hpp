@@ -19,12 +19,31 @@ namespace parameter
 {
     class ParameterDef;
 
-    enum ParameterType
+    struct ParameterType
     {
-        CONTINUOUS,
-        DISCRETE,
-        ENUM,
+        static const ParameterType DISCRETE;
+        static const ParameterType CONTINUOUS;
+        static const ParameterType ENUM;
+
+        const std::string name;
+
+        using Type = int;
+
+        constexpr operator Type() const
+        {
+            return type;
+        }
+
+        static ParameterType get(Type id_);
+
+    private:
+        constexpr ParameterType(Type type_, std::string name_): name(std::move(name_)), type(type_) {}
+        Type type;
     };
+
+    constexpr  ParameterType ParameterType::DISCRETE{0, "discrete"};
+    constexpr ParameterType ParameterType::CONTINUOUS{1, "continuous"};
+    constexpr ParameterType ParameterType::ENUM{2, "enum"};
 
     bool isValidName(const std::string &name);
     ParameterValue parseValue(const std::string& text);
@@ -220,18 +239,18 @@ namespace parameter
     template<>
     inline ParameterType getType<ContinuousParameterDef>()
     {
-        return CONTINUOUS;
+        return ParameterType::CONTINUOUS;
     }
 
     template<>
     inline ParameterType getType<DiscreteParameterDef>()
     {
-        return DISCRETE;
+        return ParameterType::DISCRETE;
     }
 
     template<>
     inline ParameterType getType<EnumParameterDef>()
     {
-        return ENUM;
+        return ParameterType::ENUM;
     }
 }

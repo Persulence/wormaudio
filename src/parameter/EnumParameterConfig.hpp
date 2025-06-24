@@ -4,18 +4,18 @@
 
 namespace ui
 {
-    class EnumParameterConfig : public BaseParameterDefProperties<parameter::EnumParameterDef>
+    class EnumParameterConfig : public BaseParameterDefFiller<parameter::EnumParameterDef>
     {
     public:
         explicit EnumParameterConfig(parameter::EnumParameterDef& def_):
-            BaseParameterDefProperties(def_)
+            BaseParameterDefFiller(def_)
         {
         }
 
     protected:
         void initProperties() override
         {
-
+            BaseParameterDefFiller::initProperties();
         }
     };
 }

@@ -9,12 +9,12 @@ namespace ui
     ConditionListPropertyFiller::ConditionListPropertyFiller(ConditionList &conditionList_):
         conditionList(conditionList_)
     {
-        addAndMakeVisible(label);
-        label.setText("ooer", dontSendNotification);
     }
 
     void ConditionListPropertyFiller::initProperties()
     {
+        setHeader(std::make_unique<SectionHeader>("Condition List"));
+
         for (auto& condition : conditionList.conditions)
         {
             auto child = ConditionPropertyFiller::create(condition);

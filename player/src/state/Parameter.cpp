@@ -9,6 +9,21 @@ namespace parameter
 {
     const std::regex PARAMETER_REGEX{"[a-zA-Z][a-zA-Z0-9]*"};
 
+    ParameterType ParameterType::get(const Type id_)
+    {
+        switch (id_)
+        {
+            case CONTINUOUS.type:
+                return CONTINUOUS;
+            case DISCRETE.type:
+                return DISCRETE;
+            case ENUM.type:
+                return ENUM;
+            default:
+                return CONTINUOUS;
+        }
+    }
+
     bool isValidName(const std::string &name)
     {
         return regex_match(name, PARAMETER_REGEX);
@@ -35,15 +50,15 @@ namespace parameter
     {
         if (std::holds_alternative<ContinuousParameterDef>(def))
         {
-            return CONTINUOUS;
+            return ParameterType::CONTINUOUS;
         }
         if (std::holds_alternative<DiscreteParameterDef>(def))
         {
-            return DISCRETE;
+            return ParameterType::DISCRETE;
         }
         if (std::holds_alternative<EnumParameterDef>(def))
         {
-            return ENUM;
+            return ParameterType::ENUM;
         }
 
         assert(false);
