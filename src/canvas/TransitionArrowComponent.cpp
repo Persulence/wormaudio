@@ -1,12 +1,13 @@
 #include "TransitionArrowComponent.hpp"
 
+#include "juce_graphics/juce_graphics.h"
+
 #include "InspectorSelectionManager.hpp"
 #include "StateNodeWidget.hpp"
 #include "transition/TransitionPropertyPanel.hpp"
 
 namespace ui
 {
-
     using namespace juce;
 
     Point<float> twoWayOffset(const Point<float> vector)

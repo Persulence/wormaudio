@@ -109,10 +109,10 @@ namespace ui
     // StateNodeWidget
 
     StateNodeWidget::StateNodeWidget(Handle<StateDef> state_, CanvasConnectionManager::Ptr &connectionManager_):
+        state(std::move(state_)),
         header(StateNodeHeader{*this}),
-        connectionBox(ConnectionCreationBox{*this, connectionManager_}),
         manager(connectionManager_),
-        state(std::move(state_))
+        connectionBox(ConnectionCreationBox{*this, connectionManager_})
     {
         addAndMakeVisible(header);
         addAndMakeVisible(connectionBox);

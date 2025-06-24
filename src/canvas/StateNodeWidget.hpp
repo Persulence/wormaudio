@@ -2,9 +2,8 @@
 
 #include "StateNodeWidget.fwd.hpp"
 
-#include <juce_gui_basics/juce_gui_basics.h>
+#include "juce_gui_basics/juce_gui_basics.h"
 
-#include "CanvasSelectionManager.hpp"
 #include "CanvasConnectionManager.hpp"
 #include "graph/StateDef.hpp"
 #include "resource/SharedResource.hpp"

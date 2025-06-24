@@ -167,27 +167,31 @@ target_link_libraries(${GUI_TARGET}
 file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/JUCE/*.cpp  ${CMAKE_SOURCE_DIR}/lib/JUCE/*.mm ${CMAKE_SOURCE_DIR}/lib/JUCE/*.r)
 set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE SKIP_UNITY_BUILD_INCLUSION TRUE)
 
-target_precompile_headers(${GUI_TARGET}
-        PRIVATE
-        "$<$<COMPILE_LANGUAGE:CXX>:vector>"
-        "$<$<COMPILE_LANGUAGE:CXX>:algorithm>"
-        "$<$<COMPILE_LANGUAGE:CXX>:ranges>"
-        "$<$<COMPILE_LANGUAGE:CXX>:memory>"
-        "$<$<COMPILE_LANGUAGE:CXX>:string>"
-        "$<$<COMPILE_LANGUAGE:CXX>:cmath>"
-        "$<$<COMPILE_LANGUAGE:CXX>:iostream>"
-        "$<$<COMPILE_LANGUAGE:CXX>:variant>"
-        "$<$<COMPILE_LANGUAGE:CXX>:utility>"
-
-        # PCH is not supported by JUCE. Yay. Wish I'd know that earlier.
-        "$<$<COMPILE_LANGUAGE:CXX>:juce_gui_basics/juce_gui_basics.h>"
-        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_basics/juce_audio_basics.h>"
-        "$<$<COMPILE_LANGUAGE:CXX>:juce_core/juce_core.h>"
-        "$<$<COMPILE_LANGUAGE:CXX>:juce_data_structures/juce_data_structures.h>"
-        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_devices/juce_audio_devices.h>"
-        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
-)
+#target_precompile_headers(${GUI_TARGET}
+#        PRIVATE
+#        "$<$<COMPILE_LANGUAGE:CXX>:vector>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:algorithm>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:ranges>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:memory>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:string>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:cmath>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:iostream>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:variant>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:utility>"
+#
+#        # PCH is not supported by JUCE. Yay. Wish I'd know that earlier.
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_gui_basics/juce_gui_basics.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_basics/juce_audio_basics.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_core/juce_core.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_data_structures/juce_data_structures.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_devices/juce_audio_devices.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
+#)
 
 #set_target_properties(${GUI_TARGET} PROPERTIES UNITY_BUILD ON)
 # It is not recommended to enable unity build here, but I was having trouble getting it to work.
-set_property(TARGET ${GUI_TARGET} PROPERTY UNITY_BUILD ON)
+set_target_properties(${GUI_TARGET} PROPERTIES
+        UNITY_BUILD ON
+        UNITY_BUILD_MODE BATCH
+        UNITY_BUILD_BATCH_SIZE 10
+)
