@@ -28,6 +28,8 @@ cmake_minimum_required(VERSION 4.0)
 
 project(GUI_APP_EXAMPLE VERSION 0.0.1)
 
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
 # included JUCE directly in your source tree (perhaps as a submodule), you'll need to tell CMake to
@@ -161,3 +163,30 @@ target_link_libraries(${GUI_TARGET}
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags)
+
+file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/JUCE/*.cpp  ${CMAKE_SOURCE_DIR}/lib/JUCE/*.mm ${CMAKE_SOURCE_DIR}/lib/JUCE/*.r)
+set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE SKIP_UNITY_BUILD_INCLUSION TRUE)
+
+#target_precompile_headers(${GUI_TARGET}
+#        PRIVATE
+#        "$<$<COMPILE_LANGUAGE:CXX>:vector>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:algorithm>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:ranges>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:memory>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:string>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:cmath>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:iostream>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:variant>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:utility>"
+#
+#        # PCH is not supported by JUCE. Yay. Wish I'd know that earlier.
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_gui_basics/juce_gui_basics.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_basics/juce_audio_basics.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_core/juce_core.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_data_structures/juce_data_structures.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_devices/juce_audio_devices.h>"
+#        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
+#)
+
+#set_target_properties(${GUI_TARGET} PROPERTIES UNITY_BUILD ON)
+set_property(TARGET ${GUI_TARGET} PROPERTY UNITY_BUILD ON)

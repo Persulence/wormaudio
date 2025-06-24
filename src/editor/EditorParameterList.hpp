@@ -24,7 +24,10 @@ namespace editor
         void insert(const parameter::Parameter &parameter) override
         {
             target->insert(parameter);
-            parameter->getChanged().setup(this, [this](){ changed.emit(); });
+            parameter->getChanged().setup(this, [this]()
+            {
+                changed.emit();
+            });
             changed.emit();
         }
 

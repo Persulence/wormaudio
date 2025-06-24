@@ -1,7 +1,6 @@
 #include "ParameterWidget.hpp"
 
 #include <utility>
-#include <X11/Xlib.h>
 
 #include "juce_gui_basics/juce_gui_basics.h"
 

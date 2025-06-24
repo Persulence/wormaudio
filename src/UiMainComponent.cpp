@@ -45,7 +45,7 @@ namespace ui
         // flexBox.items.add(FlexItem(elementBrowserBorder).withFlex(100));
         // flexBox.performLayout(getLocalBounds());
 
-        std::array<Component*, 5> comps = {&fileBrowserBorder, &bar1, &outline, &bar2, &transport};
+        std::array<Component*, 5> comps{{&fileBrowserBorder, &bar1, &outline, &bar2, &transport}};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
     }
 
@@ -72,7 +72,7 @@ namespace ui
 
     void MainSceneComponent::resized()
     {
-        std::array<Component*, 5> comps = {&leftPanel, &bar1, &centrePanel, &bar2, &rightPanel};
+        std::array<Component*, 5> comps = {{&leftPanel, &bar1, &centrePanel, &bar2, &rightPanel}};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0,  getWidth(), getHeight(), false, true);
 
         // FlexBox leftPanelBox;

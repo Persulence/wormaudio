@@ -12,6 +12,8 @@
 #include "UiMainComponent.hpp"
 #include "util/Data.hpp"
 
+
+
 //==============================================================================
 class juce_testApplication  : public juce::JUCEApplication
 {
@@ -115,6 +117,11 @@ private:
 //==============================================================================
 // This macro generates the main() routine that launches the app.
 START_JUCE_APPLICATION (juce_testApplication)
+
+class Violation
+{
+
+};
 
 // int main()
 // {
