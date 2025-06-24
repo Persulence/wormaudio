@@ -35,6 +35,7 @@ namespace sm
         lastStateEnter = sample;
     }
 
+    // TODO: move to event-local class
     Sample ParameterLookup::getReference(TimeType type) const
     {
         if (type == IN_STATE)

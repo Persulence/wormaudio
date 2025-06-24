@@ -10,19 +10,31 @@ namespace condition
         auto reference = pl.getReference(time.type);
 
         const player::Sample timePoint = reference + info.toSamples(*time.value);
-        if (timePoint >= info.blockBeginSamples && timePoint < info.blockEndSamples)
+        if (op == TimeOperator::GREATER_EQUAL)
         {
-            return timePoint - info.blockBeginSamples;
+            if (timePoint >= info.blockBeginSamples && timePoint < info.blockEndSamples)
+            {
+                return timePoint - info.blockBeginSamples;
+            }
+            else if (info.blockBeginSamples >= timePoint)
+            {
+                // If time.value is less than the length of a block, and the previous transition occurs with a non-zero
+                // handoff offset, it will not be possible to perform the next transition until the next block.
+                return 0;
+            }
         }
-        else if (info.blockBeginSamples >= timePoint)
+        else if (op == TimeOperator::LESS_EQUAL)
         {
-            // If time.value is less than the length of a block, and the previous transition occurs with a non-zero
-            // handoff offset, it will not be possible to perform the next transition until the next block.
-            return 0;
+            if (info.blockBeginSamples <= timePoint)
+            {
+                return 0;
+            }
+            else if (timePoint >= info.blockBeginSamples && timePoint < info.blockEndSamples)
+            {
+                return timePoint - info.blockBeginSamples;
+            }
         }
-        else
-        {
-            return -1;
-        }
+
+        return -1;
     }
 }
