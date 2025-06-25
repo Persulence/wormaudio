@@ -22,6 +22,9 @@ namespace ui
         juce::Image icon;
         juce::TreeViewItem *item;
 
+    protected:
+        bool dragging{false};
+
     private:
         juce::Rectangle<int> iconBounds;
     };

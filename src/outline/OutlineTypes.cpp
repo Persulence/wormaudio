@@ -5,9 +5,11 @@
 #include "browser/FileDragSource.hpp"
 #include "browser/element/ElementDragSource.hpp"
 #include "canvas/InspectorSelectionManager.hpp"
+#include "item/ElementItems.hpp"
 #include "editor/Editor.hpp"
 #include "event/EventDef.hpp"
 #include "inspector/InspectorRoot.hpp"
+#include "item/Transition.hpp"
 #include "parameter/ParameterConfigPanel.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
@@ -48,83 +50,6 @@ namespace ui
             ptr->label.setEditable(false, false);
 
             return ptr;
-        }
-    };
-
-    class StateDefItem : public SharedResourceItem<sm::StateDef>
-    {
-    public:
-        explicit StateDefItem(const Handle<sm::StateDef> &resource) :
-            SharedResourceItem(resource) {}
-
-        bool mightContainSubItems() override
-        {
-            return true;
-        }
-
-        std::unique_ptr<Component> createItemComponent() override
-        {
-            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/state_def.png");
-
-            ptr->label.getTextValue().referTo(resource->name);
-
-            return ptr;
-        }
-    };
-
-    class TransitionItem : public SharedResourceItem<sm::Transition1>
-    {
-    public:
-        explicit TransitionItem(const Handle<sm::Transition1> &resource) :
-            SharedResourceItem(resource)
-        {
-
-        }
-
-        bool mightContainSubItems() override
-        {
-            return false;
-        }
-
-        bool customComponentUsesTreeViewMouseHandler() const override
-        {
-            return true;
-        }
-
-        void itemClicked(const MouseEvent& event) override
-        {
-            setSelected(true, true, sendNotification);
-        }
-
-        std::unique_ptr<Component> createItemComponent() override
-        {
-            auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/transition.png");
-
-            if (auto shared = resource->nextState.lock())
-            {
-                auto toName = shared->getName();
-                ptr->label.setText("Transition: " + toName, dontSendNotification);
-            }
-            ptr->label.setEditable(false);
-
-            return ptr;
-        }
-
-        void itemSelectionChanged(bool isNowSelected) override
-        {
-            if (isNowSelected)
-            {
-                if (const auto manager = findSelectionManager<InspectorSelectionManager>())
-                {
-                    auto config = std::make_unique<TransitionPropertyPanel>(resource);
-                    manager->select(SimpleSelectionTarget::of(std::move(config)));
-                }
-            }
-            else
-            {
-                if (const auto manager = findSelectionManager<InspectorSelectionManager>())
-                    manager->deselectAll();
-            }
         }
     };
 
@@ -228,109 +153,12 @@ namespace ui
         }
     };
 
-    class ElementItemComponent : public OutlineItemComponent, public ElementDragSource
-    {
-    public:
-        explicit ElementItemComponent(juce::TreeViewItem* item_, const Handle<element::Element> &element):
-        OutlineItemComponent(item_, "icon/clip.png", false),
-            element(element)
-        {
-            label.setText(element->getName(), dontSendNotification);
-            label.addMouseListener(this, false);
-        }
-
-        void mouseDown(const MouseEvent &event) override
-        {
-            constexpr auto offset = Point(30, -30);
-            if (const auto container = DragAndDropContainer::findParentDragContainerFor(this))
-            {
-                container->startDragging( "ELEMENT", this,
-                        ScaledImage{},
-                        false,
-                        &offset,
-                        nullptr
-                        );
-            }
-        }
-
-        void mouseDrag(const MouseEvent &event) override
-        {
-        }
-
-        event::ElementHandle getHandle() override
-        {
-            return event::ElementHandle{element};
-        }
-
-        const Handle<element::Element> &element;
-    };
-
-    class ElementItem : public SharedResourceItem<element::Element>
-    {
-    public:
-        explicit ElementItem(const Handle<element::Element> &resource) :
-            SharedResourceItem(resource)
-        {
-
-        }
-
-        std::unique_ptr<Component> createItemComponent() override
-        {
-            return std::make_unique<ElementItemComponent>(this, resource);
-        }
-
-        bool mightContainSubItems() override { return false; }
-    };
-
-    class ChoiceElementItem : public ElementItem
-    {
-        class ChoiceClipItem : public AssetOutlineItem
-        {
-        public:
-            explicit ChoiceClipItem(const asset::AssetHandle &asset) :
-                AssetOutlineItem(asset) {}
-        };
-
-    public:
-        explicit ChoiceElementItem(const Handle<element::Element> &resource) :
-            ElementItem(resource) {}
-
-        void createChildren() override
-        {
-            auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
-            auto& clips = choice->getClips();
-            for (auto& clip : clips)
-            {
-                addSubItem(new AssetOutlineItem{clip});
-            }
-        }
-
-        bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails) override
-        {
-            return FileDragSource::test(dragSourceDetails);
-        }
-
-        void itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails, int insertIndex) override
-        {
-            if (auto source = FileDragSource::test(dragSourceDetails))
-            {
-                auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
-                choice->addClip(asset::createAsset(source->getFile()));
-                // treeHasChanged(); // Doesn't work?
-                refresh(this, true);
-            }
-        }
-
-        bool mightContainSubItems() override
-        {
-            return true;
-        }
-    };
-
 #define REG(Type, factory) reg<Type>([](auto handle) { return factory; });
 
     void OutlineTypeRegistry::regDefaults()
     {
+        using namespace outline;
+
         // registry.reg<event::Event>([](auto handle) { return std::make_unique<SoundEventItem>(handle); });
         REG(event::EventDef, make_unique<SoundEventItem>(handle); )
         REG(sm::StateMachineDefinition, make_unique<StateMachineDefinitionItem>(handle); )

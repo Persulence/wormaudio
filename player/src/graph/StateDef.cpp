@@ -54,6 +54,29 @@ namespace sm
         }
     }
 
+    void StateDef::reorderTransition(StateDef *target, int index)
+    {
+        if (const auto it = transitionLookup.find(target); it != transitionLookup.end())
+        {
+            auto prevPos = std::ranges::find(transitions, it->second);
+            // auto prevIndex = pos - transitions.begin();
+
+            // if (index > prevIndex)
+            // {
+                // prevIndex += 1;
+            // }
+
+            // transitions.insert(transitions.begin() + index, *pos);
+            // transitions.erase(transitions.begin() + prevIndex);
+
+            auto pos = transitions.begin();
+            std::advance(pos, index);
+
+
+            transitions.splice(pos, transitions, prevPos);
+        }
+    }
+
     void StateDef::setName(const std::string &name_)
     {
         name.setValue(juce::String{name_});
@@ -74,7 +97,7 @@ namespace sm
         return transitionLookup;
     }
 
-    const std::vector<std::shared_ptr<Transition1>>& StateDef::getTransitions() const
+    const std::list<std::shared_ptr<Transition1>>& StateDef::getTransitions() const
     {
         return transitions;
     }

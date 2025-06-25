@@ -47,3 +47,8 @@ void MainLookAndFeel::drawComboBox(Graphics& g, int width, int height, bool, int
     g.setColour(box.findColour (ComboBox::arrowColourId).withAlpha ((box.isEnabled() ? 0.9f : 0.2f)));
     g.strokePath(path, PathStrokeType (2.0f));
 }
+
+bool MainLookAndFeel::areLinesDrawnForTreeView(TreeView &tree_view)
+{
+    return true;
+}

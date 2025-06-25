@@ -61,7 +61,7 @@ namespace sm
         // std::weak_ptr doesn't work as a key
         // Just need to find a way to indicate that keys shouldn't be dereferenced.
         std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitionLookup;
-        std::vector<std::shared_ptr<Transition1>> transitions;
+        std::list<std::shared_ptr<Transition1>> transitions;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StateDef)
 
@@ -73,12 +73,13 @@ namespace sm
         void removeElement(const event::ElementHandle& element);
         void insertTransition(const Transition1::Ptr& transition);
         void removeTransitionTo(StateDef* other);
+        void reorderTransition(StateDef* target, int index);
         void setName(const std::string &name_);
 
         bool hasSelfTransition();
         const std::vector<event::ElementHandle>& elements();
         const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitionLookup() const;
-        const std::vector<std::shared_ptr<Transition1>>& getTransitions() const;
+        const std::list<std::shared_ptr<Transition1>>& getTransitions() const;
 
         std::string getName() const;
 
@@ -87,6 +88,7 @@ namespace sm
             // auto values = transitions | std::views::values;
             return std::vector<resource::ResourceHandle>{transitions.begin(), transitions.end()};
         }
+
 
     };
 
