@@ -20,21 +20,29 @@ namespace ui
             label.addMouseListener(this, false);
         }
 
-        void mouseDown(const MouseEvent &event) override
+        void mouseDrag(const MouseEvent &event) override
         {
-            constexpr auto offset = Point(30, -30);
-            if (const auto container = DragAndDropContainer::findParentDragContainerFor(this))
+            if (event.mods.isLeftButtonDown() && !dragging)
             {
-                container->startDragging("ELEMENT", this,
-                                         ScaledImage{},
-                                         false,
-                                         &offset,
-                                         nullptr
-                        );
+                dragging = true;
+                constexpr auto offset = Point(30, -30);
+                if (const auto container = DragAndDropContainer::findParentDragContainerFor(this))
+                {
+                    container->startDragging("ELEMENT", this,
+                                             ScaledImage{},
+                                             false,
+                                             &offset,
+                                             nullptr
+                            );
+                }
             }
         }
 
-        void mouseDrag(const MouseEvent &event) override {}
+        void mouseUp(const MouseEvent &event) override
+        {
+            if (event.mods.isLeftButtonDown())
+                dragging = false;
+        }
 
         event::ElementHandle getHandle() override
         {
