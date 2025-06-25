@@ -32,19 +32,19 @@ namespace signal_event
     };
 
     template <typename... Args>
-    class SharedSignal
+    class UniqueSignal
     {
         using L = ListenerBase<Args...>;
 
     public:
-        SharedSignal(const SharedSignal&) = delete;
-        SharedSignal& operator=(const SharedSignal&) = delete;
-        SharedSignal(SharedSignal&&) = delete;
-        SharedSignal& operator=(SharedSignal&&) = delete;
+        UniqueSignal(const UniqueSignal&) = delete;
+        UniqueSignal& operator=(const UniqueSignal&) = delete;
+        UniqueSignal(UniqueSignal&&) = delete;
+        UniqueSignal& operator=(UniqueSignal&&) = delete;
 
-        SharedSignal() = default;
+        UniqueSignal() = default;
 
-        ~SharedSignal()
+        ~UniqueSignal()
         {
             for (auto& listener : listeners)
             {
@@ -62,11 +62,13 @@ namespace signal_event
             listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
         }
 
-        void emit(Args... args)
+        void emit(Args&&... args)
         {
             for (auto& l : listeners)
             {
-                l->callback(std::forward<Args>(args)...);
+                // l->listenerCallback(std::forward<Args>(args)...);
+                // Cheeky copy
+                l->listenerCallback(args...);
             }
         }
 
