@@ -79,7 +79,10 @@ namespace editor
             case player::STOPPED:
                 getRuntime().clearInstances();
                 getRuntime().transport.setState(player::STOPPED);
-                onStateChange.emit(nullptr);
+                MessageManager::callAsync([this]
+                {
+                    onStateChange.emit(nullptr);
+                });
                 break;
             case player::STARTING:
                 // TODO
