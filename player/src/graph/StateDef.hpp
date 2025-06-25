@@ -60,7 +60,8 @@ namespace sm
         // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.
         // std::weak_ptr doesn't work as a key
         // Just need to find a way to indicate that keys shouldn't be dereferenced.
-        std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitions;
+        std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitionLookup;
+        std::vector<std::shared_ptr<Transition1>> transitions;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StateDef)
 
@@ -76,15 +77,17 @@ namespace sm
 
         bool hasSelfTransition();
         const std::vector<event::ElementHandle>& elements();
-        const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitions() const;
+        const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitionLookup() const;
+        const std::vector<std::shared_ptr<Transition1>>& getTransitions() const;
 
         std::string getName() const;
 
         std::vector<resource::ResourceHandle> getChildResources() override
         {
-            auto values = transitions | std::views::values;
-            return std::vector<resource::ResourceHandle>{values.begin(), values.end()};
+            // auto values = transitions | std::views::values;
+            return std::vector<resource::ResourceHandle>{transitions.begin(), transitions.end()};
         }
+
     };
 
     class StateInstance

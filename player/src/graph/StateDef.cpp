@@ -41,14 +41,16 @@ namespace sm
 
     void StateDef::insertTransition(const Transition1::Ptr &transition)
     {
-        transitions.emplace(transition->nextState.lock().get(), transition);
+        transitionLookup.emplace(transition->nextState.lock().get(), transition);
+        transitions.push_back(transition);
     }
 
     void StateDef::removeTransitionTo(StateDef *other)
     {
-        if (const auto it = transitions.find(other); it != transitions.end())
+        if (const auto it = transitionLookup.find(other); it != transitionLookup.end())
         {
-            transitions.erase(it);
+            transitions.erase(std::ranges::remove(transitions, it->second).begin(), transitions.end());
+            transitionLookup.erase(it);
         }
     }
 
@@ -59,7 +61,7 @@ namespace sm
 
     bool StateDef::hasSelfTransition()
     {
-        return transitions.contains(this);
+        return transitionLookup.contains(this);
     }
 
     const std::vector<event::ElementHandle> & StateDef::elements()
@@ -67,7 +69,12 @@ namespace sm
         return elements_;
     }
 
-    const std::unordered_map<StateDef*, Transition1::Ptr>& StateDef::getTransitions() const
+    const std::unordered_map<StateDef*, Transition1::Ptr>& StateDef::getTransitionLookup() const
+    {
+        return transitionLookup;
+    }
+
+    const std::vector<std::shared_ptr<Transition1>>& StateDef::getTransitions() const
     {
         return transitions;
     }

@@ -29,7 +29,8 @@ namespace event
         {
             auto& stateEntry = getOrCreateEntry(map, state);
 
-            for (const auto &transition: state->getTransitions() | std::views::values)
+            // for (const auto &transition: state->getTransitions() | std::views::values)
+            for (const auto &transition: state->getTransitions())
             {
                 if (auto shared = transition->nextState.lock())
                 {

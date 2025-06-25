@@ -214,7 +214,7 @@ namespace ui
     {
         if (const auto [sharedFrom, sharedTo] = lock(); sharedFrom && sharedTo)
         {
-            if (sharedTo->getState()->getTransitions().contains(sharedFrom->getState().get()))
+            if (sharedTo->getState()->getTransitionLookup().contains(sharedFrom->getState().get()))
                 return true;
         }
 
@@ -232,7 +232,7 @@ namespace ui
         const auto sharedTo = to.lock();
         if (sharedFrom && sharedTo)
         {
-            return std::make_unique<TransitionPropertyPanel>(sharedFrom->getState()->getTransitions().at(sharedTo->getState().get()));
+            return std::make_unique<TransitionPropertyPanel>(sharedFrom->getState()->getTransitionLookup().at(sharedTo->getState().get()));
         }
 
         // Return an empty component if this is invalidated

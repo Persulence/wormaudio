@@ -31,7 +31,7 @@ namespace ui
         for (const auto& fromNode : *stateNodes)
         {
             auto fromState = fromNode->getState();
-            for (const auto& transition : std::views::values(fromState->getTransitions()))
+            for (const auto& transition : fromState->getTransitions())
             {
                 if (auto shared = transition->nextState.lock())
                 {
