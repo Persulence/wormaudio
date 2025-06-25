@@ -1,9 +1,7 @@
 #pragma once
 
-#include <cassert>
 #include <memory>
 
-#include "juce_events/juce_events.h"
 #include "../signal/Signal.hpp"
 
 namespace util
@@ -109,52 +107,52 @@ namespace util
         return static_cast<T>(value.getValue());
     }
 
-    /**
-     * Bridges juce::Value and Data.
-     * Allows JUCE UI elements to be connected to objects that require the persistent callbacks of Data.
-     * Maintains a reference to the Data data and the Value value.
-     * Updates the other when one changes.
-     * Must not be moved, otherwise the value listeners will be cleared.
-     * @tparam T Value type to reference.
-     */
-    template <typename T>
-    struct ValueAdaptor : juce::Value::Listener, Data<T>::Listener
-    {
-        juce::Value value;
-        Data<T> data;
-
-        /// Causes allocation of a new Data that will either be unused or replaced later.
-        /// This is inefficient but convenient.
-        explicit ValueAdaptor(): data(T{})
-        {
-        }
-
-        explicit ValueAdaptor(Data<T> data_):
-            data(std::move(data_))
-        {
-            value.addListener(this);
-            data.setupListener(this, [this](auto& t){ dataChanged(t); });
-        }
-
-        void setData(Data<T> data_)
-        {
-            data.removeListener(this);
-            data = data_;
-            data.setupListener(this, [this](auto& t){ dataChanged(t); });
-
-            dataChanged(*data);
-        }
-
-        void valueChanged(juce::Value &value) override
-        {
-            data = getValue<T>(value);
-        }
-
-        void dataChanged(const T& newValue)
-        {
-            setValue<T>(value, newValue);
-        }
-    };
+    // /**
+    //  * Bridges juce::Value and Data.
+    //  * Allows JUCE UI elements to be connected to objects that require the persistent callbacks of Data.
+    //  * Maintains a reference to the Data data and the Value value.
+    //  * Updates the other when one changes.
+    //  * Must not be moved, otherwise the value listeners will be cleared.
+    //  * @tparam T Value type to reference.
+    //  */
+    // template <typename T>
+    // struct ValueAdaptor : juce::Value::Listener, Data<T>::Listener
+    // {
+    //     juce::Value value;
+    //     Data<T> data;
+    //
+    //     /// Causes allocation of a new Data that will either be unused or replaced later.
+    //     /// This is inefficient but convenient.
+    //     explicit ValueAdaptor(): data(T{})
+    //     {
+    //     }
+    //
+    //     explicit ValueAdaptor(Data<T> data_):
+    //         data(std::move(data_))
+    //     {
+    //         value.addListener(this);
+    //         data.setupListener(this, [this](auto& t){ dataChanged(t); });
+    //     }
+    //
+    //     void setData(Data<T> data_)
+    //     {
+    //         data.removeListener(this);
+    //         data = data_;
+    //         data.setupListener(this, [this](auto& t){ dataChanged(t); });
+    //
+    //         dataChanged(*data);
+    //     }
+    //
+    //     void valueChanged(juce::Value &value) override
+    //     {
+    //         data = getValue<T>(value);
+    //     }
+    //
+    //     void dataChanged(const T& newValue)
+    //     {
+    //         setValue<T>(value, newValue);
+    //     }
+    // };
 
     template<>
     inline std::string getValue<std::string>(const juce::Value& value)
