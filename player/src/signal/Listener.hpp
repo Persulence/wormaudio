@@ -80,6 +80,9 @@ namespace signal_event
     public:
         Listener(): ptr(std::make_unique<UniqueListener>()) {}
 
+        Listener(Listener&&) = default;
+        Listener& operator=(Listener&&) = default;
+
         void listen(UniqueSignal<Args...>* target)
         {
             ptr->listen(target);

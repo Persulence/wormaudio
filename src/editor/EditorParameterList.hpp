@@ -4,7 +4,7 @@
 
 namespace editor
 {
-    class EditorParameterList : public event::ParameterList, parameter::ParameterDefBase::Changed::Listener
+    class EditorParameterList : public event::ParameterList, parameter::ParameterDefBase::Changed::MultiListener
     {
     public:
         using Changed = signal_event::Callback<>;
@@ -14,7 +14,12 @@ namespace editor
 
         explicit EditorParameterList(const resource::Handle<event::ParameterListImpl> &target_):
             target(target_)
-        {}
+        {
+            setCallback([this]
+            {
+                changed.emit();
+            });
+        }
 
         auto size() const
         {
@@ -24,10 +29,8 @@ namespace editor
         void insert(const parameter::Parameter &parameter) override
         {
             target->insert(parameter);
-            parameter->getChanged().setup(this, [this]()
-            {
-                changed.emit();
-            });
+            listen(parameter->getChanged());
+
             changed.emit();
         }
 
@@ -48,6 +51,7 @@ namespace editor
         {
             using namespace parameter;
 
+            newParameter->getChanged().setup(this);
             *parameter = std::move(*newParameter);
             // ParameterList::remove(parameter);
             // ParameterList::insert(newParameter);

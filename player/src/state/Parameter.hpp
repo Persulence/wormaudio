@@ -58,28 +58,48 @@ namespace parameter
         util::Data<std::string> name;
         Changed::Signal changed;
 
+        DISABLE_COPY(ParameterDefBase)
+        // ENABLE_DEFAULT_MOVE(ParameterDefBase)
+
         ParameterDefBase() = default;
 
         explicit ParameterDefBase(const std::string& name_):
             name(name_)
         {
+            // setIdentifier("parameter def");
             name.setupListener(this, [this](auto& a)
             {
-                // This object is moved
-                // But the original remains active and this is called
                 changed.emit();
             });
         }
 
-        // ParameterDefBase(ParameterDefBase&& other) noexcept
-        // {
-        //     other.name.removeListener(&other);
-        //
-        //     name.addListener(this);
-        // }
+        // Some utter stupidity is necessary here because I can't design anything well
+        ParameterDefBase& operator=(ParameterDefBase&& other) noexcept
+        {
+            Listener::operator=(std::move(other));
+            std::swap(name, other.name);
+            std::swap(changed, other.changed);
+
+            setCallback([this](auto& a)
+            {
+                changed.emit();
+            });
+
+            return *this;
+        }
+
+        ParameterDefBase(ParameterDefBase&& other) noexcept:
+            Listener(std::move(other)),
+            name(other.name),
+            changed(std::move(other.changed))
+        {
+            setCallback([this](auto& a)
+            {
+                changed.emit();
+            });
+        }
 
         // Jank!
-
         std::string getName() const
         {
             return *name;
