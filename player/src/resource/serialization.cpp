@@ -2,18 +2,32 @@
 
 #include "cereal/archives/json.hpp"
 
-void resource::writeStructure(const Handle<Project> &project, std::string filePath)
+namespace resource
 {
-    if (!filePath.ends_with(FILE_EXTENSION))
+    void writeStructure(const Handle<Project> &project, std::string filePath)
     {
-        filePath.append(FILE_EXTENSION);
+        if (!filePath.ends_with(FILE_EXTENSION))
+        {
+            filePath.append(FILE_EXTENSION);
+        }
+
+        {
+            std::fstream ostream{filePath, std::ios::out};
+            cereal::JSONOutputArchive archive{ostream};
+            archive(*project);
+            ostream.close();
+        }
     }
 
-    std::fstream ostream{filePath, std::ios::out};
+    void readStructure(const Handle<Project> &project, std::string filePath)
     {
-        cereal::JSONOutputArchive archive{ostream};
-        archive(*project);
+        {
+            std::fstream istream{filePath, std::ios::in};
+            cereal::JSONInputArchive archive{istream};
+            archive(*project);
+            istream.close();
+        }
     }
-
-    ostream.close();
 }
+
+

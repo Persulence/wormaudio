@@ -30,12 +30,17 @@ namespace ui
             .add({Commands::SAVE_PROJECT, [](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.saveManager.save(editor.getProject());
+                editor.saveManager.saveAuto(editor.getProject());
             }})
             .add({Commands::SAVE_PROJECT_AS, [this](auto&)
             {
                 auto& editor = editor::getInstance();
                 editor.saveManager.saveAs(editor.getProject());
+            }})
+            .add({Commands::OPEN_PROJECT, [this](auto&)
+            {
+                auto& editor = editor::getInstance();
+                editor.saveManager.open(editor.getProject());
             }})
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             {
@@ -47,6 +52,8 @@ namespace ui
 
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT.id, KeyPress{'s', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT_AS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0});
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT.id, KeyPress{'o', ModifierKeys::ctrlModifier, 0});
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT_SETTINGS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::altModifier, 0});
     }
 
     UiMainComponent::~UiMainComponent()

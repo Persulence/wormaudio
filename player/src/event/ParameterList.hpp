@@ -41,7 +41,6 @@ namespace event
 
         INTERNAL_SERIALIZE
         {
-            // TODO
             // ar(parameters);
         }
     };
