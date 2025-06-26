@@ -115,7 +115,8 @@ namespace ui
         commands()
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             {
-                setFakeModal(std::make_unique<ProjectSettingsDialogue>(editor::getInstance()));
+                auto& editor = editor::getInstance();
+                setFakeModal(std::make_unique<ProjectSettingsDialogue>(editor));
             }})
             .add({Commands::QUIT, [](auto&) { JUCEApplication::getInstance()->quit(); }})
         .finish();

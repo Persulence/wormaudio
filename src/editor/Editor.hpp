@@ -36,6 +36,9 @@ namespace editor
         void loadEvent(const resource::Handle<event::EventDef>& event);
 
     public:
+        DISABLE_COPY(Editor)
+        DISABLE_MOVE(Editor)
+
         player::TransportCallback::Signal transportSignal;
         EventChanged::Signal eventChanged;
 
