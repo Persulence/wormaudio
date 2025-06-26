@@ -10,6 +10,7 @@
 #include "canvas/CentrePanel.hpp"
 #include "inspector/RightInspectorPanel.hpp"
 #include "transport/TransportPanel.hpp"
+#include "util/modal/FakeModalDialogue.hpp"
 
 namespace ui
 {
@@ -54,6 +55,7 @@ namespace ui
         }
     };
 
+    // 'Scene' represents an editor mode, such as 'event def' or 'mixer'.
     class MainSceneComponent : public Panel, public juce::DragAndDropContainer, public InspectorSelectionManager
     {
         LeftPanel leftPanel;
@@ -71,15 +73,48 @@ namespace ui
         void resized() override;
     };
 
-    class UiMainComponent : public juce::Component
+    class UiMainComponent : public juce::Component, juce::DeletedAtShutdown
     {
-        juce::Toolbar toolbar;
+        juce::MenuBarComponent menuBar;
         MainSceneComponent mainScene;
+        std::unique_ptr<juce::MenuBarModel> menuModel;
+
+        struct Private {};
 
     public:
-        UiMainComponent();
+        explicit UiMainComponent(Private);
+
+        static UiMainComponent& getInstance()
+        {
+            static std::mutex mutex;
+            static UiMainComponent* instance;
+
+            std::lock_guard lock{mutex};
+            if (!instance)
+            {
+                instance = new UiMainComponent(Private{});
+            }
+
+            return *instance;
+        }
+
         ~UiMainComponent() override;
 
+        void setFakeModal(const std::shared_ptr<FakeModalDialogue> &dialogue_)
+        {
+            dialogue = dialogue_;
+            addAndMakeVisible(dialogue.get());
+            updateDialogue();
+        }
+
+        void updateDialogue()
+        {
+            resized();
+        }
+
         void resized() override;
+
+    private:
+        std::shared_ptr<FakeModalDialogue> dialogue;
     };
 }

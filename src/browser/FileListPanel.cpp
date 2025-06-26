@@ -73,7 +73,7 @@ namespace ui
         if (selected)
         {
             g.setColour(Colours::darkblue);
-            g.fillRect(getLocalBounds().reduced(2));
+            g.fillRect(getLocalBounds());
         }
         auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
         iconBounds.reduce(4, 4);
@@ -84,7 +84,6 @@ namespace ui
         }
 
         g.setFont(font);
-
         g.setColour(selected ? Colours::white : Colours::black);
         auto nameText = file.getFileName();
         int nameTextW = font.getStringWidth(nameText);

@@ -20,6 +20,9 @@ MainLookAndFeel::MainLookAndFeel()
     setColour(ComboBox::backgroundColourId, bg);
     setColour(ComboBox::outlineColourId, fg);
     setColour(ComboBox::arrowColourId, fg);
+
+    setColour(TextButton::buttonColourId, Colours::red);
+    setColour(TextButton::buttonOnColourId, bgDark);
 }
 
 void MainLookAndFeel::drawPopupMenuBackground(Graphics &graphics, int width, int height)
@@ -51,4 +54,43 @@ void MainLookAndFeel::drawComboBox(Graphics& g, int width, int height, bool, int
 bool MainLookAndFeel::areLinesDrawnForTreeView(TreeView &tree_view)
 {
     return true;
+}
+
+void MainLookAndFeel::drawDocumentWindowTitleBar(DocumentWindow &document_window, Graphics &graphics, int w, int h,
+        int titleSpaceX, int titleSpaceW, const Image *icon, bool drawTitleTextOnLeft)
+{
+    LookAndFeel_V4::drawDocumentWindowTitleBar(document_window, graphics, w, h, titleSpaceX, titleSpaceW, icon,
+                                               drawTitleTextOnLeft);
+}
+
+// MenuBar
+
+void MainLookAndFeel::drawMenuBarBackground(Graphics &g, int width, int height, bool isMouseOverBar,
+        MenuBarComponent &bar)
+{
+    // auto colour = bar.findColour(TextButton::buttonColourId).withAlpha(0.4f);
+    auto colour = Colour{0xff7e2529};
+
+    Rectangle r{width, height};
+
+    g.setColour(colour.contrasting(0.15f));
+    g.fillRect(r.removeFromTop(1));
+    g.fillRect(r.removeFromBottom(1));
+
+    g.setGradientFill (ColourGradient::vertical (colour, 0, colour.darker (0.2f), static_cast<float>(height)));
+    g.fillRect (r);
+}
+
+void MainLookAndFeel::drawMenuBarItem(Graphics &g, int width, int height, int itemIndex, const String &itemText,
+        bool isMouseOverItem, bool isMenuOpen, bool isMouseOverBar, MenuBarComponent &bar)
+{
+    LookAndFeel_V4::drawMenuBarItem(g, width, height, itemIndex, itemText, isMouseOverItem, isMenuOpen,
+                                    isMouseOverBar,
+                                    bar);
+}
+
+Font MainLookAndFeel::getMenuBarFont(MenuBarComponent &bar, int itemIndex, const String &itemText)
+{
+    // return withDefaultMetrics (FontOptions (static_cast<float>(bar.getHeight()) * 0.7f));
+    return withDefaultMetrics(FontOptions{static_cast<float>(15)});
 }

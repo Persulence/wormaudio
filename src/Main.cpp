@@ -73,7 +73,7 @@ public:
 
             // The horror
             setUsingNativeTitleBar(true);
-            setContentOwned(new ui::UiMainComponent(), true);
+            setContentNonOwned(&ui::UiMainComponent::getInstance(), true);
             glContext.attachTo(*getTopLevelComponent());
 
            #if JUCE_IOS || JUCE_ANDROID

@@ -61,7 +61,7 @@ namespace ui
         }
 
     protected:
-        juce::Font font{juce::Font{juce::FontOptions{}}};
+        juce::Font font{juce::Font{juce::FontOptions{15}}};
         std::vector<std::shared_ptr<Entry>> entries;
         int entryH{settings::browserEntryHeight};
         int expectedHeight{entryH};

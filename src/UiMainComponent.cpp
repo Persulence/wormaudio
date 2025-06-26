@@ -5,6 +5,7 @@
 #include "theme/MainLookAndFeel.hpp"
 #include "panel/BorderPanel.hpp"
 #include "editor/Editor.hpp"
+#include "menu/MainMenuModel.hpp"
 #include "runtime/Runtime.hpp"
 
 using namespace juce;
@@ -98,14 +99,17 @@ namespace ui
         // horizontalStack.performLayout(getLocalBounds());
     }
 
-    UiMainComponent::UiMainComponent()
+    UiMainComponent::UiMainComponent(Private):
+        menuModel(std::make_unique<MainMenuModel>())
     {
-        addAndMakeVisible(toolbar);
-        addAndMakeVisible(mainScene);
-
         auto& editor = editor::Editor::getInstance();
         editor.startRuntime();
         editor.getRuntime().connectToDevice();
+
+        addAndMakeVisible(mainScene);
+
+        addAndMakeVisible(menuBar);
+        menuBar.setModel(menuModel.get());
     }
 
     UiMainComponent::~UiMainComponent()
@@ -121,9 +125,17 @@ namespace ui
         box.justifyContent = FlexBox::JustifyContent::flexStart;
         box.alignContent = FlexBox::AlignContent::stretch;
         box.alignItems = FlexBox::AlignItems::stretch;
-        // box.items.add(FlexItem{toolbar}.withMaxHeight(30).withHeight(30));
+        float menuBarHeight = 25;
+        box.items.add(FlexItem{menuBar}.withMaxHeight(menuBarHeight).withHeight(menuBarHeight));
         box.items.add(FlexItem{mainScene}.withFlex(2));
         box.performLayout(getLocalBounds());
+
+        if (dialogue)
+        {
+            dialogue->toFront(true);
+            auto rect = getLocalBounds().withSizeKeepingCentre(getHeight() * 0.7, getHeight() * 0.7);
+            dialogue->setBounds(rect);
+        }
     }
 }
 

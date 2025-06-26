@@ -27,6 +27,7 @@ namespace ui
         juce::File file;
         juce::Font font;
         juce::Image icon;
+        // juce::Label label;
         bool selected{false};
         Callback callback{[](const auto&, auto, const auto&){}};
 
@@ -38,6 +39,8 @@ namespace ui
             callback(std::move(callback))
         {
             updateIcon();
+
+            // addAndMakeVisible(label)
         }
 
         void paint(juce::Graphics &g) override;
