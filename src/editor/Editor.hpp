@@ -4,6 +4,7 @@
 
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
+#include "ProjectSaveManager.hpp"
 #include "event/EventDef.hpp"
 #include "resource/Project.hpp"
 #include "state/StateMachineDefinition.hpp"
@@ -45,6 +46,8 @@ namespace editor
         Lifecycle::Signal lifecycleChanged;
         ParametersChanged::Signal parametersChanged;
         sm::OnStateChange::Signal onStateChange;
+
+        ProjectSaveManager saveManager;
 
         static Editor& getInstance()
         {

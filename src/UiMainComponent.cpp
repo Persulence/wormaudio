@@ -29,25 +29,13 @@ namespace ui
         commands()
             .add({Commands::SAVE_PROJECT, [](auto&)
             {
-
+                auto& editor = editor::getInstance();
+                editor.saveManager.save(editor.getProject());
             }})
             .add({Commands::SAVE_PROJECT_AS, [this](auto&)
             {
-                // File defFile = File::getCurrentWorkingDirectory().getChildFile("project.proj");
-                // File defFile = {File::getCurrentWorkingDirectory().getFullPathName() + "/"};
-                fileChooser = std::make_unique<FileChooser>("Choose save location",
-                    File::getCurrentWorkingDirectory(),
-                    "*.proj",
-                    true);
-                auto flags = FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting | FileBrowserComponent::canSelectFiles;
-                fileChooser->launchAsync(flags, [](const FileChooser& chooser)
-                {
-                    if (const auto file = chooser.getResult(); file != File{})
-                    {
-                        auto& editor = editor::getInstance();
-                        resource::writeStructure(editor.getProject(), file.getFullPathName().toStdString());
-                    }
-                });
+                auto& editor = editor::getInstance();
+                editor.saveManager.saveAs(editor.getProject());
             }})
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             {
@@ -56,6 +44,9 @@ namespace ui
             }})
             .add({Commands::QUIT, [](auto&) { JUCEApplication::getInstance()->quit(); }})
         .finish();
+
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT.id, KeyPress{'s', ModifierKeys::ctrlModifier, 0});
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT_AS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0});
     }
 
     UiMainComponent::~UiMainComponent()
