@@ -2,6 +2,7 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "dialogue/ProjectSettingsDialogue.hpp"
 #include "theme/MainLookAndFeel.hpp"
 #include "panel/BorderPanel.hpp"
 #include "editor/Editor.hpp"
@@ -110,10 +111,19 @@ namespace ui
 
         addAndMakeVisible(menuBar);
         menuBar.setModel(menuModel.get());
+
+        commands()
+            .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
+            {
+                setFakeModal(std::make_unique<ProjectSettingsDialogue>(editor::getInstance()));
+            }})
+            .add({Commands::QUIT, [](auto&) { JUCEApplication::getInstance()->quit(); }})
+        .finish();
     }
 
     UiMainComponent::~UiMainComponent()
     {
+        menuBar.setModel(nullptr);
         auto& editor = editor::Editor::getInstance();
         editor.shutdown();
     }
@@ -133,8 +143,7 @@ namespace ui
         if (dialogue)
         {
             dialogue->toFront(true);
-            auto rect = getLocalBounds().withSizeKeepingCentre(getHeight() * 0.7, getHeight() * 0.7);
-            dialogue->setBounds(rect);
+            dialogue->setBounds(getLocalBounds());
         }
     }
 }

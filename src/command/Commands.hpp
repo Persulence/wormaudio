@@ -7,6 +7,7 @@ namespace ui
     struct CommandCategory
     {
         static constexpr std::string APP{"app"};
+        static constexpr std::string FILE{"file"};
         static constexpr std::string EDIT{"edit"};
     };
 
@@ -50,6 +51,8 @@ namespace ui
         // static constexpr juce::CommandID DEL = juce::StandardApplicationCommandIDs::del;
         static inline CommandDef QUIT{juce::StandardApplicationCommandIDs::quit, "Quit", "Quit the application", CommandCategory::APP, 0};
         static inline CommandDef DEL{juce::StandardApplicationCommandIDs::del, "Delete", "Delete current selection", CommandCategory::EDIT, 0};
+
+        static inline CommandDef OPEN_PROJECT_SETTINGS{0x2001, "Project Settings", "Open project settings", CommandCategory::FILE, 0};
 
         static Commands& getInstance()
         {

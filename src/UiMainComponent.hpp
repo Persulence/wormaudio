@@ -73,7 +73,7 @@ namespace ui
         void resized() override;
     };
 
-    class UiMainComponent : public juce::Component, juce::DeletedAtShutdown
+    class UiMainComponent : public juce::Component, juce::DeletedAtShutdown, public SimpleCommandTarget
     {
         juce::MenuBarComponent menuBar;
         MainSceneComponent mainScene;
@@ -100,21 +100,33 @@ namespace ui
 
         ~UiMainComponent() override;
 
-        void setFakeModal(const std::shared_ptr<FakeModalDialogue> &dialogue_)
+        void setFakeModal(const std::shared_ptr<juce::Component> &dialogue_)
         {
-            dialogue = dialogue_;
-            addAndMakeVisible(dialogue.get());
+            if (dialogue_)
+                dialogue = std::make_unique<FakeModalDialogue>(dialogue_);
+            else
+                dialogue = nullptr;
+
             updateDialogue();
         }
 
         void updateDialogue()
         {
+            if (dialogue)
+                addAndMakeVisible(dialogue.get());
+            else
+                removeChildComponent(dialogue.get());
+
+            if (dialogue)
+            {
+                dialogue->enterModalState();
+            }
             resized();
         }
 
         void resized() override;
 
     private:
-        std::shared_ptr<FakeModalDialogue> dialogue;
+        std::unique_ptr<FakeModalDialogue> dialogue;
     };
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "juce_gui_basics/juce_gui_basics.h"
+#include "panel/Panel.hpp"
 
 namespace ui
 {
@@ -39,8 +40,7 @@ namespace ui
 
         void paint(juce::Graphics &g) override
         {
-            g.setColour(juce::Colours::lightgrey);
-            g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(borderWidth / 2, borderWidth / 2), 5, borderWidth);
+            Panel::paintBorder(g, getLocalBounds(), borderWidth);
             // g.drawRect(getLocalBounds(), borderWidth);
         }
     };

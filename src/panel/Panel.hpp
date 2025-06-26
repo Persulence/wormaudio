@@ -14,6 +14,12 @@ namespace ui
         std::vector<std::unique_ptr<Component>> nonameOwned;
 
     public:
+        static void paintBorder(juce::Graphics& g, juce::Rectangle<int> bounds, float borderWidth)
+        {
+            g.setColour(juce::Colours::lightgrey);
+            g.drawRoundedRectangle(bounds.toFloat().reduced(borderWidth / 2, borderWidth / 2), 5, borderWidth);
+        }
+
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Panel)
 
         Panel() = default;
