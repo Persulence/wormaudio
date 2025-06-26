@@ -4,13 +4,15 @@
 
 namespace editor
 {
+    using namespace resource;
+
     Editor::Editor()
     {
-        project = resource::make<resource::Project>();
+        project = resource::make<Project>();
         event = project->addEvent(event::EventDef::create());
 
         globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
-        loadEvent(event);
+        setCurrentEvent(event);
 
         globalParameters->changed.setup(this, [this]() { refreshParameters(); });
     }
@@ -29,7 +31,7 @@ namespace editor
         parametersChanged.emit();
     }
 
-    void Editor::loadEvent(const resource::Handle<event::EventDef> &event)
+    void Editor::setCurrentEvent(const resource::Handle<event::EventDef> &event)
     {
         refreshParameters();
         instance = std::make_shared<EditorEventInstance>(event);

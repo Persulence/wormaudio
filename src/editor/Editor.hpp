@@ -33,7 +33,7 @@ namespace editor
 
         void refreshParameters();
 
-        void loadEvent(const resource::Handle<event::EventDef>& event);
+        void setCurrentEvent(const resource::Handle<event::EventDef>& event);
 
     public:
         DISABLE_COPY(Editor)
@@ -71,13 +71,8 @@ namespace editor
         }
 
         void play();
-
         void setState(player::TransportState state, bool notify);
-
-        void stop()
-        {
-            setState(player::STOPPED, true);
-        }
+        void stop() { setState(player::STOPPED, true); }
 
         void shutdown();
 

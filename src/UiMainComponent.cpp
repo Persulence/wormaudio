@@ -113,6 +113,8 @@ namespace ui
         menuBar.setModel(menuModel.get());
 
         commands()
+            .add({Commands::SAVE_PROJECT, [](auto&){}})
+            .add({Commands::SAVE_PROJECT_AS, [](auto&){}})
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             {
                 auto& editor = editor::getInstance();

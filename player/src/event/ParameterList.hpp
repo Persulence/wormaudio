@@ -3,9 +3,12 @@
 #include <memory>
 #include <vector>
 
+#include "cereal/types/vector.hpp"
+
 #include "util/class_util.h"
 #include "resource/SharedResource.hpp"
 #include "state/Parameter.hpp"
+#include "util/serialization.hpp"
 
 namespace event
 {
@@ -33,5 +36,13 @@ namespace event
 
         JUCE_DECLARE_NON_COPYABLE(ParameterListImpl)
 
+    private:
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            // TODO
+            // ar(parameters);
+        }
     };
 }

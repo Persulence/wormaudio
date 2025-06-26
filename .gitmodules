@@ -1,3 +1,6 @@
 [submodule "lib/JUCE"]
 	path = lib/JUCE
 	url = https://github.com/juce-framework/JUCE
+[submodule "lib/cereal"]
+	path = lib/cereal
+	url = https://github.com/USCiLab/cereal

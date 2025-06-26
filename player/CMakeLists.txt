@@ -32,7 +32,7 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 # or
-add_subdirectory(../lib/JUCE build)
+add_subdirectory(${CMAKE_SOURCE_DIR}/lib/JUCE build)
 
 # If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
 # to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
@@ -79,6 +79,7 @@ target_include_directories(${LIBRARY_TARGET}
         PUBLIC
             ../JuceLibraryCode
             src
+            ${CMAKE_SOURCE_DIR}/lib/cereal/include
 #            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1
 #            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu
 #            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward

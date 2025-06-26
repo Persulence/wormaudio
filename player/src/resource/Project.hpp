@@ -1,11 +1,15 @@
 #pragma once
+
+#include "cereal/types/vector.hpp"
+
 #include "SharedResource.hpp"
 #include "event/EventDef.hpp"
 #include "event/ParameterList.hpp"
+#include "util/serialization.hpp"
 
 namespace resource
 {
-    class Project : public SharedResource
+    class Project final : public SharedResource
     {
     public:
         Handle<event::ParameterListImpl> globalParameters;
@@ -33,6 +37,15 @@ namespace resource
         {
             events.push_back(event);
             return event;
+        }
+
+    private:
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            // TODO: events
+            ar(globalParameters);
         }
     };
 }
