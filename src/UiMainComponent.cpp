@@ -7,6 +7,7 @@
 #include "panel/BorderPanel.hpp"
 #include "editor/Editor.hpp"
 #include "menu/MainMenuModel.hpp"
+#include "resource/serialization.hpp"
 #include "runtime/Runtime.hpp"
 
 using namespace juce;
@@ -76,28 +77,6 @@ namespace ui
     {
         std::array<Component*, 5> comps = {{&leftPanel, &bar1, &centrePanel, &bar2, &rightPanel}};
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0,  getWidth(), getHeight(), false, true);
-
-        // FlexBox leftPanelBox;
-        // leftPanelBox.flexWrap = FlexBox::Wrap::noWrap;
-        // leftPanelBox.flexDirection = FlexBox::Direction::row;
-        // leftPanelBox.alignContent = FlexBox::AlignContent::stretch;
-        // leftPanelBox.items.add(FlexItem(leftPanel).withMinWidth(leftHandle.currentPosition - 10).withMinHeight(
-        //         static_cast<float>(getLocalBounds().getHeight())));
-        // leftPanelBox.items.add(leftHandle.asFlexItem().withMinHeight(
-        //         static_cast<float>(getLocalBounds().getHeight())));
-        //
-        // FlexBox horizontalStack;
-        // horizontalStack.flexWrap = FlexBox::Wrap::noWrap;
-        // horizontalStack.flexDirection = FlexBox::Direction::row;
-        // horizontalStack.alignContent = FlexBox::AlignContent::stretch;
-        // horizontalStack.justifyContent = FlexBox::JustifyContent::flexStart;
-        // horizontalStack.alignItems = FlexBox::AlignItems::stretch;
-        // // horizontalStack.items.add(FlexItem(leftPanelBox).withMinWidth(250).withMinHeight(getLocalBounds().getHeight()));
-        // horizontalStack.items.add(FlexItem(leftPanelBox).withMinWidth(leftHandle
-        //     .currentPosition).withMinHeight(
-        //     static_cast<float>(getLocalBounds().getHeight())));
-        // horizontalStack.items.add(FlexItem(centrePanel).withFlex(100).withMinWidth(500));
-        // horizontalStack.performLayout(getLocalBounds());
     }
 
     UiMainComponent::UiMainComponent(Private):
@@ -114,7 +93,24 @@ namespace ui
 
         commands()
             .add({Commands::SAVE_PROJECT, [](auto&){}})
-            .add({Commands::SAVE_PROJECT_AS, [](auto&){}})
+            .add({Commands::SAVE_PROJECT_AS, [this](auto&)
+            {
+                // File defFile = File::getCurrentWorkingDirectory().getChildFile("project.proj");
+                // File defFile = {File::getCurrentWorkingDirectory().getFullPathName() + "/"};
+                fileChooser = std::make_unique<FileChooser>("Choose save location",
+                    File::getCurrentWorkingDirectory(),
+                    "*.proj",
+                    true);
+                auto flags = FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting | FileBrowserComponent::canSelectFiles;
+                fileChooser->launchAsync(flags, [](const FileChooser& chooser)
+                {
+                    if (const auto file = chooser.getResult(); file != File{})
+                    {
+                        auto& editor = editor::getInstance();
+                        resource::writeStructure(editor.getProject(), file.getFullPathName().toStdString());
+                    }
+                });
+            }})
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             {
                 auto& editor = editor::getInstance();

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "cereal/types/vector.hpp"
+#include "cereal/types/memory.hpp"
 
 #include "SharedResource.hpp"
 #include "event/EventDef.hpp"
 #include "event/ParameterList.hpp"
-#include "util/serialization.hpp"
+#include "util/serialization_util.hpp"
 
 namespace resource
 {
@@ -44,8 +45,9 @@ namespace resource
 
         INTERNAL_SERIALIZE
         {
+            using namespace cereal;
             // TODO: events
-            ar(globalParameters);
+            ar(make_nvp("global_parameters", globalParameters));
         }
     };
 }

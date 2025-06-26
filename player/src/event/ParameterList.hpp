@@ -8,7 +8,7 @@
 #include "util/class_util.h"
 #include "resource/SharedResource.hpp"
 #include "state/Parameter.hpp"
-#include "util/serialization.hpp"
+#include "util/serialization_util.hpp"
 
 namespace event
 {

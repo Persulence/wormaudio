@@ -128,5 +128,7 @@ namespace ui
 
     private:
         std::unique_ptr<FakeModalDialogue> dialogue;
+
+        std::unique_ptr<juce::FileChooser> fileChooser;
     };
 }
