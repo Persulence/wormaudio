@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Editor.fwd.hpp"
+
 #include <cassert>
 
 #include "EditorEventInstance.hpp"
@@ -12,10 +14,6 @@
 
 namespace editor
 {
-    using EventChanged = signal_event::Callback<>;
-    using Lifecycle = signal_event::Callback<int>;
-    using ParametersChanged = signal_event::Callback<>;
-
     class Editor :
         player::TransportCallback::Listener,
         EditorParameterList::Changed::Listener
@@ -46,6 +44,7 @@ namespace editor
         Lifecycle::Signal lifecycleChanged;
         ParametersChanged::Signal parametersChanged;
         sm::OnStateChange::Signal onStateChange;
+        ProjectRefreshed::Signal onProjectRefreshed;
 
         ProjectSaveManager saveManager;
 
@@ -89,10 +88,7 @@ namespace editor
             return project;
         }
 
-        void setProject(resource::Handle<resource::Project> project_)
-        {
-            project = std::move(project_);
-        }
+        void setProject(resource::Handle<resource::Project> project_);
     };
 
     // Saves a handful of characters

@@ -2,6 +2,8 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "editor/Editor.fwd.hpp"
+
 #include "canvas/CentrePanel.hpp"
 #include "transport/TransportPanel.hpp"
 #include "util/modal/FakeModalDialogue.hpp"
@@ -12,8 +14,10 @@ namespace ui
 
     class UiMainComponent : public juce::Component, juce::DeletedAtShutdown, public SimpleCommandTarget
     {
-        juce::MenuBarComponent menuBar;
         std::unique_ptr<MainSceneComponent> mainScene;
+        editor::ProjectRefreshed::Listener onRefreshed;
+
+        juce::MenuBarComponent menuBar;
         std::unique_ptr<juce::MenuBarModel> menuModel;
 
         struct Private {};

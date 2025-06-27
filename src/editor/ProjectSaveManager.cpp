@@ -1,5 +1,6 @@
 #include "ProjectSaveManager.hpp"
 
+#include "Editor.hpp"
 #include "resource/serialization.hpp"
 
 namespace editor
@@ -42,7 +43,7 @@ namespace editor
         });
     }
 
-    void ProjectSaveManager::open(resource::Handle<resource::Project> project)
+    void ProjectSaveManager::open()
     {
         fileChooser = std::make_unique<FileChooser>("Choose project to load",
             File::getCurrentWorkingDirectory(),
@@ -51,12 +52,12 @@ namespace editor
 
         auto flags = FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles;
 
-        fileChooser->launchAsync(flags, [this, project](const FileChooser& chooser)
+        fileChooser->launchAsync(flags, [this](const FileChooser& chooser)
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
                 const std::string path = file.getFullPathName().toStdString();
-                open(project, path);
+                future = open(path, [this]{ notifyProjectChange(); });
             }
 
             // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
@@ -64,10 +65,23 @@ namespace editor
         });
     }
 
-    void ProjectSaveManager::open(resource::Handle<resource::Project> project, const std::string &path)
+    std::future<resource::Handle<resource::Project>> ProjectSaveManager::open(const std::string &path, std::function<void()> notify)
     {
         lastSavedPath = path;
 
-        resource::readStructure(project, path);
+        auto future = std::async(std::launch::async, [notify](auto path1) -> resource::Handle<resource::Project>
+        {
+            auto project = resource::make<resource::Project>();
+            resource::readStructure(project, path1);
+            juce::MessageManager::callAsync(notify);
+            return project;
+        }, path);
+
+        return future;
+    }
+
+    void ProjectSaveManager::notifyProjectChange()
+    {
+        editor::getInstance().setProject(future.get());
     }
 }

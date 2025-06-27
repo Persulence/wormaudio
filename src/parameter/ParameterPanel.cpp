@@ -14,7 +14,6 @@ namespace ui
     ParameterPanel::ParameterPanel()
     {
         editor::Editor::getInstance().lifecycleChanged.setup(this, [this](int){ refresh(); });
-
         editor::Editor::getInstance().parametersChanged.setup(this, [this] { refresh(); });
     }
 

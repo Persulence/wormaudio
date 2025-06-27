@@ -5,7 +5,6 @@
 #include "dialogue/ProjectSettingsDialogue.hpp"
 #include "editor/Editor.hpp"
 #include "menu/MainMenuModel.hpp"
-#include "resource/serialization.hpp"
 #include "runtime/Runtime.hpp"
 #include "scene/MainSceneComponent.hpp"
 #include "theme/MainLookAndFeel.hpp"
@@ -43,9 +42,7 @@ namespace ui
             .add({Commands::OPEN_PROJECT, [this](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.setProject(resource::make<resource::Project>());
-
-                editor.saveManager.open(editor.getProject());
+                editor.saveManager.open();
             }})
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             {
@@ -59,6 +56,14 @@ namespace ui
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT_AS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT.id, KeyPress{'o', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT_SETTINGS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::altModifier, 0});
+
+        editor.onProjectRefreshed.setup(&onRefreshed, [this]
+        {
+            removeChildComponent(mainScene.get());
+            mainScene = std::make_unique<MainSceneComponent>();
+            addAndMakeVisible(mainScene.get());
+            resized();
+        });
     }
 
     UiMainComponent::~UiMainComponent()

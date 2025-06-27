@@ -64,5 +64,11 @@ namespace editor
         {
             return target->getParameters();
         }
+
+        void setTarget(const resource::Handle<event::ParameterListImpl> &target_)
+        {
+            target = target_;
+            changed.emit();
+        }
     };
 }
