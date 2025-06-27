@@ -41,7 +41,7 @@ namespace event
 
         INTERNAL_SERIALIZE
         {
-            // ar(parameters);
+            ar(parameters);
         }
     };
 }

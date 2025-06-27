@@ -2,7 +2,7 @@
 
 #define FRIEND_CEREAL friend class cereal::access;
 
-#define PRIVATE_SERIALISE(ClassName)\
+#define PRIVATE_SERIALIZE(ClassName)\
     ClassName() = default;\
     FRIEND_CEREAL
 

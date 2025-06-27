@@ -8,10 +8,13 @@
 #include <memory>
 #include <vector>
 
+#include "cereal/types/variant.hpp"
+
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
 #include "signal/Signal.hpp"
 #include "util/Data.hpp"
+#include "util/serialization_util.hpp"
 
 using ParameterValue = float;
 
@@ -61,8 +64,6 @@ namespace parameter
         DISABLE_COPY(ParameterDefBase)
         // ENABLE_DEFAULT_MOVE(ParameterDefBase)
 
-        ParameterDefBase() = default;
-
         explicit ParameterDefBase(const std::string& name_):
             name(name_)
         {
@@ -104,18 +105,26 @@ namespace parameter
         {
             return *name;
         }
+
+    protected:
+        FRIEND_CEREAL
+        ParameterDefBase(): name("") {}
+
+        INTERNAL_SERIALIZE
+        {
+            // TODO
+            // ar(name);
+        }
     };
 
     struct ContinuousParameterDef : ParameterDefBase
     {
         // TODO cache for playing events
-        // ParameterValue min;
-        // ParameterValue max;
 
         juce::Value min;
         juce::Value max;
 
-        // std::string name;
+        ContinuousParameterDef() = default;
 
         ContinuousParameterDef(const ParameterValue min_, const ParameterValue max_, const std::string &name_):
             ParameterDefBase(name_), min(min_), max(max_)
@@ -127,12 +136,23 @@ namespace parameter
         {
             return std::clamp(value, static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
         }
+
+    private:
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::base_class<ParameterDefBase>(this));
+            std::cout << "TODO: Parameter\n";
+        }
     };
 
     struct DiscreteParameterDef : ParameterDefBase
     {
         juce::Value min;
         juce::Value max;
+
+        DiscreteParameterDef() = default;
 
         DiscreteParameterDef(const ParameterValue min_, const ParameterValue max_, const std::string& name_):
             ParameterDefBase(name_), min(min_), max(max_)
@@ -143,6 +163,15 @@ namespace parameter
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
             return std::clamp(std::roundf(value), static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
+        }
+
+    private:
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::base_class<ParameterDefBase>(this));
+            std::cout << "TODO: Parameter\n";
         }
     };
 
@@ -155,6 +184,8 @@ namespace parameter
         };
 
         std::vector<Entry> values;
+
+        EnumParameterDef() = default;
 
         static EnumParameterDef createDefault(const std::string &name_)
         {
@@ -174,6 +205,15 @@ namespace parameter
             // float fractional = std::modf(value, &integral);
             float ivalue = std::round(value);
             return std::clamp(ivalue, 0.f, static_cast<float>(values.size()));
+        }
+
+    private:
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::base_class<ParameterDefBase>(this));
+            std::cout << "TODO: Parameter\n";
         }
     };
 
@@ -199,11 +239,6 @@ namespace parameter
             return std::visit([](auto& r){ return r.getName(); }, *this);
         }
 
-        // [[nodiscard]] juce::Value getNameAsValue() const
-        // {
-        //     return std::visit([](auto& r){ return r.name; }, *this);
-        // }
-
         void setName(const std::string& newName)
         {
             std::visit([&newName](auto& r){ r.name = newName; }, *this);
@@ -224,7 +259,15 @@ namespace parameter
             return std::visit([](auto& r) -> auto& { return r.name; }, *this);
         }
 
-        // JUCE_DECLARE_NON_COPYABLE(ParameterDef)
+    private:
+        friend class cereal::access;
+        explicit ParameterDef():
+            variant() {}
+
+        // INTERNAL_SERIALIZE
+        // {
+            // ar(cereal::base_class<ParameterDefVariant>(this));
+        // }
     };
 
     using Parameter = resource::Handle<ParameterDef>;
