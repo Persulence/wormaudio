@@ -11,20 +11,33 @@ namespace resource
             filePath.append(FILE_EXTENSION);
         }
 
+        std::fstream ostream{filePath, std::ios::out};
+        // std::stringstream ss;
+        
         {
-            std::fstream ostream{filePath, std::ios::out};
             cereal::JSONOutputArchive archive{ostream};
             archive(*project);
-            ostream.close();
         }
+
+        // std::cout << ss.str();
+        // ostream << ss.rdbuf();
+        ostream.close();
     }
 
     void readStructure(const Handle<Project> &project, std::string filePath)
     {
         {
             std::fstream istream{filePath, std::ios::in};
-            cereal::JSONInputArchive archive{istream};
-            archive(*project);
+            // std::stringstream ss;
+            // ss << istream.rdbuf();
+
+            // std::cout << ss.str();
+
+            {
+                cereal::JSONInputArchive archive{istream};
+                archive(*project);
+            }
+
             istream.close();
         }
     }

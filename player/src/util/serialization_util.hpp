@@ -17,3 +17,11 @@
 #define INTERNAL_SPLIT_LOAD\
     template<class Archive>\
     void load(Archive& ar, const std::uint32_t version)
+
+#define EXTERNAL_SPLIT_SAVE(ClassName)\
+    template<class Archive>\
+    void save(Archive& ar, const ClassName& m)
+
+#define EXTERNAL_SPLIT_LOAD(ClassName)\
+    template<class Archive>\
+    void load(Archive& ar, ClassName& m)

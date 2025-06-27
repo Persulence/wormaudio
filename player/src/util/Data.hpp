@@ -2,7 +2,9 @@
 
 #include <memory>
 
+#include "serialization_util.hpp"
 #include "../signal/Signal.hpp"
+#include "cereal/cereal.hpp"
 
 namespace util
 {
@@ -35,9 +37,14 @@ namespace util
                 onChange.emit(object);
             }
 
-            ~DataContainer()
-            {
+            ~DataContainer() = default;
 
+        private:
+            PRIVATE_SERIALIZE(DataContainer)
+
+            INTERNAL_SERIALIZE
+            {
+                ar(cereal::make_nvp("object", object));
             }
         };
 
@@ -91,8 +98,14 @@ namespace util
         }
 
     private:
-
         std::shared_ptr<DataContainer> ptr;
+
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(CEREAL_NVP(ptr));
+        }
     };
 
     template <typename T>

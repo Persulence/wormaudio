@@ -3,25 +3,28 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "dialogue/ProjectSettingsDialogue.hpp"
-#include "theme/MainLookAndFeel.hpp"
-#include "panel/BorderPanel.hpp"
 #include "editor/Editor.hpp"
 #include "menu/MainMenuModel.hpp"
 #include "resource/serialization.hpp"
 #include "runtime/Runtime.hpp"
+#include "scene/MainSceneComponent.hpp"
+#include "theme/MainLookAndFeel.hpp"
 
 using namespace juce;
 
 namespace ui
 {
     UiMainComponent::UiMainComponent(Private):
+        mainScene(std::make_unique<MainSceneComponent>()),
         menuModel(std::make_unique<MainMenuModel>())
     {
+        LookAndFeel::setDefaultLookAndFeel(&MainLookAndFeel::getInstance());
+
         auto& editor = editor::Editor::getInstance();
         editor.startRuntime();
         editor.getRuntime().connectToDevice();
 
-        addAndMakeVisible(mainScene);
+        addAndMakeVisible(mainScene.get());
 
         addAndMakeVisible(menuBar);
         menuBar.setModel(menuModel.get());
@@ -40,6 +43,8 @@ namespace ui
             .add({Commands::OPEN_PROJECT, [this](auto&)
             {
                 auto& editor = editor::getInstance();
+                editor.setProject(resource::make<resource::Project>());
+
                 editor.saveManager.open(editor.getProject());
             }})
             .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
@@ -72,7 +77,7 @@ namespace ui
         box.alignItems = FlexBox::AlignItems::stretch;
         float menuBarHeight = 25;
         box.items.add(FlexItem{menuBar}.withMaxHeight(menuBarHeight).withHeight(menuBarHeight));
-        box.items.add(FlexItem{mainScene}.withFlex(2));
+        box.items.add(FlexItem{*mainScene}.withFlex(2));
         box.performLayout(getLocalBounds());
 
         if (dialogue)

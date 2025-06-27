@@ -21,7 +21,6 @@ namespace ui
             {
                 if (getHeight() > 0)
                 {
-                    auto expected = listPanel.getExpectedHeight();
                     scrollBar.setRangeLimits(0,
                         listPanel.getExpectedHeight() / getHeight(),
                         // listPanel.getExpectedHeight(),

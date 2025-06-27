@@ -88,6 +88,11 @@ namespace editor
         {
             return project;
         }
+
+        void setProject(resource::Handle<resource::Project> project_)
+        {
+            project = std::move(project_);
+        }
     };
 
     // Saves a handful of characters

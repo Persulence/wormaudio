@@ -3,16 +3,17 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "canvas/CentrePanel.hpp"
-#include "scene/MainSceneComponent.hpp"
 #include "transport/TransportPanel.hpp"
 #include "util/modal/FakeModalDialogue.hpp"
 
 namespace ui
 {
+    class MainSceneComponent;
+
     class UiMainComponent : public juce::Component, juce::DeletedAtShutdown, public SimpleCommandTarget
     {
         juce::MenuBarComponent menuBar;
-        MainSceneComponent mainScene;
+        std::unique_ptr<MainSceneComponent> mainScene;
         std::unique_ptr<juce::MenuBarModel> menuModel;
 
         struct Private {};

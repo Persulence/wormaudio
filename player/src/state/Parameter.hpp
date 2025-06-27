@@ -108,12 +108,12 @@ namespace parameter
 
     protected:
         FRIEND_CEREAL
-        ParameterDefBase(): name("") {}
+        ParameterDefBase(): ParameterDefBase("") {}
 
         INTERNAL_SERIALIZE
         {
             // TODO
-            // ar(name);
+            ar(name);
         }
     };
 
