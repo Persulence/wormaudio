@@ -4,13 +4,14 @@
 
 #include "juce_gui_basics/juce_gui_basics.h"
 
+#include "util/component/MyLabel.hpp"
 #include "CanvasConnectionManager.hpp"
 #include "graph/StateDef.hpp"
 #include "resource/SharedResource.hpp"
 
 namespace ui
 {
-    class StateNodeHeader : public juce::Label
+    class StateNodeHeader : public MyLabel<std::string>
     {
     public:
         explicit StateNodeHeader(StateNodeWidget& parent);

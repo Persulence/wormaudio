@@ -42,7 +42,7 @@ namespace ui
 
             if (const auto shared = parent.lock())
             {
-                for (auto& element : shared->getState()->elements())
+                for (auto& element : shared->getState()->getElements())
                 {
                     auto& widget = elements.emplace_back(std::make_shared<ElementRegionWidget>(element));
                     addAndMakeVisible(*widget);

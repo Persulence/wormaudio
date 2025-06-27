@@ -18,12 +18,10 @@ namespace ui
     StateNodeHeader::StateNodeHeader(StateNodeWidget& parent):
         parent(parent)
     {
-        // setText(parent.getState()->getName(), dontSendNotification);
-        getTextValue().referTo(parent.getState()->name);
+        setData(parent.getState()->name);
 
         setEditable(false, true);
         setJustificationType(Justification::left);
-        // onTextChange = [this, &parent](){ parent.setName(getText()); };
     }
 
     void StateNodeHeader::paint(Graphics &g)

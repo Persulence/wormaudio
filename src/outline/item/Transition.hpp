@@ -25,7 +25,7 @@ namespace ui::outline
         {
             auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/state_def.png");
 
-            ptr->label.getTextValue().referTo(resource->name);
+            ptr->label.setData(resource->name);
 
             return ptr;
         }

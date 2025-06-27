@@ -7,7 +7,8 @@
 #include <vector>
 
 #include "juce_core/juce_core.h"
-#include "juce_data_structures/juce_data_structures.h"
+
+#include "util/Data.hpp"
 
 #include "event/ElementHandle.hpp"
 #include "resource/ElementInstance.hpp"
@@ -50,7 +51,7 @@ namespace sm
     public:
         // using Ptr = :Handle<StateDef>;
         using Weak = std::weak_ptr<StateDef>;
-        juce::Value name{"State"};
+        util::Data<std::string> name{"State"};
         Flags flags{NORMAL};
 
     public:
@@ -66,7 +67,7 @@ namespace sm
         void setName(const std::string &name_);
 
         bool hasSelfTransition();
-        const std::vector<event::ElementHandle>& elements();
+        const std::vector<event::ElementHandle>& getElements();
         const std::unordered_map<StateDef*, Transition1::Ptr>& getTransitionLookup() const;
         const std::list<std::shared_ptr<Transition1>>& getTransitions() const;
 
@@ -79,20 +80,23 @@ namespace sm
         }
 
     private:
-        std::vector<event::ElementHandle> elements_;
+        std::vector<event::ElementHandle> elements;
         // std::shared_ptr<automation::AutomationRegistry> automation;
 
+        std::list<std::shared_ptr<Transition1>> transitions;
         // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.
         // std::weak_ptr doesn't work as a key
         // Just need to find a way to indicate that keys shouldn't be dereferenced.
         std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitionLookup;
-        std::list<std::shared_ptr<Transition1>> transitions;
 
         FRIEND_CEREAL
 
         INTERNAL_SERIALIZE
         {
-
+            // ar(
+            //     cereal::make_nvp("elements", elements),
+            //     cereal::make_nvp("transitions", transitions)
+            //     );
         }
 
         LOAD_AND_CONSTRUCT(StateDef)
@@ -129,7 +133,7 @@ namespace sm
 
         void activate(element::ElementInstanceContext& context)
         {
-            for (auto& entry : parent->elements())
+            for (auto& entry : parent->getElements())
             {
                 // The node instance shares ownership of the element instance with the manager
                 auto instance = context.createInstance(*entry);

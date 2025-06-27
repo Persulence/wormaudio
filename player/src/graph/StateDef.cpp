@@ -28,14 +28,14 @@ namespace sm
 
     void StateDef::insertElement(const event::ElementHandle &entry)
     {
-        elements_.emplace_back(entry);
+        elements.emplace_back(entry);
     }
 
     void StateDef::removeElement(const event::ElementHandle &element)
     {
-        if (const auto it = std::ranges::find_if(elements_, [&element](const auto& e){ return e.ptr == element.ptr; }); it != elements_.end())
+        if (const auto it = std::ranges::find_if(elements, [&element](const auto& e){ return e.ptr == element.ptr; }); it != elements.end())
         {
-            elements_.erase(it);
+            elements.erase(it);
         }
     }
 
@@ -79,7 +79,7 @@ namespace sm
 
     void StateDef::setName(const std::string &name_)
     {
-        name.setValue(juce::String{name_});
+        name.setValue(name_);
     }
 
     bool StateDef::hasSelfTransition()
@@ -87,9 +87,9 @@ namespace sm
         return transitionLookup.contains(this);
     }
 
-    const std::vector<event::ElementHandle> & StateDef::elements()
+    const std::vector<event::ElementHandle> & StateDef::getElements()
     {
-        return elements_;
+        return elements;
     }
 
     const std::unordered_map<StateDef*, Transition1::Ptr>& StateDef::getTransitionLookup() const
