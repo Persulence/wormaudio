@@ -10,10 +10,6 @@ namespace sm
 {
     class StateMachineDefinition : public resource::SharedResource
     {
-        resource::Handle<StateDef> start;
-        resource::Handle<StateDef> end;
-        std::vector<resource::Handle<StateDef>> states;
-
     public:
         StateMachineDefinition();
 
@@ -31,6 +27,20 @@ namespace sm
         std::vector<resource::ResourceHandle> getChildResources() override
         {
             return std::vector<resource::ResourceHandle>{states.begin(), states.end()};
+        }
+
+    private:
+        resource::Handle<StateDef> start;
+        resource::Handle<StateDef> end;
+        std::vector<resource::Handle<StateDef>> states;
+
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(CEREAL_NVP(start), CEREAL_NVP(end),
+                cereal::make_nvp("states", states)
+                );
         }
     };
 }

@@ -73,6 +73,7 @@ namespace event
         {
             ar(
                 cereal::make_nvp("name", name),
+                cereal::make_nvp("definition", definition),
                 cereal::make_nvp("parameters", parameters),
                 cereal::make_nvp("automation", automation),
                 cereal::make_nvp("element_list", elementList)

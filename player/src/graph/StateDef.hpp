@@ -53,19 +53,8 @@ namespace sm
         juce::Value name{"State"};
         Flags flags{NORMAL};
 
-    private:
-        std::vector<event::ElementHandle> elements_;
-        // std::shared_ptr<automation::AutomationRegistry> automation;
-
-        // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.
-        // std::weak_ptr doesn't work as a key
-        // Just need to find a way to indicate that keys shouldn't be dereferenced.
-        std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitionLookup;
-        std::list<std::shared_ptr<Transition1>> transitions;
-
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StateDef)
-
     public:
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StateDef)
         // StateDef(const std::shared_ptr<automation::AutomationRegistry> &registry);
         StateDef();
 
@@ -89,7 +78,27 @@ namespace sm
             return std::vector<resource::ResourceHandle>{transitions.begin(), transitions.end()};
         }
 
+    private:
+        std::vector<event::ElementHandle> elements_;
+        // std::shared_ptr<automation::AutomationRegistry> automation;
 
+        // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.
+        // std::weak_ptr doesn't work as a key
+        // Just need to find a way to indicate that keys shouldn't be dereferenced.
+        std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitionLookup;
+        std::list<std::shared_ptr<Transition1>> transitions;
+
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+
+        }
+
+        LOAD_AND_CONSTRUCT(StateDef)
+        {
+            construct();
+        }
     };
 
     class StateInstance
