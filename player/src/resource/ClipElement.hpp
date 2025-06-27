@@ -19,7 +19,7 @@ namespace element
         asset::AssetHandle resource;
 
     public:
-        juce::Value loop{false};
+        util::Data<bool> loop{false};
 
         explicit ClipElement(asset::AssetHandle resource_):
             resource(std::move(resource_))

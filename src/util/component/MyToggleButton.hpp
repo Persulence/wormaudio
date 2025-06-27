@@ -23,7 +23,7 @@ namespace ui
 
         void buttonStateChanged() override
         {
-            data.setValue(getState());
+            data = getToggleStateValue().getValue();
         }
 
     private:

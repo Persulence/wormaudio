@@ -16,11 +16,14 @@ namespace ui
 
         public:
             explicit ClipImpl(ClipElement &element) :
-                element(element) { }
+                element(element)
+            {
+                setHeader(std::make_unique<SectionHeader>("Clip Element"));
+            }
 
             void initProperties() override
             {
-                add(std::make_shared<BoolPropertyWidget>("Loop", element.loop));
+                add(std::make_shared<BoolDataPropertyWidget>("Loop", element.loop));
             }
         };
 
@@ -30,7 +33,10 @@ namespace ui
 
         public:
             explicit ChoiceImpl(ChoiceElement &element) :
-                element(element) { }
+                element(element)
+            {
+                setHeader(std::make_unique<SectionHeader>("Choice Element"));
+            }
 
             void initProperties() override
             {

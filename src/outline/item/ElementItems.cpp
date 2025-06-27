@@ -57,6 +57,22 @@ namespace ui
         return std::make_unique<ElementItemComponent>(this, resource);
     }
 
+    void ElementItem::itemSelectionChanged(bool isNowSelected)
+    {
+        if (const auto manager = findSelectionManager<InspectorSelectionManager>())
+        {
+            if (isNowSelected)
+            {
+                auto config = std::make_unique<ElementInspectorFiller>(event::ElementHandle{resource});
+                manager->select(SimpleSelectionTarget::of(std::move(config)));
+            }
+            else
+            {
+                manager->deselectAll();
+            }
+        }
+    }
+
     void ChoiceElementItem::createChildren()
     {
         auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
