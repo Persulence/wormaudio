@@ -49,7 +49,7 @@ namespace ui
 
             auto& min = add(std::make_shared<ValueEntry>("Min value", parameter::parseValue));
             min.toString = parameter::toString;
-            min.setValue(def.min.getValue());
+            min.setValue(*def.min);
             min.listener = [this](auto val)
             {
                 def.min = val;
@@ -58,7 +58,7 @@ namespace ui
 
             auto& max = add(std::make_shared<ValueEntry>("Max value", parameter::parseValue));
             max.toString = parameter::toString;
-            max.setValue(def.max.getValue());
+            max.setValue(*def.max);
             max.listener = [this](auto val)
             {
                 def.max = val;

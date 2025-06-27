@@ -30,7 +30,11 @@ namespace util
             typename OnChanged::Signal onChange;
             T object;
 
-            explicit DataContainer(T object_): object(object_) { }
+            explicit DataContainer(T object_): object(object_)
+            {
+
+            }
+
 
             void notify()
             {
@@ -48,7 +52,7 @@ namespace util
             }
         };
 
-        Data(): ptr(std::make_shared<DataContainer>({})) { }
+        Data(): ptr(std::make_shared<DataContainer>(T{})) { }
 
         Data(T t): ptr(std::make_shared<DataContainer>(t)) { }
 
@@ -57,9 +61,19 @@ namespace util
             ptr->onChange.setup(listener, callback);
         }
 
+        void setupListener(typename OnChanged::Listener* listener)
+        {
+            ptr->onChange.setup(listener);
+        }
+
         void removeListener(typename OnChanged::Listener* listener)
         {
             ptr->onChange.unReg(listener);
+        }
+
+        T getValue() const
+        {
+            return ptr->object;
         }
 
         const T& operator*() const
@@ -96,6 +110,7 @@ namespace util
 
             // assert(success && "Is JUCE message thread running?");
         }
+
 
     private:
         std::shared_ptr<DataContainer> ptr;

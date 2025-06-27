@@ -57,31 +57,33 @@ namespace editor
             if (const auto file = chooser.getResult(); file != File{})
             {
                 const std::string path = file.getFullPathName().toStdString();
-                future = open(path, [this]{ notifyProjectChange(); });
+                future = open(path);
             }
 
             // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
             fileChooser = nullptr;
+
+            changeProject();
         });
+
     }
 
-    std::future<resource::Handle<resource::Project>> ProjectSaveManager::open(const std::string &path, std::function<void()> notify)
+    std::future<resource::Handle<resource::Project>> ProjectSaveManager::open(const std::string &path)
     {
         lastSavedPath = path;
 
-        auto future = std::async(std::launch::async, [notify](auto path1) -> resource::Handle<resource::Project>
+        auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
         {
             auto project = resource::make<resource::Project>();
             resource::readStructure(project, path1);
-            juce::MessageManager::callAsync(notify);
             return project;
         }, path);
 
         return future;
     }
 
-    void ProjectSaveManager::notifyProjectChange()
+    void ProjectSaveManager::changeProject()
     {
-        editor::getInstance().setProject(future.get());
+        Editor::getInstance().setProject(future.get());
     }
 }

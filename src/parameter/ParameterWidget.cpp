@@ -29,28 +29,30 @@ namespace ui
         }
     };
 
-    class ContinuousWidget : public ImplWidget<ContinuousParameterDef>, SliderWidget::C::Listener
+    class ContinuousWidget : public ImplWidget<ContinuousParameterDef>, SliderWidget::C::Listener, util::Data<ParameterValue>::Listener
     {
     public:
         SliderWidget slider;
-        WrappedValue min;
-        WrappedValue max;
+        util::Data<ParameterValue> min;
+        util::Data<ParameterValue> max;
 
         ContinuousWidget(ContinuousParameterDef& def_, ParameterInstance& instance_):
             ImplWidget(def_, instance_)
         {
-            auto rangeCallback = [this](auto&)
+            auto rangeCallback = [this](auto)
             {
-                slider.setRange(def.min.getValue(), def.max.getValue(), 0);
+                slider.setRange(*def.min, def.max.getValue(), 0);
                 slider.setValue(instance.getValue(), false);
                 repaint();
             };
 
-            max.callback = rangeCallback;
-            min.callback = rangeCallback;
+            min = def.min;
+            max = def.max;
 
-            min.value.referTo(def.min);
-            max.value.referTo(def.max);
+            min.setupListener(this);
+            max.setupListener(this);
+            util::Data<ParameterValue>::Listener::setCallback(rangeCallback);
+            rangeCallback(0);
 
             addAndMakeVisible(slider);
             slider.onChanged.setup(this, [this](const double value)

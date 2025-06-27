@@ -121,8 +121,8 @@ namespace parameter
     {
         // TODO cache for playing events
 
-        juce::Value min;
-        juce::Value max;
+        util::Data<ParameterValue> min;
+        util::Data<ParameterValue> max;
 
         ContinuousParameterDef() = default;
 
@@ -134,7 +134,7 @@ namespace parameter
 
         [[nodiscard]] ParameterValue validate(const ParameterValue value) const
         {
-            return std::clamp(value, static_cast<ParameterValue>(min.getValue()), static_cast<ParameterValue>(max.getValue()));
+            return std::clamp(value, *min, *max);
         }
 
     private:
@@ -142,8 +142,7 @@ namespace parameter
 
         INTERNAL_SERIALIZE
         {
-            ar(cereal::base_class<ParameterDefBase>(this));
-            std::cout << "TODO: Parameter\n";
+            ar(cereal::base_class<ParameterDefBase>(this), CEREAL_NVP(min), CEREAL_NVP(max));
         }
     };
 

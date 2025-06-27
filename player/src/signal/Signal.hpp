@@ -35,6 +35,11 @@ namespace signal_event
             listener->listen(*this);
         }
 
+        void setup(Listener<Args...>* listener)
+        {
+            listener->listen(*this);
+        }
+
         void setup(Listener<Args...>* listener, Callback callback_)
         {
             listener->listen(*this, callback_);

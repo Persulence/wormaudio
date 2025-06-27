@@ -118,11 +118,12 @@ namespace editor
     void Editor::setProject(Handle<Project> project_)
     {
         project = std::move(project_);
+        if (runtime)
+            runtime->getParameters().refresh(*project->globalParameters);
+
         onProjectRefreshed.emit();
 
         globalParameters->setTarget(project->globalParameters);
 
-        if (runtime)
-            runtime->getParameters().refresh(*project->globalParameters);
     }
 }

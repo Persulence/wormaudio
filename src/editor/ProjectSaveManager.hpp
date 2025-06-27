@@ -16,13 +16,13 @@ namespace editor
         void saveAs(resource::Handle<resource::Project> project);
 
         void open(); // Shows the dialogue
-        std::future<resource::Handle<resource::Project>> open(const std::string &path, std::function<void()> notify);
+        std::future<resource::Handle<resource::Project>> open(const std::string &path);
 
         std::string lastSavedPath = "";
         std::future<resource::Handle<resource::Project>> future;
 
     private:
-        void notifyProjectChange();
+        void changeProject();
         std::unique_ptr<juce::FileChooser> fileChooser;
     };
 }
