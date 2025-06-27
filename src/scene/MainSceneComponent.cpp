@@ -1,7 +1,5 @@
 #include "MainSceneComponent.hpp"
 
-#include "theme/MainLookAndFeel.hpp"
-
 namespace ui
 {
     using namespace juce;
@@ -42,8 +40,6 @@ namespace ui
         bar1(&layout, 1, true),
         bar2(&layout, 3, true)
     {
-        LookAndFeel::setDefaultLookAndFeel(&MainLookAndFeel::getInstance());
-
         addAndMakeVisible(leftPanel);
         addAndMakeVisible(centrePanel);
         addAndMakeVisible(rightPanel);
