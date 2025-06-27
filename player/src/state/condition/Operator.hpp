@@ -72,5 +72,10 @@ namespace condition
         {
             return std::visit([&lookup, &left, &right](auto& o){ return o(lookup, left, right); }, value);
         }
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("value", value));
+        }
     };
 }

@@ -22,13 +22,6 @@ namespace condition
 
     class ComparisonCondition : public ConditionBase<ComparisonCondition>
     {
-        Operand left{ConstantOperand{}};
-        Operand right{ConstantOperand{}};
-        Operator op{Equal{}};
-
-        // Fields will be accessible while events are running and inside the GUI
-        // std::mutex mutex;
-
     public:
         ComparisonCondition() = default;
 
@@ -43,6 +36,21 @@ namespace condition
         Operator getOp() { return op; }
 
         [[nodiscard]] size_t testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
+
+    private:
+        Operand left{ConstantOperand{}};
+        Operand right{ConstantOperand{}};
+        Operator op{Equal{}};
+
+        // Fields will be accessible while events are running and inside the GUI
+        // std::mutex mutex;
+
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            // ar(left, right, op);
+        }
     };
 
 }

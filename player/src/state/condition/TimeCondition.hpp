@@ -17,6 +17,11 @@ namespace condition
     {
         ExplicitValue<player::Seconds> value;
         player::TimeType type{player::IN_STATE};
+
+        INTERNAL_SERIALIZE
+        {
+            // ar(value, type);
+        }
     };
 
     enum class TimeOperator
@@ -34,5 +39,12 @@ namespace condition
         TimeCondition() = default;
 
         [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
+
+    private:
+        FRIEND_CEREAL
+        INTERNAL_SERIALIZE
+        {
+            ar(time, op);
+        }
     };
 }

@@ -21,6 +21,11 @@ namespace condition
         {
             return paramName;
         }
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("param_name", paramName));
+        }
     };
 
     struct ConstantOperand
@@ -33,6 +38,11 @@ namespace condition
         }
 
         [[nodiscard]] std::string toString() const;
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("value", value));
+        }
     };
 
     struct Operand
@@ -54,10 +64,10 @@ namespace condition
         {
             return std::visit([](auto& o){ return o.toString(); }, value);
         }
-    };
 
-    // using Operand = std::variant<
-    //     ParameterOperand,
-    //     ConstantOperand
-    // >;
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("value", value));
+        }
+    };
 }

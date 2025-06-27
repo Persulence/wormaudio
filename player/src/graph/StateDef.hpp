@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include "cereal/types/list.hpp"
+
 #include "juce_core/juce_core.h"
 
 #include "util/Data.hpp"
@@ -15,7 +17,8 @@
 #include "resource/ElementInstanceContext.hpp"
 #include "resource/SharedResource.hpp"
 #include "signal/Signal.hpp"
-#include "state/ConditionList.fwd.hpp"
+
+#include "state/ConditionList.hpp"
 
 namespace sm
 {
@@ -30,6 +33,23 @@ namespace sm
         std::weak_ptr<StateDef> nextState;
 
         Transition1(const condition::ConditionList& conditions_, std::weak_ptr<StateDef> nextState_);
+
+    private:
+        FRIEND_CEREAL
+        INTERNAL_SERIALIZE
+        {
+            ar(conditions, nextState);
+        }
+
+        LOAD_AND_CONSTRUCT(Transition1)
+        {
+            decltype(conditions) conditions;
+            decltype(nextState) nextState;
+
+            ar(conditions, nextState);
+
+            construct(*conditions, nextState);
+        }
     };
 
     enum StateType
@@ -89,19 +109,38 @@ namespace sm
         // Just need to find a way to indicate that keys shouldn't be dereferenced.
         std::unordered_map<StateDef*, std::shared_ptr<Transition1>> transitionLookup;
 
+        // OOHH MYY GODDD
+        StateDef(const decltype(elements)& elements_, const decltype(transitions)& transitions_):
+            elements(elements_),
+            transitions(transitions_)
+        {
+            for (auto& transition : transitions)
+            {
+                if (auto shared = transition->nextState.lock())
+                {
+                    transitionLookup[shared.get()] = transition;
+                }
+            }
+        }
+
         FRIEND_CEREAL
 
         INTERNAL_SERIALIZE
         {
-            // ar(
-            //     cereal::make_nvp("elements", elements),
-            //     cereal::make_nvp("transitions", transitions)
-            //     );
+            ar(
+                cereal::make_nvp("elements", elements),
+                cereal::make_nvp("transitions", transitions)
+                );
         }
 
         LOAD_AND_CONSTRUCT(StateDef)
         {
-            construct();
+            decltype(elements) elements;
+            decltype(transitions) transitions;
+
+            ar(elements, transitions);
+
+            construct(elements, transitions);
         }
     };
 
