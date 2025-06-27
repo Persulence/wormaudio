@@ -3,6 +3,7 @@
 #include "property/PropertyFiller.hpp"
 #include "util/Data.hpp"
 #include "util/component/MyLabel.hpp"
+#include "util/component/MyToggleButton.hpp"
 
 namespace ui
 {
@@ -47,7 +48,26 @@ namespace ui
     private:
         util::Data<std::string> data;
         MyLabel<std::string> field;
-        util::Data<std::string>::Listener changeListener;
+    };
+
+    class BoolDataPropertyWidget : public PropertyWidget
+    {
+    public:
+        explicit BoolDataPropertyWidget(const std::string &label, util::Data<bool> data) :
+            PropertyWidget(label)
+        {
+            addAndMakeVisible(button);
+            button.setData(data);
+        }
+
+    protected:
+        void setContentBounds(juce::Rectangle<int> bounds) override
+        {
+            button.setBounds(bounds);
+        }
+
+    private:
+        MyToggleButton button;
     };
 
     class BoolPropertyWidget : public PropertyWidget

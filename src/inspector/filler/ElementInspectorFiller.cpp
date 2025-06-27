@@ -34,7 +34,7 @@ namespace ui
 
             void initProperties() override
             {
-                add(std::make_shared<BoolPropertyWidget>("Loop", element.loop));
+                add(std::make_shared<BoolDataPropertyWidget>("Loop", element.loop));
             }
         };
     }

@@ -5,7 +5,7 @@
 
 #include "Element.hpp"
 #include "ElementInstance.hpp"
-#include "juce_data_structures/juce_data_structures.h"
+#include "util/Data.hpp"
 
 #include "Resource.fwd.hpp"
 #include "automation/Property.hpp"
@@ -17,7 +17,7 @@ namespace element
     class ChoiceElement : public Element, public std::enable_shared_from_this<ChoiceElement>
     {
     public:
-        juce::Value loop{false};
+        util::Data<bool> loop{false};
 
         ChoiceElement() = default;
 
