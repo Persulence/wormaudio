@@ -58,12 +58,14 @@ namespace editor
             {
                 const std::string path = file.getFullPathName().toStdString();
                 future = open(path);
+
+                fileChooser = nullptr;
+                changeProject();
+                return;
             }
 
             // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
             fileChooser = nullptr;
-
-            changeProject();
         });
 
     }

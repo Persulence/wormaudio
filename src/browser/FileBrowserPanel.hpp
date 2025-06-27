@@ -53,7 +53,11 @@ namespace ui
 
         void scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) override
         {
-            listPanel.setScroll(newRangeStart / scrollBarThatHasMoved->getMaximumRangeLimit());
+            auto fraction = newRangeStart / scrollBarThatHasMoved->getMaximumRangeLimit();
+            if (!std::isnan(fraction))
+                listPanel.setScroll(fraction);
+            else
+                listPanel.setScroll(0);
         }
 
         void mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) override

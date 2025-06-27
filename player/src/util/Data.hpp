@@ -23,6 +23,7 @@ namespace util
     public:
         using OnChanged = signal_event::Callback<T&>;
         using Listener = typename OnChanged::Listener;
+        using MultiListener = typename OnChanged::MultiListener;
 
         struct DataContainer
         {
@@ -34,7 +35,6 @@ namespace util
             {
 
             }
-
 
             void notify()
             {
@@ -66,7 +66,17 @@ namespace util
             ptr->onChange.setup(listener);
         }
 
+        void setupListener(typename OnChanged::MultiListener* listener)
+        {
+            ptr->onChange.setup(listener);
+        }
+
         void removeListener(typename OnChanged::Listener* listener)
+        {
+            ptr->onChange.unReg(listener);
+        }
+
+        void removeListener(typename OnChanged::MultiListener* listener)
         {
             ptr->onChange.unReg(listener);
         }

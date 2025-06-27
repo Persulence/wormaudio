@@ -29,7 +29,7 @@ namespace ui
         }
     };
 
-    class ContinuousWidget : public ImplWidget<ContinuousParameterDef>, SliderWidget::C::Listener, util::Data<ParameterValue>::Listener
+    class ContinuousWidget : public ImplWidget<ContinuousParameterDef>, SliderWidget::C::Listener, util::Data<ParameterValue>::MultiListener
     {
     public:
         SliderWidget slider;
@@ -51,7 +51,7 @@ namespace ui
 
             min.setupListener(this);
             max.setupListener(this);
-            util::Data<ParameterValue>::Listener::setCallback(rangeCallback);
+            util::Data<ParameterValue>::MultiListener::setCallback(rangeCallback);
             rangeCallback(0);
 
             addAndMakeVisible(slider);
@@ -67,27 +67,25 @@ namespace ui
         }
     };
 
-    class DiscreteWidget : public ImplWidget<DiscreteParameterDef>, SliderWidget::C::Listener
+    class DiscreteWidget : public ImplWidget<DiscreteParameterDef>, SliderWidget::C::Listener, util::Data<ParameterValue>::MultiListener
     {
         SliderWidget slider;
-
-        WrappedValue min;
-        WrappedValue max;
 
     public:
         explicit DiscreteWidget(DiscreteParameterDef& def_, ParameterInstance& instance_):
             ImplWidget(def_, instance_)
         {
-            auto rangeCallback = [this](auto&)
+            auto rangeCallback = [this](auto)
             {
                 slider.setRange(def.min.getValue(), def.max.getValue(), 1);
                 slider.setValue(instance.getValue(), false);
                 repaint();
             };
-            max.callback = rangeCallback;
-            min.callback = rangeCallback;
-            min.value.referTo(def.min);
-            max.value.referTo(def.max);
+
+            def.min.setupListener(this);
+            def.max.setupListener(this);
+            MultiListener::setCallback(rangeCallback);
+            rangeCallback(0);
 
             addAndMakeVisible(slider);
             slider.onChanged.setup(this, [this](double value)
