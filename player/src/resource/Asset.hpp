@@ -72,16 +72,18 @@ namespace asset
 
         FRIEND_CEREAL
 
-        INTERNAL_SERIALIZE
+        INTERNAL_SPLIT_SAVE
         {
-            ar(file);
+            ar(cereal::make_nvp("file", file.getFullPathName().toStdString()));
         }
+
+        INTERNAL_SPLIT_LOAD { }
 
         LOAD_AND_CONSTRUCT(Asset)
         {
-            juce::File file;
-            ar(file);
-            construct(ResourceLoader::getInstance(), file);
+            std::string path;
+            ar(cereal::make_nvp("file", path));
+            construct(ResourceLoader::getInstance(), juce::File{path});
         }
     };
 }

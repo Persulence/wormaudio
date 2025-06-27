@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "util/serialization_util.hpp"
+#include "cereal/types/vector.hpp"
 
 #include "Element.hpp"
 #include "ElementInstance.hpp"
@@ -46,18 +47,20 @@ namespace element
 
         INTERNAL_SPLIT_SAVE
         {
-            // ar(
-            //     cereal::make_nvp("base", cereal::base_class<Element>(this)),
-            //     cereal::make_nvp("loop", static_cast<bool>(loop.getValue()))
-            //     );
+            ar(
+                cereal::make_nvp("base", cereal::base_class<Element>(this)),
+                cereal::make_nvp("loop", loop),
+                cereal::make_nvp("clips", clips)
+            );
         }
 
         INTERNAL_SPLIT_LOAD
         {
-            // ar(
-            //     cereal::make_nvp("base", cereal::base_class<Element>(this)),
-            //     cereal::make_nvp("loop",
-            //     );
+            ar(
+                cereal::make_nvp("base", cereal::base_class<Element>(this)),
+                cereal::make_nvp("loop", loop),
+                cereal::make_nvp("clips", clips)
+            );
         }
     };
 }

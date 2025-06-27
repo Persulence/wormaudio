@@ -74,14 +74,17 @@ namespace editor
     {
         lastSavedPath = path;
 
-        auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
-        {
+        // auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
+        // {
             auto project = resource::make<resource::Project>();
-            resource::readStructure(project, path1);
-            return project;
-        }, path);
+            resource::readStructure(project, path);
+            // return project;
+        // }, path);
 
-        return future;
+        // return future;
+        std::promise<resource::Handle<resource::Project>> promise{};
+        promise.set_value(project);
+        return promise.get_future();
     }
 
     void ProjectSaveManager::changeProject()
