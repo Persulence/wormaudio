@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cereal/cereal.hpp"
+
 #define FRIEND_CEREAL friend class cereal::access;
 
 #define PRIVATE_SERIALIZE(ClassName)\
@@ -8,6 +10,9 @@
 
 #define INTERNAL_SERIALIZE\
     template<class Archive>\
+    void serialize(Archive& ar, const std::uint32_t version)
+
+#define INTERNAL_SERIALIZE_SPECIALIZE(Archive)\
     void serialize(Archive& ar, const std::uint32_t version)
 
 #define INTERNAL_SPLIT_SAVE\
@@ -34,4 +39,4 @@
 
 #define LOAD_AND_CONSTRUCT(ClassName)\
     template <class Archive>\
-    static void load_and_construct( Archive & ar, cereal::construct<ClassName> & construct )
+    static void load_and_construct(Archive& ar, cereal::construct<ClassName>& construct )

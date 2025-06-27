@@ -2,7 +2,11 @@
 
 #include <memory>
 
+#include "cereal/cereal.hpp"
+#include "cereal/types/memory.hpp"
+
 #include "resource/Element.hpp"
+#include "util/serialization_util.hpp"
 
 namespace event
 {
@@ -36,5 +40,25 @@ namespace event
         {
             return *ptr;
         }
+
+
+        // Making the serialisation functions private works everywhere else, but not here.
+    // private:
+        friend class cereal::access;
+        ElementHandle() = default;
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("ptr", ptr));
+        }
+
+        // Doesn't work
+        // LOAD_AND_CONSTRUCT(ElementHandle)
+        // {
+        //     std::shared_ptr<element::Element> ptr;
+        //     ar(cereal::make_nvp("ptr", ptr));
+        //     construct(ElementHandle{ptr});
+        // }
+
     };
 }

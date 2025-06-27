@@ -41,7 +41,10 @@ namespace event
 
         INTERNAL_SERIALIZE
         {
-            ar(elements);
+            ar(
+                cereal::make_nvp("elements", elements)
+                // cereal::make_nvp("automation", automation)
+                );
         }
     };
 }

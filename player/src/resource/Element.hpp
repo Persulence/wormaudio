@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "util/serialization_util.hpp"
+
 #include "ElementInstance.hpp"
 #include "SharedResource.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
@@ -22,22 +24,18 @@ namespace element
 
         ~Element() override = default;
         JUCE_DECLARE_NON_COPYABLE(Element)
-    };
 
-    class RandomElement : public Element
-    {
-        std::string getName() override { return "random"; }
-    };
+    private:
+        FRIEND_CEREAL
 
-//    export template <class T> requires (std::convertible_to<Element&, T&>)
-//    ElementInstance createInstance(const T& element)
-//    {
-//
-//    }
-//
-//    void ooer()
-//    {
-//        Element element1;
-//        createInstance<Element>(element1);
-//    }
+        INTERNAL_SPLIT_SAVE
+        {
+            std::cout << "TODO: volume";
+        }
+
+        INTERNAL_SPLIT_LOAD
+        {
+            std::cout << "TODO: volume";
+        }
+    };
 }

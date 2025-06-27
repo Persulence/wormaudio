@@ -19,6 +19,8 @@ namespace element
     public:
         juce::Value loop{false};
 
+        ChoiceElement() = default;
+
         [[nodiscard]] std::vector<std::shared_ptr<::automation::PropertyDef>> getProperties() override;
 
         [[nodiscard]] ElementInstancePtr createInstance(::player::AudioContext,
@@ -31,11 +33,32 @@ namespace element
         const std::vector<asset::AssetHandle>& getClips() const { return clips; }
 
     private:
-        void cacheBuffers();
-
         std::vector<asset::AssetHandle> clips;
 
         bool dirty{true};
         std::vector<asset::ElementSampleBufferHandle> cachedBuffers;
+
+        void cacheBuffers();
+
+        FRIEND_CEREAL
+
+        INTERNAL_SPLIT_SAVE
+        {
+            // ar(
+            //     cereal::make_nvp("base", cereal::base_class<Element>(this)),
+            //     cereal::make_nvp("loop", static_cast<bool>(loop.getValue()))
+            //     );
+        }
+
+        INTERNAL_SPLIT_LOAD
+        {
+            // ar(
+            //     cereal::make_nvp("base", cereal::base_class<Element>(this)),
+            //     cereal::make_nvp("loop",
+            //     );
+        }
     };
 }
+
+// #include "cereal/archives/json.hpp"
+// CEREAL_REGISTER_TYPE(element::ChoiceElement)
