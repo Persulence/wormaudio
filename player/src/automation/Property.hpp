@@ -1,9 +1,11 @@
 #pragma once
 #include <memory>
 
+#include "cereal/cereal.hpp"
+
 #include "Automation.hpp"
-#include "util/class_util.h"
 #include "signal/Signal.hpp"
+#include "util/serialization_util.hpp"
 
 using AutomationValue = float;
 
@@ -28,6 +30,31 @@ namespace automation
         [[nodiscard]] PropertyName getId() const{ return id; }
 
         [[nodiscard]] AutomationValue getDefault() const{ return defaultValue; }
+
+    private:
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("id", id),
+                cereal::make_nvp("default_value", defaultValue),
+                cereal::make_nvp("unit", unit)
+                );
+        }
+
+        LOAD_AND_CONSTRUCT(PropertyDef)
+        {
+            PropertyName id;
+            AutomationValue defaultValue;
+            Unit unit;
+
+            ar(cereal::make_nvp("id", id),
+                cereal::make_nvp("default_value", defaultValue),
+                cereal::make_nvp("unit", unit)
+                );
+
+            construct(id, defaultValue, unit);
+        }
     };
 
     class PropertyInstance
@@ -38,7 +65,7 @@ namespace automation
         std::shared_ptr<PropertyDef> def;
         OnChanged::Signal onChanged;
 
-        JUCE_DECLARE_NON_COPYABLE(PropertyInstance)
+        DISABLE_COPY(PropertyInstance)
 
         explicit PropertyInstance(const std::shared_ptr<PropertyDef> &def):
             def(def), value(def->getDefault())

@@ -16,15 +16,12 @@ namespace event
 
     class EventDef : public resource::SharedResource, public std::enable_shared_from_this<EventDef>
     {
-        struct Private {};
-
     public:
-
-        EventDef(Private, std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
+        EventDef(std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
 
         static resource::Handle<EventDef> create()
         {
-            return std::make_shared<EventDef>(Private{}, std::make_unique<automation::AutomationTable>(), "Event");
+            return std::make_shared<EventDef>( std::make_unique<automation::AutomationTable>(), "Event");
         }
 
         const resource::Handle<sm::StateMachineDefinition>& getDefinition()
@@ -55,7 +52,7 @@ namespace event
         // Defined after EventInstance
         std::shared_ptr<EventInstance> instantiate();
 
-        juce::Value nameValue() { return name; }
+        util::Data<std::string> nameValue() { return name; }
 
     private:
         resource::Handle<sm::StateMachineDefinition> definition;
@@ -64,11 +61,22 @@ namespace event
         ParameterListImpl parameters;
 
         // Automation registry and mappings
-        std::unique_ptr<automation::AutomationTable> automation;
+        std::shared_ptr<automation::AutomationTable> automation;
 
         resource::Handle<ElementList> elementList;
 
-        juce::Value name;
+        util::Data<std::string> name;
 
+        PRIVATE_SERIALIZE(EventDef)
+
+        INTERNAL_SERIALIZE
+        {
+            ar(
+                cereal::make_nvp("name", name),
+                // cereal::make_nvp("parameters", parameters),
+                cereal::make_nvp("automation", automation)
+                // cereal::make_nvp("element_list", elementList)
+                );
+        }
     };
 }

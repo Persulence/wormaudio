@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 
+#include "util/serialization_util.hpp"
 #include "ElementHandle.hpp"
 #include "automation/AutomationRegistry.hpp"
 #include "resource/SharedResource.hpp"
@@ -15,8 +16,8 @@ namespace event
         using OnChange = signal_event::Callback<>;
         OnChange::Signal onChange;
 
-        explicit ElementList(automation::AutomationRegistry& automation_):
-            automation(automation_)
+        explicit ElementList(std::shared_ptr<automation::AutomationRegistry> automation_):
+            automation(std::move(automation_))
         {
 
         }
@@ -34,6 +35,13 @@ namespace event
 
     private:
         std::vector<ElementHandle> elements;
-        automation::AutomationRegistry& automation;
+        std::shared_ptr<automation::AutomationRegistry> automation; // Has to be shared for serialization. Otherwise, a reference would be sufficient.
+
+        PRIVATE_SERIALIZE(ElementList)
+
+        INTERNAL_SERIALIZE
+        {
+            ar(elements);
+        }
     };
 }

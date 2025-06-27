@@ -47,7 +47,10 @@ namespace resource
         {
             using namespace cereal;
             // TODO: events
-            ar(make_nvp("global_parameters", globalParameters));
+            ar(
+                make_nvp("global_parameters", globalParameters),
+                make_nvp("events", events)
+                );
         }
     };
 }

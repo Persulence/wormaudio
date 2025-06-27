@@ -30,7 +30,7 @@ namespace ui
         {
             auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/sound_event.png");
 
-            ptr->label.getTextValue().referTo(resource->nameValue());
+            ptr->label.setData(resource->nameValue());
 
             return ptr;
         }

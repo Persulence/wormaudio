@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "cereal/types/variant.hpp"
+#include "cereal/types/string.hpp"
 
 #include "juce_data_structures/juce_data_structures.h"
 #include "resource/SharedResource.hpp"
@@ -210,7 +211,7 @@ namespace parameter
 
         INTERNAL_SERIALIZE
         {
-            ar(cereal::base_class<ParameterDefBase>(this));
+            // ar(cereal::base_class<ParameterDefBase>(this));
             std::cout << "TODO: Enum arameter\n";
         }
     };

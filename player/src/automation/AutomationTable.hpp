@@ -4,6 +4,7 @@
 #include "Mapping.hpp"
 #include "juce_core/juce_core.h"
 #include "state/Parameter.hpp"
+#include "Property.hpp"
 
 namespace automation
 {
@@ -12,16 +13,14 @@ namespace automation
      */
     struct AutomationLink
     {
-    // public:
-    //     AutomationLink(PropertyInstanceHandle property, const MappingFunction &mapping):
-    //         property(std::move(property)),
-    //         mapping(mapping) {}
-    //
-    // private:
-
         parameter::Parameter parameter;
         Property property;
         MappingFunction mapping;
+
+        INTERNAL_SERIALIZE
+        {
+            ar(parameter, property, mapping);
+        }
     };
 
     class AutomationTable : public AutomationRegistry
@@ -41,5 +40,12 @@ namespace automation
     private:
         // std::unordered_map<Proper, Entry> automation;
         std::vector<AutomationLink> links;
+
+        FRIEND_CEREAL
+
+        INTERNAL_SERIALIZE
+        {
+            ar(cereal::make_nvp("links", links));
+        }
     };
 }

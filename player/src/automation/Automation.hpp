@@ -1,4 +1,5 @@
 #pragma once
+
 #include <memory>
 #include <utility>
 
@@ -36,6 +37,11 @@ namespace automation
         DBFS,
         HZ,
     };
+
+    // EXTERNAL_SERIALIZE(Unit)
+    // {
+    //
+    // }
 
     Property createProperty(PropertyName id, AutomationValue defaultVal, Unit unit);
 

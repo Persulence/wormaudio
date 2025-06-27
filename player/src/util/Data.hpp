@@ -2,9 +2,11 @@
 
 #include <memory>
 
+#include "cereal/cereal.hpp"
+#include "cereal/types/string.hpp"
+
 #include "serialization_util.hpp"
 #include "../signal/Signal.hpp"
-#include "cereal/cereal.hpp"
 
 namespace util
 {
@@ -43,7 +45,7 @@ namespace util
 
             ~DataContainer() = default;
 
-        private:
+        // private:
             PRIVATE_SERIALIZE(DataContainer)
 
             INTERNAL_SERIALIZE
