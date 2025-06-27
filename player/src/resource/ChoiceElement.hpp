@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "util/serialization_util.hpp"
+
 #include "Element.hpp"
 #include "ElementInstance.hpp"
 #include "util/Data.hpp"
@@ -59,6 +61,3 @@ namespace element
         }
     };
 }
-
-// #include "cereal/archives/json.hpp"
-// CEREAL_REGISTER_TYPE(element::ChoiceElement)

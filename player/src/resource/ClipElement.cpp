@@ -2,6 +2,8 @@
 
 #include "Asset.hpp"
 #include "player/LeanSamplePlayer.hpp"
+#include "automation/Property.hpp"
+#include "cereal/types/polymorphic.hpp"
 
 namespace element
 {
@@ -63,12 +65,17 @@ namespace element
     ElementInstancePtr ClipElement::createInstance(player::AudioContext context,
             automation::AutomationRegistryInstance &automation)
     {
-        return std::make_shared<ClipElementInstance>(context, resource->getAudio(), automation.getContainer(shared_from_this()),
+        return std::make_shared<ClipElementInstance>(context, asset->getAudio(), automation.getContainer(shared_from_this()),
                                                      loop.getValue());
     }
 
     std::string ClipElement::getName()
     {
-        return "Clip: " + resource->getFile().getFileName().toStdString();
+        return "Clip: " + asset->getFile().getFileName().toStdString();
     }
 }
+
+#undef Null
+#include "cereal/archives/json.hpp"
+#include "cereal/archives/portable_binary.hpp"
+CEREAL_REGISTER_TYPE(element::ClipElement)

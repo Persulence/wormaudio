@@ -135,17 +135,17 @@ namespace util
         }
     };
 
-    template <typename T>
-    void setValue(juce::Value& value, const T& t)
-    {
-        value.getValueSource().setValue(t);
-    }
-
-    template <typename T>
-    T getValue(const juce::Value& value)
-    {
-        return static_cast<T>(value.getValue());
-    }
+    // template <typename T>
+    // void setValue(juce::Value& value, const T& t)
+    // {
+    //     value.getValueSource().setValue(t);
+    // }
+    //
+    // template <typename T>
+    // T getValue(const juce::Value& value)
+    // {
+    //     return static_cast<T>(value.getValue());
+    // }
 
     // /**
     //  * Bridges juce::Value and Data.
@@ -194,16 +194,16 @@ namespace util
     //     }
     // };
 
-    template<>
-    inline std::string getValue<std::string>(const juce::Value& value)
-    {
-        return static_cast<juce::String>(value.getValue()).toStdString();
-    }
-
-    template<>
-    inline void setValue<std::string>(juce::Value& value, const std::string& t)
-    {
-        value.setValue(juce::String{t});
-    }
+    // template<>
+    // inline std::string getValue<std::string>(const juce::Value& value)
+    // {
+    //     return static_cast<juce::String>(value.getValue()).toStdString();
+    // }
+    //
+    // template<>
+    // inline void setValue<std::string>(juce::Value& value, const std::string& t)
+    // {
+    //     value.setValue(juce::String{t});
+    // }
 
 }

@@ -39,4 +39,4 @@
 
 #define LOAD_AND_CONSTRUCT(ClassName)\
     template <class Archive>\
-    static void load_and_construct(Archive& ar, cereal::construct<ClassName>& construct )
+    static void load_and_construct(Archive& ar, cereal::construct<ClassName>& construct)

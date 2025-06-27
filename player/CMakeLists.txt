@@ -164,7 +164,11 @@ set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS T
 file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/cereal/*)
 set_source_files_properties(${CEREAL_HEADERS} PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
-set_source_files_properties(src/resource/serialization.hpp PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
+set_source_files_properties(
+        src/resource/serialization.hpp
+        src/resource/ClipElement.cpp
+        src/resource/ChoiceElement.cpp
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
 #target_precompile_headers(${LIBRARY_TARGET}
 #    PRIVATE

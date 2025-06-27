@@ -4,6 +4,7 @@
 
 #include "player/LeanSamplePlayer.hpp"
 #include "Asset.hpp"
+#include "cereal/types/polymorphic.hpp"
 
 namespace element
 {
@@ -99,3 +100,7 @@ namespace element
         }
     }
 }
+
+#include "cereal/archives/json.hpp"
+#include "cereal/archives/portable_binary.hpp"
+CEREAL_REGISTER_TYPE(element::ChoiceElement)
