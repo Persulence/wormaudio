@@ -9,7 +9,9 @@ namespace editor
     Editor::Editor()
     {
         project = resource::make<Project>();
-        event = project->addEvent(event::EventDef::create());
+
+        // TODO: remove, this will be done manually
+        const auto event = project->addEvent(event::EventDef::create());
 
         globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
         setCurrentEvent(event);
@@ -31,8 +33,10 @@ namespace editor
         parametersChanged.emit();
     }
 
-    void Editor::setCurrentEvent(const resource::Handle<event::EventDef> &event)
+    void Editor::setCurrentEvent(const Handle<event::EventDef> &event)
     {
+        this->event = event;
+
         refreshParameters();
         instance = std::make_shared<EditorEventInstance>(event);
     }
@@ -120,6 +124,11 @@ namespace editor
         project = std::move(project_);
         if (runtime)
             runtime->getParameters().refresh(*project->globalParameters);
+
+        if (!project->events.empty())
+            setCurrentEvent(project->events.at(0));
+        else
+            setCurrentEvent(project->addEvent(event::EventDef::create()));
 
         onProjectRefreshed.emit();
 
