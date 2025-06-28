@@ -8,6 +8,7 @@
 
 #include "cereal/types/vector.hpp"
 #include "cereal/types/variant.hpp"
+#include "cereal_optional_nvp.h"
 
 #include "condition/ComparisonCondition.hpp"
 #include "condition/Condition.hpp"
@@ -44,7 +45,7 @@ namespace condition
         INTERNAL_SERIALIZE
         {
             ar(CEREAL_NVP(conditions));
-            ar(cereal::make_nvp("operator", op));
+            cereal::make_optional_nvp(ar, "operator", op);
         }
     };
 }
