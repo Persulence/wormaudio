@@ -25,11 +25,11 @@ namespace ui
         connectionManager->toBack();
 
         // todo: FOR TESTING
-        auto node = addState({400, 400});
-        auto transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, node->getState());
-        transition->conditions->insertCondition(condition::ComparisonCondition{});
-        definition->getStart()->insertTransition(transition);
-        connectionManager->refreshTransitionWidgets();
+        // auto node = addState({400, 400});
+        // auto transition = std::make_shared<sm::Transition1>(condition::ConditionList{}, node->getState());
+        // transition->conditions->insertCondition(condition::ComparisonCondition{});
+        // definition->getStart()->insertTransition(transition);
+        // connectionManager->refreshTransitionWidgets();
 
         // Commands
         commands()
