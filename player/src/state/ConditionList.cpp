@@ -21,7 +21,15 @@ namespace condition
                 return cmp.test(parameters, info);
             }, condition);
 
-            result = std::max(result, sample);
+            if (op == ConditionBoolOperator::OR)
+            {
+                result = std::max(result, sample);
+            }
+            else if (op == ConditionBoolOperator::AND)
+            {
+                if (sample == player::NULL_SAMPLE)
+                    return player::NULL_SAMPLE;
+            }
         }
 
         return result;

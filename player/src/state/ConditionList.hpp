@@ -15,6 +15,12 @@
 
 namespace condition
 {
+    enum class ConditionBoolOperator
+    {
+        AND,
+        OR
+    };
+
     using Condition = std::variant<
         ComparisonCondition,
         TimeCondition
@@ -24,6 +30,8 @@ namespace condition
     {
     public:
         std::vector<Condition> conditions;
+        ConditionBoolOperator op{ConditionBoolOperator::AND};
+        // util::Data<ConditionBoolOperator> op{AND};
 
         ConditionList() = default;
 
@@ -36,6 +44,7 @@ namespace condition
         INTERNAL_SERIALIZE
         {
             ar(CEREAL_NVP(conditions));
+            ar(cereal::make_nvp("operator", op));
         }
     };
 }
