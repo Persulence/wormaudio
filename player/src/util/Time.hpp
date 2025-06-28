@@ -13,6 +13,18 @@ namespace player
     {
     };
 
+    inline Seconds parseSeconds(const std::string& str)
+    {
+        try
+        {
+            return std::stod(str);
+        }
+        catch (std::exception&)
+        {
+            return 0;
+        }
+    }
+
     enum TimeType
     {
         IN_STATE,

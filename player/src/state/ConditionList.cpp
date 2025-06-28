@@ -13,7 +13,7 @@ namespace condition
 
     player::Sample ConditionList::test(const sm::ParameterLookup &parameters, const event::LogicTickInfo &info) const
     {
-        player::Sample result = -1;
+        player::Sample result = 0;
         for (const auto& condition : conditions)
         {
             auto sample = std::visit([&parameters, &info](const auto& cmp)

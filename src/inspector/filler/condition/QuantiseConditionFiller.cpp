@@ -10,6 +10,6 @@ namespace ui
 
     void QuantiseConditionFiller::initProperties()
     {
-
+        add(std::make_unique<DataEntryPropertyWidget<player::Seconds>>("Interval", condition.interval, player::parseSeconds));
     }
 }
