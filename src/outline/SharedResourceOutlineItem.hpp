@@ -8,6 +8,7 @@
 #include "resource/Asset.hpp"
 #include "settings/settings.hpp"
 #include "OutlineTypes.hpp"
+#include "OutlineItemComponent.hpp"
 
 namespace ui
 {

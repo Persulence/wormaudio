@@ -30,12 +30,21 @@ namespace element
 
         INTERNAL_SPLIT_SAVE
         {
-            std::cout << "TODO: volume";
+            // ar(cereal::base_class<SharedResource>(this));
+            // ar(cereal::base_class<PropertyProvider>(this));
+            // ar(cereal::make_nvp("volume", volume));
         }
 
         INTERNAL_SPLIT_LOAD
         {
-            std::cout << "TODO: volume";
+            // ar(cereal::base_class<SharedResource>(this));
+            // ar(cereal::base_class<PropertyProvider>(this));
+            // ar(cereal::make_nvp("volume", volume));
         }
     };
 }
+
+#undef Null
+#include "cereal/archives/json.hpp"
+#include "cereal/archives/portable_binary.hpp"
+CEREAL_REGISTER_TYPE(element::Element)

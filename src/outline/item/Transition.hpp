@@ -21,7 +21,7 @@ namespace ui::outline
             return true;
         }
 
-        std::unique_ptr<Component> createItemComponent() override
+        std::unique_ptr<juce::Component> createItemComponent() override
         {
             auto ptr = std::make_unique<OutlineItemComponent>(this, "icon/state_def.png");
 
@@ -30,8 +30,8 @@ namespace ui::outline
             return ptr;
         }
 
-        bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails &dragSourceDetails) override;
-        void itemDropped(const DragAndDropTarget::SourceDetails &dragSourceDetails, int insertIndex) override;
+        bool isInterestedInDragSource(const juce::DragAndDropTarget::SourceDetails &dragSourceDetails) override;
+        void itemDropped(const juce::DragAndDropTarget::SourceDetails &dragSourceDetails, int insertIndex) override;
     };
 
     class TransitionItem : public SharedResourceItem<sm::Transition1>
@@ -53,12 +53,12 @@ namespace ui::outline
             return true;
         }
 
-        void itemClicked(const MouseEvent& event) override
+        void itemClicked(const juce::MouseEvent& event) override
         {
-            setSelected(true, true, sendNotification);
+            setSelected(true, true, juce::sendNotification);
         }
 
-        std::unique_ptr<Component> createItemComponent() override;
+        std::unique_ptr<juce::Component> createItemComponent() override;
 
         void itemSelectionChanged(bool isNowSelected) override;
 

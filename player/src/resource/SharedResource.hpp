@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "util/serialization_util.hpp"
+
 namespace resource
 {
     class SharedResource;

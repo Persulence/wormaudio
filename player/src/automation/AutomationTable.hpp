@@ -45,7 +45,10 @@ namespace automation
 
         INTERNAL_SERIALIZE
         {
-            ar(cereal::make_nvp("links", links));
+            ar(
+                cereal::base_class<AutomationRegistry>(this),
+                cereal::make_nvp("links", links)
+                );
         }
     };
 }

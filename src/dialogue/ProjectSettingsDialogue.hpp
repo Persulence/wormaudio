@@ -1,6 +1,7 @@
 #pragma once
 
 #include "editor/Editor.hpp"
+#include "panel/Panel.hpp"
 
 namespace ui
 {

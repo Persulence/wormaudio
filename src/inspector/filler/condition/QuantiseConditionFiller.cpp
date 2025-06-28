@@ -1,5 +1,7 @@
 #include "QuantiseConditionFiller.hpp"
 
+#include "panel/MyPropertyPanel.hpp"
+
 namespace ui
 {
     QuantiseConditionFiller::QuantiseConditionFiller(condition::QuantiseCondition &condition_):

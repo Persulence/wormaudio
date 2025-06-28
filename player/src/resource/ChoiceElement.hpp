@@ -10,7 +10,7 @@
 #include "ElementInstance.hpp"
 #include "util/Data.hpp"
 
-#include "Resource.fwd.hpp"
+#include "Asset.hpp"
 #include "automation/Property.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
