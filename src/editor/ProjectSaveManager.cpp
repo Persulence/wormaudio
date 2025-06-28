@@ -76,15 +76,23 @@ namespace editor
 
         // auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
         // {
-            auto project = resource::make<resource::Project>();
+        auto project = resource::make<resource::Project>();
+        std::promise<resource::Handle<resource::Project>> promise{};
+        promise.set_value(project);
+        try
+        {
             resource::readStructure(project, path);
+            return promise.get_future();
+        }
+        catch (std::exception& e)
+        {
+            std::cout << "Failed to load project " << path << "\n";
+            std::cout << e.what() << "\n";
+            return promise.get_future();
+        }
             // return project;
         // }, path);
 
-        // return future;
-        std::promise<resource::Handle<resource::Project>> promise{};
-        promise.set_value(project);
-        return promise.get_future();
     }
 
     void ProjectSaveManager::changeProject()
