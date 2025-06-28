@@ -68,6 +68,11 @@ namespace sm
     struct Flags
     {
         StateType type;
+
+        INTERNAL_SERIALIZE
+        {
+            ar(CEREAL_NVP(type));
+        }
     };
 
     // For now only one state type
@@ -135,6 +140,7 @@ namespace sm
         {
             ar(
                 cereal::make_nvp("name", name),
+                cereal::make_nvp("flags", flags),
                 cereal::make_nvp("elements", elements),
                 cereal::make_nvp("transitions", transitions)
                 );
@@ -143,17 +149,20 @@ namespace sm
         LOAD_AND_CONSTRUCT(StateDef)
         {
             decltype(name) name;
+            decltype(flags) flags;
             decltype(elements) elements;
             decltype(transitions) transitions;
 
             ar(
                 cereal::make_nvp("name", name),
+                cereal::make_nvp("flags", flags),
                 cereal::make_nvp("elements", elements),
                 cereal::make_nvp("transitions", transitions)
                 );
 
             construct(elements, transitions);
             construct->name = *name;
+            construct->flags = flags;
         }
     };
 
