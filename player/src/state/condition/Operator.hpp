@@ -1,81 +1,129 @@
 #pragma once
 
-#include <juce_core/juce_core.h>
+#include "juce_core/juce_core.h"
 
 namespace condition
 {
-    #define DECLARE_OP_SYMBOL(symbol)\
-    static constexpr std::string getSymbol()\
-    {\
-        return symbol;\
+    // #define DECLARE_OP_SYMBOL(symbol)\
+    // static constexpr std::string getSymbol()\
+    // {\
+    //     return symbol;\
+    // }
+    //
+    // #define DECLARE_OPERATOR_INFIX(Name, op, symbol) \
+    // struct Name\
+    // {\
+    //     bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
+    //     {\
+    //         return left(lookup) op right(lookup);\
+    //     }\
+    //     DECLARE_OP_SYMBOL(symbol)\
+    // };
+    //
+    // #define DECLARE_OPERATOR_FUNC(Name, func, symbol) \
+    // struct Name\
+    // {\
+    //     bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
+    //     {\
+    //         return func(left(lookup), right(lookup));\
+    //     }\
+    //     DECLARE_OP_SYMBOL(symbol)\
+    // };
+    //
+    // DECLARE_OPERATOR_FUNC(Equal, juce::approximatelyEqual, "=")
+    // DECLARE_OPERATOR_FUNC(NotEqual, !juce::approximatelyEqual, "≠")
+    // DECLARE_OPERATOR_INFIX(Less, <, "<")
+    // DECLARE_OPERATOR_INFIX(Greater, >, ">")
+    // DECLARE_OPERATOR_INFIX(LessEqual, <=, "≤")
+    // DECLARE_OPERATOR_INFIX(GreaterEqual, >=, "≥")
+
+    // Using an enum instead of some elaborate variant nonsense
+    enum class OperatorType : int
+    {
+        // EQUAL = '=',
+        // NOT_EQUAL = '≠',
+        // LESS = '<',
+        // GREATER = '>',
+        // LESS_EQUAL = '≤',
+        // GREATER_EQUAL = '≥'
+        EQUAL,
+        NOT_EQUAL,
+        LESS,
+        GREATER,
+        LESS_EQUAL,
+        GREATER_EQUAL
+    };
+
+    inline bool applyOperatorType(const sm::ParameterLookup& lookup, const OperatorType type, const Operand& left, const Operand& right)
+    {
+        switch (type)
+        {
+            case OperatorType::EQUAL:
+                return juce::approximatelyEqual(left(lookup), right(lookup));
+            case OperatorType::NOT_EQUAL:
+                return !juce::approximatelyEqual(left(lookup), right(lookup));
+            case OperatorType::LESS:
+                return left(lookup) < right(lookup);
+            case OperatorType::GREATER:
+                return left(lookup) > right(lookup);
+            case OperatorType::LESS_EQUAL:
+                return left(lookup) <= right(lookup);
+            case OperatorType::GREATER_EQUAL:
+                return left(lookup) >= right(lookup);
+        }
+        return false;
     }
 
-    #define DECLARE_OPERATOR_INFIX(Name, op, symbol) \
-    struct Name\
-    {\
-        bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
-        {\
-            return left(lookup) op right(lookup);\
-        }\
-        DECLARE_OP_SYMBOL(symbol)\
-    };
-
-    #define DECLARE_OPERATOR_FUNC(Name, func, symbol) \
-    struct Name\
-    {\
-        bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
-        {\
-            return func(left(lookup), right(lookup));\
-        }\
-        DECLARE_OP_SYMBOL(symbol)\
-    };
-
-    DECLARE_OPERATOR_FUNC(Equal, juce::approximatelyEqual, "=")
-    DECLARE_OPERATOR_FUNC(NotEqual, !juce::approximatelyEqual, "≠")
-    DECLARE_OPERATOR_INFIX(Less, <, "<")
-    DECLARE_OPERATOR_INFIX(Greater, >, ">")
-    DECLARE_OPERATOR_INFIX(LessEqual, <=, "≤")
-    DECLARE_OPERATOR_INFIX(GreaterEqual, >=, "≥")
-
-    // struct Greater
-    // {
-    //     bool operator()(sm::ParameterLookup& lookup, Operand& left, Operand& right) const
-    //     {
-    //         return left(lookup) > right(lookup);
-    //     }
-    // };
+    constexpr std::string getOperatorSymbol(OperatorType type)
+    {
+        switch (type)
+        {
+            case OperatorType::EQUAL:
+                return "=";
+            case OperatorType::NOT_EQUAL:
+                return "≠";
+            case OperatorType::LESS:
+                return "<";
+            case OperatorType::GREATER:
+                return ">";
+            case OperatorType::LESS_EQUAL:
+                return "≤";
+            case OperatorType::GREATER_EQUAL:
+                return "≥";
+        }
+        return "";
+    }
 
     struct Operator
     {
-        using Value = std::variant<
-            Equal,
-            NotEqual,
-            Less,
-            Greater,
-            LessEqual,
-            GreaterEqual
-        >;
+        // using Value = std::variant<
+        //     Equal,
+        //     NotEqual,
+        //     Less,
+        //     Greater,
+        //     LessEqual,
+        //     GreaterEqual
+        // >;
 
-        Value value;
+        // Value value;
 
-        // Operator(Value&& value): value(value)
-        // {
-        //
-        // }
+        OperatorType op;
 
-        constexpr std::string getSymbol()
+        constexpr std::string getSymbol() const
         {
-            return std::visit([](auto& o){ return o.getSymbol(); }, value);
+            // return std::visit([](auto& o){ return o.getSymbol(); }, value);
+            return getOperatorSymbol(op);
         }
 
         bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const
         {
-            return std::visit([&lookup, &left, &right](auto& o){ return o(lookup, left, right); }, value);
+            // return std::visit([&lookup, &left, &right](auto& o){ return o(lookup, left, right); }, value);
+            return applyOperatorType(lookup, op, left, right);
         }
 
         INTERNAL_SERIALIZE
         {
-            ar(cereal::make_nvp("value", value));
+            ar(cereal::make_nvp("operator", op));
         }
     };
 }

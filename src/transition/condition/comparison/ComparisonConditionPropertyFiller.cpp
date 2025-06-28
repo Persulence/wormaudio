@@ -10,12 +10,12 @@ namespace ui
 
     std::unordered_map<int, Operator> menuOps =
     {
-        {1, {Equal{}}},
-        {2, {NotEqual{}}},
-        {3, {Less{}}},
-        {4, {Greater{}}},
-        {5, {LessEqual{}}},
-        {6, {GreaterEqual{}}},
+        {1, {OperatorType::EQUAL}},
+        {2, {OperatorType::NOT_EQUAL}},
+        {3, {OperatorType::LESS}},
+        {4, {OperatorType::GREATER}},
+        {5, {OperatorType::LESS_EQUAL}},
+        {6, {OperatorType::GREATER_EQUAL}},
     };
 
     void addOperandItems(ComparisonComboBox& combo)

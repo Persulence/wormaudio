@@ -35,7 +35,7 @@ namespace condition
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
-            ar(conditions);
+            ar(CEREAL_NVP(conditions));
         }
     };
 }

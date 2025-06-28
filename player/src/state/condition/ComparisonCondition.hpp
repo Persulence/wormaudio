@@ -18,8 +18,6 @@ namespace sm
 
 namespace condition
 {
-    // export auto DEFAULT_OPERAND{Operand{Operand::Value{ConstantOperand{0}}}};
-
     class ComparisonCondition : public ConditionBase<ComparisonCondition>
     {
     public:
@@ -40,7 +38,7 @@ namespace condition
     private:
         Operand left{ConstantOperand{}};
         Operand right{ConstantOperand{}};
-        Operator op{Equal{}};
+        Operator op{OperatorType::EQUAL};
 
         // Fields will be accessible while events are running and inside the GUI
         // std::mutex mutex;
@@ -49,7 +47,7 @@ namespace condition
 
         INTERNAL_SERIALIZE
         {
-            // ar(left, right, op);
+            ar(CEREAL_NVP(left), CEREAL_NVP(right), CEREAL_NVP(op));
         }
     };
 

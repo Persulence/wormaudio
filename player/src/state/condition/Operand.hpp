@@ -24,7 +24,7 @@ namespace condition
 
         INTERNAL_SERIALIZE
         {
-            ar(cereal::make_nvp("param_name", paramName));
+            ar(cereal::make_nvp("paramName", paramName));
         }
     };
 
