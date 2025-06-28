@@ -8,6 +8,26 @@ namespace editor
 {
     using namespace juce;
 
+    void save(resource::Handle<resource::Project> project, std::string path)
+    {
+        try
+        {
+            resource::writeStructure(project, path);
+
+            std::stringstream ss;
+            ss << "Saved project to " << path <<"\n";
+            ui::ToastManager::getInstance().addMessage(ss.str(), ui::ToastManager::INFO);
+        }
+        catch (std::exception& e)
+        {
+            std::stringstream ss;
+            ss << "Failed to save project " << path << ":\n";
+            ss << e.what() << "\n";
+            std::cout << ss.str();
+            ui::ToastManager::getInstance().addMessage(ss.str(), ui::ToastManager::ERROR);
+        }
+    }
+
     void ProjectSaveManager::saveAuto(resource::Handle<resource::Project> project)
     {
         if (lastSavedPath.empty())
@@ -16,7 +36,7 @@ namespace editor
             return;
         }
 
-        resource::writeStructure(project, lastSavedPath);
+        save(project, lastSavedPath);
     }
 
     void ProjectSaveManager::saveAs(resource::Handle<resource::Project> project)
@@ -34,9 +54,9 @@ namespace editor
             {
                 std::string path = file.getFullPathName().toStdString();
 
-                resource::writeStructure(project, path);
-
                 lastSavedPath = path;
+
+                save(project, lastSavedPath);
             }
 
             // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
