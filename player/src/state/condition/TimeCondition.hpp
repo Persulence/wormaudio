@@ -15,7 +15,7 @@ namespace condition
 {
     struct TimePos
     {
-        ExplicitValue<player::Seconds> value;
+        util::Data<player::Seconds> value;
         player::TimeType type{player::IN_STATE};
 
         INTERNAL_SERIALIZE

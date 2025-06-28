@@ -5,10 +5,30 @@
 
 namespace ui
 {
+
     template <typename T>
     class MyLabel : public juce::Label, juce::Label::Listener
     {
     public:
+        static std::string defaultToString(T t)
+        {
+            std::ostringstream ss;
+            ss << t;
+            return ss.str();
+        }
+
+        using Parse = std::function<T(std::string)>;
+        using ToString = std::function<std::string(T)>;
+
+        Parse parse;
+        ToString toString;
+
+            explicit MyLabel(Parse parse_ = [](const std::string& str){ return str; }, ToString toString_ = defaultToString):
+            parse(parse_), toString(std::move(toString_))
+        {
+
+        }
+
         void setData(util::Data<T> data_)
         {
             data.removeListener(&listener);
@@ -16,20 +36,20 @@ namespace ui
 
             data.setupListener(&listener, [this](auto& t)
             {
-                setText(t, juce::dontSendNotification);
+                setText(toString(t), juce::dontSendNotification);
             });
 
-            setText(*data, juce::dontSendNotification);
+            setText(toString(*data), juce::dontSendNotification);
             addListener(this);
         }
 
         void labelTextChanged(Label *labelThatHasChanged) override
         {
-            data.setValue(labelThatHasChanged->getText().toStdString());
+            data.setValue(parse(labelThatHasChanged->getText().toStdString()));
         }
 
     private:
         typename util::Data<T>::Listener listener;
-        util::Data<T> data{""};
+        util::Data<T> data{{}};
     };
 }

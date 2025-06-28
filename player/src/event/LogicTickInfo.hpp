@@ -27,9 +27,10 @@ namespace event
         player::Seconds blockBegin;
         player::Seconds blockEnd;
 
-        player::Sample toSamples(const player::Seconds value) const
+        [[nodiscard]] player::Sample toSamples(const player::Seconds value) const
         {
-            return std::chrono::duration_cast<std::chrono::duration<int>>(value / (1. / sampleRate)).count();
+            // return std::chrono::duration_cast<std::chrono::duration<int>>(value / (1. / sampleRate)).count();
+            return static_cast<player::Sample>(value / (1. / sampleRate));
         }
     };
 }

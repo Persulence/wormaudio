@@ -3,7 +3,7 @@
 
 namespace player
 {
-    using Seconds = std::chrono::duration<double>;
+    using Seconds = double;
     using TimePoint = std::chrono::time_point<std::chrono::steady_clock, Seconds>;
     using Sample = int;
 

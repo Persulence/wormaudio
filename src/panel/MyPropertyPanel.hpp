@@ -28,6 +28,21 @@ namespace ui
         juce::Label field;
     };
 
+    template<typename T>
+    class DataPropertyWidget : public PropertyWidget
+    {
+    protected:
+        DataPropertyWidget(const std::string& label, util::Data<T> data_):
+            PropertyWidget(label), data(data_) {}
+
+        void setContentBounds(juce::Rectangle<int> bounds) override
+        {
+
+        }
+
+        util::Data<T> data;
+    };
+
     class StringPropertyWidget : public PropertyWidget
     {
     public:
@@ -89,6 +104,30 @@ namespace ui
     private:
         juce::ToggleButton button;
         juce::Value value;
+    };
+
+    template<typename Value>
+    class DataEntryPropertyWidget : public PropertyWidget
+    {
+    public:
+        explicit DataEntryPropertyWidget(const std::string &label, util::Data<Value> data,
+                                         typename MyLabel<Value>::Parse parse = [](const auto& s){ return s; }, typename MyLabel<Value>::ToString toString = MyLabel<Value>::defaultToString):
+            PropertyWidget(label), content(parse, toString)
+        {
+            addAndMakeVisible(content);
+            content.setEditable(true);
+
+            content.setData(data);
+        }
+
+    protected:
+        void setContentBounds(const juce::Rectangle<int> bounds) override
+        {
+            content.setBounds(bounds);
+        }
+
+    private:
+        MyLabel<Value> content;
     };
 
     template<typename Value>
