@@ -134,6 +134,7 @@ namespace sm
         INTERNAL_SERIALIZE
         {
             ar(
+                cereal::make_nvp("name", name),
                 cereal::make_nvp("elements", elements),
                 cereal::make_nvp("transitions", transitions)
                 );
@@ -141,15 +142,18 @@ namespace sm
 
         LOAD_AND_CONSTRUCT(StateDef)
         {
+            decltype(name) name;
             decltype(elements) elements;
             decltype(transitions) transitions;
 
             ar(
+                cereal::make_nvp("name", name),
                 cereal::make_nvp("elements", elements),
                 cereal::make_nvp("transitions", transitions)
                 );
 
             construct(elements, transitions);
+            construct->name = *name;
         }
     };
 
