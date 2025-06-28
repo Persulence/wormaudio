@@ -3,6 +3,7 @@
 #include "comparison/ComparisonConditionPropertyFiller.hpp"
 #include "comparison/TimeConditionFiller.hpp"
 #include "inspector/InspectorRoot.hpp"
+#include "inspector/filler/condition/QuantiseConditionFiller.hpp"
 
 namespace ui
 {
@@ -20,6 +21,11 @@ namespace ui
         std::unique_ptr<PropertyFiller> operator()(ComparisonCondition& condition) const
         {
             return std::make_unique<ComparisonConditionPropertyFiller>(condition);
+        }
+
+        std::unique_ptr<PropertyFiller> operator()(QuantiseCondition& condition) const
+        {
+            return std::make_unique<QuantiseConditionFiller>(condition);
         }
     };
 

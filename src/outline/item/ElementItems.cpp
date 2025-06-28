@@ -3,6 +3,8 @@
 #include "browser/FileDragSource.hpp"
 #include "outline/SharedResourceOutlineItem.hpp"
 #include "resource/ChoiceElement.hpp"
+#include "canvas/InspectorSelectionManager.hpp"
+#include "inspector/filler/ElementInspectorFiller.hpp"
 
 namespace ui
 {

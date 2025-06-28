@@ -29,8 +29,8 @@ namespace ui
             } );
 
         add(std::move(time));
-        add(ChoicePropertyWidget<player::TimeType>::create("Type", {
-            {"In state", player::TimeType::IN_STATE},
+        add(ChoicePropertyWidget<player::TimeType>::create("Reference", {
+            {"Since entering state", player::TimeType::IN_STATE},
             {"Since event start", player::TimeType::SINCE_EVENT_START}
         }, &condition.time.type));
         add(ChoicePropertyWidget<TimeOperator>::create("Condition", {

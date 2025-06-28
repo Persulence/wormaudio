@@ -3,9 +3,11 @@
 #include <utility>
 
 #include "juce_gui_basics/juce_gui_basics.h"
+
 #include "resource/SharedResource.hpp"
 #include "resource/Asset.hpp"
 #include "settings/settings.hpp"
+#include "OutlineTypes.hpp"
 
 namespace ui
 {

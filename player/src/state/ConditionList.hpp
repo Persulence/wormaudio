@@ -12,6 +12,7 @@
 
 #include "condition/ComparisonCondition.hpp"
 #include "condition/Condition.hpp"
+#include "condition/QuantiseCondition.hpp"
 #include "condition/TimeCondition.hpp"
 
 namespace condition
@@ -24,7 +25,8 @@ namespace condition
 
     using Condition = std::variant<
         ComparisonCondition,
-        TimeCondition
+        TimeCondition,
+        QuantiseCondition
     >;
 
     class ConditionList

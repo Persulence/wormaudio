@@ -44,6 +44,11 @@ namespace ui
             {
                 addCondition(TimeCondition{});
             });
+            menu.addItem("New quantise condition", [this]
+            {
+                addCondition(QuantiseCondition{});
+            });
+
             menu.showMenuAsync(PopupMenu::Options{});
         }
     }
