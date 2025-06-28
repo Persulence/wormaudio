@@ -38,7 +38,10 @@ namespace sm
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
-            ar(conditions, nextState);
+            ar(
+                cereal::make_nvp("conditions", conditions),
+                cereal::make_nvp("nextState", nextState)
+                );
         }
 
         LOAD_AND_CONSTRUCT(Transition1)
@@ -46,7 +49,10 @@ namespace sm
             decltype(conditions) conditions;
             decltype(nextState) nextState;
 
-            ar(conditions, nextState);
+            ar(
+                cereal::make_nvp("conditions", conditions),
+                cereal::make_nvp("nextState", nextState)
+                );
 
             construct(*conditions, nextState);
         }
@@ -138,7 +144,10 @@ namespace sm
             decltype(elements) elements;
             decltype(transitions) transitions;
 
-            ar(elements, transitions);
+            ar(
+                cereal::make_nvp("elements", elements),
+                cereal::make_nvp("transitions", transitions)
+                );
 
             construct(elements, transitions);
         }

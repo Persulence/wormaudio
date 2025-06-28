@@ -20,7 +20,7 @@ namespace condition
 
         INTERNAL_SERIALIZE
         {
-            // ar(value, type);
+            ar(value, type);
         }
     };
 
