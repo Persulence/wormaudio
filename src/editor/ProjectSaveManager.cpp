@@ -1,6 +1,7 @@
 #include "ProjectSaveManager.hpp"
 
 #include "Editor.hpp"
+#include "ToastManager.hpp"
 #include "resource/serialization.hpp"
 
 namespace editor
@@ -86,8 +87,14 @@ namespace editor
         }
         catch (std::exception& e)
         {
-            std::cout << "Failed to load project " << path << "\n";
-            std::cout << e.what() << "\n";
+            std::ostringstream msg;
+
+            msg << "Failed to load project " << path << ":\n";
+            msg << e.what() << "\n";
+            std::cout << msg.str();
+
+            ui::ToastManager::getInstance().addMessage(msg.str(), ui::ToastManager::ERROR);
+
             return promise.get_future();
         }
             // return project;

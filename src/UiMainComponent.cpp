@@ -91,5 +91,22 @@ namespace ui
             dialogue->setBounds(getLocalBounds());
         }
     }
+
+    void UiMainComponent::addToast(std::unique_ptr<Component> toast)
+    {
+        auto& added = toasts.emplace_back(std::move(toast));
+        addAndMakeVisible(*added);
+        added->setAlwaysOnTop(true);
+
+        int offset = 30;
+        auto p = getLocalBounds().getTopRight() + Point{-offset, offset};
+        added->setTopRightPosition(p);
+    }
+
+    void UiMainComponent::removeToast(Component *toast)
+    {
+        removeChildComponent(toast);
+        toasts.erase(std::ranges::remove_if(toasts, [toast](auto& a){ return a.get() == toast; }).begin(), toasts.begin());
+    }
 }
 

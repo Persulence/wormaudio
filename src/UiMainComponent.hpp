@@ -67,7 +67,12 @@ namespace ui
 
         void resized() override;
 
+        void addToast(std::unique_ptr<Component> toast);
+        void removeToast(Component* toast);
+
     private:
         std::unique_ptr<FakeModalDialogue> dialogue;
+
+        std::list<std::unique_ptr<juce::Component>> toasts;
     };
 }

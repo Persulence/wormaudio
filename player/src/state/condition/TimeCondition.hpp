@@ -4,7 +4,7 @@
 
 #include "juce_data_structures/juce_data_structures.h"
 #include "util/Time.hpp"
-#include "util/WrappedValue.hpp"
+#include "util/Data.hpp"
 
 namespace event
 {
