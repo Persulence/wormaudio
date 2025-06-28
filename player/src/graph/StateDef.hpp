@@ -2,7 +2,6 @@
 
 #include <unordered_map>
 #include <memory>
-#include <ranges>
 #include <utility>
 #include <vector>
 
@@ -85,9 +84,7 @@ namespace sm
         util::Data<std::string> name{"State"};
         Flags flags{NORMAL};
 
-    public:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StateDef)
-        // StateDef(const std::shared_ptr<automation::AutomationRegistry> &registry);
         StateDef();
 
         void insertElement(const event::ElementHandle& entry);
@@ -112,7 +109,6 @@ namespace sm
 
     private:
         std::vector<event::ElementHandle> elements;
-        // std::shared_ptr<automation::AutomationRegistry> automation;
 
         std::list<std::shared_ptr<Transition1>> transitions;
         // Using raw pointers as keys as they are non-owning and won't block disposal of cyclic graphs.

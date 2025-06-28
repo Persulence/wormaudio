@@ -23,6 +23,7 @@ namespace ui
 
         addAndMakeVisible(connectionManager.get());
         connectionManager->toBack();
+        connectionManager->refreshTransitionWidgets();
 
         // todo: FOR TESTING
         // auto node = addState({400, 400});

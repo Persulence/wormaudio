@@ -21,6 +21,7 @@ namespace ui
         commands()
             .add({Commands::DEL, [this](auto&){ removeSelectedTransition(); }})
             .finish();
+
     }
 
     void CanvasConnectionManager::refreshTransitionWidgets()
