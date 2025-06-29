@@ -5,7 +5,7 @@
 
 namespace condition
 {
-    player::Sample TimeCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const
+    player::Sample TimeCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const
     {
         auto reference = pl.getReference(time.type);
 

@@ -9,6 +9,7 @@
 
 #include "panel/ChoicePropertyWidget.hpp"
 #include "panel/MyPropertyPanel.hpp"
+#include "state/condition/AllElementsDoneCondition.hpp"
 
 namespace ui
 {
@@ -58,6 +59,10 @@ namespace ui
             menu.addItem("New random condition", [this]
             {
                 addCondition(RandomCondition{});
+            });
+            menu.addItem("All elements finished", [this]
+            {
+                addCondition(AllElementsDoneCondition{});
             });
 
             menu.showMenuAsync(PopupMenu::Options{});

@@ -25,10 +25,13 @@ namespace element
 
         virtual void stop() = 0;
 
+        virtual bool isDone() const = 0;
+
         [[nodiscard]] bool canBeFreed() const
         {
             return released;
         }
+
 
         virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToAdd) = 0;
 

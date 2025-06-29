@@ -188,6 +188,11 @@ namespace sm
             return parent->getName();
         }
 
+        const decltype(instances)& getInstances() const
+        {
+            return instances;
+        }
+
         void activate(element::ElementInstanceContext& context)
         {
             for (auto& entry : parent->getElements())

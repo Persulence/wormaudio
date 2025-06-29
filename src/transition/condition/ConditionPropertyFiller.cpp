@@ -3,6 +3,7 @@
 #include "comparison/ComparisonConditionPropertyFiller.hpp"
 #include "../../inspector/filler/condition/TimeConditionFiller.hpp"
 #include "inspector/InspectorRoot.hpp"
+#include "inspector/filler/condition/AllElementsDoneConditionFiller.hpp"
 #include "inspector/filler/condition/QuantiseConditionFiller.hpp"
 #include "inspector/filler/condition/RandomConditionFiller.hpp"
 
@@ -32,6 +33,11 @@ namespace ui
         std::unique_ptr<PropertyFiller> operator()(RandomCondition& condition) const
         {
             return std::make_unique<RandomConditionFiller>(condition);
+        }
+
+        std::unique_ptr<PropertyFiller> operator()(AllElementsDoneCondition& condition) const
+        {
+            return std::make_unique<AllElementsDoneConditionFiller>(condition);
         }
     };
 

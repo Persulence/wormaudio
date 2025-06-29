@@ -1,5 +1,6 @@
-
 #include "TimeSignatureWidget.hpp"
+
+#include <cassert>
 
 namespace ui
 {

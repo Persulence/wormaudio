@@ -33,7 +33,8 @@ namespace condition
         Operand getRight() { return right; }
         Operator getOp() { return op; }
 
-        [[nodiscard]] size_t testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
+        [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info,
+                                              const sm::StateInstance &currentState) const;
 
     private:
         Operand left{ConstantOperand{}};

@@ -4,13 +4,12 @@
 
 #include <memory>
 #include <variant>
-#include <variant>
 #include <vector>
-#include <variant>
 
 #include "cereal/types/vector.hpp"
 #include "cereal/types/variant.hpp"
 #include "cereal_optional_nvp.h"
+#include "condition/AllElementsDoneCondition.hpp"
 
 #include "condition/ComparisonCondition.hpp"
 #include "condition/Condition.hpp"
@@ -30,7 +29,8 @@ namespace condition
         ComparisonCondition,
         TimeCondition,
         QuantiseCondition,
-        RandomCondition
+        RandomCondition,
+        AllElementsDoneCondition
     >;
 
     class ConditionList
@@ -44,7 +44,7 @@ namespace condition
 
         void insertCondition(Condition condition);
 
-        [[nodiscard]] player::Sample test(const sm::ParameterLookup& parameters, const event::LogicTickInfo &info) const;
+        [[nodiscard]] player::Sample test(const sm::ParameterLookup& parameters, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const;
 
     private:
         FRIEND_CEREAL

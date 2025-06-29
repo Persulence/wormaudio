@@ -42,6 +42,11 @@ namespace element
             released = true;
         }
 
+        bool isDone() const override
+        {
+            return player.getState() == player::STOPPED;
+        }
+
         void playSound()
         {
             // std::cout << "Playing sound from a " << typeid(this).name() << "!\n";

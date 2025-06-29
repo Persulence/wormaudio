@@ -10,7 +10,7 @@ namespace condition
 
         RandomCondition() = default;
 
-        [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
+        [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance &currentState) const;
 
     private:
         FRIEND_CEREAL

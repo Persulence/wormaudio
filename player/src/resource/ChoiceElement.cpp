@@ -55,6 +55,11 @@ namespace element
 
             player.getNextAudioBlock(bufferToAdd);
         }
+
+        bool isDone() const override
+        {
+            return player.getState() == player::STOPPED;
+        }
     };
 
     // --- ChoiceElement ---

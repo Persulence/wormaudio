@@ -56,7 +56,7 @@ namespace event
         {
             for (const auto& [conditions, nextState] : currentState->transitions)
             {
-                const player::Sample handoff = conditions->test(parameters, info);
+                const player::Sample handoff = conditions->test(parameters, info, *currentState->instance);
                 if (handoff != player::NULL_SAMPLE)
                 {
                     currentState = nextState;
