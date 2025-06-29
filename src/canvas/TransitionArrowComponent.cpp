@@ -199,9 +199,17 @@ namespace ui
 
     void TransitionArrowComponent::mouseDown(const MouseEvent &event)
     {
-        if (const auto manager = findParentComponentOfClass<InspectorSelectionManager>())
+        if (event.mods.isLeftButtonDown())
         {
-            manager->select(shared_from_this());
+            if (const auto manager = findParentComponentOfClass<InspectorSelectionManager>())
+            {
+                manager->select(shared_from_this());
+            }
+            if (const auto manager = findParentComponentOfClass<CanvasSelectionManager>())
+            {
+                // TODO: Transition elements
+                manager->deselectAll();
+            }
         }
     }
 
