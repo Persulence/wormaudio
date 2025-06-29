@@ -23,7 +23,7 @@ namespace ui::parse
         }
     }
 
-    inline double parseBeats(const std::string& str)
+    inline player::Beats parseBeats(const std::string& str)
     {
         try
         {

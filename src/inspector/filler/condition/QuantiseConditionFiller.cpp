@@ -27,10 +27,16 @@ namespace ui
         {
             add(std::make_unique<TempoInspectorFiller>(condition.tempo));
             add(std::make_unique<DataEntryPropertyWidget<double>>("Interval (beats)", condition.intervalBeats, parse::parseBeats));
-            condition.intervalBeats.setupListener(&beatsListener, [this](auto& val)
-            {
-                condition.intervalSeconds = condition.tempo.beatsToSeconds(val);
-            });
+
+            condition.intervalBeats = condition.tempo.secondsToBeats(*condition.intervalSeconds);
+            auto updateTime = [this](auto&) { condition.intervalSeconds = condition.tempo.beatsToSeconds(*condition.intervalBeats); };
+
+            beatsListener.setCallback(updateTime);
+            timeSigListener.setCallback(updateTime);
+
+            condition.intervalBeats.setupListener(&beatsListener);
+            condition.tempo.bpm.setupListener(&beatsListener);
+            condition.tempo.timeSig.setupListener(&timeSigListener);
         }
 
         // Show seconds regardless

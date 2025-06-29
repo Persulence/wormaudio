@@ -18,6 +18,7 @@ namespace ui
     private:
         condition::QuantiseCondition &condition;
         util::Data<bool>::Listener useTempoListener;
-        util::Data<double>::Listener beatsListener;
+        util::Data<player::Beats>::MultiListener beatsListener;
+        util::Data<player::TimeSignature>::MultiListener timeSigListener;
     };
 }

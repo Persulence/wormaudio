@@ -6,6 +6,7 @@
 namespace player
 {
     using Seconds = double;
+    using Beats = double;
     using TimePoint = std::chrono::time_point<std::chrono::steady_clock, Seconds>;
     using Sample = int;
 

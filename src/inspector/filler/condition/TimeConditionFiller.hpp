@@ -16,8 +16,8 @@ namespace ui
 
         condition::TimeCondition &condition;
         util::Data<bool>::Listener useTempoListener;
-        util::Data<double> timeBeats;
-        util::Data<double>::MultiListener timeBeatsListener;
+        util::Data<player::Beats> timeBeats;
+        util::Data<player::Beats>::MultiListener timeBeatsListener;
         util::Data<player::TimeSignature>::MultiListener timeSigListener;
     };
 }
