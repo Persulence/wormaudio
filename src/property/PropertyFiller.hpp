@@ -27,6 +27,7 @@ namespace ui
         }
 
         void resized() override;
+        void paint(juce::Graphics &g) override;
         [[nodiscard]] int getDesiredHeight() const override;
         void refresh(PropertyFiller* child = nullptr);
 

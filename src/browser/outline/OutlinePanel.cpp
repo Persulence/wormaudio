@@ -35,6 +35,7 @@ namespace ui
         root(std::make_unique<RootItem>(editor::getInstance().getProject()))
     {
         setRootItem(root.get());
+        // setHasFocusOutline(true);
 
         // auto& registry = OutlineTypeRegistry::getInstance();
 

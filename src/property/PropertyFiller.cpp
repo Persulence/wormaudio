@@ -68,6 +68,8 @@ namespace ui
     {
         int yOff = 0;
 
+        int parentOffset = 5;
+
         if (header)
         {
             header->setBounds(0, yOff, getWidth(), header->h);
@@ -76,9 +78,15 @@ namespace ui
 
         for (const auto& widget: children)
         {
-            widget->setBounds(0, yOff, getWidth(), widget->getDesiredHeight());
+            widget->setBounds(parentOffset, yOff, getWidth(), widget->getDesiredHeight());
             yOff += widget->getHeight();
         }
+    }
+
+    void PropertyFiller::paint(juce::Graphics &g)
+    {
+        g.setColour(Colours::lightgrey);
+        g.drawLine(2.5, 0, 2.5, static_cast<float>(getHeight()), 1);
     }
 
     int PropertyFiller::getDesiredHeight() const

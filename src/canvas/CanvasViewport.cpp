@@ -18,6 +18,7 @@ namespace ui
         bg = Colours::darkgrey;
 
         setOpaque(true);
+        // setHasFocusOutline(true);
     }
 
     void CanvasViewport::resized()

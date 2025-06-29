@@ -17,6 +17,11 @@ namespace ui
     public:
         virtual void createChildren() = 0;
 
+        SharedResourceItemBase()
+        {
+            setLinesDrawnForSubItems(true);
+        }
+
         template <class T>
         T* findSelectionManager()
         {
@@ -49,6 +54,12 @@ namespace ui
                     clearSubItems();
                 }
             }
+        }
+
+        void paintVerticalConnectingLine(juce::Graphics& g, const juce::Line<float> &line) override
+        {
+           // g.setColour(juce::Colours::black);
+           // g.drawLine (line);
         }
     };
 
