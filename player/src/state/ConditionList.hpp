@@ -3,6 +3,8 @@
 #include "ConditionList.fwd.hpp"
 
 #include <memory>
+#include <variant>
+#include <variant>
 #include <vector>
 #include <variant>
 
@@ -38,7 +40,7 @@ namespace condition
 
         ConditionList() = default;
 
-        Condition& insertCondition(Condition condition);
+        void insertCondition(Condition condition);
 
         [[nodiscard]] player::Sample test(const sm::ParameterLookup& parameters, const event::LogicTickInfo &info) const;
 

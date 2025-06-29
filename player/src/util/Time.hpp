@@ -29,7 +29,8 @@ namespace player
 
     struct Tempo
     {
-    public:
+        Tempo() = default;
+
         util::Data<TimeSignature> timeSig;
 
         util::Data<double> bpm{120};

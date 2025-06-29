@@ -1,5 +1,12 @@
 #include "ConditionListPropertyFiller.hpp"
 
+#include <variant>
+#include <variant>
+#include <variant>
+#include <variant>
+#include <variant>
+#include <variant>
+
 #include "panel/ChoicePropertyWidget.hpp"
 #include "panel/MyPropertyPanel.hpp"
 
@@ -53,9 +60,9 @@ namespace ui
         }
     }
 
-    void ConditionListPropertyFiller::addCondition(const Condition &condition)
+    void ConditionListPropertyFiller::addCondition(Condition&& condition)
     {
-        auto& added = conditionList.insertCondition(condition);
+        conditionList.insertCondition(std::move(condition));
         refresh();
     }
 }

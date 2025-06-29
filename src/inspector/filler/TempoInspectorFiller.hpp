@@ -13,6 +13,6 @@ namespace ui
 
         void initProperties() override;
 
-        player::Tempo tempo;
+        player::Tempo& tempo;
     };
 }

@@ -3,12 +3,12 @@
 namespace condition
 {
 
-    Condition & ConditionList::insertCondition(Condition condition)
+    void ConditionList::insertCondition(Condition condition)
     {
         conditions.push_back(std::move(condition));
 
         // Hmmmm
-        return *(conditions.end() - 1);
+        // return *(conditions.end() - 1);
     }
 
     player::Sample ConditionList::test(const sm::ParameterLookup &parameters, const event::LogicTickInfo &info) const

@@ -16,7 +16,7 @@ namespace ui
         void mouseDown(const juce::MouseEvent &event) override;
         // void paint(juce::Graphics &g) override;
 
-        void addCondition(const condition::Condition &condition);
+        void addCondition(condition::Condition&& condition);
 
 
         // void refresh();

@@ -6,7 +6,7 @@
 namespace ui
 {
     TempoInspectorFiller::TempoInspectorFiller(player::Tempo& tempo_):
-        tempo(std::move(tempo_))
+        tempo(tempo_)
     {
         setHeader(std::make_unique<SectionHeader>("Tempo"));
     }
