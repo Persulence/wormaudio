@@ -51,12 +51,19 @@ namespace player
             // :4 is treated as a reference
             const double base = static_cast<double>(timeSig.getValue().denominator) / 4;
 
-            return beats / (*bpm / 60) / base;
+            return beats / ((*bpm / 60) * base);
         }
 
         util::Data<TimeSignature> getTimeSig() const
         {
             return timeSig;
+        }
+
+        double secondsToBeats(const double seconds) const
+        {
+            const double base = static_cast<double>(timeSig.getValue().denominator) / 4;
+
+            return seconds * ((*bpm / 60) * base);
         }
 
         INTERNAL_SERIALIZE
@@ -65,5 +72,6 @@ namespace player
             ar(make_nvp("timeSig", timeSig));
             ar(make_nvp("bpm", bpm));
         }
+
     };
 }

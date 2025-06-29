@@ -9,7 +9,7 @@ namespace condition
     {
         auto reference = pl.getReference(time.type);
 
-        const player::Sample timePoint = reference + info.toSamples(*time.value);
+        const player::Sample timePoint = reference + info.toSamples(*time.valueSeconds);
         if (op == TimeOperator::GREATER_EQUAL)
         {
             if (timePoint >= info.blockBeginSamples && timePoint < info.blockEndSamples)

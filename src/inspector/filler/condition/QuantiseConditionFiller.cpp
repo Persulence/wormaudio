@@ -26,7 +26,7 @@ namespace ui
         if (*condition.useTempo)
         {
             add(std::make_unique<TempoInspectorFiller>(condition.tempo));
-            add(std::make_unique<DataEntryPropertyWidget<double>>("Interval (beats)", condition.intervalBeats, parse::parseSeconds));
+            add(std::make_unique<DataEntryPropertyWidget<double>>("Interval (beats)", condition.intervalBeats, parse::parseBeats));
             condition.intervalBeats.setupListener(&beatsListener, [this](auto& val)
             {
                 condition.intervalSeconds = condition.tempo.beatsToSeconds(val);

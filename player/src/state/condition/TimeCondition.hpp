@@ -14,12 +14,19 @@ namespace condition
 {
     struct TimePos
     {
-        util::Data<player::Seconds> value;
+        util::Data<player::Seconds> valueSeconds;
         player::TimeType type{player::IN_STATE};
+
+        player::Tempo tempo;
+        util::Data<bool> useTempo;
 
         INTERNAL_SERIALIZE
         {
-            ar(value, type);
+            using namespace cereal;
+            ar(make_nvp("value", valueSeconds));
+            ar(make_nvp("type", type));
+            ar(make_nvp("useTempo", useTempo));
+            ar(make_nvp("tempo", tempo));
         }
     };
 

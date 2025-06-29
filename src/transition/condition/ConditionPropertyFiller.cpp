@@ -1,7 +1,7 @@
 #include "ConditionPropertyFiller.hpp"
 
 #include "comparison/ComparisonConditionPropertyFiller.hpp"
-#include "comparison/TimeConditionFiller.hpp"
+#include "../../inspector/filler/condition/TimeConditionFiller.hpp"
 #include "inspector/InspectorRoot.hpp"
 #include "inspector/filler/condition/QuantiseConditionFiller.hpp"
 

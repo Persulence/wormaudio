@@ -23,6 +23,18 @@ namespace ui::parse
         }
     }
 
+    inline double parseBeats(const std::string& str)
+    {
+        try
+        {
+            return std::stod(str);
+        }
+        catch (std::exception&)
+        {
+            return 0;
+        }
+    }
+
     inline int parseInt(const std::string& str)
     {
         try
