@@ -73,6 +73,7 @@ namespace ui
     private:
         std::unique_ptr<FakeModalDialogue> dialogue;
 
+        std::mutex toastMutex;
         std::list<std::unique_ptr<juce::Component>> toasts;
     };
 }

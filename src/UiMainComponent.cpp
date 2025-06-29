@@ -94,6 +94,8 @@ namespace ui
 
     void UiMainComponent::addToast(std::unique_ptr<Component> toast)
     {
+        std::lock_guard lock{toastMutex};
+
         auto& added = toasts.emplace_back(std::move(toast));
         addAndMakeVisible(*added);
         added->setAlwaysOnTop(true);
@@ -101,12 +103,19 @@ namespace ui
         int offset = 30;
         auto p = getLocalBounds().getTopRight() + Point{-offset, offset};
         added->setTopRightPosition(p);
+
+        std::cout << "Toast\n";
     }
 
     void UiMainComponent::removeToast(Component *toast)
     {
+        std::lock_guard lock{toastMutex};
+
         removeChildComponent(toast);
-        toasts.erase(std::ranges::remove_if(toasts, [toast](auto& a){ return a.get() == toast; }).begin(), toasts.begin());
+        std::erase_if(toasts, [toast](auto& a){ return a.get() == toast; });
+
+        // Why does this duplicate the element thousands of times instead of removing it?
+        // toasts.erase(std::remove_if(toasts.begin(), toasts.end(), [toast](auto& a){ return a.get() == toast; }), toasts.begin());
     }
 }
 
