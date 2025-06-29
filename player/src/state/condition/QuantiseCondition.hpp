@@ -9,7 +9,7 @@ namespace condition
     class QuantiseCondition : public ConditionBase<QuantiseCondition>
     {
     public:
-        util::Data<bool> useTempo;
+        util::Data<bool> useTempo{true};
         player::Tempo tempo;
         util::Data<player::Seconds> intervalSeconds{1};
         util::Data<double> intervalBeats{4};
