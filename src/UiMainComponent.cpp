@@ -29,6 +29,11 @@ namespace ui
         menuBar.setModel(menuModel.get());
 
         commands()
+            .add({Commands::NEW_PROJECT, [](auto&)
+            {
+                auto& editor = editor::getInstance();
+                editor.setProject(resource::make<resource::Project>());
+            }})
             .add({Commands::SAVE_PROJECT, [](auto&)
             {
                 auto& editor = editor::getInstance();
@@ -52,10 +57,13 @@ namespace ui
             .add({Commands::QUIT, [](auto&) { JUCEApplication::getInstance()->quit(); }})
         .finish();
 
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::NEW_PROJECT.id, KeyPress{'n', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT.id, KeyPress{'s', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT_AS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT.id, KeyPress{'o', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT_SETTINGS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::altModifier, 0});
+
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::QUIT.id, KeyPress{'q', ModifierKeys::ctrlModifier, 0});
 
         editor.onProjectRefreshed.setup(&onRefreshed, [this]
         {

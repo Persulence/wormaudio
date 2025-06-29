@@ -19,6 +19,8 @@ namespace ui
             case 0:
             {
                 PopupMenu menu;
+                menu.addCommandItem(&Commands::getInstance(), Commands::NEW_PROJECT.id, {}, std::make_unique<DrawableImage>(
+                    getIcon("icon/menu/new.png")));
                 menu.addCommandItem(&Commands::getInstance(), Commands::SAVE_PROJECT.id, {}, std::make_unique<DrawableImage>(
                     getIcon("icon/menu/save.png")));
                 menu.addCommandItem(&Commands::getInstance(), Commands::SAVE_PROJECT_AS.id, {}, std::make_unique<DrawableImage>(

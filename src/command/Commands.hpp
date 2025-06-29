@@ -52,9 +52,10 @@ namespace ui
         static inline CommandDef QUIT{juce::StandardApplicationCommandIDs::quit, "Quit", "Quit the application", CommandCategory::APP, 0};
         static inline CommandDef DEL{juce::StandardApplicationCommandIDs::del, "Delete", "Delete current selection", CommandCategory::EDIT, 0};
 
-        static inline CommandDef SAVE_PROJECT{0x2001, "Save", "Save current project", CommandCategory::FILE, 0};
-        static inline CommandDef SAVE_PROJECT_AS{0x2002, "Save As", "Save current project as new file", CommandCategory::FILE, 0};
-        static inline CommandDef OPEN_PROJECT{0x2003, "Open", "Open project", CommandCategory::FILE, 0};
+        static inline CommandDef NEW_PROJECT{0x2001, "New", "New project", CommandCategory::FILE, 0};
+        static inline CommandDef SAVE_PROJECT{0x2002, "Save", "Save current project", CommandCategory::FILE, 0};
+        static inline CommandDef SAVE_PROJECT_AS{0x2003, "Save As", "Save current project as new file", CommandCategory::FILE, 0};
+        static inline CommandDef OPEN_PROJECT{0x2004, "Open", "Open project", CommandCategory::FILE, 0};
 
         static inline CommandDef OPEN_PROJECT_SETTINGS{0x2010, "Project Settings", "Open project settings", CommandCategory::FILE, 0};
 
