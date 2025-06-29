@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "util/serialization_util.hpp"
+#include "serialization/cereal_poly_archives.hpp"
 
 #include "ElementInstance.hpp"
 #include "SharedResource.hpp"
@@ -43,8 +44,3 @@ namespace element
         }
     };
 }
-
-#undef Null
-#include "cereal/archives/json.hpp"
-#include "cereal/archives/portable_binary.hpp"
-CEREAL_REGISTER_TYPE(element::Element)

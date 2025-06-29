@@ -124,15 +124,15 @@ namespace util
         }
 
 
-    private:
-        std::shared_ptr<DataContainer> ptr;
-
         FRIEND_CEREAL
 
         INTERNAL_SERIALIZE
         {
             ar(CEREAL_NVP(ptr));
         }
+    private:
+        std::shared_ptr<DataContainer> ptr;
+
     };
 
     // template <typename T>

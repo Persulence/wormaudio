@@ -55,7 +55,10 @@ namespace automation
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
+            // WHY DOES THIS COMPILE????
+            // PropertyProvider has no serialize function
             // cereal::make_optional_nvp(ar, "registry",  registry);
+            // ar(cereal::make_nvp("registry",  registry));
         }
     };
 }

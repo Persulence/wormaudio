@@ -1,8 +1,9 @@
 #pragma once
 
 #include <vector>
-
 #include "util/serialization_util.hpp"
+#include "serialization/cereal_poly_archives.hpp"
+
 #include "Automation.hpp"
 
 namespace automation
