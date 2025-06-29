@@ -50,16 +50,29 @@ namespace signal_event
 
             void listen(UniqueSignal<Args...>* target_)
             {
-                if (target && target != target_)
-                    unListen(target);
+                // Do nothing if they are the same
+                if (target_ != target)
+                {
+                    if (target)
+                        unListen(target);
 
-                target = target_;
-                target->reg(this);
+                    target = target_;
+                    target->reg(this);
+                }
             }
 
             void unListen(UniqueSignal<Args...>* target_)
             {
-                if (target_ == target)
+                if (target && target_ == target)
+                {
+                    target->unReg(this);
+                    target = nullptr;
+                }
+            }
+
+            void unListen()
+            {
+                if (target)
                 {
                     target->unReg(this);
                     target = nullptr;
@@ -97,6 +110,11 @@ namespace signal_event
         {
             ptr->listen(target.get());
             setCallback(callback_);
+        }
+
+        void unListen()
+        {
+            ptr->unListen();
         }
 
         void setCallback(SignalCallback callback_)
@@ -145,6 +163,7 @@ namespace signal_event
 
             void listen(UniqueSignal<Args...>* target)
             {
+                // TODO: remove duplicates
                 targets.push_back(target);
                 target->reg(this);
             }
@@ -176,6 +195,11 @@ namespace signal_event
         void listen(Signal<Args...>& target)
         {
             ptr->listen(target.get());
+        }
+
+        void unListen(Signal<Args...>& target)
+        {
+            ptr->unListen(target.get());
         }
 
         void setCallback(SignalCallback callback_)

@@ -105,6 +105,11 @@ namespace util
             return *this;
         }
 
+        explicit operator bool() const
+        {
+            return ptr.get();
+        }
+
         void notify()
         {
             // bool success = juce::MessageManager::callAsync([weak = std::weak_ptr{ptr}]
