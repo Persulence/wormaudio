@@ -10,13 +10,13 @@ namespace condition
     {
     public:
         util::Data<player::Seconds> interval{1};
+        player::Tempo tempo;
 
         QuantiseCondition() = default;
 
         [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
 
     private:
-        player::Tempo tempo;
 
         FRIEND_CEREAL
         INTERNAL_SERIALIZE

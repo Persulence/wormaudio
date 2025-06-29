@@ -2,6 +2,7 @@
 
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "util/Data.hpp"
+#include "util/parse.hpp"
 
 namespace ui
 {
@@ -10,20 +11,13 @@ namespace ui
     class MyLabel : public juce::Label, juce::Label::Listener
     {
     public:
-        static std::string defaultToString(T t)
-        {
-            std::ostringstream ss;
-            ss << t;
-            return ss.str();
-        }
-
         using Parse = std::function<T(std::string)>;
         using ToString = std::function<std::string(T)>;
 
         Parse parse;
         ToString toString;
 
-            explicit MyLabel(Parse parse_ = [](const std::string& str){ return str; }, ToString toString_ = defaultToString):
+        explicit MyLabel(Parse parse_ = [](const std::string& str){ return str; }, ToString toString_ = ui::parse::defaultToString<T>):
             parse(parse_), toString(std::move(toString_))
         {
 

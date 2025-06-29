@@ -1,6 +1,8 @@
 #pragma once
 #include <chrono>
 
+#include "Data.hpp"
+
 namespace player
 {
     using Seconds = double;
@@ -13,44 +15,36 @@ namespace player
     {
     };
 
-    inline Seconds parseSeconds(const std::string& str)
-    {
-        try
-        {
-            return std::stod(str);
-        }
-        catch (std::exception&)
-        {
-            return 0;
-        }
-    }
-
     enum TimeType
     {
         IN_STATE,
         SINCE_EVENT_START
     };
 
+    struct TimeSignature
+    {
+        int numerator{4};
+        int denominator{4};
+    };
+
     struct Tempo
     {
     public:
-        int numerator{4};
-        int denominator{4};
-        double bpm{120};
+        util::Data<TimeSignature> timeSig;
 
-        Seconds barsToSeconds(const double bars) const
+        util::Data<double> bpm{120};
+
+        [[nodiscard]] Seconds barsToSeconds(const double bars) const
         {
-            // :4 is treated as a reference
-            double base = static_cast<double>(denominator) / 4;
-
-            return beatsToSeconds(base);
+            return beatsToSeconds(bars * timeSig.getValue().numerator);
         }
 
-        Seconds beatsToSeconds(const double beats) const
+        [[nodiscard]] Seconds beatsToSeconds(const double beats) const
         {
-            double base = static_cast<double>(denominator) / 4;
+            // :4 is treated as a reference
+            const double base = static_cast<double>(timeSig.getValue().denominator) / 4;
 
-            return beats / (bpm / 60) / base;
+            return beats / (*bpm / 60) / base;
         }
 
     private:

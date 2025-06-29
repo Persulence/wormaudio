@@ -12,6 +12,8 @@ namespace ui
 
     void QuantiseConditionFiller::initProperties()
     {
-        add(std::make_unique<DataEntryPropertyWidget<player::Seconds>>("Interval", condition.interval, player::parseSeconds));
+        add(std::make_unique<DataEntryPropertyWidget<player::Seconds>>("Interval", condition.interval, parse::parseSeconds));
+
+        add(std::make_unique<TempoInspectorFiller>(condition.tempo));
     }
 }

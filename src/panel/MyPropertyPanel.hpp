@@ -111,7 +111,7 @@ namespace ui
     {
     public:
         explicit DataEntryPropertyWidget(const std::string &label, util::Data<Value> data,
-                                         typename MyLabel<Value>::Parse parse = [](const auto& s){ return s; }, typename MyLabel<Value>::ToString toString = MyLabel<Value>::defaultToString):
+                                         typename MyLabel<Value>::Parse parse = [](const auto& s){ return s; }, typename MyLabel<Value>::ToString toString = parse::defaultToString<Value>):
             PropertyWidget(label), content(parse, toString)
         {
             addAndMakeVisible(content);

@@ -15,18 +15,7 @@ namespace ui
 
     void TimeConditionFiller::initProperties()
     {
-        auto time = std::make_unique<DataEntryPropertyWidget<player::Seconds>>("Time", condition.time.value,
-            [](const auto& str)
-            {
-                try
-                {
-                    return std::stod(str);
-                }
-                catch (std::exception&)
-                {
-                    return 0.;
-                }
-            } );
+        auto time = std::make_unique<DataEntryPropertyWidget<player::Seconds>>("Time", condition.time.value, parse::parseSeconds);
 
         add(std::move(time));
         add(ChoicePropertyWidget<player::TimeType>::create("Reference", {
