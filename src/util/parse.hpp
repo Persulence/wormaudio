@@ -34,4 +34,16 @@ namespace ui::parse
             return 0;
         }
     }
+
+    inline double parseBpm(const std::string& str)
+    {
+        try
+        {
+            return std::stod(str);
+        }
+        catch (std::exception&)
+        {
+            return 0;
+        }
+    }
 }

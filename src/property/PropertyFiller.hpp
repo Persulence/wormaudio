@@ -36,19 +36,18 @@ namespace ui
         [[nodiscard]] virtual std::unique_ptr<SectionHeader> createHeader() const { return nullptr; }
 
     protected:
-
         /// Call when a property is modified.
         void onChanged(RefreshLevel level = SOFT);
         void setHeader(std::unique_ptr<SectionHeader> header_);
 
+        std::vector<std::shared_ptr<PropertyMember>> children;
+
     private:
         struct Priv;
 
-        void addInner(const std::shared_ptr<PropertyMember> &member);
-        // void addInner(const std::shared_ptr<PropertyFiller>& filler);
-
-        std::vector<std::shared_ptr<PropertyMember>> children;
         std::unique_ptr<SectionHeader> header;
+
+        void addInner(const std::shared_ptr<PropertyMember> &member);
     };
 
     extern std::shared_ptr<PropertyFiller> EMPTY_PROPERTY_FILLER;

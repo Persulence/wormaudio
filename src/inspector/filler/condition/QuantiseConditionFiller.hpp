@@ -17,5 +17,6 @@ namespace ui
 
     private:
         condition::QuantiseCondition &condition;
+        util::Data<bool>::Listener useTempoListener;
     };
 }

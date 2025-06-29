@@ -4,11 +4,15 @@
 
 namespace condition
 {
+    QuantiseCondition::QuantiseCondition()
+    {
+    }
+
     player::Sample QuantiseCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const
     {
         const auto reference = pl.getReference(player::IN_STATE);
 
-        player::Seconds interval1 = *interval;
+        player::Seconds interval1 = *intervalSeconds;
         if (interval1 > 0)
         {
             auto intervalSamples = info.toSamples(interval1);

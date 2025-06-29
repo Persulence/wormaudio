@@ -23,7 +23,11 @@ namespace ui
 
         void buttonStateChanged() override
         {
-            data = getToggleStateValue().getValue();
+            auto state = getState();
+            if (state != buttonOver && (state == buttonDown) != *data)
+            {
+                data = getToggleStateValue().getValue();
+            }
         }
 
     private:

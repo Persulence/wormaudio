@@ -9,10 +9,12 @@ namespace condition
     class QuantiseCondition : public ConditionBase<QuantiseCondition>
     {
     public:
-        util::Data<player::Seconds> interval{1};
+        util::Data<bool> useTempo;
         player::Tempo tempo;
+        util::Data<player::Seconds> intervalSeconds{1};
+        util::Data<double> intervalBeats{4};
 
-        QuantiseCondition() = default;
+        QuantiseCondition();
 
         [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info) const;
 
