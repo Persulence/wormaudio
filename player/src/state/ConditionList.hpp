@@ -15,6 +15,7 @@
 #include "condition/ComparisonCondition.hpp"
 #include "condition/Condition.hpp"
 #include "condition/QuantiseCondition.hpp"
+#include "condition/RandomCondition.hpp"
 #include "condition/TimeCondition.hpp"
 
 namespace condition
@@ -28,7 +29,8 @@ namespace condition
     using Condition = std::variant<
         ComparisonCondition,
         TimeCondition,
-        QuantiseCondition
+        QuantiseCondition,
+        RandomCondition
     >;
 
     class ConditionList

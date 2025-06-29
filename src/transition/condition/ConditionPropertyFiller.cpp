@@ -4,6 +4,7 @@
 #include "../../inspector/filler/condition/TimeConditionFiller.hpp"
 #include "inspector/InspectorRoot.hpp"
 #include "inspector/filler/condition/QuantiseConditionFiller.hpp"
+#include "inspector/filler/condition/RandomConditionFiller.hpp"
 
 namespace ui
 {
@@ -26,6 +27,11 @@ namespace ui
         std::unique_ptr<PropertyFiller> operator()(QuantiseCondition& condition) const
         {
             return std::make_unique<QuantiseConditionFiller>(condition);
+        }
+
+        std::unique_ptr<PropertyFiller> operator()(RandomCondition& condition) const
+        {
+            return std::make_unique<RandomConditionFiller>(condition);
         }
     };
 

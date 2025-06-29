@@ -55,6 +55,10 @@ namespace ui
             {
                 addCondition(QuantiseCondition{});
             });
+            menu.addItem("New random condition", [this]
+            {
+                addCondition(RandomCondition{});
+            });
 
             menu.showMenuAsync(PopupMenu::Options{});
         }

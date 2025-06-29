@@ -58,4 +58,16 @@ namespace ui::parse
             return 0;
         }
     }
+
+    inline float parseFloat(const std::string& str)
+    {
+        try
+        {
+            return std::stof(str);
+        }
+        catch (std::exception&)
+        {
+            return 0;
+        }
+    }
 }
