@@ -103,8 +103,6 @@ namespace ui
         int offset = 30;
         auto p = getLocalBounds().getTopRight() + Point{-offset, offset};
         added->setTopRightPosition(p);
-
-        std::cout << "Toast\n";
     }
 
     void UiMainComponent::removeToast(Component *toast)

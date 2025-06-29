@@ -23,7 +23,11 @@ namespace condition
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
-
+            using namespace cereal;
+            ar(make_nvp("useTempo", useTempo));
+            ar(make_nvp("tempo", tempo));
+            ar(make_nvp("intervalSeconds", intervalSeconds));
+            ar(make_nvp("intervalBeats", intervalBeats));
         }
     };
 }

@@ -25,15 +25,21 @@ namespace player
     {
         int numerator{4};
         int denominator{4};
+
+        INTERNAL_SERIALIZE
+        {
+            using namespace cereal;
+            ar(make_nvp("numerator", numerator));
+            ar(make_nvp("denominator", denominator));
+        }
     };
 
     struct Tempo
     {
-        Tempo() = default;
-
         util::Data<TimeSignature> timeSig;
-
         util::Data<double> bpm{120};
+
+        Tempo() = default;
 
         [[nodiscard]] Seconds barsToSeconds(const double bars) const
         {
@@ -53,7 +59,11 @@ namespace player
             return timeSig;
         }
 
-        // DISABLE_COPY(Tempo)
-        // DISABLE_MOVE(Tempo)
+        INTERNAL_SERIALIZE
+        {
+            using namespace cereal;
+            ar(make_nvp("timeSig", timeSig));
+            ar(make_nvp("bpm", bpm));
+        }
     };
 }
