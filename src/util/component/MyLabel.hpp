@@ -25,7 +25,8 @@ namespace ui
 
         void setData(util::Data<T> data_)
         {
-            data.removeListener(&listener);
+            listener.unListen();
+            // data.removeListener(&listener);
             data = data_;
 
             data.setupListener(&listener, [this](auto& t)

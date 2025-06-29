@@ -73,15 +73,16 @@ namespace util
             ptr->onChange.setup(listener);
         }
 
-        void removeListener(typename OnChanged::Listener* listener)
-        {
-            ptr->onChange.unReg(listener);
-        }
-
-        void removeListener(typename OnChanged::MultiListener* listener)
-        {
-            ptr->onChange.unReg(listener);
-        }
+        // void removeListener(typename OnChanged::Listener* listener)
+        // {
+                // Wrong
+        //     ptr->onChange.unReg(listener);
+        // }
+        //
+        // void removeListener(typename OnChanged::MultiListener* listener)
+        // {
+        //     ptr->onChange.unReg(listener);
+        // }
 
         T getValue() const
         {

@@ -47,6 +47,12 @@ namespace player
             return beats / (*bpm / 60) / base;
         }
 
-    private:
+        util::Data<TimeSignature> getTimeSig() const
+        {
+            return timeSig;
+        }
+
+        // DISABLE_COPY(Tempo)
+        // DISABLE_MOVE(Tempo)
     };
 }

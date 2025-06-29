@@ -13,7 +13,7 @@ namespace ui
 
     void TempoInspectorFiller::initProperties()
     {
-        add(std::make_unique<TimeSignaturePropertyWidget>("Time Signature", tempo.timeSig));
+        add(std::make_unique<TimeSignaturePropertyWidget>("Time Signature", tempo.getTimeSig()));
         add(std::make_unique<DataEntryPropertyWidget<double>>("BPM", tempo.bpm, parse::parseBpm));
     }
 }

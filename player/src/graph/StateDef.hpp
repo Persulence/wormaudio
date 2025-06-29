@@ -31,7 +31,7 @@ namespace sm
         std::unique_ptr<condition::ConditionList> conditions;
         std::weak_ptr<StateDef> nextState;
 
-        Transition1(const condition::ConditionList& conditions_, std::weak_ptr<StateDef> nextState_);
+        Transition1(std::unique_ptr<condition::ConditionList> conditions_, std::weak_ptr<StateDef> nextState_);
 
     private:
         FRIEND_CEREAL
@@ -53,7 +53,7 @@ namespace sm
                 cereal::make_nvp("nextState", nextState)
                 );
 
-            construct(*conditions, nextState);
+            construct(std::move(conditions), nextState);
         }
     };
 

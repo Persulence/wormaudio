@@ -19,7 +19,8 @@ namespace ui
         {
             juce::MessageManager::callAsync([this]
             {
-                refresh();
+                onChanged(HARD);
+                // useTempoListener.unListen();
             });
         });
 

@@ -16,6 +16,9 @@ namespace ui
         void resized() override;
         void paint(juce::Graphics &g) override;
 
+        DISABLE_COPY(TimeSignatureWidget)
+        DISABLE_MOVE(TimeSignatureWidget)
+
     protected:
         util::Data<player::TimeSignature> timeSignature;
 

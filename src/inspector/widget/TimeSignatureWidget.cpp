@@ -8,6 +8,7 @@ namespace ui
         numerator(parse::parseInt),
         denominator(parse::parseInt)
     {
+        assert(timeSignature);
 
         addAndMakeVisible(numerator);
         numerator.setEditable(true);

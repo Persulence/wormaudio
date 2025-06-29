@@ -12,8 +12,8 @@
 
 namespace sm
 {
-    Transition1::Transition1(const condition::ConditionList &conditions_, std::weak_ptr<StateDef> nextState_):
-        conditions(std::make_unique<condition::ConditionList>(conditions_)), nextState(std::move(nextState_))
+    Transition1::Transition1(std::unique_ptr<condition::ConditionList> conditions_, std::weak_ptr<StateDef> nextState_):
+        conditions(std::move(conditions_)), nextState(std::move(nextState_))
     {
 
     }

@@ -79,7 +79,7 @@ target_include_directories(${LIBRARY_TARGET}
         PUBLIC
             ../JuceLibraryCode
             src
-            ${CMAKE_SOURCE_DIR}/lib/cereal/include
+            SYSTEM ${CMAKE_SOURCE_DIR}/lib/cereal/include
             ${CMAKE_SOURCE_DIR}/lib/Cereal-Optional-NVP/include
 #            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1
 #            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu

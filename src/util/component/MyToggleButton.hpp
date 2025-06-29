@@ -5,12 +5,13 @@
 
 namespace ui
 {
-    class MyToggleButton : public juce::ToggleButton
+    class MyToggleButton : public juce::ToggleButton, public juce::Value::Listener
     {
     public:
         void setData(util::Data<bool> data_)
         {
-            data.removeListener(&listener);
+            // data.removeListener(&listener);
+            listener.unListen();
             data = data_;
 
             data.setupListener(&listener, [this](auto& t)
@@ -19,15 +20,22 @@ namespace ui
             });
 
             setToggleState(*data, juce::dontSendNotification);
+            getToggleStateValue().addListener(this);
         }
 
         void buttonStateChanged() override
         {
-            auto state = getState();
-            if (state != buttonOver && (state == buttonDown) != *data)
-            {
-                data = getToggleStateValue().getValue();
-            }
+            // auto state = getState();
+            // if (state != buttonOver && (state == buttonDown) != *data)
+            // {
+            // }
+        }
+
+        void valueChanged(juce::Value &value) override
+        {
+            bool toggle = getToggleState();
+            if (toggle != *data)
+                data = toggle;
         }
 
     private:
