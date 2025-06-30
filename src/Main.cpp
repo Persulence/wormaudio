@@ -11,7 +11,7 @@
 #include "command/Commands.hpp"
 #include "UiMainComponent.hpp"
 #include "util/Data.hpp"
-
+#include "../player/src/instance/spatial.hpp"
 
 
 //==============================================================================
@@ -116,28 +116,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (juce_testApplication)
-
-class Violation
-{
-
-};
-
-// int main()
-// {
-//     // Data d1 = 1;
-//     // Data<int>::OnChanged::Listener l;
-//     // d1.setupListener(l, [](auto& a){ std::cout << "changed\n"; });
-//     // std::cout << *d1 << "\n";
-//     // d1 = *d1 + 1;
-//     // std::cout << *d1 << "\n";
-//
-//     using namespace signal_event;
-//
-//     using Thing = Callback<>;
-//     Thing::Signal s1;
-//
-//     Thing::Listener l;
-//
-//     auto s2 = std::move(s1);
-// }
+START_JUCE_APPLICATION(juce_testApplication)

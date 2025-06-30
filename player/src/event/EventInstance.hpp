@@ -8,7 +8,7 @@
 #include "EventDef.hpp"
 #include "LogicTickInfo.hpp"
 #include "StateMachineInstance.hpp"
-#include "instance/instance.hpp"
+// #include "instance/instance.hpp"
 #include "player/transport.hpp"
 #include "state/EventParameterLookup.hpp"
 
@@ -28,16 +28,16 @@ namespace event
 
         void stop() const;
 
-        void setPosition(const instance::Position position_) { position = position_; };
-        void setVelocity(const instance::Velocity velocity_) { velocity = velocity_; }
+        // void setPosition(const instance::Vec3f position_) { position = position_; };
+        // void setVelocity(const instance::Velocity velocity_) { velocity = velocity_; }
 
     protected:
         resource::Handle<EventDef> parent;
         std::unique_ptr<automation::AutomationTableInstance> automationInstance;
         StateMachineInstance stateManager;
 
-        instance::Position position;
-        instance::Velocity velocity;
+        // instance::Vec3f position;
+        // instance::Velocity velocity;
 
     private:
         sm::EventParameterLookup parameters;

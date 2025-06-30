@@ -170,6 +170,10 @@ set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS T
 file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/cereal/*)
 set_source_files_properties(${CEREAL_HEADERS} PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
+#set_source_files_properties(
+#        src/Main.cpp
+#        PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
+
 #target_precompile_headers(${GUI_TARGET}
 #        PRIVATE
 #        "$<$<COMPILE_LANGUAGE:CXX>:vector>"

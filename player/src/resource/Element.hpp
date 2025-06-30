@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#undef Null
 #include "util/serialization_util.hpp"
 #include "serialization/cereal_poly_archives.hpp"
 
