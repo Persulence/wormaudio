@@ -4,7 +4,7 @@
 
 namespace condition
 {
-    player::Sample AllElementsDoneCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance &currentState) const
+    player::Sample AllElementsDoneCondition::testImpl(const sm::EventParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance &currentState) const
     {
         for (auto& thing : currentState.getInstances())
         {

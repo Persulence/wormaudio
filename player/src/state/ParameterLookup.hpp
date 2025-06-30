@@ -1,45 +1,15 @@
 #pragma once
+#include "Parameter.hpp"
 
-#include <string>
-#include <unordered_map>
-
-#include "../event/ParameterList.hpp"
-#include "util/Time.hpp"
-
-namespace sm
+namespace parameter
 {
     class ParameterLookup
     {
     public:
-        std::unordered_map<std::string, std::unique_ptr<parameter::ParameterInstance>> instances;
+        virtual ~ParameterLookup() = default;
 
-        void refresh(event::ParameterList& list);
-
-        void resetStateTimer(player::Sample sample);
-
-        player::Sample getReference(player::TimeType type) const;
-
-        ParameterValue getValue(const std::string& name) const
-        {
-            if (const auto it = instances.find(name); it != instances.end())
-            {
-                return it->second->getValue();
-            }
-
-            return {};
-        }
-
-        parameter::ParameterInstance& get(const parameter::Parameter& parameter) const
-        {
-            return get(parameter->getName());
-        }
-
-        parameter::ParameterInstance& get(const std::string& name) const
-        {
-            return *instances.at(name);
-        }
-
-    private:
-        player::Sample lastStateEnter{0};
+        virtual ParameterValue getValue(const std::string& name) const = 0;;
+        virtual ParameterInstance& get(const Parameter& parameter) const = 0;
+        virtual ParameterInstance& get(const std::string& name) const = 0;
     };
 }

@@ -47,8 +47,8 @@ namespace event
         }
     }
 
-    bool StateMachineInstance::logicTick(ParameterLookup &parameters, element::ElementInstanceContext &context, player::TransportControl& transport,
-        const LogicTickInfo& info)
+    bool StateMachineInstance::logicTick(sm::EventParameterLookup& parameters, element::ElementInstanceContext &context, player::TransportControl& transport,
+                                         const LogicTickInfo& info)
     {
         bool transitionOccurred = false;
         auto prevState = currentState;

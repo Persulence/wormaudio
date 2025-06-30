@@ -25,7 +25,7 @@ namespace condition
         op = op_;
     }
 
-    player::Sample ComparisonCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance &currentState) const
+    player::Sample ComparisonCondition::testImpl(const sm::EventParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance &currentState) const
     {
         // std::lock_guard guard{mutex};
         return op(pl, left, right) ? 0 : -1;

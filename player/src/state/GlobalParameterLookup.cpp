@@ -1,6 +1,5 @@
-#include "ParameterLookup.hpp"
+#include "GlobalParameterLookup.hpp"
 
-#include <iostream>
 #include <memory>
 #include <unordered_map>
 
@@ -9,7 +8,8 @@
 namespace sm
 {
     using namespace player;
-    void ParameterLookup::refresh(event::ParameterList &list)
+
+    void GlobalParameterLookup::refresh(event::ParameterList &list)
     {
         std::unordered_map<std::string, std::unique_ptr<parameter::ParameterInstance>> newInstances;
 
@@ -28,23 +28,5 @@ namespace sm
         }
 
         instances = std::move(newInstances);
-    }
-
-    void ParameterLookup::resetStateTimer(Sample sample)
-    {
-        lastStateEnter = sample;
-    }
-
-    // TODO: move to event-local class
-    Sample ParameterLookup::getReference(TimeType type) const
-    {
-        if (type == IN_STATE)
-        {
-            return lastStateEnter;
-        }
-        else
-        {
-            return 0;
-        }
     }
 }

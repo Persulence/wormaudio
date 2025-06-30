@@ -154,7 +154,7 @@ namespace ui
         }
     };
 
-    ParameterWidget::ParameterWidget(sm::ParameterLookup &lookup_, Parameter parameter_):
+    ParameterWidget::ParameterWidget(ParameterLookup &lookup_, Parameter parameter_):
         lookup(lookup_), parameter(std::move(parameter_))
     {
         refresh();

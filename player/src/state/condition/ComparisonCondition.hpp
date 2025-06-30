@@ -13,7 +13,7 @@ namespace event
 
 namespace sm
 {
-    class ParameterLookup;
+    class EventParameterLookup;
 }
 
 namespace condition
@@ -33,7 +33,7 @@ namespace condition
         Operand getRight() { return right; }
         Operator getOp() { return op; }
 
-        [[nodiscard]] player::Sample testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info,
+        [[nodiscard]] player::Sample testImpl(const sm::EventParameterLookup &pl, const event::LogicTickInfo &info,
                                               const sm::StateInstance &currentState) const;
 
     private:

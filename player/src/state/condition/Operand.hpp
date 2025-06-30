@@ -2,9 +2,8 @@
 
 #include <string>
 #include <variant>
-#include <format>
 
-#include "state/ParameterLookup.hpp"
+#include "state/EventParameterLookup.hpp"
 
 namespace condition
 {
@@ -12,7 +11,7 @@ namespace condition
     {
         std::string paramName;
 
-        ParameterValue operator()(const sm::ParameterLookup& lookup) const
+        ParameterValue operator()(const sm::EventParameterLookup& lookup) const
         {
             return lookup.getValue(paramName);
         }
@@ -32,7 +31,7 @@ namespace condition
     {
         ParameterValue value;
 
-        ParameterValue operator()(const sm::ParameterLookup& lookup) const
+        ParameterValue operator()(const sm::EventParameterLookup& lookup) const
         {
             return value;
         }
@@ -55,7 +54,7 @@ namespace condition
 
         constexpr explicit Operand(Value value_): value(std::move(value_)) {}
 
-        ParameterValue operator()(const sm::ParameterLookup& lookup) const
+        ParameterValue operator()(const sm::EventParameterLookup& lookup) const
         {
             return std::visit([&lookup](auto& o){ return o(lookup); }, value);
         }

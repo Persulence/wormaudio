@@ -10,6 +10,7 @@
 #include "LogicTickInfo.hpp"
 #include "StateMachineInstance.hpp"
 #include "player/transport.hpp"
+#include "state/EventParameterLookup.hpp"
 
 namespace event
 {
@@ -32,9 +33,12 @@ namespace event
             automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))
         {}
 
-        void logicTick(sm::ParameterLookup &parameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport,
+        void logicTick(sm::GlobalParameterLookup& globalParameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport,
             const LogicTickInfo& info)
         {
+            // This can't be a good idea
+            parameters.setParent(&globalParameters);
+
             if (transport.getState() == player::STARTING)
             {
                 // Starting on the block
@@ -63,6 +67,9 @@ namespace event
         {
             stateManager.stop();
         }
+
+    private:
+        sm::EventParameterLookup parameters;
     };
 }
 

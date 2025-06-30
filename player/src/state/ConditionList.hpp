@@ -44,7 +44,7 @@ namespace condition
 
         void insertCondition(Condition condition);
 
-        [[nodiscard]] player::Sample test(const sm::ParameterLookup& parameters, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const;
+        [[nodiscard]] player::Sample test(const sm::EventParameterLookup& parameters, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const;
 
     private:
         FRIEND_CEREAL

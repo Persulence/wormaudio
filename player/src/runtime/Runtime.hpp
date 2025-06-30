@@ -29,7 +29,7 @@ namespace runtime
         void disconnect();
 
         // void setupParameters(std::shared_ptr<event::ParameterList> list);
-        sm::ParameterLookup& getParameters();
+        sm::GlobalParameterLookup &getParameters();
 
         event::EventInstance::Ptr instantiate(const resource::Handle<event::EventDef> &event);
         void addInstance(const event::EventInstance::Ptr &instance);
@@ -42,7 +42,7 @@ namespace runtime
     private:
         std::vector<event::EventInstance::Ptr> instances;
         player::ElementInstanceManager elementManager;
-        sm::ParameterLookup parameters;
+        sm::GlobalParameterLookup parameters;
 
         player::Sample samplesPast{};
 

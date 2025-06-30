@@ -1,11 +1,11 @@
 #include "TimeCondition.hpp"
 
 #include "event/LogicTickInfo.hpp"
-#include "state/ParameterLookup.hpp"
+#include "state/GlobalParameterLookup.hpp"
 
 namespace condition
 {
-    player::Sample TimeCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const
+    player::Sample TimeCondition::testImpl(const sm::EventParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const
     {
         auto reference = pl.getReference(time.type);
 

@@ -1,6 +1,6 @@
 #include "QuantiseCondition.hpp"
 
-#include "state/ParameterLookup.hpp"
+#include "state/GlobalParameterLookup.hpp"
 
 namespace condition
 {
@@ -8,7 +8,7 @@ namespace condition
     {
     }
 
-    player::Sample QuantiseCondition::testImpl(const sm::ParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const
+    player::Sample QuantiseCondition::testImpl(const sm::EventParameterLookup &pl, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const
     {
         const auto reference = pl.getReference(player::IN_STATE);
 

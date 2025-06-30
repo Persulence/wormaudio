@@ -1,7 +1,7 @@
 #include "AutomationTableInstance.hpp"
 
 #include "automation/Property.hpp"
-#include "state/ParameterLookup.hpp"
+#include "state/EventParameterLookup.hpp"
 
 namespace automation
 {
@@ -30,7 +30,7 @@ namespace automation
         return result;
     }
 
-    void AutomationTableInstance::logicTick(const sm::ParameterLookup &parameters, const player::TransportControl &transport) const
+    void AutomationTableInstance::logicTick(const sm::EventParameterLookup &parameters, const player::TransportControl &transport) const
     {
         for (const auto&[parameter, property, mapping] : table.getLinks())
         {

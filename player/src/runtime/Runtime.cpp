@@ -61,7 +61,7 @@ namespace runtime
     //     parameters.refresh(list);
     // }
 
-    sm::ParameterLookup & Runtime::getParameters()
+    sm::GlobalParameterLookup &Runtime::getParameters()
     {
         return parameters;
     }

@@ -13,7 +13,7 @@ namespace condition
     // #define DECLARE_OPERATOR_INFIX(Name, op, symbol) \
     // struct Name\
     // {\
-    //     bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
+    //     bool operator()(const sm::EventParameterLookup& lookup, const Operand& left, const Operand& right) const\
     //     {\
     //         return left(lookup) op right(lookup);\
     //     }\
@@ -23,7 +23,7 @@ namespace condition
     // #define DECLARE_OPERATOR_FUNC(Name, func, symbol) \
     // struct Name\
     // {\
-    //     bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const\
+    //     bool operator()(const sm::EventParameterLookup& lookup, const Operand& left, const Operand& right) const\
     //     {\
     //         return func(left(lookup), right(lookup));\
     //     }\
@@ -54,7 +54,7 @@ namespace condition
         GREATER_EQUAL
     };
 
-    inline bool applyOperatorType(const sm::ParameterLookup& lookup, const OperatorType type, const Operand& left, const Operand& right)
+    inline bool applyOperatorType(const sm::EventParameterLookup& lookup, const OperatorType type, const Operand& left, const Operand& right)
     {
         switch (type)
         {
@@ -115,7 +115,7 @@ namespace condition
             return getOperatorSymbol(op);
         }
 
-        bool operator()(const sm::ParameterLookup& lookup, const Operand& left, const Operand& right) const
+        bool operator()(const sm::EventParameterLookup& lookup, const Operand& left, const Operand& right) const
         {
             // return std::visit([&lookup, &left, &right](auto& o){ return o(lookup, left, right); }, value);
             return applyOperatorType(lookup, op, left, right);

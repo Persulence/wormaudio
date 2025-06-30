@@ -12,7 +12,7 @@ namespace player
 
 namespace sm
 {
-    class ParameterLookup;
+    class EventParameterLookup;
 }
 
 namespace automation
@@ -24,7 +24,7 @@ namespace automation
         ~AutomationTableInstance() override = default;
 
         PropertyInstanceContainer getContainer(PropertyProviderKey provider) override;
-        void logicTick(const sm::ParameterLookup& parameters, const player::TransportControl& transport) const;
+        void logicTick(const sm::EventParameterLookup& parameters, const player::TransportControl& transport) const;
 
     private:
         // Store all automated properties

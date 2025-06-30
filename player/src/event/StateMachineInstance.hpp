@@ -15,6 +15,7 @@ namespace player {
 
 namespace sm
 {
+    class EventParameterLookup;
     class StateInstance;
 }
 
@@ -45,8 +46,8 @@ namespace event
 
         explicit StateMachineInstance(const std::vector<resource::Handle<sm::StateDef>>& states, const resource::Handle<sm::StateDef> &start);
 
-        bool logicTick(sm::ParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport,
-            const LogicTickInfo& info);
+        bool logicTick(sm::EventParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport,
+                       const LogicTickInfo& info);
         void stop() const;
 
     private:

@@ -9,12 +9,12 @@ namespace ui
     class ParameterWidget : public juce::Component, public SelectionTarget, public ParameterProperties::OnChange::Listener, public std::enable_shared_from_this<ParameterWidget>
     {
         std::unique_ptr<Component> child;
-        sm::ParameterLookup& lookup;
+        parameter::ParameterLookup& lookup;
         parameter::Parameter parameter;
         MyLabel<std::string> label;
 
     public:
-        explicit ParameterWidget(sm::ParameterLookup& lookup, parameter::Parameter parameter);
+        explicit ParameterWidget(parameter::ParameterLookup& lookup, parameter::Parameter parameter);
         void refresh();
 
         void resized() override;
