@@ -1,7 +1,7 @@
 #include "TimeCondition.hpp"
 
 #include "event/LogicTickInfo.hpp"
-#include "state/GlobalParameterLookup.hpp"
+#include "state/EventParameterLookup.hpp"
 
 namespace condition
 {

@@ -11,7 +11,7 @@ namespace sm
     class EventParameterLookup : public parameter::ParameterLookup
     {
     public:
-        explicit EventParameterLookup() = default;
+        EventParameterLookup() = default;
 
         // Slightly dubious
         void setParent(GlobalParameterLookup* globalParameterLookup_)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <utility>
 
 #include "AutomationTableInstance.hpp"
 #include "EventElementInstancer.hpp"
@@ -9,6 +8,7 @@
 #include "EventDef.hpp"
 #include "LogicTickInfo.hpp"
 #include "StateMachineInstance.hpp"
+#include "instance/instance.hpp"
 #include "player/transport.hpp"
 #include "state/EventParameterLookup.hpp"
 
@@ -16,60 +16,30 @@ namespace event
 {
     class EventInstance
     {
-    protected:
-        resource::Handle<EventDef> parent;
-        StateMachineInstance stateManager;
-
     public:
         using Ptr = std::shared_ptr<EventInstance>;
 
         player::TransportControl transport;
 
-        std::unique_ptr<automation::AutomationTableInstance> automationInstance;
-
-        explicit EventInstance(resource::Handle<EventDef> parent_):
-            parent(std::move(parent_)),
-            stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
-            automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation()))
-        {}
+        explicit EventInstance(resource::Handle<EventDef> parent_);
 
         void logicTick(sm::GlobalParameterLookup& globalParameters, player::ElementInstanceManager& context, player::TransportControl& globalTransport,
-            const LogicTickInfo& info)
-        {
-            // This can't be a good idea
-            parameters.setParent(&globalParameters);
+                       const LogicTickInfo& info);
 
-            if (transport.getState() == player::STARTING)
-            {
-                // Starting on the block
-                parameters.resetStateTimer(info.blockBeginSamples);
-                transport.setState(player::PLAYING);
-            }
+        void stop() const;
 
-            if (transport.getState() == player::PLAYING)
-            {
-                EventElementInstancer instancer{context, *automationInstance};
-                automationInstance->logicTick(parameters, transport);
-                stateManager.logicTick(parameters, instancer, transport, info);
-            }
-            else
-            {
-                return;
-            }
+        void setPosition(const instance::Position position_) { position = position_; };
+        void setVelocity(const instance::Velocity velocity_) { velocity = velocity_; }
 
-            if (transport.stopped())
-            {
-                stop();
-            }
-        }
+    protected:
+        resource::Handle<EventDef> parent;
+        std::unique_ptr<automation::AutomationTableInstance> automationInstance;
+        StateMachineInstance stateManager;
 
-        void stop() const
-        {
-            stateManager.stop();
-        }
+        instance::Position position;
+        instance::Velocity velocity;
 
     private:
         sm::EventParameterLookup parameters;
     };
 }
-
