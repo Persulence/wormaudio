@@ -22,6 +22,9 @@ namespace player
 
         auto scalar = to.abs() * std::cos(perpendicular.angleTo(to));
 
+        if (std::isnan(scalar))
+            return 0;
+
         return scalar;
     }
 }
