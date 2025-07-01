@@ -114,6 +114,7 @@ namespace ui
             if (auto shared = manager->getCurrent<TransitionArrowComponent>())
             {
                 removeTransition(shared);
+                manager->deselectAll();
             }
         }
     }
