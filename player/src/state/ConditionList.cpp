@@ -29,6 +29,8 @@ namespace condition
             {
                 if (sample == player::NULL_SAMPLE)
                     return player::NULL_SAMPLE;
+
+                result = std::max(result, sample);
             }
         }
 
