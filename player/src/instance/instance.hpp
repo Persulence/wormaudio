@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 namespace instance
 {
@@ -60,9 +61,4 @@ namespace instance
     };
 
     using Vec3f = Vec3<float>;
-
-    struct Velocity
-    {
-        float x{}, y{}, z{};
-    };
 }

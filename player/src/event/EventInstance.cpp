@@ -5,11 +5,17 @@ namespace event
     EventInstance::EventInstance(resource::Handle<EventDef> parent_):
         parent(std::move(parent_)),
         automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation())),
-        stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart()))
+        stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
+        elementManager(std::make_unique<player::ElementInstanceManager>())
     {}
 
-    void EventInstance::logicTick(sm::GlobalParameterLookup &globalParameters, player::ElementInstanceManager &context,
-            player::TransportControl &globalTransport, const LogicTickInfo &info) {
+    void EventInstance::prepareToPlay(player::AudioContext ctx)
+    {
+        elementManager->prepareToPlay(ctx.samplesPerBlock, ctx.sampleRate);
+    }
+
+    void EventInstance::logicTick(sm::GlobalParameterLookup &globalParameters, player::TransportControl &globalTransport, const LogicTickInfo &info)
+    {
         // This can't be a good idea
         parameters.setParent(&globalParameters);
 
@@ -22,7 +28,7 @@ namespace event
 
         if (transport.getState() == player::PLAYING)
         {
-            EventElementInstancer instancer{context, *automationInstance};
+            EventElementInstancer instancer{*elementManager, *automationInstance};
             automationInstance->logicTick(parameters, transport);
             stateManager.logicTick(parameters, instancer, transport, info);
         }
@@ -40,5 +46,11 @@ namespace event
     void EventInstance::stop() const
     {
         stateManager.stop();
+        elementManager->clear();
+    }
+
+    player::ElementInstanceManager & EventInstance::getElements()
+    {
+        return *elementManager;
     }
 }

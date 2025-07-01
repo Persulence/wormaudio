@@ -27,6 +27,7 @@ namespace runtime
     {
         auto instance = event->instantiate();
         instances.push_back(instance);
+        instance->prepareToPlay(audioContext);
         return instance;
     }
 
@@ -42,7 +43,6 @@ namespace runtime
             instance->stop();
         }
 
-        elementManager.clear();
         instances.clear();
     }
 
@@ -69,12 +69,10 @@ namespace runtime
     void Runtime::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     {
         audioContext = {samplesPerBlockExpected, sampleRate};
-        elementManager.prepareToPlay(samplesPerBlockExpected, sampleRate);
     }
 
     void Runtime::releaseResources()
     {
-        elementManager.releaseResources();
     }
 
     void Runtime::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
@@ -89,11 +87,15 @@ namespace runtime
             // TODO: look into making this async
             logicTick();
 
-            elementManager.getNextAudioBlock(bufferToFill);
+            for (auto& event : instances)
+            {
+                auto& elements = event->getElements();
+                elements.getNextAudioBlock(bufferToFill);
 
-            // Happens after sample generation to allow handoff
-            // TODO: make this async
-            // elementManager.freeReleased();
+                // Happens after sample generation to allow handoff
+                // TODO: make this async
+                elements.freeReleased();
+            }
         }
 
         samplesPast += audioContext.samplesPerBlock;
@@ -105,7 +107,7 @@ namespace runtime
         auto info = event::LogicTickInfo{audioContext, samplesPast};
         for (const auto& instance : instances)
         {
-            instance->logicTick(parameters, elementManager, transport, info);
+            instance->logicTick(parameters, transport, info);
         }
 
     }

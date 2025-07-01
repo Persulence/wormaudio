@@ -41,7 +41,6 @@ namespace runtime
 
     private:
         std::vector<event::EventInstance::Ptr> instances;
-        player::ElementInstanceManager elementManager;
         sm::GlobalParameterLookup parameters;
 
         player::Sample samplesPast{};

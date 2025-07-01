@@ -2,6 +2,7 @@
 
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "instance/spatial.hpp"
 #include "resource/ElementInstance.hpp"
 
 namespace player
@@ -98,6 +99,15 @@ namespace player
                 instance->getNextAudioBlock(bufferToFill);
             }
         }
+
+
+        // TODO: TESTING ONLY
+        // auto soundPos = instance::Vec3f{1, 0, 1};
+        // auto listener = instance::Vec3f{0, 0, 2};
+        //
+        // float result = earDistance(soundPos, listener, 0);
+        //
+        // bufferToFill.buffer->applyGain(0, result);
 
         // TODO tracks/buses
     }
