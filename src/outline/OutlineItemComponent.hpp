@@ -16,6 +16,8 @@ namespace ui
         void paint(juce::Graphics &g) override;
         void resized() override;
 
+        void rename();
+
     public:
         MyLabel<std::string> label;
 

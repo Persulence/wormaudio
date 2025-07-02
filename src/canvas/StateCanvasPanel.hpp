@@ -22,7 +22,6 @@ namespace ui
         // TODO: temporary
         std::shared_ptr<sm::StateMachineDefinition> definition;
 
-        std::weak_ptr<StateNodeWidget> selectedNode;
         sm::OnStateChange::Listener stateChangeListener;
 
         std::shared_ptr<StateNodeWidget> currentState;
@@ -46,6 +45,9 @@ namespace ui
         juce::Rectangle<int> calculateBounds() const;
 
         void removeSelectedNode();
+
+        void renameSelectedNode() const;
+
         // ApplicationCommandTarget * getNextCommandTarget() override;
         // void getAllCommands(juce::Array<int> &commands) override;
         // void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result) override;

@@ -4,6 +4,7 @@
 #include "outline/OutlineItemComponent.hpp"
 #include "outline/SharedResourceOutlineItem.hpp"
 #include "util/GuiResources.hpp"
+#include "outline/OutlineTypes.hpp"
 
 namespace ui
 {
@@ -41,6 +42,25 @@ namespace ui
 
         // auto soundEvent = registry.get(editor.getEvent());
         // treeView.getRootItem()->addSubItem(soundEvent.release());
+
+        commands()
+            .add(CommandAction{Commands::RENAME, [this](auto&)
+            {
+                if (getNumSelectedItems() > 0)
+                {
+                    if (auto selected = getSelectedItem(0))
+                    {
+                        if (auto component = getItemComponent(selected))
+                        {
+                            if (auto custom = dynamic_cast<OutlineItemComponent*>(component->getChildComponent(0)))
+                            {
+                                custom->rename();
+                            }
+                        }
+                    }
+                }
+            }})
+            .finish();
     }
 
     OutlinePanel::~OutlinePanel()

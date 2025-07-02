@@ -13,7 +13,6 @@ namespace ui
 
         if (editable)
             label.setEditable(false, true);
-
         // label.getTextValue().referTo(name.value);
     }
 
@@ -46,5 +45,11 @@ namespace ui
 
 
         label.setBounds(bounds);
+    }
+
+    void OutlineItemComponent::rename()
+    {
+        if (label.isEditable())
+            label.showEditor();
     }
 }

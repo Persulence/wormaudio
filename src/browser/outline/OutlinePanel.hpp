@@ -1,10 +1,10 @@
 #pragma once
-#include "outline/OutlineTypes.hpp"
-#include "panel/Panel.hpp"
+
+#include "command/SimpleCommandTarget.hpp"
 
 namespace ui
 {
-    class OutlinePanel : public juce::TreeView
+    class OutlinePanel : public juce::TreeView, public SimpleCommandTarget
     {
     public:
         OutlinePanel();

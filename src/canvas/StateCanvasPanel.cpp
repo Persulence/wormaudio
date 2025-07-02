@@ -35,9 +35,8 @@ namespace ui
         // Commands
         commands()
             .add(CommandAction{Commands::DEL, [this](auto&){ removeSelectedNode();}})
+            .add(CommandAction{Commands::RENAME, [this](auto&) { renameSelectedNode(); }})
             .finish();
-
-        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
 
         // Listen for runtime state changes
         editor::getInstance().onStateChange.setup(&stateChangeListener, [this](const auto& newState)
@@ -207,11 +206,19 @@ namespace ui
 
     void StateCanvasPanel::removeSelectedNode()
     {
-        const auto manager = findParentComponentOfClass<CanvasSelectionManager>();
-        if (manager)
+        if (const auto manager = findParentComponentOfClass<CanvasSelectionManager>())
         {
-            if (auto shared = manager->getCurrent<StateNodeWidget>())
+            if (const auto shared = manager->getCurrent<StateNodeWidget>())
                 removeNode(shared);
+        }
+    }
+
+    void StateCanvasPanel::renameSelectedNode() const
+    {
+        if (const auto manager = findParentComponentOfClass<CanvasSelectionManager>())
+        {
+            if (const auto shared = manager->getCurrent<StateNodeWidget>())
+                shared->rename();
         }
     }
 

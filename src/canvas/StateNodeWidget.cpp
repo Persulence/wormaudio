@@ -54,6 +54,11 @@ namespace ui
 
     // ConnectionCreationBox
 
+    void StateNodeWidget::rename()
+    {
+        header.showEditor();
+    }
+
     StateNodeWidget::ConnectionCreationBox::ConnectionCreationBox(StateNodeWidget& parent_,
                                                                   CanvasConnectionManager::Ptr manager_) :
         manager(std::move(manager_)),

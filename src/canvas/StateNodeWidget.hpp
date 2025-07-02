@@ -95,6 +95,8 @@ namespace ui
             repaint();
         }
 
+        void rename();
+
     private:
         class ConnectionCreationBox : public Component
         {
