@@ -51,6 +51,15 @@ namespace asset
             }
         }
 
+        void processUnused()
+        {
+            // TODO: make this work
+            std::erase_if(assets, [](const auto& entry)
+            {
+                return entry.second.use_count() <= 1;
+            });
+        }
+
     private:
         std::unordered_map<std::string, AssetHandle> assets;
         bool autoCreate;
@@ -65,6 +74,8 @@ namespace asset
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
+            processUnused();
+
             ar(cereal::make_nvp("assets", assets));
             ar(cereal::make_nvp("autoCreate", autoCreate));
         }
