@@ -1,6 +1,6 @@
 #include "QuantiseCondition.hpp"
 
-#include "state/GlobalParameterLookup.hpp"
+#include "state/EventParameterLookup.hpp"
 
 namespace condition
 {

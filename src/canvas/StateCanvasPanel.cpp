@@ -38,6 +38,9 @@ namespace ui
             .add(CommandAction{Commands::RENAME, [this](auto&) { renameSelectedNode(); }})
             .finish();
 
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::RENAME.id, KeyPress{KeyPress::F2Key});
+
         // Listen for runtime state changes
         editor::getInstance().onStateChange.setup(&stateChangeListener, [this](const auto& newState)
         {

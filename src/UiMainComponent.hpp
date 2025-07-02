@@ -14,7 +14,7 @@ namespace ui
 
     class UiMainComponent : public juce::Component, juce::DeletedAtShutdown, public SimpleCommandTarget
     {
-        std::unique_ptr<MainSceneComponent> mainScene;
+        std::unique_ptr<juce::Component> mainScene;
         editor::ProjectRefreshed::Listener onRefreshed;
 
         juce::MenuBarComponent menuBar;

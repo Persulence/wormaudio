@@ -8,18 +8,15 @@
 #include "menu/MainMenuModel.hpp"
 #include "runtime/Runtime.hpp"
 #include "scene/MainSceneComponent.hpp"
-#include "theme/MainLookAndFeel.hpp"
 
 using namespace juce;
 
 namespace ui
 {
     UiMainComponent::UiMainComponent(Private):
-        mainScene(std::make_unique<MainSceneComponent>()),
+        mainScene(std::make_unique<SplashMainComponent>()),
         menuModel(std::make_unique<MainMenuModel>())
     {
-        LookAndFeel::setDefaultLookAndFeel(&MainLookAndFeel::getInstance());
-
         auto& editor = editor::Editor::getInstance();
         editor.startRuntime();
         editor.getRuntime().connectToDevice();
@@ -65,9 +62,6 @@ namespace ui
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT_AS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT.id, KeyPress{'o', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT_SETTINGS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::altModifier, 0});
-
-        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
-        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::RENAME.id, KeyPress{KeyPress::F2Key});
 
         editor.onProjectRefreshed.setup(&onRefreshed, [this]
         {

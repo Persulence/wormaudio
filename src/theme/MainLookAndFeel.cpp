@@ -12,6 +12,10 @@ MainLookAndFeel::MainLookAndFeel()
     Colour bgDark = Colours::darkgrey;
     Colour accent = Colours::darkblue;
 
+    auto darkRed = Colour{0xff7e2529};
+
+    setColour(DocumentWindow::backgroundColourId, bgDark);
+
     setColour(PopupMenu::backgroundColourId, bg);
     setColour(PopupMenu::textColourId, fg);
     setColour(PopupMenu::headerTextColourId, bg);
@@ -21,7 +25,7 @@ MainLookAndFeel::MainLookAndFeel()
     setColour(ComboBox::outlineColourId, fg);
     setColour(ComboBox::arrowColourId, fg);
 
-    setColour(TextButton::buttonColourId, Colours::red);
+    setColour(TextButton::buttonColourId, darkRed);
     setColour(TextButton::buttonOnColourId, bgDark);
 }
 

@@ -22,6 +22,7 @@ namespace ui
             .add({Commands::DEL, [this](auto&){ removeSelectedTransition(); }})
             .finish();
 
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
     }
 
     void CanvasConnectionManager::refreshTransitionWidgets()

@@ -12,25 +12,30 @@
 #include "UiMainComponent.hpp"
 #include "util/Data.hpp"
 #include "../player/src/instance/spatial.hpp"
+#include "theme/MainLookAndFeel.hpp"
+#include "scene/SplashMainComponent.hpp"
+#include "window/SplashWindow.hpp"
 
 
 //==============================================================================
-class juce_testApplication  : public juce::JUCEApplication
+class Application : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    juce_testApplication() {}
+    Application() {}
 
-    const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
-    const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
-    bool moreThanOneInstanceAllowed() override             { return true; }
+    const juce::String getApplicationName() override { return ProjectInfo::projectName; }
+    const juce::String getApplicationVersion() override { return ProjectInfo::versionString; }
+    bool moreThanOneInstanceAllowed() override { return true; }
 
     //==============================================================================
-    void initialise (const juce::String& commandLine) override
+    void initialise(const juce::String &commandLine) override
     {
         // This method is where you should put your application's initialisation code..
 
-        mainWindow.reset (new MainWindow (getApplicationName()));
+        juce::LookAndFeel::setDefaultLookAndFeel(&ui::MainLookAndFeel::getInstance());
+        // mainWindow = std::make_unique<ui::SplashWindow>(getApplicationName());
+        mainWindow = std::make_unique<MainWindow>(getApplicationName());
     }
 
     void shutdown() override
@@ -48,26 +53,20 @@ public:
         quit();
     }
 
-    void anotherInstanceStarted (const juce::String& commandLine) override
+    void anotherInstanceStarted(const juce::String &commandLine) override
     {
         // When another instance of the app is launched while this one is running,
         // this method is invoked, and the commandLine parameter tells you what
         // the other instance's command-line arguments were.
     }
 
-    //==============================================================================
-    /*
-        This class implements the desktop window that contains an instance of
-        our MainComponent class.
-    */
     class MainWindow : public juce::DocumentWindow
     {
     public:
-        explicit MainWindow(const juce::String& name)
-            : DocumentWindow (name,
-                              juce::Desktop::getInstance().getDefaultLookAndFeel()
-                                                          .findColour (juce::ResizableWindow::backgroundColourId),
-                              DocumentWindow::allButtons)
+        explicit MainWindow(const juce::String &name) :
+            DocumentWindow(name,
+                           ui::MainLookAndFeel::getInstance().findColour(juce::ResizableWindow::backgroundColourId),
+                           DocumentWindow::allButtons)
         {
             addKeyListener(ui::Commands::getInstance().getKeyMappings());
 
@@ -76,25 +75,22 @@ public:
             setContentNonOwned(&ui::UiMainComponent::getInstance(), true);
             glContext.attachTo(*getTopLevelComponent());
 
-           #if JUCE_IOS || JUCE_ANDROID
+#if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
-           #else
+#else
             setResizable(true, true);
             // None of this works on a tiling window manager
             centreWithSize(700, 400);
             // getTopLevelComponent()->setBounds(0, 0, 1000, 700);
             // centreWithSize(1000, 800);
             // setBoundsRelative(0, 0, 0.5, 0.5);
-           #endif
+#endif
 
-            setVisible (true);
+            setVisible(true);
         }
 
         void closeButtonPressed() override
         {
-            // This is called when the user tries to close this window. Here, we'll just
-            // ask the app to quit when this happens, but you can change this to do
-            // whatever you need.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
@@ -107,13 +103,13 @@ public:
 
     private:
         juce::OpenGLContext glContext;
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
     };
 
 private:
-    std::unique_ptr<MainWindow> mainWindow;
+    std::unique_ptr<juce::DocumentWindow> mainWindow;
 };
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION(juce_testApplication)
+START_JUCE_APPLICATION(Application)
