@@ -1,8 +1,12 @@
 #pragma once
+
+#include <string>
 #include <memory>
 
 namespace asset
 {
+    using LocalPath = std::string;
+
     class Asset;
     using AssetHandle = std::shared_ptr<Asset>;
 

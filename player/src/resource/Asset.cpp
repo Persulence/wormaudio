@@ -7,7 +7,7 @@ namespace asset
         if (buffer == nullptr)
         {
             buffer = ElementSampleBuffer::create();
-            if (!loader->loadFile(file, *buffer))
+            if (!loader->loadLocal(path, *buffer))
             {
                 buffer = EMPTY_BUFFER;
             }
@@ -20,9 +20,9 @@ namespace asset
             loadFile();
     }
 
-    Asset::Asset(const AssetLoader::Ptr loader_, juce::File file_, const Settings settings_):
+    Asset::Asset(const AssetLoader::Ptr loader_, LocalPath path_, const Settings settings_):
         settings(settings_),
-        file(std::move(file_)),
+        path(std::move(path_)),
         loader(loader_)
     {
 
@@ -32,6 +32,11 @@ namespace asset
     {
         loadFile();
         return buffer;
+    }
+
+    juce::File Asset::getFile() const
+    {
+        return loader->getFile(path);
     }
 }
 

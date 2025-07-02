@@ -2,9 +2,11 @@
 
 #include <utility>
 
+#include "cereal/types/string.hpp"
+#include "cereal/types/polymorphic.hpp"
+
 #include "player/LeanSamplePlayer.hpp"
 #include "Asset.hpp"
-#include "cereal/types/polymorphic.hpp"
 
 namespace element
 {

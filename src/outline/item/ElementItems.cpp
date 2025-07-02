@@ -91,7 +91,7 @@ namespace ui
         if (auto source = FileDragSource::test(dragSourceDetails))
         {
             auto choice = std::dynamic_pointer_cast<element::ChoiceElement>(resource);
-            choice->addClip(editor::getInstance().getProject()->getAsset(source->getFile()));
+            choice->addClip(editor::getInstance().createAsset(source->getFile()));
             // choice->addClip(asset::createAsset(source->getFile()));
             // treeHasChanged(); // Doesn't work?
             refresh(this, true);

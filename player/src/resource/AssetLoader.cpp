@@ -5,8 +5,10 @@
 
 namespace asset
 {
-    bool AssetLoader::loadFile(const juce::File &file, ElementSampleBuffer &destination)
+    namespace fs = std::filesystem;
+    bool AssetLoader::loadLocal(const LocalPath &path, ElementSampleBuffer &destination)
     {
+        auto file = getFile(path);
         if (!io::readFile(file, formatManager, destination, 10))
         {
             juce::Logger::writeToLog(juce::String("Failed to load file ") + file.getFullPathName() + "\n");
@@ -25,5 +27,20 @@ namespace asset
         static AssetLoader instance;
 
         return &instance;
+    }
+
+    juce::File AssetLoader::getFile(const LocalPath &path)
+    {
+        std::string fullPath = assetRoot;
+
+        // Not using fs::path because it's too clever
+        fullPath += path;
+
+        return juce::File{fullPath};
+    }
+
+    LocalPath AssetLoader::localise(const fs::path path) const
+    {
+        return fs::relative(assetRoot, path);
     }
 }

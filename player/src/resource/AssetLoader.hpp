@@ -1,12 +1,16 @@
 #pragma once
 
+#include "resource/Asset.fwd.hpp"
+
+#include <filesystem>
+
 #include "juce_audio_formats/juce_audio_formats.h"
 
 namespace asset
 {
     class ElementSampleBuffer;
 
-    /// Responsible for loading audio files. All Resource instances load their data through here.
+    /// Responsible for converting internal paths into global ones. All Resource instances load their data through here.
     class AssetLoader
     {
         juce::AudioFormatManager formatManager;
@@ -16,15 +20,21 @@ namespace asset
         using Ptr = AssetLoader*;
 
         static Ptr getInstance();
+        void setAssetRoot(std::filesystem::path path) { assetRoot = path; }
 
         juce::AudioFormatManager& getFormatManager()
         {
             return formatManager;
         }
 
-        bool loadFile(const juce::File& file, ElementSampleBuffer& destination);
+        LocalPath localise(const std::filesystem::path path) const;
+
+        juce::File getFile(const LocalPath& path);
+        bool loadLocal(const LocalPath& path, ElementSampleBuffer& destination);
 
     private:
+        std::filesystem::path assetRoot;
+
         AssetLoader()
         {
             formatManager.registerBasicFormats();

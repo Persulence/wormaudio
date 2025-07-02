@@ -21,7 +21,7 @@ namespace resource
         Project(std::unique_ptr<asset::AssetManager> assetManager_);
 
         [[nodiscard]] asset::AssetManager& getAssetManager() const;
-        asset::AssetHandle getAsset(const juce::File &file) const;
+        // asset::AssetHandle getAsset(const juce::File &file) const;
 
         std::vector<ResourceHandle> getChildResources() override;
 

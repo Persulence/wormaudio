@@ -69,7 +69,7 @@ namespace ui
 
         void receiveFile(const juce::File &file)
         {
-            auto asset = editor::getInstance().getProject()->getAsset(file);
+            auto asset = editor::getInstance().createAsset(file);
             auto element = std::make_shared<element::ClipElement>(asset);
 
             const auto event = editor::Editor::getInstance().getEvent();

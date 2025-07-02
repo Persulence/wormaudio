@@ -49,6 +49,12 @@ namespace editor
         lifecycleChanged.emit(0);
     }
 
+    asset::AssetHandle Editor::createAsset(juce::File file)
+    {
+        asset::LocalPath localPath = asset::AssetLoader::getInstance()->localise(file.getFullPathName().toStdString());
+        return project->getAssetManager().get(localPath);
+    }
+
     void Editor::play()
     {
         // Rebuild the instance's state machine
@@ -123,7 +129,16 @@ namespace editor
 
     void Editor::setProject(Handle<Project> project_)
     {
+        // Set the asset loader's root path (jank)
+        auto parent = saveManager.lastSavedPath.parent_path();
+        std::filesystem::path assetRoot = parent.append("asset/");
+        asset::AssetLoader::getInstance()->setAssetRoot(assetRoot);
+
+        // Set up the project (also jank)
         project = std::move(project_);
+
+        project->assetManager->preprocess();
+
         if (runtime)
             runtime->getParameters().refresh(*project->globalParameters);
 

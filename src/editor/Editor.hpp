@@ -3,6 +3,7 @@
 #include "Editor.fwd.hpp"
 
 #include <cassert>
+#include <filesystem>
 
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
@@ -71,6 +72,8 @@ namespace editor
         {
             return event->getDefinition();
         }
+
+        asset::AssetHandle createAsset(juce::File file);
 
         void play();
         void setState(player::TransportState state, bool notify);

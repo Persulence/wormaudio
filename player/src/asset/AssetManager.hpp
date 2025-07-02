@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ranges>
+#include <bits/fs_path.h>
 
 #include "cereal/types/string.hpp"
 #include "cereal/types/unordered_map.hpp"
@@ -22,28 +23,26 @@ namespace asset
 
         }
 
-        AssetHandle get(juce::File file)
+        AssetHandle get(LocalPath localPath)
         {
-            return get(file, Settings::PRELOAD);
+            return get(localPath, Settings::PRELOAD);
         }
 
-        AssetHandle get(juce::File file, Settings settings)
+        AssetHandle get(LocalPath localPath, Settings settings)
         {
-            std::string path = file.getFullPathName().toStdString();
-
-            if (const auto it = assets.find(path); it != assets.end())
+            if (const auto it = assets.find(localPath); it != assets.end())
                 return it->second;
 
             if (!autoCreate)
                 std::cerr << "New asset creation is not allowed outside editor";
 
-            auto handle = std::make_shared<Asset>(getResourceLoader(), file, settings);
-            assets.emplace(path, handle);
+            auto handle = std::make_shared<Asset>(getResourceLoader(), localPath, settings);
+            assets.emplace(localPath, handle);
             handle->preprocess();
             return handle;
         }
 
-        void preload()
+        void preprocess()
         {
             // TODO: parallel
             for (const auto& asset : assets | std::views::values)
@@ -61,7 +60,6 @@ namespace asset
             assets(assets_),
             autoCreate(autoCreate_)
         {
-            preload();
         }
 
         FRIEND_CEREAL
