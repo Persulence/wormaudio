@@ -14,7 +14,7 @@ namespace editor
 
         void saveAuto(resource::Handle<resource::Project> project);
 
-        void saveNewProject(resource::Handle<resource::Project> project);
+        void saveNewProject();
 
         void saveAs(resource::Handle<resource::Project> project);
 

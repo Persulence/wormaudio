@@ -10,6 +10,7 @@
 namespace editor
 {
     using namespace juce;
+    namespace fs = std::filesystem;
 
     void save(const resource::Handle<resource::Project> &project, const std::filesystem::path &projectFilePath)
     {
@@ -46,7 +47,24 @@ namespace editor
         save(project, lastSavedPath);
     }
 
-    void ProjectSaveManager::saveNewProject(resource::Handle<resource::Project> project)
+    std::string validatePath(fs::path path)
+    {
+        if (fs::exists(path)
+            && !fs::is_directory(path)
+            && path.extension() == resource::FILE_EXTENSION)
+        {
+            // Overwrite existing project
+            return path;
+        }
+        else
+        {
+            // Assume a folder with the project's name and put the project file inside that.
+            std::string name = path.filename();
+            return path.append("/").append(name).append(resource::FILE_EXTENSION);
+        }
+    }
+
+    void ProjectSaveManager::saveNewProject()
     {
         fileChooser = std::make_unique<FileChooser>("Choose location for new project",
             File::getCurrentWorkingDirectory(),
@@ -58,24 +76,17 @@ namespace editor
             | FileBrowserComponent::canSelectFiles
             | FileBrowserComponent::canSelectDirectories;
 
-        fileChooser->launchAsync(flags, [this, project](const FileChooser& chooser)
+        fileChooser->launchAsync(flags, [this](const FileChooser& chooser)
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
-                std::string projectFolderPath = file.getFullPathName().toStdString();
+                const std::string chosenPath = file.getFullPathName().toStdString();
 
                 const auto fileName = file.getFileName().toStdString();
 
-                if (file.exists() && fileName.ends_with(resource::FILE_EXTENSION))
-                {
-                    // Overwrite existing project
-                    lastSavedPath = projectFolderPath;
-                }
-                else
-                {
-                    // Create a folder with the project's name and put the project file inside that.
-                    lastSavedPath = projectFolderPath.append("/" + fileName + resource::FILE_EXTENSION);
-                }
+                lastSavedPath = validatePath(chosenPath);
+
+                auto project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true));
 
                 save(project, lastSavedPath);
                 changeProject(project);
@@ -102,20 +113,11 @@ namespace editor
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
-                std::string projectFolderPath = file.getFullPathName().toStdString();
+                const std::string chosenPath = file.getFullPathName().toStdString();
 
                 const auto fileName = file.getFileName().toStdString();
 
-                if (file.exists() && fileName.ends_with(resource::FILE_EXTENSION))
-                {
-                    // Overwrite existing project
-                    lastSavedPath = projectFolderPath;
-                }
-                else
-                {
-                    // Create a folder with the project's name and put the project file inside that.
-                    lastSavedPath = projectFolderPath.append("/" + fileName + resource::FILE_EXTENSION);
-                }
+                lastSavedPath = validatePath(chosenPath);
 
                 save(project, lastSavedPath);
             }

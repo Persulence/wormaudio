@@ -30,7 +30,7 @@ namespace ui
             .add({Commands::NEW_PROJECT, [](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.saveManager.saveNewProject(resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true)));
+                editor.saveManager.saveNewProject();
             }})
             .add({Commands::SAVE_PROJECT, [](auto&)
             {
