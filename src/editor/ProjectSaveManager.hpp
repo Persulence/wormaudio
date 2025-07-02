@@ -20,7 +20,9 @@ namespace editor
         void saveAs(resource::Handle<resource::Project> project);
 
         void open(); // Shows the dialogue
-        resource::Handle<resource::Project> open(const std::string &path);
+        resource::Handle<resource::Project> open(const std::filesystem::path &path);
+
+        std::filesystem::path getAssetsFolder() const;
 
         std::filesystem::path lastSavedPath = "";
         // std::future<resource::Handle<resource::Project>> future;

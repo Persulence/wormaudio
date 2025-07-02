@@ -140,7 +140,7 @@ namespace editor
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
-                const std::string path = file.getFullPathName().toStdString();
+                const fs::path path = file.getFullPathName().toStdString();
                 auto project = open(path);
 
                 fileChooser = nullptr;
@@ -154,7 +154,7 @@ namespace editor
 
     }
 
-    resource::Handle<resource::Project> ProjectSaveManager::open(const std::string &path)
+    resource::Handle<resource::Project> ProjectSaveManager::open(const fs::path &path)
     {
         lastSavedPath = path;
 
@@ -176,6 +176,11 @@ namespace editor
 
             return project;
         }
+    }
+
+    fs::path ProjectSaveManager::getAssetsFolder() const
+    {
+        return lastSavedPath.parent_path() / "asset";
     }
 
     void ProjectSaveManager::changeProject(const resource::Handle<resource::Project> &project)

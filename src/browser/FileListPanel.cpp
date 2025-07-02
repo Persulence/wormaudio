@@ -134,7 +134,9 @@ namespace ui
         contents = std::make_unique<DirectoryContentsList>(&filter, updateThread);
         contents->addChangeListener(this);
 
-        contents->setDirectory(File::getCurrentWorkingDirectory(), true, true);
+        auto assetsFolder = editor::getInstance().saveManager.getAssetsFolder();
+        File file{assetsFolder.generic_string()};
+        contents->setDirectory(file, true, true);
 
         // std::cout << contents->getDirectory().getFullPathName() << "\n";
     }

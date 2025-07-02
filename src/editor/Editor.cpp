@@ -130,9 +130,7 @@ namespace editor
     void Editor::setProject(Handle<Project> project_)
     {
         // Set the asset loader's root path (jank)
-        auto parent = saveManager.lastSavedPath.parent_path();
-        std::filesystem::path assetRoot = parent.append("asset/");
-        asset::AssetLoader::getInstance()->setAssetRoot(assetRoot);
+        asset::AssetLoader::getInstance()->setAssetRoot(saveManager.getAssetsFolder());
 
         // Set up the project (also jank)
         project = std::move(project_);
