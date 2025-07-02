@@ -10,13 +10,13 @@ namespace editor
 
     Editor::Editor()
     {
-        project = resource::make<Project>(std::make_unique<asset::AssetManager>(true));
+        // project = resource::make<Project>(std::make_unique<asset::AssetManager>(true));
 
         // TODO: remove, this will be done manually
-        const auto event = project->addEvent(event::EventDef::create());
+        // const auto event = project->addEvent(event::EventDef::create());
 
-        globalParameters = std::make_unique<EditorParameterList>(project->globalParameters);
-        setCurrentEvent(event);
+        globalParameters = std::make_unique<EditorParameterList>(resource::make<event::ParameterListImpl>());
+        // setCurrentEvent(event);
 
         globalParameters->changed.setup(this, [this]() { refreshParameters(); });
     }
