@@ -13,16 +13,19 @@ namespace editor
         ProjectSaveManager() = default;
 
         void saveAuto(resource::Handle<resource::Project> project);
+
+        void saveNewProject(resource::Handle<resource::Project> project);
+
         void saveAs(resource::Handle<resource::Project> project);
 
         void open(); // Shows the dialogue
-        std::future<resource::Handle<resource::Project>> open(const std::string &path);
+        resource::Handle<resource::Project> open(const std::string &path);
 
         std::string lastSavedPath = "";
-        std::future<resource::Handle<resource::Project>> future;
+        // std::future<resource::Handle<resource::Project>> future;
 
     private:
-        void changeProject();
+        void changeProject(const resource::Handle<resource::Project> &project);
         std::unique_ptr<juce::FileChooser> fileChooser;
     };
 }

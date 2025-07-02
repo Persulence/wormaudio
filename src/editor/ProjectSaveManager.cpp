@@ -46,14 +46,17 @@ namespace editor
         save(project, lastSavedPath);
     }
 
-    void ProjectSaveManager::saveAs(resource::Handle<resource::Project> project)
+    void ProjectSaveManager::saveNewProject(resource::Handle<resource::Project> project)
     {
-        fileChooser = std::make_unique<FileChooser>("Choose save location",
+        fileChooser = std::make_unique<FileChooser>("Choose location for new project",
             File::getCurrentWorkingDirectory(),
             String{"*"},
             true);
 
-        auto flags = FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting | FileBrowserComponent::canSelectFiles;
+        auto flags = FileBrowserComponent::saveMode
+            | FileBrowserComponent::warnAboutOverwriting
+            | FileBrowserComponent::canSelectFiles
+            | FileBrowserComponent::canSelectDirectories;
 
         fileChooser->launchAsync(flags, [this, project](const FileChooser& chooser)
         {
@@ -63,8 +66,56 @@ namespace editor
 
                 const auto fileName = file.getFileName().toStdString();
 
-                // Create a folder with the project's name and put the project file inside that.
-                lastSavedPath = projectFolderPath.append("/" + fileName + resource::FILE_EXTENSION);
+                if (file.exists() && fileName.ends_with(resource::FILE_EXTENSION))
+                {
+                    // Overwrite existing project
+                    lastSavedPath = projectFolderPath;
+                }
+                else
+                {
+                    // Create a folder with the project's name and put the project file inside that.
+                    lastSavedPath = projectFolderPath.append("/" + fileName + resource::FILE_EXTENSION);
+                }
+
+                save(project, lastSavedPath);
+                changeProject(project);
+            }
+
+            // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
+            fileChooser = nullptr;
+        });
+    }
+
+    void ProjectSaveManager::saveAs(resource::Handle<resource::Project> project)
+    {
+        fileChooser = std::make_unique<FileChooser>("Choose save location",
+            File::getCurrentWorkingDirectory(),
+            String{"*"},
+            true);
+
+        auto flags = FileBrowserComponent::saveMode
+            | FileBrowserComponent::warnAboutOverwriting
+            | FileBrowserComponent::canSelectFiles
+            | FileBrowserComponent::canSelectDirectories;
+
+        fileChooser->launchAsync(flags, [this, project](const FileChooser& chooser)
+        {
+            if (const auto file = chooser.getResult(); file != File{})
+            {
+                std::string projectFolderPath = file.getFullPathName().toStdString();
+
+                const auto fileName = file.getFileName().toStdString();
+
+                if (file.exists() && fileName.ends_with(resource::FILE_EXTENSION))
+                {
+                    // Overwrite existing project
+                    lastSavedPath = projectFolderPath;
+                }
+                else
+                {
+                    // Create a folder with the project's name and put the project file inside that.
+                    lastSavedPath = projectFolderPath.append("/" + fileName + resource::FILE_EXTENSION);
+                }
 
                 save(project, lastSavedPath);
             }
@@ -88,10 +139,10 @@ namespace editor
             if (const auto file = chooser.getResult(); file != File{})
             {
                 const std::string path = file.getFullPathName().toStdString();
-                future = open(path);
+                auto project = open(path);
 
                 fileChooser = nullptr;
-                changeProject();
+                changeProject(project);
                 return;
             }
 
@@ -101,20 +152,15 @@ namespace editor
 
     }
 
-    std::future<resource::Handle<resource::Project>> ProjectSaveManager::open(const std::string &path)
+    resource::Handle<resource::Project> ProjectSaveManager::open(const std::string &path)
     {
         lastSavedPath = path;
 
-        // auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
-        // {
         auto project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true));
-        // Some jank to produce a completed future
-        std::promise<resource::Handle<resource::Project>> promise{};
-        promise.set_value(project);
         try
         {
             resource::readStructure(project, path);
-            return promise.get_future();
+            return project;
         }
         catch (std::exception& e)
         {
@@ -126,15 +172,12 @@ namespace editor
 
             ui::ToastManager::getInstance().addMessage(msg.str(), ui::ToastManager::ERROR);
 
-            return promise.get_future();
+            return project;
         }
-            // return project;
-        // }, path);
-
     }
 
-    void ProjectSaveManager::changeProject()
+    void ProjectSaveManager::changeProject(const resource::Handle<resource::Project> &project)
     {
-        Editor::getInstance().setProject(future.get());
+        Editor::getInstance().setProject(project);
     }
 }

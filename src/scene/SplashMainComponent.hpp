@@ -25,8 +25,8 @@ namespace ui
                 onClick = [this]
                 {
                     auto& editor = editor::getInstance();
-                    auto future = editor.saveManager.open(path);
-                    editor.setProject(future.get());
+                    const auto project = editor.saveManager.open(path);
+                    editor.setProject(project);
                 };
             }
 
