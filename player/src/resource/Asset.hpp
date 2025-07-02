@@ -43,11 +43,6 @@ namespace asset
         return AssetLoader::getInstance();
     }
 
-    inline AssetHandle createAsset(const juce::File& file)
-    {
-        return std::make_shared<Asset>(getResourceLoader(), file, Settings::LAZY);
-    }
-
     class Asset
     {
 

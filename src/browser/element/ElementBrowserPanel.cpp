@@ -95,7 +95,8 @@ namespace ui
         if (auto other = dynamic_cast<FileDragSource*>(source))
         {
             // Create and register a new clip element
-            auto resource = asset::createAsset(other->getFile());
+            auto resource = editor::getInstance().getProject()->getAssetManager().get(other->getFile(), asset::Settings::PRELOAD);
+            // auto resource = asset::createAsset(other->getFile());
             auto element = std::make_shared<element::ClipElement>(resource);
             auto handle = event->getElements().reg(element);
         }

@@ -15,6 +15,11 @@ namespace resource
         return *assetManager;
     }
 
+    asset::AssetHandle Project::getAsset(const juce::File &file) const
+    {
+        return assetManager->get(file);
+    }
+
     std::vector<ResourceHandle> Project::getChildResources()
     {
         std::vector<ResourceHandle> result;

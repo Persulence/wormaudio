@@ -115,8 +115,8 @@ namespace ui
         {
             if (auto source = FileDragSource::test(dragSourceDetails))
             {
-                auto resource = asset::createAsset(source->getFile());
-                element.addClip(resource);
+                auto asset = editor::getInstance().getProject()->getAsset(source->getFile());
+                element.addClip(asset);
 
                 repaint();
             }

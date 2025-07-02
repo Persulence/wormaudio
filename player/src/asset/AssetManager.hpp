@@ -22,6 +22,11 @@ namespace asset
 
         }
 
+        AssetHandle get(juce::File file)
+        {
+            return get(file, Settings::PRELOAD);
+        }
+
         AssetHandle get(juce::File file, Settings settings)
         {
             std::string path = file.getFullPathName().toStdString();

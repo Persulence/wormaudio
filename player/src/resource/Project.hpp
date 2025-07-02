@@ -3,15 +3,11 @@
 #include "cereal/types/vector.hpp"
 #include "cereal/types/memory.hpp"
 
+#include "Asset.fwd.hpp"
 #include "SharedResource.hpp"
 #include "event/EventDef.hpp"
 #include "event/ParameterList.hpp"
 #include "util/serialization_util.hpp"
-
-namespace asset
-{
-    class AssetManager;
-}
 
 namespace resource
 {
@@ -25,6 +21,7 @@ namespace resource
         Project(std::unique_ptr<asset::AssetManager> assetManager_);
 
         [[nodiscard]] asset::AssetManager& getAssetManager() const;
+        asset::AssetHandle getAsset(const juce::File &file) const;
 
         std::vector<ResourceHandle> getChildResources() override;
 
