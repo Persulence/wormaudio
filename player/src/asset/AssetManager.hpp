@@ -56,6 +56,14 @@ namespace asset
         std::unordered_map<std::string, AssetHandle> assets;
         bool autoCreate;
 
+        // Serialisation
+        AssetManager(const decltype(assets) &assets_, bool autoCreate_):
+            assets(assets_),
+            autoCreate(autoCreate_)
+        {
+            preload();
+        }
+
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
@@ -71,8 +79,7 @@ namespace asset
             ar(cereal::make_nvp("assets", assets));
             ar(cereal::make_nvp("autoCreate", autoCreate));
 
-            construct(autoCreate);
-            construct->assets = assets;
+            construct(assets, autoCreate);
         }
     };
 }
