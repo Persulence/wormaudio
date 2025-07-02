@@ -29,18 +29,17 @@ namespace asset
         return &instance;
     }
 
-    juce::File AssetLoader::getFile(const LocalPath &path)
+    juce::File AssetLoader::getFile(const LocalPath &localPath)
     {
-        std::string fullPath = assetRoot;
+        fs::path fullPath = assetRoot;
 
-        // Not using fs::path because it's too clever
-        fullPath += path;
+        fullPath /= localPath;
 
-        return juce::File{fullPath};
+        return juce::File{fullPath.generic_string()};
     }
 
     LocalPath AssetLoader::localise(const fs::path path) const
     {
-        return fs::relative(assetRoot, path);
+        return fs::relative(path, assetRoot);
     }
 }

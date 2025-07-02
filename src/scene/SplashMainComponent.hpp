@@ -26,7 +26,7 @@ namespace ui
                 {
                     auto& editor = editor::getInstance();
                     const auto project = editor.saveManager.open(path);
-                    editor.setProject(project);
+                    editor.saveManager.activateProject(project);
                 };
             }
 

@@ -89,7 +89,7 @@ namespace editor
                 auto project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true));
 
                 save(project, lastSavedPath);
-                changeProject(project);
+                activateProject(project);
             }
 
             // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
@@ -144,7 +144,7 @@ namespace editor
                 auto project = open(path);
 
                 fileChooser = nullptr;
-                changeProject(project);
+                activateProject(project);
                 return;
             }
 
@@ -183,8 +183,11 @@ namespace editor
         return lastSavedPath.parent_path() / "asset";
     }
 
-    void ProjectSaveManager::changeProject(const resource::Handle<resource::Project> &project)
+    void ProjectSaveManager::activateProject(const resource::Handle<resource::Project> &project)
     {
+        // Ensure that the asset folder exists
+        std::filesystem::create_directory(getAssetsFolder());
+
         Editor::getInstance().setProject(project);
     }
 }

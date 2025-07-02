@@ -27,8 +27,9 @@ namespace editor
         std::filesystem::path lastSavedPath = "";
         // std::future<resource::Handle<resource::Project>> future;
 
+        void activateProject(const resource::Handle<resource::Project> &project);
+
     private:
-        void changeProject(const resource::Handle<resource::Project> &project);
         std::unique_ptr<juce::FileChooser> fileChooser;
     };
 }
