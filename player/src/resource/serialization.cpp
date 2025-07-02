@@ -4,12 +4,12 @@
 
 namespace resource
 {
-    void writeStructure(const Handle<Project> &project, std::string filePath)
+    void writeStructure(const Handle<Project> &project, const std::filesystem::path &filePath)
     {
-        if (!filePath.ends_with(FILE_EXTENSION))
-        {
-            filePath.append(FILE_EXTENSION);
-        }
+        // if (!filePath.ends_with(FILE_EXTENSION))
+        // {
+        //     filePath.append(FILE_EXTENSION);
+        // }
 
         std::fstream ostream{filePath, std::ios::out};
         // std::stringstream ss;
@@ -24,7 +24,7 @@ namespace resource
         ostream.close();
     }
 
-    void readStructure(const Handle<Project> &project, std::string filePath)
+    void readStructure(const Handle<Project> &project, const std::filesystem::path &filePath)
     {
         {
             std::fstream istream{filePath, std::ios::in};

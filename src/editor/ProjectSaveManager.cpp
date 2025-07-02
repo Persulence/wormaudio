@@ -1,5 +1,7 @@
 #include "ProjectSaveManager.hpp"
 
+#include <filesystem>
+
 #include "Editor.hpp"
 #include "ToastManager.hpp"
 #include "asset/AssetManager.hpp"
@@ -9,20 +11,24 @@ namespace editor
 {
     using namespace juce;
 
-    void save(resource::Handle<resource::Project> project, std::string path)
+    void save(const resource::Handle<resource::Project> &project, const std::filesystem::path &projectFilePath)
     {
         try
         {
-            resource::writeStructure(project, path);
+            auto projectFolder = projectFilePath.parent_path();
+
+            std::filesystem::create_directory(projectFolder);
+
+            resource::writeStructure(project, projectFilePath);
 
             std::stringstream ss;
-            ss << "Saved project to " << path <<"\n";
+            ss << "Saved project to " << projectFilePath <<"\n";
             ui::ToastManager::getInstance().addMessage(ss.str(), ui::ToastManager::INFO);
         }
         catch (std::exception& e)
         {
             std::stringstream ss;
-            ss << "Failed to save project " << path << ":\n";
+            ss << "Failed to save project " << projectFilePath << ":\n";
             ss << e.what() << "\n";
             std::cout << ss.str();
             ui::ToastManager::getInstance().addMessage(ss.str(), ui::ToastManager::ERROR);
@@ -44,7 +50,7 @@ namespace editor
     {
         fileChooser = std::make_unique<FileChooser>("Choose save location",
             File::getCurrentWorkingDirectory(),
-            "*.proj",
+            String{"*"},
             true);
 
         auto flags = FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting | FileBrowserComponent::canSelectFiles;
@@ -53,9 +59,12 @@ namespace editor
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
-                std::string path = file.getFullPathName().toStdString();
+                std::string projectFolderPath = file.getFullPathName().toStdString();
 
-                lastSavedPath = path;
+                const auto fileName = file.getFileName().toStdString();
+
+                // Create a folder with the project's name and put the project file inside that.
+                lastSavedPath = projectFolderPath.append("/" + fileName + resource::FILE_EXTENSION);
 
                 save(project, lastSavedPath);
             }
@@ -69,7 +78,7 @@ namespace editor
     {
         fileChooser = std::make_unique<FileChooser>("Choose project to load",
             File::getCurrentWorkingDirectory(),
-            "*.proj",
+            String{"*"} + resource::FILE_EXTENSION,
             true);
 
         auto flags = FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles;
@@ -99,6 +108,7 @@ namespace editor
         // auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
         // {
         auto project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true));
+        // Some jank to produce a completed future
         std::promise<resource::Handle<resource::Project>> promise{};
         promise.set_value(project);
         try
