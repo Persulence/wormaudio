@@ -2,6 +2,7 @@
 
 #include "Editor.hpp"
 #include "ToastManager.hpp"
+#include "asset/AssetManager.hpp"
 #include "resource/serialization.hpp"
 
 namespace editor
@@ -97,7 +98,7 @@ namespace editor
 
         // auto future = std::async(std::launch::async, [](auto path1) -> resource::Handle<resource::Project>
         // {
-        auto project = resource::make<resource::Project>();
+        auto project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true));
         std::promise<resource::Handle<resource::Project>> promise{};
         promise.set_value(project);
         try

@@ -7,13 +7,13 @@ namespace asset
     class ElementSampleBuffer;
 
     /// Responsible for loading audio files. All Resource instances load their data through here.
-    class ResourceLoader
+    class AssetLoader
     {
         juce::AudioFormatManager formatManager;
 
     public:
         // using Ptr = std::shared_ptr<ResourceLoader>;
-        using Ptr = ResourceLoader*;
+        using Ptr = AssetLoader*;
 
         static Ptr getInstance();
 
@@ -25,7 +25,7 @@ namespace asset
         bool loadFile(const juce::File& file, ElementSampleBuffer& destination);
 
     private:
-        ResourceLoader()
+        AssetLoader()
         {
             formatManager.registerBasicFormats();
         }

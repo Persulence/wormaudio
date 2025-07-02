@@ -2,13 +2,15 @@
 
 #include <runtime/Runtime.hpp>
 
+#include "asset/AssetManager.hpp"
+
 namespace editor
 {
     using namespace resource;
 
     Editor::Editor()
     {
-        project = resource::make<Project>();
+        project = resource::make<Project>(std::make_unique<asset::AssetManager>(true));
 
         // TODO: remove, this will be done manually
         const auto event = project->addEvent(event::EventDef::create());

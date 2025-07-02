@@ -3,8 +3,9 @@
 #include "util/serialization_util.hpp"
 
 #include "ElementSampleBuffer.hpp"
-#include "Resource.fwd.hpp"
-#include "ResourceLoader.hpp"
+#include "Asset.fwd.hpp"
+#include "AssetLoader.hpp"
+#include "cereal_optional_nvp.h"
 
 namespace cereal
 {
@@ -30,7 +31,6 @@ namespace cereal
 
 namespace asset
 {
-
     enum class Settings : int
     {
         LAZY,
@@ -38,23 +38,29 @@ namespace asset
         PRELOAD
     };
 
-    inline ResourceLoader::Ptr getResourceLoader()
+    inline AssetLoader::Ptr getResourceLoader()
     {
-        return ResourceLoader::getInstance();
+        return AssetLoader::getInstance();
     }
 
     inline AssetHandle createAsset(const juce::File& file)
     {
-        return std::make_shared<Asset>(getResourceLoader(), file);
+        return std::make_shared<Asset>(getResourceLoader(), file, Settings::LAZY);
     }
 
     class Asset
     {
 
     public:
+        Settings settings{Settings::LAZY};
+
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Asset)
 
-        Asset(ResourceLoader::Ptr loader_, juce::File file_);
+        void loadFile();
+
+        void preprocess();
+
+        Asset(AssetLoader::Ptr loader_, juce::File file_, Settings settings_);
 
         ElementSampleBuffer::Ptr getAudio();
 
@@ -65,8 +71,7 @@ namespace asset
 
     private:
         const juce::File file;
-        Settings settings{Settings::LAZY};
-        const ResourceLoader::Ptr loader;
+        const AssetLoader::Ptr loader;
 
         ElementSampleBufferHandle buffer = nullptr;
 
@@ -74,7 +79,10 @@ namespace asset
 
         INTERNAL_SPLIT_SAVE
         {
-            ar(cereal::make_nvp("file", file.getFullPathName().toStdString()));
+            ar(
+                cereal::make_nvp("file", file.getFullPathName().toStdString()),
+                cereal::make_nvp("settings", settings)
+                );
         }
 
         INTERNAL_SPLIT_LOAD { }
@@ -82,8 +90,13 @@ namespace asset
         LOAD_AND_CONSTRUCT(Asset)
         {
             std::string path;
+            Settings settings;
+
             ar(cereal::make_nvp("file", path));
-            construct(ResourceLoader::getInstance(), juce::File{path});
+            // cereal::make_optional_nvp(ar, "settings", settings);
+            ar(cereal::make_nvp("settings", settings));
+
+            construct(AssetLoader::getInstance(), juce::File{path}, settings);
         }
     };
 }

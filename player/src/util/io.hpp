@@ -35,7 +35,6 @@ namespace io
             }
             else
             {
-                // handle the error that the file is 2 seconds or longer..
                 juce::String message = "file ";
                 message << file.getFullPathName() << " longer than " << maxDuration << "s";
                 juce::Logger::writeToLog(message);

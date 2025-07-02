@@ -2,6 +2,7 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "asset/AssetManager.hpp"
 #include "dialogue/ProjectSettingsDialogue.hpp"
 #include "editor/Editor.hpp"
 #include "menu/MainMenuModel.hpp"
@@ -32,7 +33,7 @@ namespace ui
             .add({Commands::NEW_PROJECT, [](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.setProject(resource::make<resource::Project>());
+                editor.setProject(resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true)));
             }})
             .add({Commands::SAVE_PROJECT, [](auto&)
             {

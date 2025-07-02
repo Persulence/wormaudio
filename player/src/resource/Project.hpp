@@ -8,31 +8,25 @@
 #include "event/ParameterList.hpp"
 #include "util/serialization_util.hpp"
 
+namespace asset
+{
+    class AssetManager;
+}
+
 namespace resource
 {
     class Project final : public SharedResource
     {
     public:
         Handle<event::ParameterListImpl> globalParameters;
-        std::vector<Handle<event::EventDef>> events;
+        std::vector<Handle<event::EventDef>> events{};
+        std::unique_ptr<asset::AssetManager> assetManager;
 
-        Project()
-        {
-            globalParameters = resource::make<event::ParameterListImpl>();
-        }
+        Project(std::unique_ptr<asset::AssetManager> assetManager_);
 
-        std::vector<ResourceHandle> getChildResources() override
-        {
-            std::vector<ResourceHandle> result;
-            for (auto& event : events)
-            {
-                result.push_back(event);
-            }
+        [[nodiscard]] asset::AssetManager& getAssetManager() const;
 
-            result.push_back(globalParameters);
-
-            return result;
-        }
+        std::vector<ResourceHandle> getChildResources() override;
 
         Handle<event::EventDef> addEvent(Handle<event::EventDef> event)
         {
@@ -46,11 +40,11 @@ namespace resource
         INTERNAL_SERIALIZE
         {
             using namespace cereal;
-            // TODO: events
             ar(
                 make_nvp("global_parameters", globalParameters),
                 make_nvp("events", events)
                 );
+            make_optional_nvp(ar, "assets", assetManager);
         }
     };
 }

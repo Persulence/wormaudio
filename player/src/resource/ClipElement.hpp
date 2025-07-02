@@ -4,7 +4,7 @@
 
 #include "Element.hpp"
 #include "ElementInstance.hpp"
-#include "Resource.fwd.hpp"
+#include "Asset.fwd.hpp"
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
 #include "util/Data.hpp"

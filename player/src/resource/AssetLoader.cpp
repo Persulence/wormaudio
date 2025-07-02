@@ -1,11 +1,11 @@
-#include "ResourceLoader.hpp"
+#include "AssetLoader.hpp"
 
 #include "ElementSampleBuffer.hpp"
 #include "util/io.hpp"
 
 namespace asset
 {
-    bool ResourceLoader::loadFile(const juce::File &file, ElementSampleBuffer &destination)
+    bool AssetLoader::loadFile(const juce::File &file, ElementSampleBuffer &destination)
     {
         if (!io::readFile(file, formatManager, destination, 10))
         {
@@ -16,13 +16,13 @@ namespace asset
         return true;
     }
 
-    ResourceLoader::Ptr ResourceLoader::getInstance()
+    AssetLoader::Ptr AssetLoader::getInstance()
     {
         // static std::mutex mutex;
         // std::lock_guard lock(mutex);
 
         // I think initialisation of function-local static is thread safe (????)
-        static ResourceLoader instance;
+        static AssetLoader instance;
 
         return &instance;
     }
