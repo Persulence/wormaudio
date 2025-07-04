@@ -59,6 +59,13 @@ namespace ui
         return std::make_unique<ElementItemComponent>(this, resource);
     }
 
+    bool ElementItem::remove()
+    {
+        throw std::logic_error{"Not implemented"};
+        // editor::getInstance().getEvent()->getElements().unReg(resource);
+        return true;
+    }
+
     void ElementItem::itemSelectionChanged(bool isNowSelected)
     {
         if (const auto manager = findSelectionManager<InspectorSelectionManager>())

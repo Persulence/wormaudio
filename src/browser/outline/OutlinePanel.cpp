@@ -60,6 +60,20 @@ namespace ui
                     }
                 }
             }})
+            .add(CommandAction{Commands::DEL, [this](auto&)
+            {
+                if (getNumSelectedItems() > 0)
+                {
+                    if (auto selected = dynamic_cast<SharedResourceItemBase*>(getSelectedItem(0)))
+                    {
+                        if (selected->remove())
+                        {
+                            const auto index = selected->getIndexInParent();
+                            selected->getParentItem()->removeSubItem(index, true);
+                        }
+                    }
+                }
+            }})
             .finish();
     }
 

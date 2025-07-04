@@ -60,7 +60,8 @@ namespace editor
         {
             // Assume a folder with the project's name and put the project file inside that.
             std::string name = path.filename();
-            return path.append("/").append(name).append(resource::FILE_EXTENSION);
+            // return path.append("/").append(name).append(resource::FILE_EXTENSION);
+            return path / (name.append(resource::FILE_EXTENSION));
         }
     }
 

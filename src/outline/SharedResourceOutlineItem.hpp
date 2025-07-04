@@ -17,6 +17,8 @@ namespace ui
     public:
         virtual void createChildren() = 0;
 
+        virtual bool remove() { return false; };
+
         SharedResourceItemBase()
         {
             setLinesDrawnForSubItems(true);

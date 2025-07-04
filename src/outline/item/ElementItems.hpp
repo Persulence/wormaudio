@@ -19,6 +19,8 @@ namespace ui
 
         std::unique_ptr<juce::Component> createItemComponent() override;
 
+        bool remove() override;
+
         bool mightContainSubItems() override { return false; }
 
         void itemSelectionChanged(bool isNowSelected) override;

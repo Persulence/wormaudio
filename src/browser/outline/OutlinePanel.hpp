@@ -13,6 +13,7 @@ namespace ui
         void paint(juce::Graphics &g) override;
 
     private:
+
         std::unique_ptr<juce::TreeViewItem> root;
     };
 }
