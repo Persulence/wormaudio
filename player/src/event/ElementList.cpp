@@ -13,12 +13,12 @@ namespace event
         return handle;
     }
 
-    void ElementList::unReg(ElementHandle handle)
+    void ElementList::unReg(resource::Handle<element::Element> handle)
     {
         if (const auto it = std::ranges::find_if(elements, [&handle](auto& e)
-                                                 { return e.ptr == handle.ptr; }); it != elements.end())
+                                                 { return e.ptr == handle; }); it != elements.end())
         {
-            automation->removeAll(handle.ptr);
+            automation->removeAll(handle);
             elements.erase(it);
             onChange.emit();
         }

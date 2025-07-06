@@ -61,8 +61,8 @@ namespace ui
 
     bool ElementItem::remove()
     {
-        throw std::logic_error{"Not implemented"};
-        // editor::getInstance().getEvent()->getElements().unReg(resource);
+        // throw std::logic_error{"Not implemented"};
+        editor::getInstance().eraseElement(resource);
         return true;
     }
 

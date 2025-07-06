@@ -26,9 +26,9 @@ namespace event
         /**
          * Associates the given element with the event and registers all automatable properties.
          */
-        ElementHandle reg(std::shared_ptr<element::Element> element);
+        ElementHandle reg(resource::Handle<element::Element> element);
 
-        void unReg(ElementHandle handle);
+        void unReg(resource::Handle<element::Element> handle);
 
         [[nodiscard]] std::vector<ElementHandle> getElements() const;
 

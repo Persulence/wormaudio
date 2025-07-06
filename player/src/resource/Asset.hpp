@@ -63,7 +63,11 @@ namespace asset
 
         [[nodiscard]] juce::File getFile() const;
 
+        void markUsed(const bool used_) { isUsed = used_; };
+        bool used() const { return isUsed; };
+
     private:
+        bool isUsed{false};
         const std::string path;
         const AssetLoader::Ptr loader;
 

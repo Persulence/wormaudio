@@ -92,6 +92,8 @@ namespace editor
         }
 
         void setProject(resource::Handle<resource::Project> project_);
+
+        void eraseElement(const resource::Handle<element::Element> & handle) const;
     };
 
     // Saves a handful of characters

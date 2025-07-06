@@ -78,6 +78,11 @@ namespace element
     {
         return "Clip: " + asset->getFile().getFileName().toStdString();
     }
+
+    asset::AssetHandle ClipElement::getAsset()
+    {
+        return asset;
+    }
 }
 
 #undef Null

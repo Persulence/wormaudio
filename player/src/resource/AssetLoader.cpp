@@ -9,7 +9,7 @@ namespace asset
     bool AssetLoader::loadLocal(const LocalPath &path, ElementSampleBuffer &destination)
     {
         auto file = getFile(path);
-        if (!io::readFile(file, formatManager, destination, 10))
+        if (!io::readFile(file, formatManager, destination, 40))
         {
             juce::Logger::writeToLog(juce::String("Failed to load file ") + file.getFullPathName() + "\n");
             return false;

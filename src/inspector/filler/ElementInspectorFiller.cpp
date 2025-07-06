@@ -15,7 +15,7 @@ namespace ui
             ClipElement& element;
 
         public:
-            explicit ClipImpl(ClipElement &element) :
+            explicit ClipImpl(ClipElement &element):
                 element(element)
             {
                 setHeader(std::make_unique<SectionHeader>("Clip Element"));
@@ -23,6 +23,10 @@ namespace ui
 
             void initProperties() override
             {
+                auto& path = add(std::make_shared<StringPropertyWidget>("Path", util::Data{
+                    element.getAsset()->getFile().getFullPathName().toStdString()}));
+                path.field.setEditable(false);
+
                 add(std::make_shared<BoolDataPropertyWidget>("Loop", element.loop));
             }
         };

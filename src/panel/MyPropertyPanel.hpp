@@ -46,6 +46,8 @@ namespace ui
     class StringPropertyWidget : public PropertyWidget
     {
     public:
+        MyLabel<std::string> field;
+
         explicit StringPropertyWidget(const std::string& label, const util::Data<std::string> &data_):
             PropertyWidget(label), data(data_)
         {
@@ -60,9 +62,7 @@ namespace ui
             field.setBounds(bounds);
         }
 
-    private:
         util::Data<std::string> data;
-        MyLabel<std::string> field;
     };
 
     class BoolDataPropertyWidget : public PropertyWidget

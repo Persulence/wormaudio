@@ -25,6 +25,8 @@ namespace element
 
         std::string getName() override;
 
+        asset::AssetHandle getAsset();
+
         std::vector<automation::Property> getProperties() override
         {
             return {volume};

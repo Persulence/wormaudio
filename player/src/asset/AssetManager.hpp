@@ -17,7 +17,7 @@ namespace asset
     class AssetManager
     {
     public:
-        AssetManager(bool autoCreate_):
+        explicit AssetManager(bool autoCreate_):
             autoCreate(autoCreate_)
         {
 
