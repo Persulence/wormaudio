@@ -6,7 +6,7 @@ namespace event
         parent(std::move(parent_)),
         automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation())),
         stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
-        elementManager(std::make_unique<player::ElementInstanceManager>())
+        elementManager(std::make_unique<player::ElementInstanceManager>(position))
     {}
 
     void EventInstance::prepareToPlay(player::AudioContext ctx)

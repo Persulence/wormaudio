@@ -2,6 +2,7 @@
 
 #include <juce_audio_basics/juce_audio_basics.h>
 
+#include "instance/instance.hpp"
 #include "resource/ElementInstance.hpp"
 #include "util/AudioContext.hpp"
 #include "util/Time.hpp"
@@ -13,6 +14,8 @@ namespace player
     class ElementInstanceManager : public juce::AudioSource
     {
     public:
+        ElementInstanceManager(instance::Vec3f& position);
+
         ElementInstancePtr addInstance(const ElementInstancePtr& element);
         void stageHandoff(Sample sample);
 
@@ -40,6 +43,7 @@ namespace player
         juce::AudioSampleBuffer accumulator;
 
         Sample stagedHandoff{NULL_SAMPLE};
+        instance::Vec3f& position;
     };
 }
 

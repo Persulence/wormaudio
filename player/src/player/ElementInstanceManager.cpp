@@ -7,6 +7,12 @@
 
 namespace player
 {
+    ElementInstanceManager::ElementInstanceManager(instance::Vec3f& position):
+        position(position)
+    {
+
+    }
+
     ElementInstancePtr ElementInstanceManager::addInstance(const ElementInstancePtr& element)
     {
         // tODO: look into reusing identical instances
@@ -100,21 +106,22 @@ namespace player
             }
         }
 
-
         // TODO: TESTING ONLY
-        // // auto soundPos = instance::Vec3f{1, 0, 0}; // South, so left channel
+        // auto soundPos = instance::Vec3f{1, 0, 0}; // South, so left channel
         // auto soundPos = instance::Vec3f{0, 0, 0};
-        // auto listener = instance::Vec3f{0, 0, 0};
-        //
-        // float result = earDistance(soundPos, listener, 0);
-        // float theta = (result + 1.f) * std::numbers::pi / 4;
-        //
-        // // float leftGain = result < 0 ? std::max(0.f, result + 1) : 0;
-        // // float rightGain = result > 0 ? std::max(0.f, 1 - result) : 0;
-        // float leftGain = std::cos(theta);
-        // float rightGain = std::sin(theta);
-        // bufferToFill.buffer->applyGain(0, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, leftGain);
-        // bufferToFill.buffer->applyGain(1, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, rightGain);
+
+        auto soundPos = position;
+        auto listener = instance::Vec3f{0, 0, 0};
+
+        float result = earDistance(soundPos, listener, std::numbers::pi);
+        float theta = (result + 1.f) * std::numbers::pi / 4;
+
+        // float leftGain = result < 0 ? std::max(0.f, result + 1) : 0;
+        // float rightGain = result > 0 ? std::max(0.f, 1 - result) : 0;
+        float leftGain = std::cos(theta);
+        float rightGain = std::sin(theta);
+        bufferToFill.buffer->applyGain(0, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, leftGain);
+        bufferToFill.buffer->applyGain(1, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, rightGain);
 
         // TODO tracks/buses
     }

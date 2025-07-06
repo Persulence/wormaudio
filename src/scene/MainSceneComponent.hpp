@@ -8,6 +8,7 @@
 #include "panel/BorderPanel.hpp"
 #include "panel/Panel.hpp"
 #include "transport/TransportPanel.hpp"
+#include "widget/SpatialSelectorWidget.hpp"
 
 namespace ui
 {
@@ -37,19 +38,16 @@ namespace ui
 
     class RightPanel : public Panel
     {
-        BorderPanel<RightInspectorPanel> inspector;
-
     public:
-        explicit RightPanel(InspectorSelectionManager& manager):
-            inspector(manager)
-        {
-            addAndMakeVisible(inspector);
-        }
+        explicit RightPanel(InspectorSelectionManager& manager);
 
-        void resized() override
-        {
-            inspector.setBounds(getLocalBounds());
-        }
+        void resized() override;
+
+    private:
+        BorderPanel<RightInspectorPanel> inspector;
+        BorderPanel<SpatialPreviewPanel> spatial;
+        juce::StretchableLayoutManager layout;
+        juce::StretchableLayoutResizerBar bar;
     };
 
     // 'Scene' represents an editor mode, such as 'event def' or 'mixer'.

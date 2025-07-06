@@ -68,6 +68,11 @@ namespace editor
             return event;
         }
 
+        decltype(instance)& getSoundInstance()
+        {
+            return instance;
+        }
+
         [[nodiscard]] std::shared_ptr<sm::StateMachineDefinition> getDefinition() const
         {
             return event->getDefinition();

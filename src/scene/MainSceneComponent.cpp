@@ -34,6 +34,28 @@ namespace ui
         layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
     }
 
+
+
+    RightPanel::RightPanel(InspectorSelectionManager &manager):
+        inspector(manager),
+        bar(&layout, 1, false)
+    {
+        addAndMakeVisible(inspector);
+        addAndMakeVisible(spatial);
+        addAndMakeVisible(bar);
+        layout.setItemLayout(0, -0.1, -0.9, -0.8);
+        layout.setItemLayout(1, 5, 5, 5);
+        layout.setItemLayout(2, -0.1, -0.9, -0.2);
+    }
+
+    void RightPanel::resized()
+    {
+        std::array<Component*, 3> comps = {{&inspector, &bar, &spatial}};
+        layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), true, true);
+    }
+
+
+
     MainSceneComponent::MainSceneComponent():
         rightPanel(*this),
         // leftHandle(ResizeHandle{ResizeHandle::Direction::VERTICAL, 250})
