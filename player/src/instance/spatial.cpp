@@ -2,6 +2,10 @@
 
 #include <cmath>
 #include <iostream>
+#include <tuple>
+#include <tuple>
+#include <tuple>
+#include <tuple>
 
 namespace player
 {

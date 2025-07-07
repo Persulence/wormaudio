@@ -6,6 +6,23 @@ namespace player
 {
     float earDistance(instance::Vec3f soundPos, instance::Vec3f listenerPos, float yaw);
 
+    enum class Attenuation
+    {
+        LINEAR,
+    };
+
+    inline float attenuate(Attenuation attenuation, float f)
+    {
+        switch (attenuation)
+        {
+            case Attenuation::LINEAR:
+            {
+                return f;
+            }
+        }
+        return f;
+    }
+
     // inline void testDot()
     // {
     //     instance::Vec3f v1{1, 0, 0};

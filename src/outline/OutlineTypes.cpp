@@ -36,9 +36,19 @@ namespace ui
 
         void itemSelectionChanged(bool isNowSelected) override
         {
+            auto manager = findSelectionManager<InspectorSelectionManager>();
             if (isNowSelected)
             {
                 editor::getInstance().setCurrentEvent(resource, true);
+                if (manager)
+                {
+                    // manager->select(SimpleSelectionTarget::of(std::make_unique<EventDefFiller>(resource)));
+                }
+            }
+            else
+            {
+                if (manager)
+                    manager->deselectAll();
             }
         }
     };

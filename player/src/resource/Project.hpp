@@ -4,6 +4,7 @@
 #include "cereal/types/memory.hpp"
 
 #include "Asset.fwd.hpp"
+#include "asset/AssetManager.hpp"
 #include "SharedResource.hpp"
 #include "event/EventDef.hpp"
 #include "event/ParameterList.hpp"

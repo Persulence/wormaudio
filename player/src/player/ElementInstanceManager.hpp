@@ -6,6 +6,7 @@
 #include "resource/ElementInstance.hpp"
 #include "util/AudioContext.hpp"
 #include "util/Time.hpp"
+#include "event/EventDef.fwd.hpp"
 
 namespace player
 {
@@ -14,7 +15,7 @@ namespace player
     class ElementInstanceManager : public juce::AudioSource
     {
     public:
-        ElementInstanceManager(instance::Vec3f& position);
+        ElementInstanceManager(const instance::Vec3f& position, const event::EventProperties& properties);
 
         ElementInstancePtr addInstance(const ElementInstancePtr& element);
         void stageHandoff(Sample sample);
@@ -43,7 +44,8 @@ namespace player
         juce::AudioSampleBuffer accumulator;
 
         Sample stagedHandoff{NULL_SAMPLE};
-        instance::Vec3f& position;
+        const instance::Vec3f& position;
+        const event::EventProperties& properties;
     };
 }
 

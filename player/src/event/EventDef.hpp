@@ -5,6 +5,7 @@
 #include "juce_data_structures/juce_data_structures.h"
 
 #include "ElementList.hpp"
+#include "EventProperties.hpp"
 #include "ParameterList.hpp"
 #include "automation/AutomationTable.hpp"
 #include "state/StateMachineDefinition.hpp"
@@ -17,6 +18,8 @@ namespace event
     class EventDef : public resource::SharedResource, public std::enable_shared_from_this<EventDef>
     {
     public:
+        EventProperties properties;
+
         EventDef(std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
 
         static resource::Handle<EventDef> create()
@@ -47,6 +50,11 @@ namespace event
         std::vector<resource::ResourceHandle> getChildResources() override
         {
             return {definition, elementList};
+        }
+
+        const EventProperties& getProperties() const
+        {
+            return properties;
         }
 
         // Defined after EventInstance
