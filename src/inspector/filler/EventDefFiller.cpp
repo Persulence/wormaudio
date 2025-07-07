@@ -2,6 +2,7 @@
 
 #include "panel/ChoicePropertyWidget.hpp"
 #include "panel/MyPropertyPanel.hpp"
+#include "panel/SliderPropertyWidget.hpp"
 
 namespace ui
 {
@@ -10,7 +11,11 @@ namespace ui
         setHeader(std::make_unique<SectionHeader>("Event: " + eventDef->nameValue().getValue()));
 
         add(ChoicePropertyWidget<player::Attenuation>::create("Attenuation function",
-            {{"Linear", player::Attenuation::LINEAR}},
+            {
+                {"None", player::Attenuation::LINEAR},
+                {"Linear", player::Attenuation::LINEAR},
+                {"Inverse Distance", player::Attenuation::INVERSE_DISTANCE}
+            },
             &eventDef->properties.attenuation));
 
         auto& min = add(std::make_unique<EntryPropertyWidget<float>>("Min distance", parse::parseFloat));
@@ -26,5 +31,13 @@ namespace ui
         {
             eventDef->properties.maxDistance = value;
         };
+
+        auto& falloff = add(std::make_unique<SliderPropertyWidget>("Falloff"));
+        falloff.slider.setRange(0, 2, 0.01);
+        falloff.slider.setValue(eventDef->properties.falloff, false);
+        falloff.slider.onChanged.setup(&falloffListener, [this](auto val)
+        {
+            eventDef->properties.falloff = val;
+        });
     }
 }

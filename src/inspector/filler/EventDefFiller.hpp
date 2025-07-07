@@ -1,6 +1,7 @@
 #pragma once
 
 #include "property/PropertyFiller.hpp"
+#include "widget/SliderWidget.hpp"
 
 namespace ui
 {
@@ -17,5 +18,7 @@ namespace ui
 
     private:
         resource::Handle<event::EventDef> eventDef;
+
+        SliderWidget::C::Listener falloffListener;
     };
 }

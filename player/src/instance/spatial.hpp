@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "instance.hpp"
 
 namespace player
@@ -8,19 +10,30 @@ namespace player
 
     enum class Attenuation
     {
+        NONE,
         LINEAR,
+        INVERSE_DISTANCE,
     };
 
-    inline float attenuate(Attenuation attenuation, float f)
+    inline float attenuate(Attenuation attenuation, float minDistance, float maxDistance, float falloff, float distance)
     {
         switch (attenuation)
         {
+            case Attenuation::NONE:
+            {
+                return 1;
+            }
             case Attenuation::LINEAR:
             {
-                return f;
+                return 1 - std::clamp((distance - minDistance) / (maxDistance - minDistance), 0.f, 1.f);
+            }
+            case Attenuation::INVERSE_DISTANCE:
+            {
+                return std::min(1.f, minDistance / (minDistance + falloff * (distance - minDistance)));
             }
         }
-        return f;
+
+        return 1;
     }
 
     // inline void testDot()

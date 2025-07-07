@@ -1,7 +1,5 @@
 #pragma once
 
-#include <algorithm>
-
 #include "instance/spatial.hpp"
 
 namespace event
@@ -11,14 +9,13 @@ namespace event
     public:
         float minDistance = 0;
         float maxDistance = 10;
+        float falloff = 1;
 
         player::Attenuation attenuation{player::Attenuation::LINEAR};
 
         float attenuate(float distance) const
         {
-            const float f = 1 - std::clamp((distance - minDistance) / (maxDistance - minDistance), 0.f, 1.f);
-
-            return player::attenuate(attenuation, f);
+            return player::attenuate(attenuation, minDistance, maxDistance, falloff, distance);
         }
 
     };
