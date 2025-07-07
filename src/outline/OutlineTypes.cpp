@@ -9,6 +9,7 @@
 #include "editor/Editor.hpp"
 #include "event/EventDef.hpp"
 #include "inspector/InspectorRoot.hpp"
+#include "inspector/filler/EventDefFiller.hpp"
 #include "item/Transition.hpp"
 #include "parameter/ParameterConfigPanel.hpp"
 #include "resource/ChoiceElement.hpp"
@@ -42,7 +43,7 @@ namespace ui
                 editor::getInstance().setCurrentEvent(resource, true);
                 if (manager)
                 {
-                    // manager->select(SimpleSelectionTarget::of(std::make_unique<EventDefFiller>(resource)));
+                    manager->select(SimpleSelectionTarget::of(InspectorRoot::wrap(std::make_unique<EventDefFiller>(resource))));
                 }
             }
             else

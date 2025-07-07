@@ -142,7 +142,7 @@ namespace ui
         Listener listener{};
         ToString toString;
 
-        explicit EntryPropertyWidget(const std::string &label, Parse parse_, ToString toString = [](const Value v){ return std::to_string(v); }):
+        explicit EntryPropertyWidget(const std::string &label, Parse parse_, ToString toString = parse::defaultToString<Value>):
             PropertyWidget(label), parse(std::move(parse_)), toString(std::move(toString))
         {
             addAndMakeVisible(content);
