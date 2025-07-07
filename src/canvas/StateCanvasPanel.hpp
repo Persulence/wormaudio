@@ -4,6 +4,8 @@
 #include "canvas/CanvasConnectionManager.hpp"
 #include "../panel/Panel.hpp"
 
+#include "editor/Editor.fwd.hpp"
+
 namespace sm
 {
     class StateMachineDefinition;
@@ -25,6 +27,8 @@ namespace ui
         sm::OnStateChange::Listener stateChangeListener;
 
         std::shared_ptr<StateNodeWidget> currentState;
+
+        editor::EventChanged::Listener eventChangedListener;
 
     public:
         StateCanvasPanel();

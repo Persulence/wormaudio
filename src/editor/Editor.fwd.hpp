@@ -8,4 +8,5 @@ namespace editor
     using Lifecycle = signal_event::Callback<int>;
     using ParametersChanged = signal_event::Callback<>;
     using ProjectRefreshed = signal_event::Callback<>;
+    using EventChanged = signal_event::Callback<>;
 }

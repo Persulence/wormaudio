@@ -14,7 +14,7 @@ namespace ui
 {
     StateCanvasPanel::StateCanvasPanel():
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
-        definition(editor::Editor::getInstance().getDefinition())
+        definition(editor::Editor::getInstance().getEvent()->getDefinition())
     {
         for (auto& state : definition->getStates())
         {
@@ -55,6 +55,21 @@ namespace ui
                 it->second->setCurrent(true);
                 currentState = it->second;
             }
+        });
+
+        editor::getInstance().onEventChanged.setup(&eventChangedListener, [this]
+        {
+            definition = editor::getInstance().getEvent()->getDefinition();
+
+            stateNodes.clear();
+            stateToNode.clear();
+
+            for (auto& state : definition->getStates())
+            {
+                addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
+            }
+
+            connectionManager->refreshTransitionWidgets();
         });
     }
 

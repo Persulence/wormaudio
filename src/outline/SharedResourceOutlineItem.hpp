@@ -9,62 +9,10 @@
 #include "settings/settings.hpp"
 #include "OutlineTypes.hpp"
 #include "OutlineItemComponent.hpp"
+#include "SharedResourceOutlineItemBase.hpp"
 
 namespace ui
 {
-    class SharedResourceItemBase : public juce::TreeViewItem
-    {
-    public:
-        virtual void createChildren() = 0;
-
-        virtual bool remove() { return false; };
-
-        SharedResourceItemBase()
-        {
-            setLinesDrawnForSubItems(true);
-        }
-
-        template <class T>
-        T* findSelectionManager()
-        {
-            if (const auto owner = getOwnerView())
-            {
-                return owner->findParentComponentOfClass<T>();
-            }
-
-            return nullptr;
-        }
-
-        void refresh(SharedResourceItemBase* origin = nullptr, bool strong = false)
-        {
-            if (strong)
-            {
-                if (const auto parent = dynamic_cast<SharedResourceItemBase*>(getParentItem()))
-                {
-                    parent->refresh(this, false);
-                }
-            }
-            else
-            {
-                if (getOpenness() == Openness::opennessOpen)
-                {
-                    clearSubItems();
-                    createChildren();
-                }
-                else
-                {
-                    clearSubItems();
-                }
-            }
-        }
-
-        void paintVerticalConnectingLine(juce::Graphics& g, const juce::Line<float> &line) override
-        {
-           // g.setColour(juce::Colours::black);
-           // g.drawLine (line);
-        }
-    };
-
     template <class T>
     class SharedResourceItem : public SharedResourceItemBase
     {
@@ -112,6 +60,20 @@ namespace ui
         void itemClicked(const juce::MouseEvent &) override
         {
             setSelected(true, true, juce::sendNotification);
+        }
+
+        void rename() override
+        {
+            if (const auto owner = getOwnerView())
+            {
+                if (auto component = owner->getItemComponent(this))
+                {
+                    if (auto custom = dynamic_cast<OutlineItemComponent*>(component->getChildComponent(0)))
+                    {
+                        custom->rename();
+                    }
+                }
+            }
         }
 
         resource::Handle<T> resource;

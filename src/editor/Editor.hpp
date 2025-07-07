@@ -33,8 +33,6 @@ namespace editor
 
         void refreshParameters();
 
-        void setCurrentEvent(const resource::Handle<event::EventDef>& event);
-
     public:
         DISABLE_COPY(Editor)
         DISABLE_MOVE(Editor)
@@ -46,6 +44,7 @@ namespace editor
         ParametersChanged::Signal parametersChanged;
         sm::OnStateChange::Signal onStateChange;
         ProjectRefreshed::Signal onProjectRefreshed;
+        EventChanged::Signal onEventChanged;
 
         ProjectSaveManager saveManager;
 
@@ -62,6 +61,8 @@ namespace editor
         }
 
         void startRuntime();
+
+        void setCurrentEvent(const resource::Handle<event::EventDef>& event, bool notify = false);
 
         resource::Handle<event::EventDef> getEvent()
         {

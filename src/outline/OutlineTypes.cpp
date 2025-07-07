@@ -13,7 +13,6 @@
 #include "parameter/ParameterConfigPanel.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
-#include "transition/TransitionPropertyPanel.hpp"
 
 namespace ui
 {
@@ -33,6 +32,14 @@ namespace ui
             ptr->label.setData(resource->nameValue());
 
             return ptr;
+        }
+
+        void itemSelectionChanged(bool isNowSelected) override
+        {
+            if (isNowSelected)
+            {
+                editor::getInstance().setCurrentEvent(resource, true);
+            }
         }
     };
 

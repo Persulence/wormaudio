@@ -22,6 +22,11 @@ CentrePanel::CentrePanel():
     layout.setItemLayout(2, -0.1, -0.9, -0.65);
     layout.setItemLayout(3, 5, 5, 5);
     layout.setItemLayout(4, -0.1, -0.9, -0.25);
+
+    editor::getInstance().onEventChanged.setup(&eventChangedListener, [this]
+    {
+        deselectAll();
+    });
 }
 
 void CentrePanel::resized()

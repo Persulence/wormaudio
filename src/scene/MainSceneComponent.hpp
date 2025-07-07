@@ -7,8 +7,10 @@
 #include "inspector/RightInspectorPanel.hpp"
 #include "panel/BorderPanel.hpp"
 #include "panel/Panel.hpp"
+#include "state/condition/AllElementsDoneCondition.hpp"
 #include "transport/TransportPanel.hpp"
 #include "widget/SpatialSelectorWidget.hpp"
+#include "editor/Editor.fwd.hpp"
 
 namespace ui
 {
@@ -19,10 +21,9 @@ namespace ui
         // ElementBrowserPanel elementBrowser;
 
         BorderPanel<FileBrowserPanel> fileBrowserBorder{};
-        BorderPanel<ElementBrowserPanel> elementBrowserBorder;
+        // BorderPanel<ElementBrowserPanel> elementBrowserBorder;
         BorderPanel<OutlinePanel> outline;
         BorderPanel<TransportPanel> transport{};
-
 
         juce::StretchableLayoutManager layout;
         juce::StretchableLayoutResizerBar bar1;
@@ -61,6 +62,7 @@ namespace ui
         juce::StretchableLayoutManager layout;
         juce::StretchableLayoutResizerBar bar1;
         juce::StretchableLayoutResizerBar bar2;
+        editor::EventChanged::Listener eventChangedListener;
 
     public:
         MainSceneComponent();

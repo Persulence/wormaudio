@@ -35,12 +35,17 @@ namespace editor
         parametersChanged.emit();
     }
 
-    void Editor::setCurrentEvent(const Handle<event::EventDef> &event)
+    void Editor::setCurrentEvent(const Handle<event::EventDef> &event, bool notify)
     {
         this->event = event;
 
         refreshParameters();
         instance = std::make_shared<EditorEventInstance>(event);
+
+        if (notify)
+        {
+            onEventChanged.emit();
+        }
     }
 
     void Editor::startRuntime()
@@ -141,9 +146,9 @@ namespace editor
             runtime->getParameters().refresh(*project->globalParameters);
 
         if (!project->events.empty())
-            setCurrentEvent(project->events.at(0));
+            setCurrentEvent(project->events.at(0), false);
         else
-            setCurrentEvent(project->addEvent(event::EventDef::create()));
+            setCurrentEvent(project->addEvent(event::EventDef::create()), false);
 
         onProjectRefreshed.emit();
 

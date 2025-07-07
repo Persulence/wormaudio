@@ -5,7 +5,7 @@ namespace ui
     using namespace juce;
 
     LeftPanel::LeftPanel():
-        elementBrowserBorder(BorderPanel<ElementBrowserPanel>{editor::getInstance().getEvent()}),
+        // elementBrowserBorder(BorderPanel<ElementBrowserPanel>{editor::getInstance().getEvent()}),
         bar1(&layout, 1, false),
         bar2(&layout, 3, false)
     {
@@ -73,6 +73,11 @@ namespace ui
         layout.setItemLayout(2, -0.2, -0.9, -0.8);
         layout.setItemLayout(3, 5, 5, 5);
         layout.setItemLayout(4, -0.1, -0.9, -0.2);
+
+        editor::getInstance().onEventChanged.setup(&eventChangedListener, [this]
+        {
+            deselectAll();
+        });
     }
 
     void MainSceneComponent::resized()

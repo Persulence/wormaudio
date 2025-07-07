@@ -30,6 +30,33 @@ namespace ui
 
             return ptr;
         }
+
+        void itemClicked(const MouseEvent& event) override
+        {
+            if (event.mods.isRightButtonDown())
+            {
+                PopupMenu menu;
+                menu.addItem("New Sound Event", [this]
+                {
+                    resource::Handle<event::EventDef> eventDef = event::EventDef::create();
+                    resource->addEvent(eventDef);
+                    editor::getInstance().setCurrentEvent(eventDef, true);
+
+                    auto owningResult = OutlineTypeRegistry::getInstance().get(eventDef).release();
+                    addSubItem(owningResult);
+
+                    if (const auto shared = dynamic_cast<SharedResourceItemBase*>(owningResult))
+                    {
+                        juce::MessageManager::callAsync([shared]
+                        {
+                            shared->setSelected(true, true);
+                            shared->rename();
+                        });
+                    }
+                });
+                menu.showMenuAsync(PopupMenu::Options{});
+            }
+        }
     };
 
     OutlinePanel::OutlinePanel():

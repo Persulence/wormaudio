@@ -7,6 +7,7 @@
 #include "BottomInspectorPanel.hpp"
 #include "InspectorSelectionManager.hpp"
 #include "parameter/ParameterPanel.hpp"
+#include "editor/Editor.fwd.hpp"
 
 namespace ui
 {
@@ -23,6 +24,9 @@ namespace ui
 
         CentrePanel();
         void resized() override;
+
+    private:
+        editor::EventChanged::Listener eventChangedListener;
     };
 }
 
