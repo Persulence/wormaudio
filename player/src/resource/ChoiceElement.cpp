@@ -35,10 +35,13 @@ namespace element
 
         void start() override
         {
-            const int idx = random.nextInt(static_cast<int>(buffers.size()));
-            player.setBuffer(buffers[idx]);
+            if (buffers.size() > 0)
+            {
+                const int idx = random.nextInt(static_cast<int>(buffers.size()));
+                player.setBuffer(buffers[idx]);
 
-            player.changeState(player::PLAYING);
+                player.changeState(player::PLAYING);
+            }
         }
 
         void stop() override
