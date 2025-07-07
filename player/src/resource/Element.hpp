@@ -11,6 +11,17 @@
 #include "automation/instance/AutomationRegistryInstance.hpp"
 #include "util/AudioContext.hpp"
 
+namespace cereal
+{
+	template <class Archive, class T>
+    std::enable_if_t<traits::is_same_archive<Archive, PortableBinaryInputArchive>::value, bool>
+	make_optional_nvp(Archive& ar, const char* name, T&& value)
+	{
+		ar(make_nvp(name, std::forward<T>(value)));
+		return true;
+	}
+}
+
 namespace element
 {
     // Elements are shared resources
@@ -34,14 +45,14 @@ namespace element
         {
             // ar(cereal::base_class<SharedResource>(this));
             // ar(cereal::base_class<PropertyProvider>(this));
-            // ar(cereal::make_nvp("volume", volume));
+            ar(cereal::make_nvp("volume", volume));
         }
 
         INTERNAL_SPLIT_LOAD
         {
             // ar(cereal::base_class<SharedResource>(this));
             // ar(cereal::base_class<PropertyProvider>(this));
-            // ar(cereal::make_nvp("volume", volume));
+            cereal::make_optional_nvp(ar, "volume", volume);
         }
     };
 }

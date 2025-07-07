@@ -32,7 +32,7 @@ namespace automation
 
     void AutomationTableInstance::logicTick(const sm::EventParameterLookup &parameters, const player::TransportControl &transport) const
     {
-        for (const auto&[parameter, property, mapping] : table.getLinks())
+        for (const auto& [parameter, property, mapping] : table.getLinks())
         {
             const auto value = parameters.getValue(parameter->getName());
             const auto transformed = mapping(value);
