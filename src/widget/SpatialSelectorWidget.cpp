@@ -70,6 +70,7 @@ namespace ui
         {
             vec /= length;
             sourcePos = vec;
+            setSoundPosition(vec.x, vec.y);
         }
 
         repaint();
