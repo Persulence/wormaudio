@@ -114,19 +114,16 @@ namespace player
         auto soundPos = position;
         auto listener = instance::Vec3f{0, 0, 0};
 
-        float result = earDistance(soundPos, listener, std::numbers::pi);
+        float result = earDistance(soundPos, listener, std::numbers::pi, properties.maxDistance);
         float distance = (soundPos - listener).abs();
 
-        // TODO: actually attenuate
         float attenuation = properties.attenuate(distance);
 
         float theta = (result + 1.f) * std::numbers::pi / 4;
 
-        // float leftGain = result < 0 ? std::max(0.f, result + 1) : 0;
-        // float rightGain = result > 0 ? std::max(0.f, 1 - result) : 0;
+        float leftGain = std::cos(theta) * attenuation;
+        float rightGain = std::sin(theta) * attenuation;
 
-        float leftGain = std::cos(theta);
-        float rightGain = std::sin(theta);
         bufferToFill.buffer->applyGain(0, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, leftGain);
         bufferToFill.buffer->applyGain(1, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, rightGain);
 

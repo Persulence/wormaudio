@@ -79,6 +79,12 @@ namespace ui
     void SpatialSelectorWidget::setSoundPosition(float x, float z)
     {
         instance::Vec3f vec{x, 0, z};
-        editor::getInstance().getSoundInstance()->setPosition(vec);
+
+        auto& editor = editor::getInstance();
+        auto event = editor.getEvent();
+
+        vec *= event->getProperties().maxDistance;
+
+        editor.getSoundInstance()->setPosition(vec);
     }
 }

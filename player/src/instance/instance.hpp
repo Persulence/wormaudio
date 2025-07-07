@@ -24,6 +24,27 @@ namespace instance
             return {x * o, y * o, z * o};
         }
 
+        Vec3& operator*=(const T& o)
+        {
+            x *= o;
+            y *= o;
+            z *= o;
+            return *this;
+        }
+
+        Vec3 operator/(const T& o) const
+        {
+            return {x / o, y / o, z / o};
+        }
+
+        Vec3& operator/=(const T& o)
+        {
+            x /= o;
+            y /= o;
+            z /= o;
+            return *this;
+        }
+
         T dot(const Vec3& o) const
         {
             return x * o.x + y * o.y + z * o.z;

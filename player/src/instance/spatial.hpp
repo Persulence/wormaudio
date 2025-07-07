@@ -4,7 +4,7 @@
 
 namespace player
 {
-    float earDistance(instance::Vec3f soundPos, instance::Vec3f listenerPos, float yaw);
+    float earDistance(instance::Vec3f soundPos, instance::Vec3f listenerPos, float yaw, float maxDistance);
 
     enum class Attenuation
     {

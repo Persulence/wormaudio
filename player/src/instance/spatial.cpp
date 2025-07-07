@@ -1,16 +1,12 @@
 #include "spatial.hpp"
 
 #include <cmath>
-#include <iostream>
-#include <tuple>
-#include <tuple>
-#include <tuple>
-#include <tuple>
+#include <algorithm>
 
 namespace player
 {
     /// Yaw is treated as being 0 at +Z and 90 at +X
-    float earDistance(instance::Vec3f soundPos, instance::Vec3f listenerPos, float yaw)
+    float earDistance(instance::Vec3f soundPos, instance::Vec3f listenerPos, float yaw, float maxDistance)
     {
         using namespace instance;
         // Find the angle between listenerPos -> soundPos and the line normal to the listener's direction
@@ -24,7 +20,10 @@ namespace player
 
         auto perpendicular = facing.cross(up);
 
-        auto scalar = to.abs() * std::cos(perpendicular.angleTo(to));
+        // Scalar project onto the listener's 'ear axis'
+        // Divide by max distance to get a value between -1 and 1 when within listening range
+        // Clamp to be safe
+        auto scalar = std::clamp(to.abs() * std::cos(perpendicular.angleTo(to)) / maxDistance, -1.f, 1.f);
 
         if (std::isnan(scalar))
             return 0;
