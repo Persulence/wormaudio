@@ -9,6 +9,8 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
+set(LIB_DIR ../lib)
+
 set(LIBRARY_TARGET neepsound)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
@@ -31,20 +33,13 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 # include that subdirectory as part of the build.
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
-# or
-add_subdirectory(${CMAKE_SOURCE_DIR}/lib/JUCE build)
 
-# If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
-# to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
+add_subdirectory(${LIB_DIR}/JUCE build)
 
-# juce_set_vst2_sdk_path(...)
+#add_subdirectory(src/swig)
+add_subdirectory(swig)
 
-# `juce_add_gui_app` adds an executable target with the name passed as the first argument
-# (GuiAppExample here). This target is a normal CMake target, but has a lot of extra properties set
-# up by default. This function accepts many optional arguments. Check the readme at
-# `docs/CMake API.md` in the JUCE repo for the full list.
-
-# Sets cxx_std_17 somewhere
+# This command sets cxx_std_17 somewhere. We're using C++20, so this can't be used.
 #juce_add_gui_app(${LIBRARY_TARGET}
 #        # VERSION ...                       # Set this if the app version is different to the project version
 #        # ICON_BIG ...                      # ICON_* arguments specify a path to an image file to use as an icon
@@ -53,14 +48,15 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/lib/JUCE build)
 #        # COMPANY_NAME ...                  # Specify the name of the app's author
 #        PRODUCT_NAME "Gui App Example")     # The name of the final executable, which can differ from the target name
 
-# Works with modules
 # TODO: Ensure that necessary JUCE properties are also set
 add_library(${LIBRARY_TARGET})
-
-#target_precompile_headers(${LIBRARY_TARGET}
-#        INTERFACE
-#                juce_basics/juce_basics.h
-#)
+#swig_add_library(${LIBRARY_TARGET} TYPE SHARED
+#        LANGUAGE java
+#        SOURCES
+#            src/swig/swig_test.i
+#            src/swig/swig_test.hpp
+#        OUTFILE_DIR src/swig
+#    )
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
@@ -70,23 +66,16 @@ add_library(${LIBRARY_TARGET})
 
 # juce_generate_juce_header(${LIBRARY_TARGET})
 
-# `target_sources` adds source files to a target. We pass the target that needs the sources as the
-# first argument, then a visibility parameter for the sources which should normally be PRIVATE.
-# Finally, we supply a list of source files that will be built into the target. This is a standard
-# CMake command.
-
 target_include_directories(${LIBRARY_TARGET}
         PUBLIC
             ../JuceLibraryCode
             src
-            SYSTEM ${CMAKE_SOURCE_DIR}/lib/cereal/include
-            ${CMAKE_SOURCE_DIR}/lib/Cereal-Optional-NVP/include
-#            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1
-#            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/x86_64-pc-linux-gnu
-#            /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../include/c++/15.1.1/backward
+            SYSTEM ${LIB_DIR}/cereal/include
+            ${LIB_DIR}/Cereal-Optional-NVP/include
 
 )
 
+# Not using C++20 modules anymore
 #file(GLOB_RECURSE ModuleFiles
 #        CONFIGURE_DEPENDS
 #        "src/*.ixx")
@@ -101,7 +90,7 @@ target_sources("${LIBRARY_TARGET}"
 #            FILE_SET CXX_MODULES
 #            FILES
 #            ${ModuleFiles}
-        PUBLIC
+        PRIVATE
             ${SourceFiles})
 
 set_property(TARGET ${LIBRARY_TARGET} PROPERTY CXX_STANDARD 20)
@@ -125,6 +114,7 @@ target_compile_definitions(${LIBRARY_TARGET}
         JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_PRODUCT_NAME>"
         JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_VERSION>")
 
+
 # If your target needs extra binary assets, you can add them here. The first argument is the name of
 # a new static library target that will include all the binary resources. There is an optional
 # `NAMESPACE` argument that can specify the namespace of the generated binary data class. Finally,
@@ -140,6 +130,7 @@ target_compile_definitions(${LIBRARY_TARGET}
 # linked automatically. If we'd generated a binary data target above, we would need to link to it
 # here too. This is a standard CMake command.
 
+#target_link_libraries(${LIBRARY_TARGET}
 target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
         # GuiAppData            # If we'd created a binary data target, we'd link to it here
@@ -157,20 +148,24 @@ target_link_libraries(${LIBRARY_TARGET}
         PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags)
+        juce::juce_recommended_warning_flags
+)
 
-file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/JUCE/*.cpp  ${CMAKE_SOURCE_DIR}/lib/JUCE/*.mm ${CMAKE_SOURCE_DIR}/lib/JUCE/*.r)
+file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${LIB_DIR}/JUCE/*.cpp  ${LIB_DIR}/JUCE/*.mm ${LIB_DIR}/JUCE/*.r)
 set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE SKIP_UNITY_BUILD_INCLUSION TRUE)
 
-file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/cereal/*)
+file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${LIB_DIR}/cereal/*)
 set_source_files_properties(${CEREAL_HEADERS} PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
+# JUCE modules use their own unity build configuration. Including them in the automatic Cmake unity build causes issues.
 set_source_files_properties(
         src/resource/serialization.hpp
         src/resource/ClipElement.cpp
         src/resource/ChoiceElement.cpp
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
+# Precompiled headers seemed to actually increase build time.
+# Not sure what I did wrong.
 #target_precompile_headers(${LIBRARY_TARGET}
 #    PRIVATE
 #        "$<$<COMPILE_LANGUAGE:CXX>:vector>"
@@ -183,7 +178,6 @@ set_source_files_properties(
 #        "$<$<COMPILE_LANGUAGE:CXX>:variant>"
 #        "$<$<COMPILE_LANGUAGE:CXX>:utility>"
 #
-#        # PCH is not supported by JUCE. Yay. Wish I'd know that earlier.
 ##        "$<$<COMPILE_LANGUAGE:CXX>:juce_gui_basics/juce_gui_basics.h>"
 #        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_basics/juce_audio_basics.h>"
 #        "$<$<COMPILE_LANGUAGE:CXX>:juce_core/juce_core.h>"
@@ -192,7 +186,7 @@ set_source_files_properties(
 #        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
 #    )
 
-# It is not recommended to enable unity build here, but I was having trouble getting it to work.
+# It is not recommended to enable unity build in CMakeLists.txt, but I was having trouble getting it to work.
 #set_property(TARGET ${LIBRARY_TARGET} PROPERTY UNITY_BUILD ON)
 set_target_properties(${LIBRARY_TARGET} PROPERTIES
         UNITY_BUILD ON
