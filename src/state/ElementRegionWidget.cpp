@@ -1,10 +1,12 @@
 #include "ElementRegionWidget.hpp"
 
+#include <memory>
+
+#include "StatePropertyPanel.hpp"
 #include "automation/AutomationTable.hpp"
 #include "automation/Mapping.hpp"
 #include "browser/FileDragSource.hpp"
 #include "editor/Editor.hpp"
-#include "resource/Asset.hpp"
 #include "resource/ChoiceElement.hpp"
 
 #include "resource/ClipElement.hpp"
@@ -22,8 +24,8 @@ namespace ui
     class ClipImpl : public Impl
     {
     public:
-        explicit ClipImpl(ClipElement &element_) :
-            element(element_) {}
+        explicit ClipImpl(resource::Handle<ClipElement> element_) :
+            element(std::move(element_)) {}
 
         void paint(Graphics &g) override
         {
@@ -37,7 +39,7 @@ namespace ui
             g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
             g.setColour(Colours::black);
-            g.drawText(element.getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
+            g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
         }
 
         void mouseDown(const MouseEvent &event) override
@@ -52,13 +54,20 @@ namespace ui
                 {
                     parameters.addItem({parameter->getName()}, [this, &editor, parameter]
                     {
-                        const automation::AutomationLink link{parameter, element.volume, automation::MappingFunction{}};
+                        const automation::AutomationLink link{parameter, element->volume, automation::MappingFunction{}};
                         editor.getEvent()->getAutomation().setup(link);
                     });
                 }
 
                 PopupMenu menu;
-                // menu.addItem("ooer", []{});
+
+                menu.addItem("Remove", [this]
+                {
+                    if (const auto parent = findParentComponentOfClass<StatePropertyPanel>())
+                    {
+                        parent->removeElement(element);
+                    }
+                });
                 menu.addSubMenu("Automate volume", parameters);
 
                 menu.showMenuAsync(PopupMenu::Options{});
@@ -66,15 +75,14 @@ namespace ui
         }
 
     private:
-        ClipElement& element;
-
+        resource::Handle<ClipElement> element;
     };
 
     class ChoiceImpl : public Impl, public DragAndDropTarget
     {
     public:
-        explicit ChoiceImpl(ChoiceElement &element_) :
-            element(element_) {}
+        explicit ChoiceImpl(resource::Handle<ChoiceElement> element_) :
+            element(std::move(element_)) {}
 
         void paint(Graphics &g) override
         {
@@ -86,13 +94,13 @@ namespace ui
             g.fillRoundedRectangle(reduced, cornerSize);
 
             g.setColour(Colours::darkgreen);
-            const auto size = static_cast<float>(element.getClips().size());
+            const auto size = static_cast<float>(element->getClips().size());
             auto centreBounds = getLocalBounds().expanded(-static_cast<int>(thickness));
             for (size_t i = 0; i < size; ++i)
             {
                 const float h = static_cast<float>(centreBounds.getHeight()) / size;
 
-                auto clip = element.getClips().at(i);
+                auto clip = element->getClips().at(i);
                 Rectangle clipBounds{static_cast<float>(centreBounds.getX()), centreBounds.getY() + i * h, static_cast<float>(centreBounds.getWidth()), h};
                 clipBounds.expand(-2., -2.);
 
@@ -103,7 +111,7 @@ namespace ui
             g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
             g.setColour(Colours::black);
-            g.drawText(element.getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
+            g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
         }
 
         bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override
@@ -116,14 +124,14 @@ namespace ui
             if (auto source = FileDragSource::test(dragSourceDetails))
             {
                 auto asset = editor::getInstance().createAsset(source->getFile());
-                element.addClip(asset);
+                element->addClip(asset);
 
                 repaint();
             }
         }
 
     private:
-        ChoiceElement& element;
+        resource::Handle<ChoiceElement> element;
 
     };
 
@@ -156,7 +164,7 @@ namespace ui
     // Cursed RTTI experiment
 #define THING(ElementType, ImplType) map.emplace(std::type_index(typeid(ElementType)), [](const event::ElementHandle &h)\
     {\
-        return std::make_unique<ImplType>(dynamic_cast<ElementType&>(*h.ptr));\
+        return std::make_unique<ImplType>(std::dynamic_pointer_cast<ElementType>(h.ptr));\
     });
 
     static std::unordered_map<std::type_index, std::function<std::unique_ptr<Impl>(event::ElementHandle)>> map;

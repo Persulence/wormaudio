@@ -31,9 +31,9 @@ namespace sm
         elements.emplace_back(entry);
     }
 
-    void StateDef::removeElement(const event::ElementHandle &element)
+    void StateDef::removeElement(const resource::Handle<element::Element> &element)
     {
-        if (const auto it = std::ranges::find_if(elements, [&element](const auto& e){ return e.ptr == element.ptr; }); it != elements.end())
+        if (const auto it = std::ranges::find_if(elements, [&element](const auto& e){ return e.ptr == element; }); it != elements.end())
         {
             elements.erase(it);
         }

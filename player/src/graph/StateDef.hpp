@@ -88,7 +88,7 @@ namespace sm
         StateDef();
 
         void insertElement(const event::ElementHandle& entry);
-        void removeElement(const event::ElementHandle& element);
+        void removeElement(const resource::Handle<element::Element> &element);
         void insertTransition(const Transition1::Ptr& transition);
         void removeTransitionTo(StateDef* other);
         void reorderTransition(StateDef* target, int index);

@@ -30,25 +30,11 @@ namespace ui
             update();
         }
 
-        // Implementation for faster iteration
         void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
 
-        void update()
-        {
-            elements.clear();
-            removeAllChildren();
-
-            if (const auto shared = parent.lock())
-            {
-                for (auto& element : shared->getState()->getElements())
-                {
-                    auto& widget = elements.emplace_back(std::make_shared<ElementRegionWidget>(element));
-                    addAndMakeVisible(*widget);
-                }
-            }
-        }
+        void update();
 
         bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override
         {
@@ -88,5 +74,7 @@ namespace ui
                 repaint();
             }
         }
+
+        void removeElement(const resource::Handle<element::Element> &element);
     };
 }

@@ -164,12 +164,9 @@ namespace editor
 
     void Editor::eraseElement(const Handle<element::Element> &handle) const
     {
-        // According to my own rules, this isn't supposed to be done
-        event::ElementHandle elementHandle{handle};
-
         for (auto& state : event->getDefinition()->getStates())
         {
-            state->removeElement(elementHandle);
+            state->removeElement(handle);
         }
 
         event->getElements().unReg(handle);

@@ -32,5 +32,31 @@ namespace ui
     void StatePropertyPanel::mouseDown(const juce::MouseEvent &event)
     {
     }
+
+    void StatePropertyPanel::update()
+    {
+        elements.clear();
+        removeAllChildren();
+
+        if (const auto shared = parent.lock())
+        {
+            for (auto& element : shared->getState()->getElements())
+            {
+                auto& widget = elements.emplace_back(std::make_shared<ElementRegionWidget>(element));
+                addAndMakeVisible(*widget);
+            }
+        }
+    }
+
+    void StatePropertyPanel::removeElement(const resource::Handle<element::Element> &element)
+    {
+        if (auto node = parent.lock())
+        {
+            node->getState()->removeElement(element);
+            update();
+            resized();
+            repaint();
+        }
+    }
 }
 
