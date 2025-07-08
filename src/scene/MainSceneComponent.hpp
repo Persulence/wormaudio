@@ -52,7 +52,7 @@ namespace ui
     };
 
     // 'Scene' represents an editor mode, such as 'event def' or 'mixer'.
-    class MainSceneComponent : public Panel, public juce::DragAndDropContainer, public InspectorSelectionManager
+    class MainSceneComponent : public Panel, public juce::DragAndDropContainer, public InspectorSelectionManager, public SimpleCommandTarget
     {
         LeftPanel leftPanel;
         CentrePanel centrePanel;

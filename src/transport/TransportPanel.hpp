@@ -1,5 +1,6 @@
 #pragma once
 
+#include "command/Commands.hpp"
 #include "editor/Editor.hpp"
 
 #include "panel/Panel.hpp"
@@ -72,12 +73,12 @@ namespace ui
 
         void play()
         {
-            editor::Editor::getInstance().play();
+            editor::getInstance().play();
         }
 
         void stop()
         {
-            editor::Editor::getInstance().stop();
+            editor::getInstance().stop();
         }
 
         void resized() override;

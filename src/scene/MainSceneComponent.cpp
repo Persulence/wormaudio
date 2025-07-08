@@ -78,6 +78,23 @@ namespace ui
         {
             deselectAll();
         });
+
+        commands()
+            .add({Commands::PLAY, [](auto&)
+            {
+                auto& editor = editor::getInstance();
+                if (!editor.isPlaying())
+                    editor.play();
+                else
+                    editor.stop();
+            }})
+            .add({Commands::PLAY, [](auto&)
+            {
+                editor::getInstance().stop();
+            }})
+        .finish();
+
+        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::PLAY.id, juce::KeyPress{juce::KeyPress::spaceKey});
     }
 
     void MainSceneComponent::resized()

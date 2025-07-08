@@ -119,6 +119,11 @@ namespace editor
         }
     }
 
+    bool Editor::isPlaying() const
+    {
+        return runtime->transport.getState() == player::PLAYING;
+    }
+
     void Editor::shutdown()
     {
         if (runtime)

@@ -9,6 +9,7 @@ namespace ui
         static constexpr std::string APP{"app"};
         static constexpr std::string FILE{"file"};
         static constexpr std::string EDIT{"edit"};
+        static constexpr std::string TRANSPORT{"transport"};
     };
 
     struct CommandDef
@@ -61,6 +62,8 @@ namespace ui
         static inline CommandDef DEL{juce::StandardApplicationCommandIDs::del, "Delete", "Delete current selection", CommandCategory::EDIT, 0};
         static inline CommandDef RENAME{0x2101, "Rename", "Rename current selection", CommandCategory::EDIT, 0};
 
+        static inline CommandDef PLAY{0x2201, "Play", "Play current event", CommandCategory::TRANSPORT, 0};
+        static inline CommandDef STOP{0x2202, "Stop", "Stop current event", CommandCategory::TRANSPORT, 0};
 
         static Commands& getInstance()
         {

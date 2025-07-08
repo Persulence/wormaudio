@@ -83,6 +83,7 @@ namespace editor
 
         void play();
         void setState(player::TransportState state, bool notify);
+        bool isPlaying() const;
         void stop() { setState(player::STOPPED, true); }
 
         void shutdown();
