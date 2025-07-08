@@ -47,11 +47,11 @@ namespace ui
                 auto& editor = editor::getInstance();
                 editor.saveManager.open();
             }})
-            .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
-            {
-                auto& editor = editor::getInstance();
-                setFakeModal(std::make_unique<ProjectSettingsDialogue>(editor));
-            }})
+            // .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
+            // {
+            //     auto& editor = editor::getInstance();
+            //     setFakeModal(std::make_unique<ProjectSettingsDialogue>(editor));
+            // }})
             .add({Commands::QUIT, [](auto&) { JUCEApplication::getInstance()->quit(); }})
         .finish();
 
@@ -61,7 +61,7 @@ namespace ui
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT.id, KeyPress{'s', ModifierKeys::ctrlModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::SAVE_PROJECT_AS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT.id, KeyPress{'o', ModifierKeys::ctrlModifier, 0});
-        Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT_SETTINGS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::altModifier, 0});
+        // Commands::getInstance().getKeyMappings()->addKeyPress(Commands::OPEN_PROJECT_SETTINGS.id, KeyPress{'s', ModifierKeys::ctrlModifier | ModifierKeys::altModifier, 0});
 
         editor.onProjectRefreshed.setup(&onRefreshed, [this]
         {

@@ -27,8 +27,8 @@ namespace ui
                     getIcon("icon/menu/save_as.png")));
                 menu.addCommandItem(&Commands::getInstance(), Commands::OPEN_PROJECT.id, {}, std::make_unique<DrawableImage>(
                     getIcon("icon/menu/open.png")));
-                menu.addCommandItem(&Commands::getInstance(), Commands::OPEN_PROJECT_SETTINGS.id, {}, std::make_unique<DrawableImage>(
-                    getIcon("icon/menu/project_settings.png")));
+                // menu.addCommandItem(&Commands::getInstance(), Commands::OPEN_PROJECT_SETTINGS.id, {}, std::make_unique<DrawableImage>(
+                //     getIcon("icon/menu/project_settings.png")));
                 menu.addCommandItem(&Commands::getInstance(), Commands::QUIT.id, {}, std::make_unique<DrawableImage>(
                     getIcon("icon/menu/quit.png")));
                 return menu;
