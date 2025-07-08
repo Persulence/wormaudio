@@ -78,7 +78,7 @@ namespace ui
 
         for (const auto& widget: children)
         {
-            widget->setBounds(parentOffset, yOff, getWidth(), widget->getDesiredHeight());
+            widget->setBounds(parentOffset, yOff, getWidth() - parentOffset, widget->getDesiredHeight());
             yOff += widget->getHeight();
         }
     }

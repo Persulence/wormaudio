@@ -49,6 +49,7 @@ namespace ui
         g.setColour(juce::Colours::red);
         g.fillRoundedRectangle(rect, 5);
         g.setColour(juce::Colours::white);
+        auto w = getWidth();
         g.drawText(juce::String{current}, getX(), getY(), getWidth(), getHeight(), juce::Justification::centred, true);
 
         g.setColour(juce::Colours::black);

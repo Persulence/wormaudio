@@ -35,7 +35,7 @@ namespace ui
             const float h = getHeight() - f;
 
             float value = properties.attenuate(0);
-            for (int i = 1; i < points; i++)
+            for (int i = 1; i < points + 1; i++)
             {
                 float newValue = properties.attenuate(i * distIncrement);
 
