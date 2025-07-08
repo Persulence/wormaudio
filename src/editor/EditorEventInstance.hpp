@@ -18,5 +18,7 @@ namespace editor
         {
             return stateManager;
         }
+
+        resource::Handle<event::EventDef> getParent() { return parent; };
     };
 }

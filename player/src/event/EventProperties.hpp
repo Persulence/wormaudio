@@ -15,7 +15,9 @@ namespace event
 
         float attenuate(float distance) const
         {
-            return player::attenuate(attenuation, minDistance, maxDistance, falloff, distance);
+            float f = player::attenuate(attenuation, minDistance, maxDistance, falloff, distance);
+
+            return std::isnan(f) ? 1 : f;
         }
 
     };

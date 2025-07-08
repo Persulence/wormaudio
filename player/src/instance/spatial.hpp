@@ -12,10 +12,11 @@ namespace player
     {
         NONE,
         LINEAR,
+        LINEAR_ROLLOFF,
         INVERSE_DISTANCE,
     };
 
-    inline float attenuate(Attenuation attenuation, float minDistance, float maxDistance, float falloff, float distance)
+    inline float attenuate(Attenuation attenuation, float minDistance, float maxDistance, float rolloff, float distance)
     {
         switch (attenuation)
         {
@@ -25,11 +26,17 @@ namespace player
             }
             case Attenuation::LINEAR:
             {
-                return 1 - std::clamp((distance - minDistance) / (maxDistance - minDistance), 0.f, 1.f);
+                distance = std::clamp(distance, minDistance, maxDistance);
+                return 1 - (distance - minDistance) / (maxDistance - minDistance);
+            }
+            case Attenuation::LINEAR_ROLLOFF:
+            {
+                distance = std::clamp(distance, minDistance, maxDistance);
+                return 1 - rolloff * (distance - minDistance) / (maxDistance - minDistance);
             }
             case Attenuation::INVERSE_DISTANCE:
             {
-                return std::min(1.f, minDistance / (minDistance + falloff * (distance - minDistance)));
+                return distance <= minDistance ? 1 : minDistance / (minDistance + rolloff * (distance - minDistance));
             }
         }
 

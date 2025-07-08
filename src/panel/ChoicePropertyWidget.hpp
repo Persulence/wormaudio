@@ -19,6 +19,8 @@ namespace ui
             return std::make_unique<ChoicePropertyWidget>(name, values, target);
         }
 
+        std::function<void()> onChange{[]{}};
+
         explicit ChoicePropertyWidget(const std::string &label, const std::vector<Entry> &values_, T* target_);
 
     protected:
@@ -42,6 +44,7 @@ namespace ui
         {
             // data.setValue(comboBox.getSelectedId() - 1);
             *target = values.at(comboBox.getSelectedId() - 1).value;
+            onChange();
         };
         // data.setupListener(&listener, [this](auto& val)
         // {

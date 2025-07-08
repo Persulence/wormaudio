@@ -40,7 +40,8 @@ namespace editor
         this->event = event;
 
         refreshParameters();
-        instance = std::make_shared<EditorEventInstance>(event);
+        if (!instance || instance->getParent() != this->event)
+            instance = std::make_shared<EditorEventInstance>(event);
 
         if (notify)
         {

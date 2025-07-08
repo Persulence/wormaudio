@@ -10,6 +10,10 @@ namespace ui
     SpatialSelectorWidget::SpatialSelectorWidget()
     {
         sourcePos = getLocalBounds().getCentre().toFloat();
+
+        // editor::getInstance().eventChanged.setup(this, [this]
+        // {
+        // });
     }
 
     void SpatialSelectorWidget::paint(juce::Graphics &g)

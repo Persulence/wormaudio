@@ -1,10 +1,11 @@
 #pragma once
+#include "editor/Editor.fwd.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "panel/Panel.hpp"
 
 namespace ui
 {
-    class SpatialSelectorWidget : public juce::Component
+    class SpatialSelectorWidget : public juce::Component, editor::EventChanged::Listener
     {
     public:
         SpatialSelectorWidget();

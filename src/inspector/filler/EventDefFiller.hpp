@@ -8,11 +8,7 @@ namespace ui
     class EventDefFiller : public PropertyFiller, util::Data<std::string>::Listener
     {
     public:
-        explicit EventDefFiller(resource::Handle<event::EventDef> eventDef_):
-            eventDef(std::move(eventDef_))
-        {
-            eventDef->nameValue().setupListener(this, [this](auto&){ refresh(); });
-        }
+        explicit EventDefFiller(resource::Handle<event::EventDef> eventDef_);
 
         void initProperties() override;
 
@@ -20,5 +16,7 @@ namespace ui
         resource::Handle<event::EventDef> eventDef;
 
         SliderWidget::C::Listener falloffListener;
+
+        std::shared_ptr<juce::Component> attenuationPreview;
     };
 }
