@@ -31,8 +31,8 @@ namespace player
             }
             case Attenuation::LINEAR_ROLLOFF:
             {
-                distance = std::clamp(distance, minDistance, maxDistance);
-                return 1 - rolloff * (distance - minDistance) / (maxDistance - minDistance);
+                // Clamp the result as it drops below 0 when rolloff > 1
+                return 1 - std::clamp(rolloff * (distance - minDistance) / (maxDistance - minDistance), 0.f, 1.f);
             }
             case Attenuation::INVERSE_DISTANCE:
             {
