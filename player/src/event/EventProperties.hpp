@@ -13,6 +13,8 @@ namespace event
 
         player::Attenuation attenuation{player::Attenuation::LINEAR};
 
+        EventProperties() = default;
+
         float attenuate(float distance) const
         {
             float f = player::attenuate(attenuation, minDistance, maxDistance, falloff, distance);
@@ -20,5 +22,18 @@ namespace event
             return std::isnan(f) ? 1 : f;
         }
 
+    private:
+        FRIEND_CEREAL
+        // EventProperties() = default;
+
+        INTERNAL_SERIALIZE
+        {
+            using namespace cereal;
+            ar(
+                make_nvp("minDistance", minDistance),
+                make_nvp("maxDistance", maxDistance),
+                make_nvp("rolloff", falloff),
+                make_nvp("attenuation", attenuation));
+        }
     };
 }

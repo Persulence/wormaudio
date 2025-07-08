@@ -86,6 +86,8 @@ namespace event
                 cereal::make_nvp("automation", automation),
                 cereal::make_nvp("element_list", elementList)
                 );
+
+            cereal::make_optional_nvp(ar, "properties", properties);
         }
     };
 }
