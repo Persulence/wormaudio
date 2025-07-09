@@ -16,5 +16,4 @@
   }
 %}
 
-// Process symbols in header
 %include "bindings.h"

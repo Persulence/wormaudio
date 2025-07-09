@@ -9,8 +9,6 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
-set(LIB_DIR ../lib)
-
 set(LIBRARY_TARGET neepsound)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
@@ -25,7 +23,16 @@ cmake_minimum_required(VERSION 4.0)
 
 project(PLAYER_LIBRARY VERSION 0.0.1)
 
+# Causes problems (can't remember what problems), but we're not using modules anyway.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
+get_filename_component(NEEPSOUND_LIB_DIR ../lib ABSOLUTE CACHE)
+set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
+set(NEEPSOUND_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
+message(STATUS "Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${NEEPSOUND_OUTPUT_DIR})
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./lib)
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
@@ -34,17 +41,9 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 
-add_subdirectory(${LIB_DIR}/JUCE build)
+add_subdirectory(${NEEPSOUND_LIB_DIR}/JUCE build)
 
-#add_subdirectory(src/swig)
 add_subdirectory(swig)
-
-set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
-set(NEEPSOUND_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
-message(STATUS "Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${NEEPSOUND_OUTPUT_DIR})
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./lib)
 
 # This command sets cxx_std_17 somewhere. We're using C++20, so this can't be used.
 #juce_add_gui_app(${LIBRARY_TARGET}
@@ -70,8 +69,8 @@ target_include_directories(${LIBRARY_TARGET}
         PUBLIC
             ../JuceLibraryCode
             src
-            SYSTEM ${LIB_DIR}/cereal/include
-            ${LIB_DIR}/Cereal-Optional-NVP/include
+            SYSTEM ${NEEPSOUND_LIB_DIR}/cereal/include
+            ${NEEPSOUND_LIB_DIR}/Cereal-Optional-NVP/include
 
 )
 
@@ -107,7 +106,7 @@ target_compile_features(${LIBRARY_TARGET}
 # definitions, pick unique names that are unlikely to collide! This is a standard CMake command.
 
 target_compile_definitions(${LIBRARY_TARGET}
-        PRIVATE
+        PUBLIC
         # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
         JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_gui_app` call
         JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
@@ -134,7 +133,6 @@ target_compile_definitions(${LIBRARY_TARGET}
 target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
         # GuiAppData            # If we'd created a binary data target, we'd link to it here
-        juce::juce_audio_basics
 #        juce::juce_audio_devices
 #        juce::juce_audio_formats
 #        juce::juce_audio_processors
@@ -143,18 +141,19 @@ target_link_libraries(${LIBRARY_TARGET}
 #        juce::juce_data_structures
 #        juce::juce_events
 #        juce::juce_graphics
-        juce::juce_gui_basics
+#        juce::juce_gui_basics
 #        juce::juce_gui_extra
         PUBLIC
+        juce::juce_audio_basics
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
 )
 
-file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${LIB_DIR}/JUCE/*.cpp  ${LIB_DIR}/JUCE/*.mm ${LIB_DIR}/JUCE/*.r)
+file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${NEEPSOUND_LIB_DIR}/JUCE/*.cpp  ${NEEPSOUND_LIB_DIR}/JUCE/*.mm ${NEEPSOUND_LIB_DIR}/JUCE/*.r)
 set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE SKIP_UNITY_BUILD_INCLUSION TRUE)
 
-file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${LIB_DIR}/cereal/*)
+file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${NEEPSOUND_LIB_DIR}/cereal/*)
 set_source_files_properties(${CEREAL_HEADERS} PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
 # JUCE modules use their own unity build configuration. Including them in the automatic Cmake unity build causes issues.
