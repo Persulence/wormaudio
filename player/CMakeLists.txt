@@ -39,6 +39,12 @@ add_subdirectory(${LIB_DIR}/JUCE build)
 #add_subdirectory(src/swig)
 add_subdirectory(swig)
 
+set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
+message("Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${NEEPSOUND_OUTPUT_DIR})
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./lib)
+
 # This command sets cxx_std_17 somewhere. We're using C++20, so this can't be used.
 #juce_add_gui_app(${LIBRARY_TARGET}
 #        # VERSION ...                       # Set this if the app version is different to the project version
@@ -49,7 +55,7 @@ add_subdirectory(swig)
 #        PRODUCT_NAME "Gui App Example")     # The name of the final executable, which can differ from the target name
 
 # TODO: Ensure that necessary JUCE properties are also set
-add_library(${LIBRARY_TARGET})
+add_library(${LIBRARY_TARGET} STATIC)
 #swig_add_library(${LIBRARY_TARGET} TYPE SHARED
 #        LANGUAGE java
 #        SOURCES
