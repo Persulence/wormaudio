@@ -11,19 +11,19 @@ inline void ooere()
     std::cout << "ooer\n";
 }
 
-class Classe
+class SoundThing
 {
 public:
-    int i;
+    int field;
 
     void memberFunction()
     {
         std::cout << "memberFunction\n";
     }
 
-    const Classe* makeCopie() const
+
+    void printField()
     {
-        // return new Classe{i};
-        return this;
+        std::cout << field << "\n";
     }
 };

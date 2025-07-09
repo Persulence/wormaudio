@@ -40,7 +40,8 @@ add_subdirectory(${LIB_DIR}/JUCE build)
 add_subdirectory(swig)
 
 set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
-message("Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
+set(NEEPSOUND_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
+message(STATUS "Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${NEEPSOUND_OUTPUT_DIR})
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./lib)
@@ -56,13 +57,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${NEEPSOUND_OUTPUT_DIR})
 
 # TODO: Ensure that necessary JUCE properties are also set
 add_library(${LIBRARY_TARGET} STATIC)
-#swig_add_library(${LIBRARY_TARGET} TYPE SHARED
-#        LANGUAGE java
-#        SOURCES
-#            src/swig/swig_test.i
-#            src/swig/swig_test.hpp
-#        OUTFILE_DIR src/swig
-#    )
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
