@@ -1,7 +1,8 @@
 set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} -fPIC")
 # -fno-strict-aliasing is required by the SWIG documentation as generated code breaks aliasing rules
-set(CMAKE_CXX_FLAGS_RELEASE  ${CMAKE_CXX_FLAGS_RELEASE} " -fno-strict-aliasing")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing -fPIC")
 
 set(JAVA_PACKAGE_NAME "com.neep.neepsound")
 set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/neep/neepsound")
@@ -28,20 +29,24 @@ swig_add_library(${JAVA_SWIG_TARGET}
         OUTFILE_DIR .
 )
 
-#target_include_directories(${JAVA_SWIG_TARGET}
-#        PRIVATE
-#            ${NEEPSOUND_LIB_DIR}/JUCE/modules)
+# Remove stale files
+# Doesn't fucking work because PRE_BUILD doesn't fucking work outside Microsoft Visual Studio
+#add_custom_command(TARGET ${JAVA_SWIG_TARGET}
+#        PRE_LINK
+##            COMMAND rm ${SWIG_OUTPUT_DIR}/*.java || true
+#            COMMAND echo --------------- deleting
+#)
+# I love having to manually organise the build folders
 
 target_link_libraries(${JAVA_SWIG_TARGET}
         ${LIBRARY_TARGET}
         ${JNI_LIBRARIES}
-        ${JAVA_LIBRARIES}
 )
 
 get_property(thing TARGET ${JAVA_SWIG_TARGET} PROPERTY INCLUDE_DIRECTORIES)
 message("include " ${thing})
 
-#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME})
 
@@ -52,6 +57,7 @@ get_property(java_source_dir TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_SUPPORT_FI
 message(STATUS "Non-exhaustive generated java sources: " ${some_java_sources})
 message(STATUS "Java source dir: " ${java_source_dir})
 #message(STATUS "Generated java sources: " ${java_sources})
+
 add_jar(${JAR_NAME}
         SOURCES
 #            ${java_sources}
@@ -64,10 +70,21 @@ add_jar(${JAR_NAME}
 
 add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
 
+set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
+
 add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
-
             # TODO: FOR TESTING
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
+            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
+            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
+            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
 )
+
+
+#add_library(test_library)
+#set_target_properties(test_library PROPERTIES LINKER_LANGUAGE CXX)
+#target_include_directories(test_library
+#        PUBLIC
+#            ${JNI_INCLIDE_DIRS} .
+#)
+#target_sources(test_library PUBLIC java_alloc.hpp)

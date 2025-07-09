@@ -3,7 +3,9 @@
 #include <iostream>
 
 // #include "resource/Project.hpp"
-// #include "resource/SharedResource.hpp"
+#include "event/EventDef.hpp"
+#include "resource/SharedResource.hpp"
+#include "java/java_alloc.hpp"
 
 inline void ooere()
 {
@@ -11,19 +13,34 @@ inline void ooere()
     std::cout << "ooer\n";
 }
 
-class SoundThing
+class NEventDef;
+
+class NSoundInstance
 {
+    std::shared_ptr<event::EventInstance> instance;
+    const NEventDef *parent;
+
 public:
-    int field;
-
-    void memberFunction()
-    {
-        std::cout << "memberFunction\n";
-    }
-
-
-    void printField()
-    {
-        std::cout << field << "\n";
-    }
+    explicit NSoundInstance(const NEventDef* parent);
 };
+
+class NEventDef
+{
+    resource::Handle<event::EventDef> eventDef;
+
+public:
+    NSoundInstance* instantiate() const;
+
+    friend class NSoundInstance;
+};
+
+inline NSoundInstance::NSoundInstance(const NEventDef *parent):
+    parent(parent)
+{
+    instance = parent->eventDef->instantiate();
+}
+
+inline NSoundInstance * NEventDef::instantiate() const
+{
+    return new NSoundInstance{this};
+}

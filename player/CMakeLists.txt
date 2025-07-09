@@ -13,6 +13,7 @@ set(LIBRARY_TARGET neepsound)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC")
 #set(CMAKE_GENERATOR Ninja)
 
 cmake_minimum_required(VERSION 4.0)
