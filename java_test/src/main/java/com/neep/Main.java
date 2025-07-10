@@ -1,9 +1,12 @@
 package com.neep;
 
+import com.neep.neepsound.NEEPSound;
 import com.neep.neepsound.NEventDef;
 import com.neep.neepsound.NSystem;
 import com.neep.neepsound2.CleanupThread;
 import com.neep.neepsound2.NoClass;
+
+import java.io.IOException;
 
 public class Main
 {
@@ -11,6 +14,7 @@ public class Main
 
     public static void main(String[] args)
     {
+        NEEPSound.sanityCheck();
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
             System.gc();
@@ -27,16 +31,24 @@ public class Main
 //        NEEPSound.freeFunction();
 //        System.gc();
 
-        NSystem system = NSystem.load("pp");
-        NEventDef def = system.getEventDef("ooer");
-        if (def != null)
+        try
         {
-            System.out.println("Found event");
+            NSystem system = NSystem.load("test_system/test_system.proj");
+            NEventDef def = system.getEventDef("ooer");
+            if (def != null)
+            {
+                System.out.println("Found event");
+            }
+            else
+            {
+                System.out.println("Did not find event");
+            }
         }
-        else
+        catch (IOException e)
         {
-            System.out.println("Did not find event");
+            e.printStackTrace();
         }
+
 
 //        SoundThing st = new SoundThing();
 //        st.setField(123);

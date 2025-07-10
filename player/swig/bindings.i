@@ -11,7 +11,7 @@
 %include <std_shared_ptr.i>
 %include <std_string.i>
 //%include "optional.i"
-%include "nullable_java.i"
+%include "java/nullable_java.i"
 
 %pragma(java) jniclasscode=%{
   static {
@@ -25,7 +25,7 @@
 %}
 
 JOPT(OptionalString, std::string)
-JOPT(OptionalString, NEventDef)
+JOPT(OptionalString, binding::NEventDef)
 
 %define EXPOSE(name)
 %rename("%s") name;
@@ -38,13 +38,29 @@ JOPT(OptionalString, NEventDef)
 %rename("%s") "";
 
 %ignore "";
-%rename("%s") NEventDef;
-%rename("%s") NEventDef::~NEventDef;
+EXPOSE(binding::NEventDef)
+EXPOSE(binding::NEventDef::~NEventDef)
 
-EXPOSE(NSystem)
-EXPOSE(NSystem::~NSystem)
-EXPOSE(NSystem::load)
-EXPOSE(NSystem::getEventDef)
+EXPOSE(binding)
+EXPOSE(binding::sanityCheck)
+
+EXPOSE(binding::NSystem)
+EXPOSE(binding::NSystem::~NSystem)
+EXPOSE(binding::NSystem::load)
+EXPOSE(binding::NSystem::getEventDef)
+
+%javaexception("java.io.IOException") binding::NSystem::load {
+    try
+    {
+        $action
+    }
+    catch (std::exception& e)
+    {
+        jclass clazz = jenv->FindClass("java/io/IOException");
+        jenv->ThrowNew(clazz, e.what());
+        return $null;
+    }
+}
 
 %include "bindings.h"
 

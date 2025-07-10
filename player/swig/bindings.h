@@ -25,9 +25,9 @@ private:
     NS_LEAK_DETECTOR(WrapperBase)
 };
 
-inline void ooere()
+namespace binding
 {
-    std::cout << "ooer\n";
+    void sanityCheck();
 }
 
 class SoundThing
@@ -76,53 +76,50 @@ public:
 //     }
 // };
 
-class NSystem;
-
-class NEventDef : WrapperBase
+namespace binding
 {
-public:
-    // NSoundInstance instantiate() const;
+    class NSystem;
 
-private:
-    friend class NSoundInstance;
-    friend class NSystem;
-
-    resource::Handle<event::EventDef> eventDef;
-
-    explicit NEventDef(resource::Handle<event::EventDef> eventDef_): eventDef(std::move(eventDef_))
+    class NEventDef : WrapperBase
     {
-    }
-};
+    public:
+        // NSoundInstance instantiate() const;
 
+    private:
+        friend class NSoundInstance;
+        friend class NSystem;
 
-class NSystem : WrapperBase
-{
-public:
-    static NSystem load(const std::string& path)
-    {
-        resource::Handle<resource::Project> project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(false));
+        resource::Handle<event::EventDef> eventDef;
 
-        return NSystem{project};
-    }
-
-    binding::Nullable<NEventDef> getEventDef(const std::string& name) const
-    {
-        if (const auto ret = project->getEvent(name))
+        explicit NEventDef(resource::Handle<event::EventDef> eventDef_): eventDef(std::move(eventDef_))
         {
-            return NEventDef{*ret};
+        }
+    };
+
+    class NSystem : WrapperBase
+    {
+    public:
+        static NSystem load(const std::string& path);
+
+        [[nodiscard]] binding::Nullable<NEventDef> getEventDef(const std::string& name) const
+        {
+            if (const auto ret = project->getEvent(name))
+            {
+                return NEventDef{*ret};
+            }
+
+            return {};
         }
 
-        return {};
-    }
+    private:
+        resource::Handle<resource::Project> project;
 
-private:
-    resource::Handle<resource::Project> project;
+        explicit NSystem(decltype(project) project_): project(std::move(project_))
+        {
 
-    explicit NSystem(decltype(project) project_): project(std::move(project_))
-    {
-
-    }
-};
+        }
+    };
+}
 
 // inline NSoundInstance::NSoundInstance(const NEventDef *parent):
 //     parent(parent)

@@ -42,6 +42,11 @@ swig_add_library(${JAVA_SWIG_TARGET}
 #)
 # I love having to manually organise the build folders
 
+target_sources(${JAVA_SWIG_TARGET}
+        PRIVATE
+            ../bindings.cpp
+)
+
 target_link_libraries(${JAVA_SWIG_TARGET}
         ${LIBRARY_TARGET}
         ${JNI_LIBRARIES}
