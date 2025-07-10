@@ -1,39 +1,41 @@
 package com.neep.neepsound2;
 
+import com.neep.Main;
 import com.neep.neepsound.NEEPSoundJNI;
 
-import java.lang.ref.WeakReference;
-
-public class NoClass implements NativeResource
+public class NoClass implements NativeResourceHandle
 {
-    private final NativeNoClass impl;
+    private final NoClassImpl impl;
 
     public NoClass()
     {
-        this.impl = new NativeNoClass(this);
+        this.impl = new NoClassImpl(this);
     }
 
-    @Override
-    public void dispose()
+    public void thing()
     {
-
+//        NEEPSound.NoClass_thing(SWIGTYPE_p_NoClass
+//        NEEPSoundJNI.NoClass_thing(impl.cPtr);
     }
 
-    private static class NativeNoClass extends WeakReference<NoClass> implements NativeResourceImpl
+    public void testGC()
     {
-        private final long cPtr;
+        Main.nc = null;
+        System.gc();
+    }
 
-        public NativeNoClass(NoClass noClass)
+    private static class NoClassImpl extends NativeResourceImpl
+    {
+        public NoClassImpl(NoClass noClass)
         {
-            super(noClass, REF_QUEUE);
-            REF_LIST.add(this);
-
-            cPtr = NEEPSoundJNI.new_NoClass();
+//            super(noClass, NEEPSoundJNI.new_NoClass());
+            super(noClass, 0);
         }
 
-        public void dispose()
+        @Override
+        protected void disposeInternal(long cPtr)
         {
-            NEEPSoundJNI.delete_NoClass(cPtr);
+//            NEEPSoundJNI.delete_NoClass(cPtr);
         }
     }
 }

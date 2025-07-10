@@ -53,7 +53,7 @@ message("include " ${thing})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME})
-#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_LIBRARY_INCLUDE_DIRECTORIES TRUE)
+#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME} -noproxy)
 
 # Create Java library
 get_property(some_java_sources TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_SUPPORT_FILES)
@@ -81,8 +81,9 @@ add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
             # TODO: FOR TESTING
             COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
-            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
-            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
+#            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
+#            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
+            COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/java/com/neep/neepsound
 )
 
 
