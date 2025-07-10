@@ -10,6 +10,8 @@
 
 %include <std_shared_ptr.i>
 %include <std_string.i>
+//%include "optional.i"
+%include "optional2.i"
 
 %pragma(java) jniclasscode=%{
   static {
@@ -22,7 +24,7 @@
   }
 %}
 
-
+JOPT(OptionalString, std::string)
 
 %define EXPOSE(name)
 %rename("%s") name;
@@ -40,6 +42,7 @@
 
 EXPOSE(NSystem)
 EXPOSE(NSystem::~NSystem)
+EXPOSE(NSystem::load)
 EXPOSE(NSystem::getEventDef)
 
 %include "bindings.h"

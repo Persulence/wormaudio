@@ -1,14 +1,15 @@
 #pragma once
 
 #include <iostream>
+#include <filesystem>
 
 #include "juce_core/juce_core.h"
 
-// #include "resource/Project.hpp"
 #include "event/EventDef.hpp"
+#include "resource/Project.hpp"
 #include "event/EventInstance.hpp"
 #include "resource/SharedResource.hpp"
-// #include "java/java_alloc.hpp"
+
 
 // SWIG preprocessor doesn't recurse into all included files, and JUCE uses a lot of macros
 #define NS_LEAK_DETECTOR(OwnerClass) \
@@ -81,33 +82,47 @@ class NEventDef : WrapperBase
 public:
     // NSoundInstance instantiate() const;
 
-    ~NEventDef()
-    {
-        std::cout << "NEventDef destroyed\n";
-    }
-
 private:
-    resource::Handle<event::EventDef> eventDef;
-
-    NEventDef(resource::Handle<event::EventDef> eventDef_): eventDef(std::move(eventDef_))
-    {
-        std::cout << "NEventDef created\n";
-    }
-
-
     friend class NSoundInstance;
     friend class NSystem;
+
+    resource::Handle<event::EventDef> eventDef;
+
+    explicit NEventDef(resource::Handle<event::EventDef> eventDef_): eventDef(std::move(eventDef_))
+    {
+    }
 };
+
 
 class NSystem : WrapperBase
 {
 public:
-    NEventDef getEventDef(const std::string& name)
+    static NSystem load(const std::string& path)
     {
-        return {event::EventDef::create()};
+        resource::Handle<resource::Project> project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(false));
+
+        return NSystem{project};
+    }
+
+    // std::optional<NEventDef> getEventDef(const std::string& name) const
+    std::optional<std::string> getEventDef(const std::string& name) const
+    {
+        if (const auto ret = project->getEvent(name))
+        {
+            return "oooer";
+            // return NEventDef{*ret};
+        }
+
+        return {};
     }
 
 private:
+    resource::Handle<resource::Project> project;
+
+    explicit NSystem(decltype(project) project_): project(std::move(project_))
+    {
+
+    }
 };
 
 // inline NSoundInstance::NSoundInstance(const NEventDef *parent):

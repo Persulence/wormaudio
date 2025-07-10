@@ -27,8 +27,9 @@ public class Main
 //        NEEPSound.freeFunction();
 //        System.gc();
 
-        NSystem system = new NSystem();
-        NEventDef def = system.getEventDef("ooer");
+        NSystem system = NSystem.load("pp");
+//        NEventDef def = system.getEventDef("ooer");
+        String s = system.getEventDef("ooer");
 
 //        SoundThing st = new SoundThing();
 //        st.setField(123);

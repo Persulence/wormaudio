@@ -19,7 +19,7 @@ namespace resource
         std::vector<Handle<event::EventDef>> events{};
         std::unique_ptr<asset::AssetManager> assetManager;
 
-        Project(std::unique_ptr<asset::AssetManager> assetManager_);
+        explicit Project(std::unique_ptr<asset::AssetManager> assetManager_);
 
         [[nodiscard]] asset::AssetManager& getAssetManager() const;
         // asset::AssetHandle getAsset(const juce::File &file) const;
@@ -30,6 +30,16 @@ namespace resource
         {
             events.push_back(event);
             return event;
+        }
+
+        std::optional<Handle<event::EventDef>> getEvent(const std::string& name)
+        {
+            if (const auto it = std::ranges::find_if(events, [&name](const auto& e){ return e->nameValue().getValue() == name; }); it != events.end())
+            {
+                return *it;
+            }
+
+            return {};
         }
 
     private:
