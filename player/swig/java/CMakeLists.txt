@@ -8,13 +8,14 @@ set(JAVA_PACKAGE_NAME "com.neep.neepsound")
 set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/neep/neepsound")
 set(JAR_NAME "NEEPSound")
 
+
+find_package(Java 17 REQUIRED)
+message(STATUS "Found Java version: " ${Java_VERSION})
+include(UseJava) # Necessary unlike UseSwig
+
 find_package(JNI REQUIRED)
 include_directories(${JNI_INCLUDE_DIRS})
 message(STATUS "Using JNI includes at: " ${JNI_INCLUDE_DIRS})
-
-find_package(Java REQUIRED)
-message(STATUS "Found Java version: " ${Java_VERSION})
-include(UseJava) # Necessary unlike UseSwig
 
 
 set(CMAKE_SWIG_FLAGS "")

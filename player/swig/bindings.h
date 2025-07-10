@@ -4,6 +4,7 @@
 
 // #include "resource/Project.hpp"
 #include "event/EventDef.hpp"
+#include "event/EventInstance.hpp"
 #include "resource/SharedResource.hpp"
 // #include "java/java_alloc.hpp"
 
@@ -24,50 +25,64 @@ public:
     }
 };
 
-class NEventDef;
-
-class NSoundInstance
+class NoClass
 {
-    std::shared_ptr<event::EventInstance> instance;
-    const NEventDef *parent;
-
 public:
-    explicit NSoundInstance(const NEventDef* parent);
-
-    ~NSoundInstance()
-    {
-        std::cout << "NSoundInstance destroyed\n";
-    }
+    NoClass() = default;
+    ~NoClass() = default;
 };
 
-class NEventDef
-{
-    resource::Handle<event::EventDef> eventDef;
+// inline resource::Handle<event::EventDef> newEventDef()
+// {
+    // return event::EventDef::create();
+// }
 
-public:
-    NEventDef(): eventDef(event::EventDef::create())
-    {
-        std::cout << "NEventDef created\n";
-    }
+// class NEventDef;
 
-    NSoundInstance instantiate() const;
+// class NSoundInstance
+// {
+//     std::shared_ptr<event::EventInstance> instance;
+//     const NEventDef *parent;
+//
+// public:
+//     explicit NSoundInstance(const NEventDef* parent);
+//
+//     ~NSoundInstance()
+//     {
+//         std::cout << "NSoundInstance destroyed" << this << "\n";
+//         instance->setPosition({0, 0, 0});
+//         instance = nullptr;
+//     }
+// };
 
-    friend class NSoundInstance;
+// class NEventDef
+// {
+//     resource::Handle<event::EventDef> eventDef;
+//
+// public:
+//     NEventDef(): eventDef(event::EventDef::create())
+//     {
+//         std::cout << "NEventDef created\n";
+//     }
+//
+//     NSoundInstance instantiate() const;
+//
+//     friend class NSoundInstance;
+//
+//     ~NEventDef()
+//     {
+//         std::cout << "NEventDef destroyed\n";
+//     }
+// };
 
-    ~NEventDef()
-    {
-        std::cout << "NEventDef destroyed\n";
-    }
-};
-
-inline NSoundInstance::NSoundInstance(const NEventDef *parent):
-    parent(parent)
-{
-    std::cout << "NSoundInstance created\n";
-    instance = parent->eventDef->instantiate();
-}
-
-inline NSoundInstance NEventDef::instantiate() const
-{
-    return NSoundInstance{this};
-}
+// inline NSoundInstance::NSoundInstance(const NEventDef *parent):
+//     parent(parent)
+// {
+//     std::cout << "NSoundInstance created\n";
+//     instance = parent->eventDef->instantiate();
+// }
+//
+// inline NSoundInstance NEventDef::instantiate() const
+// {
+//     return NSoundInstance{this};
+// }
