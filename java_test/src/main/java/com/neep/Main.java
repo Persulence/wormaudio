@@ -28,8 +28,15 @@ public class Main
 //        System.gc();
 
         NSystem system = NSystem.load("pp");
-//        NEventDef def = system.getEventDef("ooer");
-        String s = system.getEventDef("ooer");
+        NEventDef def = system.getEventDef("ooer");
+        if (def != null)
+        {
+            System.out.println("Found event");
+        }
+        else
+        {
+            System.out.println("Did not find event");
+        }
 
 //        SoundThing st = new SoundThing();
 //        st.setField(123);

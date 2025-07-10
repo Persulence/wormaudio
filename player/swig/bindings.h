@@ -7,7 +7,8 @@
 
 #include "event/EventDef.hpp"
 #include "resource/Project.hpp"
-#include "event/EventInstance.hpp"
+// #include "event/EventInstance.hpp"
+#include "Nullable.hpp"
 #include "resource/SharedResource.hpp"
 
 
@@ -104,13 +105,11 @@ public:
         return NSystem{project};
     }
 
-    // std::optional<NEventDef> getEventDef(const std::string& name) const
-    std::optional<std::string> getEventDef(const std::string& name) const
+    binding::Nullable<NEventDef> getEventDef(const std::string& name) const
     {
         if (const auto ret = project->getEvent(name))
         {
-            return "oooer";
-            // return NEventDef{*ret};
+            return NEventDef{*ret};
         }
 
         return {};

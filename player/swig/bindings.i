@@ -11,7 +11,7 @@
 %include <std_shared_ptr.i>
 %include <std_string.i>
 //%include "optional.i"
-%include "optional2.i"
+%include "nullable_java.i"
 
 %pragma(java) jniclasscode=%{
   static {
@@ -25,6 +25,7 @@
 %}
 
 JOPT(OptionalString, std::string)
+JOPT(OptionalString, NEventDef)
 
 %define EXPOSE(name)
 %rename("%s") name;
