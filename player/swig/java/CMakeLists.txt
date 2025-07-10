@@ -18,8 +18,11 @@ include(UseJava) # Necessary unlike UseSwig
 
 
 set(CMAKE_SWIG_FLAGS "")
-set_source_files_properties(../bindings.i PROPERTIES CPLUSPLUS ON)
 include_directories(..)
+
+set_source_files_properties(../bindings.i PROPERTIES CPLUSPLUS ON)
+# Causes the target to rebuild when an included header changes
+set_source_files_properties(../bindings.i PROPERTIES USE_SWIG_DEPENDENCIES TRUE)
 
 # Create dynamic native library
 swig_add_library(${JAVA_SWIG_TARGET}
@@ -49,6 +52,7 @@ message("include " ${thing})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME})
+#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_LIBRARY_INCLUDE_DIRECTORIES TRUE)
 
 # Create Java library
 get_property(some_java_sources TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_SUPPORT_FILES)
