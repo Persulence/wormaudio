@@ -16,6 +16,7 @@
     static const char* getLeakedObjectClassName() noexcept { return #OwnerClass; } \
     juce::LeakedObjectDetector<OwnerClass> leakDetector;
 
+// A base that provides leak detection so that we can hopefully detect java silliness.
 class WrapperBase
 {
 private:
