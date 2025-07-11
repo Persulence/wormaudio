@@ -64,10 +64,10 @@ add_subdirectory(player)
 # TODO: Ensure that necessary JUCE properties are also set
 add_executable(${GUI_TARGET})
 
-target_precompile_headers(${GUI_TARGET}
-        INTERFACE
-                juce_basics/juce_basics.h
-)
+#target_precompile_headers(${GUI_TARGET}
+#        INTERFACE
+#                juce_basics/juce_basics.h
+#)
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
@@ -145,24 +145,24 @@ target_compile_definitions(${GUI_TARGET}
 
 target_link_libraries(${GUI_TARGET}
         PRIVATE
-        # GuiAppData            # If we'd created a binary data target, we'd link to it here
-        juce::juce_audio_basics
+#        juce::juce_audio_basics
 #        juce::juce_audio_devices
 #        juce::juce_audio_formats
 #        juce::juce_audio_processors
-        juce::juce_audio_utils
-        juce::juce_core
+#        juce::juce_audio_utils
+#        juce::juce_core
 #        juce::juce_data_structures
 #        juce::juce_events
 #        juce::juce_graphics
-        juce::juce_gui_basics
+#        juce::juce_gui_basics
 #        juce::juce_gui_extra
-        juce::juce_opengl
+#        juce::juce_opengl
         PUBLIC
         neepsound
-        juce::juce_recommended_config_flags
-        juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags)
+#        juce::juce_recommended_config_flags
+#        juce::juce_recommended_lto_flags
+#        juce::juce_recommended_warning_flags
+)
 
 file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/JUCE/*.cpp  ${CMAKE_SOURCE_DIR}/lib/JUCE/*.mm ${CMAKE_SOURCE_DIR}/lib/JUCE/*.r)
 set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE SKIP_UNITY_BUILD_INCLUSION TRUE)

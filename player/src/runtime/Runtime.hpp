@@ -36,8 +36,8 @@ namespace runtime
         void addInstance(const event::EventInstance::Ptr &instance);
         void clearInstances();
 
-        void startMessageManager();
-        void stopMessageManager();
+        static void startMessageManager();
+        static void stopMessageManager();
 
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
         void releaseResources() override;

@@ -137,7 +137,7 @@ target_compile_definitions(${LIBRARY_TARGET}
 #target_link_libraries(${LIBRARY_TARGET}
 target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
-        # GuiAppData            # If we'd created a binary data target, we'd link to it here
+        PUBLIC
         juce::juce_audio_devices
         juce::juce_audio_formats
 #        juce::juce_audio_processors
@@ -146,9 +146,9 @@ target_link_libraries(${LIBRARY_TARGET}
 #        juce::juce_data_structures
 #        juce::juce_events
 #        juce::juce_graphics
-#        juce::juce_gui_basics
+        juce::juce_gui_basics
+        juce::juce_opengl
 #        juce::juce_gui_extra
-        PUBLIC
         juce::juce_audio_basics
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags

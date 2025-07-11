@@ -2,9 +2,9 @@
 
 namespace binding
 {
-    NRuntime::NRuntime(): backing(std::make_unique<runtime::Runtime>())
+    NRuntime::NRuntime()
     {
-
+        backing = std::make_unique<runtime::Runtime>();
     }
 
     std::shared_ptr<event::EventInstance> NRuntime::instantiate(const NEventDef &def) const
@@ -12,14 +12,14 @@ namespace binding
         return backing->instantiate(def.eventDef);
     }
 
-    void NRuntime::startMessageManager() const
+    void NRuntime::startMessageManager()
     {
-        backing->startMessageManager();
+        runtime::Runtime::startMessageManager();
     }
 
-    void NRuntime::stopMessageManager() const
+    void NRuntime::stopMessageManager()
     {
-        backing->stopMessageManager();
+        runtime::Runtime::stopMessageManager();
     }
 
     void NRuntime::connectToDevice() const
