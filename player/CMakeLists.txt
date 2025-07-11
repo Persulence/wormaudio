@@ -139,7 +139,7 @@ target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
         # GuiAppData            # If we'd created a binary data target, we'd link to it here
 #        juce::juce_audio_devices
-#        juce::juce_audio_formats
+        juce::juce_audio_formats
 #        juce::juce_audio_processors
 #        juce::juce_audio_utils
         juce::juce_core
