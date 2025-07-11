@@ -87,7 +87,11 @@ target_include_directories(${GUI_TARGET}
             JuceLibraryCode
             player/src
             src
+#            lib/JUCE/modules
 )
+
+include(CMakePrintHelpers)
+cmake_print_properties(TARGETS ${GUI_TARGET} PROPERTIES INCLUDE_DIRECTORIES)
 
 #file(GLOB_RECURSE ModuleFiles
 #        CONFIGURE_DEPENDS
@@ -159,9 +163,9 @@ target_link_libraries(${GUI_TARGET}
 #        juce::juce_opengl
         PUBLIC
         neepsound
-#        juce::juce_recommended_config_flags
-#        juce::juce_recommended_lto_flags
-#        juce::juce_recommended_warning_flags
+        juce::juce_recommended_config_flags
+        juce::juce_recommended_lto_flags
+        juce::juce_recommended_warning_flags
 )
 
 file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/JUCE/*.cpp  ${CMAKE_SOURCE_DIR}/lib/JUCE/*.mm ${CMAKE_SOURCE_DIR}/lib/JUCE/*.r)

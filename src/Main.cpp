@@ -92,6 +92,7 @@ public:
         void closeButtonPressed() override
         {
             JUCEApplication::getInstance()->systemRequestedQuit();
+            glContext.detach();
         }
 
         /* Note: Be careful if you override any DocumentWindow methods - the base

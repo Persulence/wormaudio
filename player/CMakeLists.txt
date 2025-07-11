@@ -76,6 +76,8 @@ target_include_directories(${LIBRARY_TARGET}
             src
             SYSTEM ${NEEPSOUND_LIB_DIR}/cereal/include
             ${NEEPSOUND_LIB_DIR}/Cereal-Optional-NVP/include
+        INTERFACE
+            $<TARGET_PROPERTY:${LIBRARY_TARGET},INCLUDE_DIRECTORIES>
 
 )
 
@@ -112,11 +114,14 @@ target_compile_features(${LIBRARY_TARGET}
 
 target_compile_definitions(${LIBRARY_TARGET}
         PUBLIC
-        # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
-        JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_gui_app` call
-        JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
-        JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_PRODUCT_NAME>"
-        JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_VERSION>")
+            # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
+            JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_gui_app` call
+            JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
+            JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_PRODUCT_NAME>"
+            JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_VERSION>"
+        INTERFACE
+        $<TARGET_PROPERTY:${LIBRARY_TARGET},COMPILE_DEFINITIONS>
+)
 
 
 # If your target needs extra binary assets, you can add them here. The first argument is the name of
@@ -137,7 +142,7 @@ target_compile_definitions(${LIBRARY_TARGET}
 #target_link_libraries(${LIBRARY_TARGET}
 target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
-        PUBLIC
+#        PUBLIC
         juce::juce_audio_devices
         juce::juce_audio_formats
 #        juce::juce_audio_processors
