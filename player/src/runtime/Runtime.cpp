@@ -52,6 +52,7 @@ namespace runtime
 
     void Runtime::startMessageManager()
     {
+        juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
         juce::MessageManager::getInstance()->runDispatchLoop();
     }
 

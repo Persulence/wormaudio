@@ -12,12 +12,12 @@ namespace binding
         return backing->instantiate(def.eventDef);
     }
 
-    void NRuntime::startMessageManager()
+    void NRuntime::startMessageManager() const
     {
         runtime::Runtime::startMessageManager();
     }
 
-    void NRuntime::stopMessageManager()
+    void NRuntime::stopMessageManager() const
     {
         runtime::Runtime::stopMessageManager();
     }
