@@ -1,6 +1,6 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 # -fno-strict-aliasing is required by the SWIG documentation as generated code breaks aliasing rules
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing -fPIC")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing -fPIC") # TODO: change to add_compile_options
 set(CMAKE_INSTALL_RPATH "")
 
 set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)

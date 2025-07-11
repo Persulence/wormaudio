@@ -11,10 +11,11 @@
 
 set(LIBRARY_TARGET neepsound)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_COMPILER /usr/bin/g++)
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_CXX_COMPILER /usr/bin/g++) # TODO remove
 
-cmake_minimum_required(VERSION 4.0)
+add_compile_options(-fPIC)
+
+cmake_minimum_required(VERSION 3.25)
 
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
@@ -140,7 +141,7 @@ target_link_libraries(${LIBRARY_TARGET}
 #        juce::juce_audio_devices
 #        juce::juce_audio_formats
 #        juce::juce_audio_processors
-        juce::juce_audio_utils
+#        juce::juce_audio_utils
         juce::juce_core
 #        juce::juce_data_structures
 #        juce::juce_events
