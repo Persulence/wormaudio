@@ -11,10 +11,8 @@
 
 set(LIBRARY_TARGET neepsound)
 set(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC")
-#set(CMAKE_GENERATOR Ninja)
 
 cmake_minimum_required(VERSION 4.0)
 
@@ -31,9 +29,14 @@ get_filename_component(NEEPSOUND_LIB_DIR ../lib ABSOLUTE CACHE)
 set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
 set(NEEPSOUND_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
 message(STATUS "Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
+
+set(CMAKE_INSTALL_RPATH ${NEEPSOUND_OUTPUT_DIR})
+set(CMAKE_SKIP_BUILD_RPATH TRUE)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${NEEPSOUND_OUTPUT_DIR})
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
@@ -56,7 +59,7 @@ add_subdirectory(swig)
 #        PRODUCT_NAME "Gui App Example")     # The name of the final executable, which can differ from the target name
 
 # TODO: Ensure that necessary JUCE properties are also set
-add_library(${LIBRARY_TARGET} STATIC)
+add_library(${LIBRARY_TARGET} SHARED)
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for

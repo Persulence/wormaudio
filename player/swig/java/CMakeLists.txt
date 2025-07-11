@@ -1,9 +1,9 @@
-set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} -fPIC")
 # -fno-strict-aliasing is required by the SWIG documentation as generated code breaks aliasing rules
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing -fPIC")
+set(CMAKE_INSTALL_RPATH "")
 
+set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
 set(JAVA_PACKAGE_NAME "com.neep.neepsound")
 set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/neep/neepsound")
 set(JAR_NAME "NEEPSound")
@@ -53,10 +53,10 @@ target_link_libraries(${JAVA_SWIG_TARGET}
 )
 
 get_property(thing TARGET ${JAVA_SWIG_TARGET} PROPERTY INCLUDE_DIRECTORIES)
-message("include " ${thing})
+#message(STATUS "include " ${thing})
 
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
-set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
+#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME})
 #set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME} -noproxy)
 
@@ -82,10 +82,15 @@ add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
 
 set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
+install(TARGETS ${JAVA_SWIG_TARGET}
+        DESTINATION ${NEEPSOUND_OUTPUT_DIR}
+)
+
 add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
             # TODO: FOR TESTING
-            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
+            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/ # TODO
+            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/ # TODO
 #            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
 #            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
             COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/java/com/neep/neepsound

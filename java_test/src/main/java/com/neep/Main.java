@@ -34,7 +34,7 @@ public class Main
         try
         {
             NSystem system = NSystem.load("test_system/test_system.proj");
-            NEventDef def = system.getEventDef("ooer");
+            NEventDef def = system.getEventDef("music");
             if (def != null)
             {
                 System.out.println("Found event");

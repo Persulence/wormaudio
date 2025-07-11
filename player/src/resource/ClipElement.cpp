@@ -67,8 +67,12 @@ namespace element
 
     // --- ClipElement ---
 
+    ClipElement::ClipElement(asset::AssetHandle resource_):
+        asset(std::move(resource_)) {
+    }
+
     ElementInstancePtr ClipElement::createInstance(player::AudioContext context,
-            automation::AutomationRegistryInstance &automation)
+                                                   automation::AutomationRegistryInstance &automation)
     {
         return std::make_shared<ClipElementInstance>(context, asset->getAudio(), automation.getContainer(shared_from_this()),
                                                      loop.getValue());

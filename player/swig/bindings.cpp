@@ -1,12 +1,17 @@
 #include "bindings.h"
 
+#include "resource/ClipElement.hpp"
 #include "resource/serialization.hpp"
 
 namespace binding
 {
     void sanityCheck()
     {
-        std::cout << "You are not insane.\n";
+        // resource::Handle<element::ClipElement> ce = resource::make<element::ClipElement>(
+                // std::make_shared<asset::Asset>(asset::AssetLoader::getInstance(), "/home", asset::Settings::LAZY));
+        // std::cout << "You are insane. " << ce->getName() << "\n";
+
+        std::cout << "You are not insane. " << "\n";
     }
 
 

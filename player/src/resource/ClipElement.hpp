@@ -16,10 +16,7 @@ namespace element
     public:
         util::Data<bool> loop{false};
 
-        explicit ClipElement(asset::AssetHandle resource_):
-            asset(std::move(resource_))
-        {
-        }
+        explicit ClipElement(asset::AssetHandle resource_);
 
         ElementInstancePtr createInstance(player::AudioContext context, automation::AutomationRegistryInstance& automation) override;
 
