@@ -27,6 +27,7 @@ set_source_files_properties(../bindings.i PROPERTIES USE_SWIG_DEPENDENCIES TRUE)
 
 # Create dynamic native library
 swig_add_library(${JAVA_SWIG_TARGET}
+        TYPE SHARED
         SOURCES ../bindings.i
         LANGUAGE java
         OUTPUT_DIR ${SWIG_OUTPUT_DIR}
@@ -45,6 +46,7 @@ swig_add_library(${JAVA_SWIG_TARGET}
 target_sources(${JAVA_SWIG_TARGET}
         PRIVATE
             ../bindings.cpp
+            ../runtime.b.cpp
 )
 
 target_link_libraries(${JAVA_SWIG_TARGET}
@@ -68,19 +70,17 @@ message(STATUS "Non-exhaustive generated java sources: " ${some_java_sources})
 message(STATUS "Java source dir: " ${java_source_dir})
 #message(STATUS "Generated java sources: " ${java_sources})
 
-add_jar(${JAR_NAME}
-        SOURCES
-#            ${java_sources}
-        # TODO: Find a way to grab the generated sources and automatically add them here
-            ${java_source_dir}/NEEPSound.java
-            ${java_source_dir}/NEEPSoundJNI.java
-            ${java_source_dir}/SoundThing.java
-        OUTPUT_DIR ${NEEPSOUND_API_DIR}/java
-)
-
-add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
-
-set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
+#add_jar(${JAR_NAME}
+#        SOURCES
+##            ${java_sources}
+#        # TODO: Find a way to grab the generated sources and automatically add them here
+#            ${java_source_dir}/NEEPSound.java
+#            ${java_source_dir}/NEEPSoundJNI.java
+#            ${java_source_dir}/SoundThing.java
+#        OUTPUT_DIR ${NEEPSOUND_API_DIR}/java
+#)
+#add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
+#set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
 install(TARGETS ${JAVA_SWIG_TARGET}
         DESTINATION ${NEEPSOUND_OUTPUT_DIR}
@@ -96,6 +96,8 @@ add_custom_command(TARGET ${JAVA_SWIG_TARGET}
             COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/java/com/neep/neepsound
 )
 
+add_executable(test_exec test_exec.cpp)
+target_link_libraries(test_exec PUBLIC ${JAVA_SWIG_TARGET})
 
 #add_library(test_library)
 #set_target_properties(test_library PROPERTIES LINKER_LANGUAGE CXX)

@@ -1,8 +1,6 @@
 package com.neep;
 
-import com.neep.neepsound.NEEPSound;
-import com.neep.neepsound.NEventDef;
-import com.neep.neepsound.NSystem;
+import com.neep.neepsound.*;
 import com.neep.neepsound2.CleanupThread;
 import com.neep.neepsound2.NoClass;
 
@@ -31,13 +29,18 @@ public class Main
 //        NEEPSound.freeFunction();
 //        System.gc();
 
+        NRuntime runtime = new NRuntime();
+        runtime.connectToDevice();
+
+        String path = "test_system/test_system.proj";
         try
         {
-            NSystem system = NSystem.load("test_system/test_system.proj");
+            NSystem system = NSystem.load(path);
             NEventDef def = system.getEventDef("music");
             if (def != null)
             {
                 System.out.println("Found event");
+                EventInstance instance = runtime.instantiate(def);
             }
             else
             {
@@ -46,8 +49,11 @@ public class Main
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.err.printf("Failed to load system %s:\n", path);
+            e.printStackTrace(System.err);
         }
+
+        runtime.disconnect();
 
 
 //        SoundThing st = new SoundThing();

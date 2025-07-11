@@ -9,6 +9,7 @@
 #include "resource/Project.hpp"
 // #include "event/EventInstance.hpp"
 #include "Nullable.hpp"
+#include "event/EventInstance.hpp"
 #include "resource/SharedResource.hpp"
 
 
@@ -58,36 +59,30 @@ public:
 // }
 
 
-// class NEventDef;
-
-// class NSoundInstance
-// {
-//     std::shared_ptr<event::EventInstance> instance;
-//     const NEventDef *parent;
-//
-// public:
-//     explicit NSoundInstance(const NEventDef* parent);
-//
-//     ~NSoundInstance()
-//     {
-//         std::cout << "NSoundInstance destroyed" << this << "\n";
-//         instance->setPosition({0, 0, 0});
-//         instance = nullptr;
-//     }
-// };
 
 namespace binding
 {
     class NSystem;
+    class NEventDef;
+
+    // class NEventInstance : WrapperBase
+    // {
+    //     std::shared_ptr<event::EventInstance> instance;
+    //
+    // public:
+    //     explicit NEventInstance(std::shared_ptr<event::EventInstance> instance_): instance(std::move(instance_)) {};
+    //
+    //     ~NEventInstance()
+    //     {
+    //     }
+    // };
 
     class NEventDef : WrapperBase
     {
-    public:
-        // NSoundInstance instantiate() const;
-
     private:
-        friend class NSoundInstance;
+        friend class NEventInstance;
         friend class NSystem;
+        friend class NRuntime;
 
         resource::Handle<event::EventDef> eventDef;
 

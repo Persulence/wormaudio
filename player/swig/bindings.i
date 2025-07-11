@@ -3,14 +3,16 @@
 // Add necessary symbols to generated header
 %{
 #include "juce_core/juce_core.h"
+
 #include "bindings.h"
+
 #include "event/EventDef.hpp"
 #include "resource/SharedResource.hpp"
 %}
 
 %include <std_shared_ptr.i>
 %include <std_string.i>
-//%include "optional.i"
+%include <std_shared_ptr.i>
 %include "java/nullable_java.i"
 
 %pragma(java) jniclasscode=%{
@@ -24,25 +26,40 @@
   }
 %}
 
+// Nullable typemaps
 JOPT(OptionalString, std::string)
 JOPT(OptionalString, binding::NEventDef)
 
-%define EXPOSE(name)
-%rename("%s") name;
-%enddef
+%include "util.i"
+
+%include "runtime.i"
+
+%shared_ptr(event::EventInstance)
 
 %ignore "";
-//%include "juce_core/system/juce_StandardHeader.h"
-//%include "juce_core/system/juce_PlatformDefs.h"
-//#include "juce_core/juce_core.h"
+EXPOSE(event)
+EXPOSE(event::EventInstance)
+EXPOSE(event::~EventInstance)
+EXPOSE(event::EventInstance::stop)
+
+%include "event/EventInstance.hpp"
 %rename("%s") "";
 
+%include "runtime.i"
+
+// --- Binding ---
+
 %ignore "";
-EXPOSE(binding::NEventDef)
-EXPOSE(binding::NEventDef::~NEventDef)
 
 EXPOSE(binding)
 EXPOSE(binding::sanityCheck)
+
+EXPOSE(binding::NEventDef)
+EXPOSE(binding::NEventDef::~NEventDef)
+EXPOSE(binding::NEventDef::instantiate)
+
+EXPOSE(binding::NEventInstance)
+EXPOSE(binding::NEventInstance::~NEventInstance)
 
 EXPOSE(binding::NSystem)
 EXPOSE(binding::NSystem::~NSystem)
