@@ -29,7 +29,7 @@ namespace player
 
         explicit LeanSamplePlayer(asset::ElementSampleBuffer::Ptr buffer_, bool loop_);
 
-        explicit LeanSamplePlayer(): LeanSamplePlayer(asset::EMPTY_BUFFER, false)
+        explicit LeanSamplePlayer(): LeanSamplePlayer(std::make_shared<asset::ElementSampleBuffer>(), false)
         {
         }
 

@@ -9,7 +9,7 @@ namespace asset
             buffer = ElementSampleBuffer::create();
             if (!loader->loadLocal(path, *buffer))
             {
-                buffer = EMPTY_BUFFER;
+                // ???
             }
         }
     }

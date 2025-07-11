@@ -23,6 +23,10 @@ namespace runtime
         });
     }
 
+    Runtime::~Runtime()
+    {
+    }
+
     event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)
     {
         auto instance = event->instantiate();
@@ -44,6 +48,16 @@ namespace runtime
         }
 
         instances.clear();
+    }
+
+    void Runtime::startMessageManager()
+    {
+        juce::MessageManager::getInstance()->runDispatchLoop();
+    }
+
+    void Runtime::stopMessageManager()
+    {
+        juce::MessageManager::getInstance()->stopDispatchLoop();
     }
 
     void Runtime::connectToDevice()

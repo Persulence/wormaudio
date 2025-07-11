@@ -8,16 +8,17 @@
 
 %shared_ptr(event::EventInstance)
 
-IGNORE_ALL
+//IGNORE_ALL
 
-EXPOSE1 binding;
-EXPOSE1 binding::NRuntime;
-EXPOSE1 binding::NRuntime::NRuntime;
-EXPOSE1 binding::NRuntime::~NRuntime;
-EXPOSE1 binding::NRuntime::connectToDevice;
-EXPOSE1 binding::NRuntime::disconnect;
-EXPOSE1 binding::NRuntime::instantiate;
+//EXPOSE1 binding;
+////EXPOSE1 binding::NRuntime;
+//EXPOSE1 binding::NRuntime::NRuntime;
+//EXPOSE1 binding::NRuntime::~NRuntime;
+//EXPOSE1 binding::NRuntime::connectToDevice;
+//EXPOSE1 binding::NRuntime::disconnect;
+//EXPOSE1 binding::NRuntime::instantiate;
+//EXPOSE1 binding::NRuntime::instantiate;
 
 %include "runtime.b.hpp"
 
-UNIGNORE_ALL
+//UNIGNORE_ALL

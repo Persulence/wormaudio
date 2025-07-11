@@ -1,7 +1,6 @@
 package com.neep.neepsound2;
 
-import com.neep.Main;
-import com.neep.neepsound.NEEPSoundJNI;
+import com.neep.NEEPSoundMain;
 
 public class NoClass implements NativeResourceHandle
 {
@@ -20,7 +19,7 @@ public class NoClass implements NativeResourceHandle
 
     public void testGC()
     {
-        Main.nc = null;
+        NEEPSoundMain.nc = null;
         System.gc();
     }
 

@@ -6,7 +6,7 @@ import com.neep.neepsound2.NoClass;
 
 import java.io.IOException;
 
-public class Main
+public class NEEPSoundMain
 {
     public static NoClass nc;
 
@@ -23,14 +23,13 @@ public class Main
         cleanupThread.start();
 
         System.out.println("ullo my luv");
-//        nc = new NoClass();
-//        nc.thing();
-//        nc = null;
-//        NEEPSound.freeFunction();
-//        System.gc();
 
         NRuntime runtime = new NRuntime();
-        runtime.connectToDevice();
+
+//        Thread messageThread = new Thread(runtime::startMessageManager);
+//        messageThread.start();
+
+//        runtime.connectToDevice();
 
         String path = "test_system/test_system.proj";
         try
@@ -40,7 +39,7 @@ public class Main
             if (def != null)
             {
                 System.out.println("Found event");
-                EventInstance instance = runtime.instantiate(def);
+//                EventInstance instance = runtime.instantiate(def);
             }
             else
             {
@@ -53,7 +52,7 @@ public class Main
             e.printStackTrace(System.err);
         }
 
-        runtime.disconnect();
+//        runtime.disconnect();
 
 
 //        SoundThing st = new SoundThing();
@@ -61,6 +60,7 @@ public class Main
 //        st.memberFunction();
 
         System.out.flush();
+//        runtime.stopMessageManager();
         cleanupThread.finish();
     }
 }

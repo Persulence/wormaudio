@@ -12,6 +12,16 @@ namespace binding
         return backing->instantiate(def.eventDef);
     }
 
+    void NRuntime::startMessageManager() const
+    {
+        backing->startMessageManager();
+    }
+
+    void NRuntime::stopMessageManager() const
+    {
+        backing->stopMessageManager();
+    }
+
     void NRuntime::connectToDevice() const
     {
         backing->connectToDevice();

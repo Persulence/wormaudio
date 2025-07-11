@@ -24,6 +24,7 @@ namespace runtime
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime)
 
         Runtime();
+        ~Runtime();
 
         void connectToDevice();
         void disconnect();
@@ -34,6 +35,9 @@ namespace runtime
         event::EventInstance::Ptr instantiate(const resource::Handle<event::EventDef> &event);
         void addInstance(const event::EventInstance::Ptr &instance);
         void clearInstances();
+
+        void startMessageManager();
+        void stopMessageManager();
 
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
         void releaseResources() override;
