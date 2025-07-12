@@ -57,28 +57,20 @@ public class NEEPSoundMain
             }
         });
 
-        context.callAsync(() ->
+
+        try
         {
-//            runtime.disconnect();
-//            runtime.delete();
-//            runtime = null;
-        });
+            System.out.println("Press ENTER to stop");
+            System.in.read();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        runtime.disconnect();
+        runtime.delete();
 
-//        context.callAsync(() ->
-//        {
-//            System.out.println("Before requesting stop");
-//            context.stopMessageThread();
-//        });
-
-
-//        runtime.disconnect();
-
-
-//        SoundThing st = new SoundThing();
-//        st.setField(123);
-//        st.memberFunction();
-
-        System.out.flush();
+        context.stopMessageThread();
         context.join();
     }
 }
