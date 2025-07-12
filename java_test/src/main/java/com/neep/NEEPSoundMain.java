@@ -1,16 +1,15 @@
 package com.neep;
 
 import com.neep.neepsound.*;
-import com.neep.neepsound2.CleanupThread;
-import com.neep.neepsound2.NoClass;
+import com.neep.neepsound2.NEEPSoundContext;
 
 import java.io.IOException;
 
 public class NEEPSoundMain
 {
-    public static NoClass nc;
+    private static NRuntime runtime;
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws InterruptedException
     {
         NEEPSound.sanityCheck();
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
@@ -19,17 +18,28 @@ public class NEEPSoundMain
             System.runFinalization();
         }));
 
-        CleanupThread cleanupThread = new CleanupThread();
-        cleanupThread.start();
-
         System.out.println("ullo my luv");
 
-        NRuntime runtime = new NRuntime();
+        NEEPSoundContext context = new NEEPSoundContext();
+        context.startMessageThread();
 
-//        Thread messageThread = new Thread(runtime::startMessageManager);
-//        messageThread.start();
-
-//        runtime.connectToDevice();
+        context.callAsync(() -> System.out.println("This was called on the message thread!"));
+        context.callAsync(() ->
+        {
+            System.out.println("Before instantiating NRuntime");
+            runtime = new NRuntime();
+            runtime.connectToDevice();
+        });
+        context.callAsync(() ->
+        {
+            runtime.delete();
+            runtime = null;
+        });
+        context.callAsync(() ->
+        {
+            System.out.println("Before requesting stop");
+            context.stopMessageThread();
+        });
 
         String path = "test_system/test_system.proj";
         try
@@ -60,7 +70,6 @@ public class NEEPSoundMain
 //        st.memberFunction();
 
         System.out.flush();
-//        runtime.stopMessageManager();
-        cleanupThread.finish();
+        context.join();
     }
 }

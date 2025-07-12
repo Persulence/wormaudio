@@ -13,7 +13,7 @@ namespace runtime
     public:
         ~AudioEntryPoint() override
         {
-            assert(sourcePlayer.getCurrentSource() == nullptr);
+            // assert(sourcePlayer.getCurrentSource() == nullptr);
         }
 
     protected:

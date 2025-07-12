@@ -1,40 +1,55 @@
 #pragma once
 
 #include "bindings.h"
-#include "juce_gui_basics/juce_gui_basics.h"
 #include "runtime/Runtime.hpp"
 
 namespace binding
 {
-    class RuntimeManager : WrapperBase, public juce::JUCEApplication
+    class MessageThreadManager : WrapperBase
     {
     public:
-        RuntimeManager()
-        {
-            juce::Logger::getCurrentLogger()->writeToLog("Initialising JUCE");
-        }
-
-        const juce::String getApplicationName() override
-        {
-            return "NEEPSound";
-        }
-
-        const juce::String getApplicationVersion() override { return "bindings"; }
-
-        void initialise(const juce::String &commandLineParameters) override
+        MessageThreadManager()
         {
         }
 
-        void shutdown() override
+        ~MessageThreadManager()
         {
-
         }
+
+        static void claimMessageThread()
+        {
+            juce::Logger::writeToLog("NEEPSound: Initialising message thread");
+            juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
+            juce::MessageManager::getInstance()->runDispatchLoop();
+        }
+
+        static void requestMessageThreadStop()
+        {
+            std::cout << "Stop requested\n";
+            juce::MessageManager::getInstance()->stopDispatchLoop();
+        }
+
+    private:
+        DISABLE_COPY(MessageThreadManager);
+        DISABLE_MOVE(MessageThreadManager);
+
+        juce::ScopedJuceInitialiser_GUI scope{};
+
+        // std::thread messageThread = std::thread{[]
+        // {
+        //     juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
+        //     juce::MessageManager::getInstance()->runDispatchLoop();
+        // }};
     };
 
     class NRuntime : WrapperBase
     {
     public:
         NRuntime();
+        ~NRuntime()
+        {
+            std::cout << "NRuntime deleted\n";
+        };
         std::shared_ptr<event::EventInstance> instantiate(const binding::NEventDef &def) const;
         void startMessageManager() const;
         void stopMessageManager() const;

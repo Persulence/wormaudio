@@ -19,6 +19,13 @@
 //EXPOSE1 binding::NRuntime::instantiate;
 //EXPOSE1 binding::NRuntime::instantiate;
 
+%typemap(javacode) binding::MessageThreadManager %{
+%}
+
 %include "runtime.b.hpp"
+
+//%native (requestFlushAsync) void requestFlushAsync();
+%{
+%}
 
 //UNIGNORE_ALL

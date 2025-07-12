@@ -2,33 +2,30 @@
 
 #include "../runtime.b.hpp"
 
-class JuceScopeManager
-{
-
-};
 
 int main()
 {
     std::cout << "This is a test. This is only a test\n";
 
-    // binding::RuntimeManager rm;
-    // rm.main();
+    binding::MessageThreadManager scope;
 
-    juce::ScopedJuceInitialiser_GUI scope;
+    std::unique_ptr<binding::NRuntime> runtime;
 
-    // auto t = std::thread{[]
-    // {
-        // juce::MessageManager::getInstance()->stopDispatchLoop();
-    // }};
-
-    juce::MessageManager::callAsync([]
+    juce::MessageManager::callAsync([&scope, &runtime]
     {
-        binding::NRuntime runtime;
-        juce::MessageManager::getInstance()->stopDispatchLoop();
+        std::cout << "Allocating runtime\n";
+        runtime = std::make_unique<binding::NRuntime>();
+    });
+    juce::MessageManager::callAsync([&scope, &runtime]
+    {
+        std::cout << "Destroying runtime\n";
+        runtime = nullptr;
+    });
+    juce::MessageManager::callAsync([&scope]
+    {
+        std::cout << "Requesting stop\n";
+        scope.requestMessageThreadStop();
     });
 
-    juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
-    juce::MessageManager::getInstance()->runDispatchLoop();
-
-    // t.join();
+    // scope.join();
 }

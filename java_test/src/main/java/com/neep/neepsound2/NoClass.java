@@ -19,7 +19,6 @@ public class NoClass implements NativeResourceHandle
 
     public void testGC()
     {
-        NEEPSoundMain.nc = null;
         System.gc();
     }
 

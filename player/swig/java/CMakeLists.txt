@@ -47,6 +47,7 @@ target_sources(${JAVA_SWIG_TARGET}
         PRIVATE
             ../bindings.cpp
             ../runtime.b.cpp
+            message.b.cpp
 )
 
 target_link_libraries(${JAVA_SWIG_TARGET}

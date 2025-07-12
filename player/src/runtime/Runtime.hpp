@@ -24,7 +24,7 @@ namespace runtime
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime)
 
         Runtime();
-        ~Runtime();
+        ~Runtime() override;
 
         void connectToDevice();
         void disconnect();
