@@ -44,6 +44,7 @@ public class NEEPSoundMain
                     EventInstance instance = runtime.instantiate(def);
                     runtime.setState(TransportState.PLAYING);
                     instance.setState(TransportState.STARTING);
+                    NEEPSound.setInstancePos(instance, 0, 0, 0);
                 }
                 else
                 {

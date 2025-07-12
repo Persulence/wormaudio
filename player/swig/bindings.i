@@ -34,19 +34,7 @@ JOPT(OptionalString, binding::NEventDef)
 
 %include "player.i"
 %include "runtime.i"
-
-%shared_ptr(event::EventInstance)
-
-%ignore "";
-EXPOSE(event)
-EXPOSE(event::EventInstance)
-EXPOSE(event::~EventInstance)
-EXPOSE(event::EventInstance::setState)
-
-%include "event/EventInstance.hpp"
-%rename("%s") "";
-
-%include "runtime.i"
+%include "instance.i"
 
 // --- Binding ---
 
@@ -58,9 +46,6 @@ EXPOSE(binding::sanityCheck)
 EXPOSE(binding::NEventDef)
 EXPOSE(binding::NEventDef::~NEventDef)
 EXPOSE(binding::NEventDef::instantiate)
-
-EXPOSE(binding::NEventInstance)
-EXPOSE(binding::NEventInstance::~NEventInstance)
 
 EXPOSE(binding::NSystem)
 EXPOSE(binding::NSystem::~NSystem)

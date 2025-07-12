@@ -6,8 +6,9 @@ namespace instance
     template<typename T>
     struct Vec3
     {
-        // float listenerDistance{std::numeric_limits<float>::max()};
-        float x{}, y{}, z{};
+        float x = 0;
+        float y = 0;
+        float z = 0;
 
         Vec3 operator+(const Vec3& o) const
         {
