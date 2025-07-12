@@ -121,8 +121,12 @@ namespace player
 
         float theta = (result + 1.f) * std::numbers::pi / 4;
 
-        float leftGain = std::cos(theta) * attenuation;
-        float rightGain = std::sin(theta) * attenuation;
+        // Constant power
+        constexpr float c = 1.4142; // Makes centre pan equivalent to listening to both channels with unity gain.
+        float leftGain = std::cos(theta) * c * attenuation;
+        float rightGain = std::sin(theta) * c * attenuation;
+
+        // Linear
 
         bufferToFill.buffer->applyGain(0, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, leftGain);
         bufferToFill.buffer->applyGain(1, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, rightGain);
