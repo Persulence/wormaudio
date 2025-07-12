@@ -18,8 +18,6 @@ public class NEEPSoundMain
             System.runFinalization();
         }));
 
-        System.out.println("ullo my luv");
-
         NEEPSoundContext context = new NEEPSoundContext();
         context.startMessageThread();
 
@@ -32,6 +30,7 @@ public class NEEPSoundMain
         });
         context.callAsync(() ->
         {
+            runtime.disconnect();
             runtime.delete();
             runtime = null;
         });

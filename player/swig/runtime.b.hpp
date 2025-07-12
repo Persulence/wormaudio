@@ -25,7 +25,6 @@ namespace binding
 
         static void requestMessageThreadStop()
         {
-            std::cout << "Stop requested\n";
             juce::MessageManager::getInstance()->stopDispatchLoop();
         }
 
@@ -46,10 +45,8 @@ namespace binding
     {
     public:
         NRuntime();
-        ~NRuntime()
-        {
-            std::cout << "NRuntime deleted\n";
-        };
+        ~NRuntime() = default;
+
         std::shared_ptr<event::EventInstance> instantiate(const binding::NEventDef &def) const;
         void startMessageManager() const;
         void stopMessageManager() const;
