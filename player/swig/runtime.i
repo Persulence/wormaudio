@@ -23,9 +23,4 @@
 %}
 
 %include "runtime.b.hpp"
-
-//%native (requestFlushAsync) void requestFlushAsync();
-%{
-%}
-
 //UNIGNORE_ALL

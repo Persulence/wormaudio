@@ -32,6 +32,7 @@ JOPT(OptionalString, binding::NEventDef)
 
 %include "util.i"
 
+%include "player.i"
 %include "runtime.i"
 
 %shared_ptr(event::EventInstance)
@@ -40,7 +41,7 @@ JOPT(OptionalString, binding::NEventDef)
 EXPOSE(event)
 EXPOSE(event::EventInstance)
 EXPOSE(event::~EventInstance)
-EXPOSE(event::EventInstance::stop)
+EXPOSE(event::EventInstance::setState)
 
 %include "event/EventInstance.hpp"
 %rename("%s") "";

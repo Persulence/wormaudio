@@ -12,16 +12,6 @@ namespace binding
         return backing->instantiate(def.eventDef);
     }
 
-    void NRuntime::startMessageManager() const
-    {
-        runtime::Runtime::startMessageManager();
-    }
-
-    void NRuntime::stopMessageManager() const
-    {
-        runtime::Runtime::stopMessageManager();
-    }
-
     void NRuntime::connectToDevice() const
     {
         backing->connectToDevice();
@@ -30,6 +20,11 @@ namespace binding
     void NRuntime::disconnect() const
     {
         backing->disconnect();
+    }
+
+    void NRuntime::setState(player::TransportState state) const
+    {
+        backing->transport.setState(state);
     }
 }
 

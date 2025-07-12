@@ -11,14 +11,16 @@ public class NEEPSoundMain
 
     public static void main(String[] args) throws InterruptedException
     {
+        NEEPSoundContext context = NEEPSoundContext.getInstance();
+
         NEEPSound.sanityCheck();
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
+            NEEPSoundContext.deleteInstance();
             System.gc();
             System.runFinalization();
         }));
 
-        NEEPSoundContext context = new NEEPSoundContext();
         context.startMessageThread();
 
         context.callAsync(() -> System.out.println("This was called on the message thread!"));
@@ -28,38 +30,46 @@ public class NEEPSoundMain
             runtime = new NRuntime();
             runtime.connectToDevice();
         });
+
         context.callAsync(() ->
         {
-            runtime.disconnect();
-            runtime.delete();
-            runtime = null;
-        });
-        context.callAsync(() ->
-        {
-            System.out.println("Before requesting stop");
-            context.stopMessageThread();
+            String path = "test_system/test_system.proj";
+            try
+            {
+                NSystem system = NSystem.load(path);
+                NEventDef def = system.getEventDef("music");
+                if (def != null)
+                {
+                    System.out.println("Found event");
+                    EventInstance instance = runtime.instantiate(def);
+                    runtime.setState(TransportState.PLAYING);
+                    instance.setState(TransportState.STARTING);
+                }
+                else
+                {
+                    System.out.println("Did not find event");
+                }
+            }
+            catch (IOException e)
+            {
+                System.err.printf("Failed to load system %s:\n", path);
+                e.printStackTrace(System.err);
+            }
         });
 
-        String path = "test_system/test_system.proj";
-        try
+        context.callAsync(() ->
         {
-            NSystem system = NSystem.load(path);
-            NEventDef def = system.getEventDef("music");
-            if (def != null)
-            {
-                System.out.println("Found event");
-//                EventInstance instance = runtime.instantiate(def);
-            }
-            else
-            {
-                System.out.println("Did not find event");
-            }
-        }
-        catch (IOException e)
-        {
-            System.err.printf("Failed to load system %s:\n", path);
-            e.printStackTrace(System.err);
-        }
+//            runtime.disconnect();
+//            runtime.delete();
+//            runtime = null;
+        });
+
+//        context.callAsync(() ->
+//        {
+//            System.out.println("Before requesting stop");
+//            context.stopMessageThread();
+//        });
+
 
 //        runtime.disconnect();
 

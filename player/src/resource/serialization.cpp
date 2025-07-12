@@ -4,6 +4,20 @@
 
 namespace resource
 {
+    class IOException : public std::exception
+    {
+    public:
+        explicit IOException(const std::string &message_): message(message_) {}
+
+        const char *what() const noexcept override
+        {
+            return message.c_str();
+        }
+
+    private:
+        std::string message;
+    };
+
     void writeStructure(const Handle<Project> &project, const std::filesystem::path &filePath)
     {
         // if (!filePath.ends_with(FILE_EXTENSION))
@@ -28,10 +42,11 @@ namespace resource
     {
         {
             std::fstream istream{filePath, std::ios::in};
-            // std::stringstream ss;
-            // ss << istream.rdbuf();
 
-            // std::cout << ss.str();
+            if (!istream.good())
+            {
+                throw IOException{std::format("File invalid: {}", filePath.string())};
+            }
 
             {
                 cereal::JSONInputArchive archive{istream};

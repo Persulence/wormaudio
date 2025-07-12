@@ -39,11 +39,16 @@ namespace event
 
         if (transport.stopped())
         {
-            stop();
+            stopInternal();
         }
     }
 
-    void EventInstance::stop() const
+    void EventInstance::setState(player::TransportState state)
+    {
+        transport.setState(state);
+    }
+
+    void EventInstance::stopInternal() const
     {
         stateManager.stop();
         elementManager->clear();

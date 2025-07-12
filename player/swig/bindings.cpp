@@ -17,10 +17,13 @@ namespace binding
 
     NSystem NSystem::load(const std::string &path)
     {
+        std::filesystem::path mainFilePath = path;
         resource::Handle<resource::Project> project = resource::make<resource::Project>(
                 std::make_unique<asset::AssetManager>(false));
 
-        resource::readStructure(project, path);
+        asset::AssetLoader::getInstance()->setAssetRoot(std::filesystem::absolute(mainFilePath.parent_path()) / "asset");
+
+        resource::readStructure(project, mainFilePath);
 
         return NSystem{project};
     }

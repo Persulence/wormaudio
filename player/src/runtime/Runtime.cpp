@@ -44,7 +44,7 @@ namespace runtime
     {
         for (auto& instance : instances)
         {
-            instance->stop();
+            instance->stopInternal();
         }
 
         instances.clear();
@@ -92,7 +92,6 @@ namespace runtime
 
     void Runtime::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
     {
-
         if (transport.stopped())
         {
             bufferToFill.clearActiveBufferRegion();

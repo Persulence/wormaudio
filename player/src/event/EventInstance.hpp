@@ -28,7 +28,9 @@ namespace event
         void logicTick(sm::GlobalParameterLookup& globalParameters, player::TransportControl& globalTransport,
                        const LogicTickInfo& info);
 
-        void stop() const;
+        void setState(player::TransportState state);
+
+        void stopInternal() const;
 
         void setPosition(const instance::Vec3f position_) { position = position_; }
 
