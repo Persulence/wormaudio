@@ -52,7 +52,7 @@ namespace event
         return freed && transport.stopped();
     }
 
-    void EventInstance::free()
+    void EventInstance::markFreed()
     {
         freed = true;
     }

@@ -44,6 +44,11 @@ namespace editor
         this->event = event;
 
         refreshParameters();
+
+        // Allow the previous instance to be deleted
+        if (instance->getParent() != this->event)
+            instance->markFreed();
+
         if (!instance || instance->getParent() != this->event)
             instance = std::make_shared<EditorEventInstance>(event);
 
