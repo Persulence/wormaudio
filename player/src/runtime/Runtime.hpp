@@ -39,9 +39,7 @@ namespace runtime
         event::EventInstance::Ptr instantiate(const resource::Handle<event::EventDef> &event);
         void addInstance(const event::EventInstance::Ptr &instance);
         void clearInstances();
-
-        static void startMessageManager();
-        static void stopMessageManager();
+        void pruneInstances();
 
         void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
         void releaseResources() override;

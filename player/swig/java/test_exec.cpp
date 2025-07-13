@@ -30,7 +30,7 @@ int main()
         auto def = system.getEventDef("music");
         auto eventInstance = runtime->instantiate(def.value());
         runtime->setState(player::PLAYING);
-        eventInstance->setState(player::PLAYING);
+        eventInstance->transport.setState(player::PLAYING);
         eventInstance->setPosition({0, 0, 0});
     });
     juce::MessageManager::callAsync([&scope, &runtime]

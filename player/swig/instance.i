@@ -18,9 +18,11 @@
 IGNORE_ALL
 
 EXPOSE1 event;
-EXPOSE(event::EventInstance)
-EXPOSE(event::~EventInstance)
-EXPOSE(event::EventInstance::setState)
+EXPOSE1 event::EventInstance;
+EXPOSE1 event::~EventInstance;
+EXPOSE1 event::EventInstance::setState;
+EXPOSE1 event::EventInstance::transport;
+%feature("immutable", "1") event::EventInstance::transport;
 
 %include "event/EventInstance.hpp"
 %shared_ptr(event::EventInstance)
