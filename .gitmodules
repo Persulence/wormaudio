@@ -7,3 +7,6 @@
 [submodule "lib/Cereal-Optional-NVP"]
 	path = lib/Cereal-Optional-NVP
 	url = https://github.com/Enhex/Cereal-Optional-NVP/
+[submodule "neepsound-java"]
+	path = neepsound-java
+	url = git@gh-persulence:/Persulence/neepsound-java.git
