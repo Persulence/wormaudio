@@ -31,6 +31,13 @@ set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
 set(NEEPSOUND_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
 message(STATUS "Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
 
+set(TARGET_OS ${CMAKE_SYSTEM_NAME} CACHE INTERNAL "")
+string(TOLOWER ${TARGET_OS} TARGET_OS)
+set(TARGET_ARCH amd64 CACHE INTERNAL "")
+# Using an OS-independent extension '.lib'. This avoids parsing annoyance when locating the correct library.
+# Java doesn't seem to see jar resources ending with .lib, so I've gone for a completely new shared library extension.
+set(NEEPSOUND_LIBRARY_SUFFIX "_${TARGET_OS}_${TARGET_ARCH}.slib" CACHE INTERNAL "")
+
 set(CMAKE_INSTALL_RPATH ${NEEPSOUND_OUTPUT_DIR})
 set(CMAKE_SKIP_BUILD_RPATH TRUE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
@@ -61,6 +68,12 @@ add_subdirectory(swig)
 
 # TODO: Ensure that necessary JUCE properties are also set
 add_library(${LIBRARY_TARGET} SHARED)
+
+set_target_properties(${LIBRARY_TARGET}
+        PROPERTIES
+        SUFFIX "${NEEPSOUND_LIBRARY_SUFFIX}"
+        PREFIX ""
+)
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for

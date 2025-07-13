@@ -4,8 +4,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing -fP
 set(CMAKE_INSTALL_RPATH "")
 
 set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
-set(JAVA_PACKAGE_NAME "com.neep.neepsound")
-set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/neep/neepsound")
+set(JAVA_PACKAGE_NAME "com.neep.neepsound.generated")
+set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/neep/neepsound/generated")
 set(JAR_NAME "NEEPSound")
 
 
@@ -32,6 +32,12 @@ swig_add_library(${JAVA_SWIG_TARGET}
         LANGUAGE java
         OUTPUT_DIR ${SWIG_OUTPUT_DIR}
         OUTFILE_DIR .
+)
+
+set_target_properties(${JAVA_SWIG_TARGET}
+        PROPERTIES
+            SUFFIX "${NEEPSOUND_LIBRARY_SUFFIX}"
+            PREFIX ""
 )
 
 # Remove stale files
@@ -90,11 +96,12 @@ install(TARGETS ${JAVA_SWIG_TARGET}
 add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
             # TODO: FOR TESTING
-            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/ # TODO
-            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/ # TODO
+#            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound.so      ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/resources/native/linux/amd64/ # TODO
+#            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/resources/native/linux/amd64/ # TODO
+            COMMAND cp ${NEEPSOUND_OUTPUT_DIR}/*.slib ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/resources/native/ # TODO
 #            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
 #            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
-            COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/java/com/neep/neepsound
+            COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/java/com/neep/neepsound/generated
 )
 
 add_executable(test_exec test_exec.cpp)

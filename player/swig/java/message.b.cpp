@@ -7,7 +7,7 @@
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_com_neep_neepsound2_NEEPSoundContext_requestFlushAsync(JNIEnv* env, jobject thisObject)
+    JNIEXPORT void JNICALL Java_com_neep_neepsound_NEEPSoundContext_requestFlushAsync(JNIEnv* env, jobject thisObject)
     {
         auto global = env->NewGlobalRef(thisObject);
 

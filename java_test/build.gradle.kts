@@ -32,6 +32,6 @@ dependencies {
 
 tasks.jar {
     manifest {
-        attributes(mapOf("Main-Class" to "com.neep.Main"))
+        attributes(mapOf("Main-Class" to "com.neep.NEEPSoundMain"))
     }
 }

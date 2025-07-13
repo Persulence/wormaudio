@@ -15,17 +15,6 @@
 %include <std_shared_ptr.i>
 %include "java/nullable_java.i"
 
-%pragma(java) jniclasscode=%{
-  static {
-    try {
-        System.loadLibrary("neepsound-java");
-    } catch (UnsatisfiedLinkError e) {
-      System.err.println("Native code library failed to load. \n" + e);
-      System.exit(1);
-    }
-  }
-%}
-
 // Nullable typemaps
 JOPT(OptionalString, std::string)
 JOPT(OptionalString, binding::NEventDef)

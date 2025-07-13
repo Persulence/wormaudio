@@ -1,6 +1,6 @@
-package com.neep.neepsound2;
+package com.neep.neepsound;
 
-import com.neep.neepsound.MessageThreadManager;
+import com.neep.neepsound.generated.MessageThreadManager;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
