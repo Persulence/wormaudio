@@ -2,7 +2,7 @@
 //
 // This work is licensed under CC BY-NC-SA 4.0. To view a copy of the license, visit https://creativecommons.org/licenses/by-nc-sa/4.0
 
-%module WormAudioInteral
+%module(directors="1") WormAudioInternal
 
 %{
 #include "juce_core/juce_core.h"
@@ -27,6 +27,7 @@ JOPT(OptionalString, binding::NEventDef)
 %include "player.i"
 %include "runtime.i"
 %include "instance.i"
+%include "logger.i"
 
 // --- Binding ---
 

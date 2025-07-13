@@ -54,6 +54,7 @@ target_sources(${JAVA_SWIG_TARGET}
             ../bindings.cpp
             ../runtime.b.cpp
             message.b.cpp
+            logger.b.cpp
 )
 
 target_link_libraries(${JAVA_SWIG_TARGET}

@@ -11,6 +11,13 @@
 
 extern "C"
 {
+    JNIEXPORT void JNICALL Java_com_wormaudio_wormaudio_WormAudioContext_nativeThing(JNIEnv* env, jobject thisObject)
+    {
+        std::cout << "eeeeeeeeeeee\n";
+
+    }
+
+
     JNIEXPORT void JNICALL Java_com_wormaudio_wormaudio_WormAudioContext_requestFlushAsync(JNIEnv* env, jobject thisObject)
     {
         auto global = env->NewGlobalRef(thisObject);

@@ -22,7 +22,7 @@ namespace binding
 
         static void claimMessageThread()
         {
-            juce::Logger::writeToLog("NEEPSound: Initialising message thread");
+            juce::Logger::writeToLog("WormAudio: Initialising message thread");
             juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
             juce::MessageManager::getInstance()->runDispatchLoop();
         }
