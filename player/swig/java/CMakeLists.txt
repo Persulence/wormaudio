@@ -4,8 +4,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing -fP
 set(CMAKE_INSTALL_RPATH "")
 
 set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
-set(JAVA_PACKAGE_NAME "com.neep.neepsound.generated")
-set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/neep/neepsound/generated")
+set(JAVA_PACKAGE_NAME "com.wormaudio.wormaudio.generated")
+set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/wormaudio/wormaudio/generated")
 set(JAR_NAME "NEEPSound")
 
 
@@ -21,14 +21,14 @@ message(STATUS "Using JNI includes at: " ${JNI_INCLUDE_DIRS})
 set(CMAKE_SWIG_FLAGS "")
 include_directories(..)
 
-set_source_files_properties(../bindings.i PROPERTIES CPLUSPLUS ON)
+set_source_files_properties(../main.i PROPERTIES CPLUSPLUS ON)
 # Causes the target to rebuild when an included header changes
-set_source_files_properties(../bindings.i PROPERTIES USE_SWIG_DEPENDENCIES TRUE)
+set_source_files_properties(../main.i PROPERTIES USE_SWIG_DEPENDENCIES TRUE)
 
 # Create dynamic native library
 swig_add_library(${JAVA_SWIG_TARGET}
         TYPE SHARED
-        SOURCES ../bindings.i
+        SOURCES ../main.i
         LANGUAGE java
         OUTPUT_DIR ${SWIG_OUTPUT_DIR}
         OUTFILE_DIR .
@@ -101,7 +101,7 @@ add_custom_command(TARGET ${JAVA_SWIG_TARGET}
             COMMAND cp ${NEEPSOUND_OUTPUT_DIR}/*.slib ${NEEPSOUND_OUTPUT_DIR}/../../../neepsound-java/src/main/resources/native/ # TODO
 #            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
 #            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
-            COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../neepsound-java/src/main/java/com/neep/neepsound/generated
+            COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../neepsound-java/src/main/java/com/wormaudio/wormaudio/generated
 )
 
 add_executable(test_exec test_exec.cpp)
