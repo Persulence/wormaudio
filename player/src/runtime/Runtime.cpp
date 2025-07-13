@@ -54,15 +54,12 @@ namespace runtime
         instances.clear();
     }
 
-    void Runtime::startMessageManager()
+    void Runtime::pruneInstances()
     {
-        juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
-        juce::MessageManager::getInstance()->runDispatchLoop();
-    }
-
-    void Runtime::stopMessageManager()
-    {
-        juce::MessageManager::getInstance()->stopDispatchLoop();
+        for (auto& instance : instances)
+        {
+            // instance->
+        }
     }
 
     void Runtime::connectToDevice()

@@ -10,15 +10,15 @@ namespace event
         parent(std::move(parent_)),
         automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation())),
         stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
-        elementManager(std::make_unique<player::ElementInstanceManager>(position, parent->getProperties()))
-    {}
+        elementManager(std::make_unique<player::ElementInstanceManager>(position, parent->getProperties())) {}
 
-    void EventInstance::prepareToPlay(player::AudioContext ctx)
+    void EventInstance::prepareToPlay(player::AudioContext ctx) const
     {
         elementManager->prepareToPlay(ctx.samplesPerBlock, ctx.sampleRate);
     }
 
-    void EventInstance::logicTick(sm::GlobalParameterLookup &globalParameters, player::TransportControl &globalTransport, const LogicTickInfo &info)
+    void EventInstance::logicTick(sm::GlobalParameterLookup &globalParameters,
+                                  player::TransportControl &globalTransport, const LogicTickInfo &info)
     {
         // This can't be a good idea
         parameters.setParent(&globalParameters);
@@ -47,9 +47,14 @@ namespace event
         }
     }
 
-    void EventInstance::setState(player::TransportState state)
+    bool EventInstance::canFree() const
     {
-        transport.setState(state);
+        return freed && transport.stopped();
+    }
+
+    void EventInstance::free()
+    {
+        freed = true;
     }
 
     void EventInstance::stopInternal() const
@@ -58,7 +63,7 @@ namespace event
         elementManager->clear();
     }
 
-    player::ElementInstanceManager & EventInstance::getElements()
+    player::ElementInstanceManager &EventInstance::getElements() const
     {
         return *elementManager;
     }

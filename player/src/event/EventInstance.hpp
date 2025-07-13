@@ -27,18 +27,19 @@ namespace event
 
         explicit EventInstance(resource::Handle<EventDef> parent_);
 
-        void prepareToPlay(player::AudioContext ctx);
+        void prepareToPlay(player::AudioContext ctx) const;
 
         void logicTick(sm::GlobalParameterLookup& globalParameters, player::TransportControl& globalTransport,
                        const LogicTickInfo& info);
 
-        void setState(player::TransportState state);
+        bool canFree() const;
+        void free();
 
         void stopInternal() const;
 
-        void setPosition(const instance::Vec3f position_) { position = position_; }
+        player::ElementInstanceManager& getElements() const;
 
-        player::ElementInstanceManager& getElements();
+        void setPosition(const instance::Vec3f position_) { position = position_; }
         void setVelocity(const instance::Vec3f velocity_) { velocity = velocity_; }
 
     protected:
@@ -49,6 +50,8 @@ namespace event
 
         instance::Vec3f position;
         instance::Vec3f velocity;
+
+        bool freed{false};
 
     private:
         sm::EventParameterLookup parameters;

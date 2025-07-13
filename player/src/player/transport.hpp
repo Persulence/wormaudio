@@ -27,7 +27,7 @@ namespace player
     {
         TransportState state{STOPPED};
 
-        JUCE_DECLARE_NON_COPYABLE(TransportControl)
+        DISABLE_COPY(TransportControl);
     public:
         TransportCallback::Signal signal;
 

@@ -8,6 +8,6 @@
 %include "util.i"
 %include "juce.i"
 
-%ignore player::TransportControl;
+%ignore player::TransportControl::signal;
 %include "player/transport.hpp"
 UNIGNORE_ALL
