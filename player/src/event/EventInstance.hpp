@@ -33,7 +33,7 @@ namespace event
                        const LogicTickInfo& info);
 
         bool canFree() const;
-        void free();
+        void markFreed();
 
         void stopInternal() const;
 

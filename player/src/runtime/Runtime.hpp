@@ -8,8 +8,8 @@
 
 #include <memory>
 
-#include <juce_audio_basics/juce_audio_basics.h>
-#include <juce_core/juce_core.h>
+#include "juce_audio_basics/juce_audio_basics.h"
+#include "juce_core/juce_core.h"
 
 #include  "AudioEntryPoint.hpp"
 #include "event/EventInstance.hpp"
@@ -48,6 +48,15 @@ namespace runtime
     private:
         std::vector<event::EventInstance::Ptr> instances;
         sm::GlobalParameterLookup parameters;
+
+        struct SimpleTimer : juce::Timer
+        {
+            void timerCallback() override { callback(); }
+
+            std::function<void()> callback;
+        };
+
+        SimpleTimer collectFreeInstances;
 
         player::Sample samplesPast{};
 

@@ -10,17 +10,19 @@ namespace runtime
 {
     Runtime::Runtime()
     {
+        collectFreeInstances.callback = [this]{ pruneInstances(); };
+
         listen(transport.signal, [this](auto state)
         {
             switch (state)
             {
                 case player::STARTING:
-                    break;
                 case player::PLAYING:
-                    break;
+                    collectFreeInstances.startTimer(500);
                 case player::STOPPING:
                     break;
                 case player::STOPPED:
+                    collectFreeInstances.stopTimer();
                     break;
                 default: ;
             }
@@ -29,6 +31,7 @@ namespace runtime
 
     Runtime::~Runtime()
     {
+        collectFreeInstances.stopTimer();
     }
 
     event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)
@@ -56,10 +59,7 @@ namespace runtime
 
     void Runtime::pruneInstances()
     {
-        for (auto& instance : instances)
-        {
-            // instance->
-        }
+        std::ranges::remove_if(instances, [](auto& i){ return i->canFree(); });
     }
 
     void Runtime::connectToDevice()
