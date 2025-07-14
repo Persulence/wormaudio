@@ -32,6 +32,7 @@ namespace runtime
     Runtime::~Runtime()
     {
         collectFreeInstances.stopTimer();
+        disconnect();
     }
 
     event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)

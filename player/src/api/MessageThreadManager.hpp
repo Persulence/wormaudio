@@ -7,11 +7,17 @@
 #include <juce_core/juce_core.h>
 #include <juce_events/juce_events.h>
 
+#include "signal/Signal.hpp"
+
 namespace wa
 {
     class MessageThreadManager
     {
     public:
+        using OnClose = signal_event::Callback<void>;
+
+        OnClose::Signal onClose;
+
         MessageThreadManager()
         {
         }
@@ -27,9 +33,13 @@ namespace wa
             juce::MessageManager::getInstance()->runDispatchLoop();
         }
 
-        static void requestMessageThreadStop()
+        void requestMessageThreadStop()
         {
-            juce::MessageManager::getInstance()->stopDispatchLoop();
+            juce::MessageManager::callAsync([this]
+            {
+                onClose.emit();
+                juce::MessageManager::getInstance()->stopDispatchLoop();
+            });
         }
 
     private:
