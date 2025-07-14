@@ -38,11 +38,6 @@ set(TARGET_ARCH amd64 CACHE INTERNAL "")
 # Java doesn't seem to see jar resources ending with .lib, so I've gone for a completely new shared library extension.
 set(NEEPSOUND_LIBRARY_SUFFIX "_${TARGET_OS}_${TARGET_ARCH}.slib" CACHE INTERNAL "")
 
-set(CMAKE_INSTALL_RPATH ${NEEPSOUND_OUTPUT_DIR})
-set(CMAKE_SKIP_BUILD_RPATH TRUE)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 
@@ -71,8 +66,12 @@ add_library(${LIBRARY_TARGET} SHARED)
 
 set_target_properties(${LIBRARY_TARGET}
         PROPERTIES
-        SUFFIX "${NEEPSOUND_LIBRARY_SUFFIX}"
-        PREFIX ""
+            SUFFIX "${NEEPSOUND_LIBRARY_SUFFIX}"
+            PREFIX ""
+#            INSTALL_RPATH ${NEEPSOUND_OUTPUT_DIR} # ??????? Doesn't this hardcode the build dir? What is wrong with me?
+            SKIP_BUILD_RPATH TRUE
+            BUILD_WITH_INSTALL_RPATH TRUE
+#            INSTALL_RPATH_USE_LINK_PATH TRUE
 )
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
@@ -207,6 +206,9 @@ set_source_files_properties(
 #        "$<$<COMPILE_LANGUAGE:CXX>:juce_audio_devices/juce_audio_devices.h>"
 #        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
 #    )
+
+install(TARGETS ${LIBRARY_TARGET}
+)
 
 # It is not recommended to enable unity build in CMakeLists.txt, but I was having trouble getting it to work.
 #set_property(TARGET ${LIBRARY_TARGET} PROPERTY UNITY_BUILD ON)

@@ -90,9 +90,9 @@ message(STATUS "Java source dir: " ${java_source_dir})
 #add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
 #set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
-install(TARGETS ${JAVA_SWIG_TARGET}
-        DESTINATION ${NEEPSOUND_OUTPUT_DIR}
-)
+#install(TARGETS ${JAVA_SWIG_TARGET}
+#        DESTINATION ${NEEPSOUND_OUTPUT_DIR}
+#)
 
 add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
