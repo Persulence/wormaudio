@@ -6,9 +6,6 @@
 
 #include <utility>
 
-#include "cereal/types/string.hpp"
-#include "cereal/types/polymorphic.hpp"
-
 #include "player/LeanSamplePlayer.hpp"
 #include "Asset.hpp"
 
@@ -114,7 +111,3 @@ namespace element
         }
     }
 }
-
-#include "cereal/archives/json.hpp"
-#include "cereal/archives/portable_binary.hpp"
-CEREAL_REGISTER_TYPE(element::ChoiceElement)

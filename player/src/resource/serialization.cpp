@@ -6,6 +6,8 @@
 
 #include "cereal/archives/json.hpp"
 
+#include "resource/register_element_poly.hpp"
+
 namespace resource
 {
     class IOException : public std::exception

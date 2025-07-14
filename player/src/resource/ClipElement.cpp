@@ -92,8 +92,3 @@ namespace element
         return asset;
     }
 }
-
-#undef Null
-#include "cereal/archives/json.hpp"
-#include "cereal/archives/portable_binary.hpp"
-CEREAL_REGISTER_TYPE(element::ClipElement)
