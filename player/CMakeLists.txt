@@ -47,7 +47,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 
-add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build)
+# Hopefully prevent the millions of JUCE headers from appearing in the install dir.
+# Linking to JUCE should bypass EXCLUDE_FROM_ALL for build.
+add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build EXCLUDE_FROM_ALL)
 
 # CURRENTLY ABANDONED
 #add_subdirectory(swig)
@@ -110,7 +112,9 @@ target_sources("${LIBRARY_TARGET}"
 #            FILES
 #            ${ModuleFiles}
         PRIVATE
-            ${SourceFiles})
+            ${SourceFiles}
+            src/runtime/Runtime.cpp
+)
 
 set_property(TARGET ${LIBRARY_TARGET} PROPERTY CXX_STANDARD 20)
 
@@ -134,7 +138,7 @@ target_compile_definitions(${LIBRARY_TARGET}
             JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_VERSION>"
             JUCE_DISABLE_JUCE_VERSION_PRINTING=1 # Not necessary and causes a segfault when loaded by Godot
         INTERFACE
-        $<TARGET_PROPERTY:${LIBRARY_TARGET},COMPILE_DEFINITIONS>
+            $<TARGET_PROPERTY:${LIBRARY_TARGET},COMPILE_DEFINITIONS>
 )
 
 
