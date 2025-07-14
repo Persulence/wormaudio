@@ -8,39 +8,6 @@
 
 namespace condition
 {
-    // #define DECLARE_OP_SYMBOL(symbol)\
-    // static constexpr std::string getSymbol()\
-    // {\
-    //     return symbol;\
-    // }
-    //
-    // #define DECLARE_OPERATOR_INFIX(Name, op, symbol) \
-    // struct Name\
-    // {\
-    //     bool operator()(const sm::EventParameterLookup& lookup, const Operand& left, const Operand& right) const\
-    //     {\
-    //         return left(lookup) op right(lookup);\
-    //     }\
-    //     DECLARE_OP_SYMBOL(symbol)\
-    // };
-    //
-    // #define DECLARE_OPERATOR_FUNC(Name, func, symbol) \
-    // struct Name\
-    // {\
-    //     bool operator()(const sm::EventParameterLookup& lookup, const Operand& left, const Operand& right) const\
-    //     {\
-    //         return func(left(lookup), right(lookup));\
-    //     }\
-    //     DECLARE_OP_SYMBOL(symbol)\
-    // };
-    //
-    // DECLARE_OPERATOR_FUNC(Equal, juce::approximatelyEqual, "=")
-    // DECLARE_OPERATOR_FUNC(NotEqual, !juce::approximatelyEqual, "≠")
-    // DECLARE_OPERATOR_INFIX(Less, <, "<")
-    // DECLARE_OPERATOR_INFIX(Greater, >, ">")
-    // DECLARE_OPERATOR_INFIX(LessEqual, <=, "≤")
-    // DECLARE_OPERATOR_INFIX(GreaterEqual, >=, "≥")
-
     // Using an enum instead of some elaborate variant nonsense
     enum class OperatorType : int
     {
