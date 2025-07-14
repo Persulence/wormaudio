@@ -33,7 +33,7 @@ namespace asset
         return &instance;
     }
 
-    juce::File AssetLoader::getFile(const LocalPath &localPath)
+    juce::File AssetLoader::getFile(const LocalPath &localPath) const
     {
         fs::path fullPath = assetRoot;
 

@@ -33,7 +33,7 @@ namespace asset
 
         LocalPath localise(const std::filesystem::path path) const;
 
-        juce::File getFile(const LocalPath& localPath);
+        juce::File getFile(const LocalPath& localPath) const;
         bool loadLocal(const LocalPath& path, ElementSampleBuffer& destination);
 
     private:
