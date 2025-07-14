@@ -46,7 +46,7 @@ namespace editor
         refreshParameters();
 
         // Allow the previous instance to be deleted
-        if (instance->getParent() != this->event)
+        if (instance && instance->getParent() != this->event)
             instance->markFreed();
 
         if (!instance || instance->getParent() != this->event)
