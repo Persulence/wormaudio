@@ -10,3 +10,6 @@
 [submodule "neepsound-java"]
 	path = neepsound-java
 	url = git@gh-persulence:/Persulence/neepsound-java.git
+[submodule "wormaudio-godot"]
+	path = wormaudio-godot
+	url = git@gh-persulence:Persulence/wormaudio-godot
