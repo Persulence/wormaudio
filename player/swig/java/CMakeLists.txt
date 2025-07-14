@@ -6,7 +6,7 @@ set(CMAKE_INSTALL_RPATH "")
 set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
 set(JAVA_PACKAGE_NAME "com.wormaudio.wormaudio.generated")
 set(SWIG_OUTPUT_DIR "${WORMAUDIO_API_DIR}/java/com/wormaudio/wormaudio/generated")
-set(JAR_NAME "NEEPSound")
+set(JAR_NAME "WormAudio")
 
 
 find_package(Java 17 REQUIRED)
@@ -77,18 +77,6 @@ get_property(java_source_dir TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_SUPPORT_FI
 message(STATUS "Non-exhaustive generated java sources: " ${some_java_sources})
 message(STATUS "Java source dir: " ${java_source_dir})
 #message(STATUS "Generated java sources: " ${java_sources})
-
-#add_jar(${JAR_NAME}
-#        SOURCES
-##            ${java_sources}
-#        # TODO: Find a way to grab the generated sources and automatically add them here
-#            ${java_source_dir}/NEEPSound.java
-#            ${java_source_dir}/NEEPSoundJNI.java
-#            ${java_source_dir}/SoundThing.java
-#        OUTPUT_DIR ${WORMAUDIO_API_DIR}/java
-#)
-#add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
-#set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
 #install(TARGETS ${JAVA_SWIG_TARGET}
 #        DESTINATION ${WORMAUDIO_OUTPUT_DIR}

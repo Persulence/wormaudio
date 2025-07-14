@@ -10,14 +10,10 @@
 # information can be found in the CMake docs.
 
 set(GUI_TARGET wormaudio-editor)
-set(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
-set(CMAKE_CXX_COMPILER /usr/bin/g++)
-#set(CMAKE_GENERATOR Ninja)
-set(CMAKE_LINKER_TYPE MOLD)
 
+# TODO: should not be set here
 set(CMAKE_CXX_FLAGS_DEBUG
-        "-fsanitize=undefined,address"
+        "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address"
 )
 
 cmake_minimum_required(VERSION 3.25)
@@ -28,6 +24,7 @@ cmake_minimum_required(VERSION 3.25)
 
 project(GUI_APP_EXAMPLE VERSION 0.0.1)
 
+# Causes problems (can't remember what problems), but we're not using modules anyway.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
