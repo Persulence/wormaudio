@@ -10,8 +10,6 @@
 # information can be found in the CMake docs.
 
 set(LIBRARY_TARGET wormaudio)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_COMPILER /usr/bin/g++) # TODO remove
 
 add_compile_options(-fPIC)
 
@@ -38,6 +36,7 @@ set(TARGET_ARCH amd64 CACHE INTERNAL "")
 # Java doesn't seem to see jar resources ending with .lib, so I've gone for a completely new shared library extension.
 set(WORMAUDIO_LIBRARY_SUFFIX "_${TARGET_OS}_${TARGET_ARCH}.slib" CACHE INTERNAL "")
 
+# TODO: stop setting user variables
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 
