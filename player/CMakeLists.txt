@@ -61,8 +61,7 @@ add_subdirectory(swig)
 #        # COMPANY_NAME ...                  # Specify the name of the app's author
 #        PRODUCT_NAME "Gui App Example")     # The name of the final executable, which can differ from the target name
 
-# TODO: Ensure that necessary JUCE properties are also set
-add_library(${LIBRARY_TARGET} SHARED)
+add_library(${LIBRARY_TARGET} STATIC)
 
 set_target_properties(${LIBRARY_TARGET}
         PROPERTIES
