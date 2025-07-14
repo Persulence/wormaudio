@@ -9,7 +9,7 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
-set(LIBRARY_TARGET neepsound)
+set(LIBRARY_TARGET wormaudio)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_COMPILER /usr/bin/g++) # TODO remove
 
@@ -26,20 +26,20 @@ project(PLAYER_LIBRARY VERSION 0.0.1)
 # Causes problems (can't remember what problems), but we're not using modules anyway.
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
-get_filename_component(NEEPSOUND_LIB_DIR ../lib ABSOLUTE CACHE)
-set(NEEPSOUND_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
-set(NEEPSOUND_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
-message(STATUS "Binary outputs will be found in: " ${NEEPSOUND_OUTPUT_DIR})
+get_filename_component(WORMAUDIO_LIB_DIR ../lib ABSOLUTE CACHE)
+set(WORMAUDIO_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
+set(WORMAUDIO_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
+message(STATUS "Binary outputs will be found in: " ${WORMAUDIO_OUTPUT_DIR})
 
 set(TARGET_OS ${CMAKE_SYSTEM_NAME} CACHE INTERNAL "")
 string(TOLOWER ${TARGET_OS} TARGET_OS)
 set(TARGET_ARCH amd64 CACHE INTERNAL "")
 # Using an OS-independent extension '.lib'. This avoids parsing annoyance when locating the correct library.
 # Java doesn't seem to see jar resources ending with .lib, so I've gone for a completely new shared library extension.
-set(NEEPSOUND_LIBRARY_SUFFIX "_${TARGET_OS}_${TARGET_ARCH}.slib" CACHE INTERNAL "")
+set(WORMAUDIO_LIBRARY_SUFFIX "_${TARGET_OS}_${TARGET_ARCH}.slib" CACHE INTERNAL "")
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
@@ -48,7 +48,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
 
 #find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 
-add_subdirectory(${NEEPSOUND_LIB_DIR}/JUCE build)
+add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build)
 
 add_subdirectory(swig)
 
@@ -65,9 +65,9 @@ add_library(${LIBRARY_TARGET} STATIC)
 
 set_target_properties(${LIBRARY_TARGET}
         PROPERTIES
-            SUFFIX "${NEEPSOUND_LIBRARY_SUFFIX}"
+            SUFFIX "${WORMAUDIO_LIBRARY_SUFFIX}"
             PREFIX ""
-#            INSTALL_RPATH ${NEEPSOUND_OUTPUT_DIR} # ??????? Doesn't this hardcode the build dir? What is wrong with me?
+#            INSTALL_RPATH ${WORMAUDIO_OUTPUT_DIR} # ??????? Doesn't this hardcode the build dir? What is wrong with me?
             SKIP_BUILD_RPATH TRUE
             BUILD_WITH_INSTALL_RPATH TRUE
 #            INSTALL_RPATH_USE_LINK_PATH TRUE
@@ -85,8 +85,8 @@ target_include_directories(${LIBRARY_TARGET}
         PUBLIC
             ../JuceLibraryCode
             src
-            SYSTEM ${NEEPSOUND_LIB_DIR}/cereal/include
-            ${NEEPSOUND_LIB_DIR}/Cereal-Optional-NVP/include
+            SYSTEM ${WORMAUDIO_LIB_DIR}/cereal/include
+            ${WORMAUDIO_LIB_DIR}/Cereal-Optional-NVP/include
         INTERFACE
             $<TARGET_PROPERTY:${LIBRARY_TARGET},INCLUDE_DIRECTORIES>
 
@@ -171,10 +171,10 @@ target_link_libraries(${LIBRARY_TARGET}
         juce::juce_recommended_warning_flags
 )
 
-file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${NEEPSOUND_LIB_DIR}/JUCE/*.cpp  ${NEEPSOUND_LIB_DIR}/JUCE/*.mm ${NEEPSOUND_LIB_DIR}/JUCE/*.r)
+file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${WORMAUDIO_LIB_DIR}/JUCE/*.cpp  ${WORMAUDIO_LIB_DIR}/JUCE/*.mm ${WORMAUDIO_LIB_DIR}/JUCE/*.r)
 set_source_files_properties(${JUCE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE SKIP_UNITY_BUILD_INCLUSION TRUE)
 
-file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${NEEPSOUND_LIB_DIR}/cereal/*)
+file(GLOB_RECURSE CEREAL_HEADERS CONFIGURE_DEPENDS ${WORMAUDIO_LIB_DIR}/cereal/*)
 set_source_files_properties(${CEREAL_HEADERS} PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 
 # JUCE modules use their own unity build configuration. Including them in the automatic Cmake unity build causes issues.
