@@ -49,7 +49,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 
 add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build)
 
-add_subdirectory(swig)
+# CURRENTLY ABANDONED
+#add_subdirectory(swig)
 
 # This command sets cxx_std_17 somewhere. We're using C++20, so this can't be used.
 #juce_add_gui_app(${LIBRARY_TARGET}
@@ -64,8 +65,10 @@ add_library(${LIBRARY_TARGET} STATIC)
 
 set_target_properties(${LIBRARY_TARGET}
         PROPERTIES
-            SUFFIX "${WORMAUDIO_LIBRARY_SUFFIX}"
-            PREFIX ""
+            # Currently using a static library
+#            SUFFIX "${WORMAUDIO_LIBRARY_SUFFIX}"
+#            PREFIX ""
+
 #            INSTALL_RPATH ${WORMAUDIO_OUTPUT_DIR} # ??????? Doesn't this hardcode the build dir? What is wrong with me?
             SKIP_BUILD_RPATH TRUE
             BUILD_WITH_INSTALL_RPATH TRUE
@@ -129,6 +132,7 @@ target_compile_definitions(${LIBRARY_TARGET}
             JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
             JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_PRODUCT_NAME>"
             JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${LIBRARY_TARGET},JUCE_VERSION>"
+            JUCE_DISABLE_JUCE_VERSION_PRINTING=1 # Not necessary and causes a segfault when loaded by Godot
         INTERFACE
         $<TARGET_PROPERTY:${LIBRARY_TARGET},COMPILE_DEFINITIONS>
 )
@@ -205,8 +209,8 @@ set_source_files_properties(
 #        "$<$<COMPILE_LANGUAGE:CXX>:JuceHeader.h>"
 #    )
 
-install(TARGETS ${LIBRARY_TARGET}
-)
+#install(TARGETS ${LIBRARY_TARGET}
+#)
 
 # It is not recommended to enable unity build in CMakeLists.txt, but I was having trouble getting it to work.
 #set_property(TARGET ${LIBRARY_TARGET} PROPERTY UNITY_BUILD ON)
