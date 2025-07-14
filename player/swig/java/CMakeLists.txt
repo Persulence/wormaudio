@@ -5,7 +5,7 @@ set(CMAKE_INSTALL_RPATH "")
 
 set(JAVA_SWIG_TARGET ${LIBRARY_TARGET}-java)
 set(JAVA_PACKAGE_NAME "com.wormaudio.wormaudio.generated")
-set(SWIG_OUTPUT_DIR "${NEEPSOUND_API_DIR}/java/com/wormaudio/wormaudio/generated")
+set(SWIG_OUTPUT_DIR "${WORMAUDIO_API_DIR}/java/com/wormaudio/wormaudio/generated")
 set(JAR_NAME "NEEPSound")
 
 
@@ -36,7 +36,7 @@ swig_add_library(${JAVA_SWIG_TARGET}
 
 set_target_properties(${JAVA_SWIG_TARGET}
         PROPERTIES
-            SUFFIX "${NEEPSOUND_LIBRARY_SUFFIX}"
+            SUFFIX "${WORMAUDIO_LIBRARY_SUFFIX}"
             PREFIX ""
 )
 
@@ -66,7 +66,7 @@ get_property(thing TARGET ${JAVA_SWIG_TARGET} PROPERTY INCLUDE_DIRECTORIES)
 #message(STATUS "include " ${thing})
 
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
-#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${NEEPSOUND_OUTPUT_DIR})
+#set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME})
 #set_property(TARGET ${JAVA_SWIG_TARGET} PROPERTY SWIG_COMPILE_OPTIONS -package ${JAVA_PACKAGE_NAME} -noproxy)
 
@@ -85,24 +85,22 @@ message(STATUS "Java source dir: " ${java_source_dir})
 #            ${java_source_dir}/NEEPSound.java
 #            ${java_source_dir}/NEEPSoundJNI.java
 #            ${java_source_dir}/SoundThing.java
-#        OUTPUT_DIR ${NEEPSOUND_API_DIR}/java
+#        OUTPUT_DIR ${WORMAUDIO_API_DIR}/java
 #)
 #add_dependencies(${JAR_NAME} ${JAVA_SWIG_TARGET})
 #set_property(TARGET ${JAR_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
 #install(TARGETS ${JAVA_SWIG_TARGET}
-#        DESTINATION ${NEEPSOUND_OUTPUT_DIR}
+#        DESTINATION ${WORMAUDIO_OUTPUT_DIR}
 #)
 
 add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
             # TODO: FOR TESTING
-#            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound.so      ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/resources/native/linux/amd64/ # TODO
-#            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_OUTPUT_DIR}/libneepsound-java.so ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/src/main/resources/native/linux/amd64/ # TODO
-            COMMAND cp ${NEEPSOUND_OUTPUT_DIR}/*.slib ${NEEPSOUND_OUTPUT_DIR}/../../../neepsound-java/src/main/resources/native/ # TODO
-#            COMMAND ../../../compile_java.sh ${java_source_dir} ${NEEPSOUND_API_DIR}/java ${JAR_NAME}.jar
-#            COMMAND ${CMAKE_COMMAND} -E copy ${NEEPSOUND_API_DIR}/java/${JAR_NAME}.jar ${NEEPSOUND_OUTPUT_DIR}/../../../java_test/
-            COMMAND cp -r ${java_source_dir}/*.java ${NEEPSOUND_OUTPUT_DIR}/../../../neepsound-java/src/main/java/com/wormaudio/wormaudio/generated
+            COMMAND cp ${WORMAUDIO_OUTPUT_DIR}/*.slib ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/resources/native/ # TODO
+#            COMMAND ../../../compile_java.sh ${java_source_dir} ${WORMAUDIO_API_DIR}/java ${JAR_NAME}.jar
+#            COMMAND ${CMAKE_COMMAND} -E copy ${WORMAUDIO_API_DIR}/java/${JAR_NAME}.jar ${WORMAUDIO_OUTPUT_DIR}/../../../java_test/
+            COMMAND cp -r ${java_source_dir}/*.java ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/java/com/wormaudio/wormaudio/generated
 )
 
 add_executable(test_exec test_exec.cpp)

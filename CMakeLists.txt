@@ -9,7 +9,7 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
-set(GUI_TARGET neepsound-editor)
+set(GUI_TARGET wormaudio-editor)
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER /usr/bin/g++-15)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
@@ -162,7 +162,7 @@ target_link_libraries(${GUI_TARGET}
 #        juce::juce_gui_extra
 #        juce::juce_opengl
         PUBLIC
-        neepsound
+        wormaudio
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
