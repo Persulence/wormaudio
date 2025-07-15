@@ -27,6 +27,8 @@ namespace event
 
         explicit EventInstance(resource::Handle<EventDef> parent_);
 
+        const resource::Handle<EventDef>& getParent() { return parent; }
+
         void prepareToPlay(player::AudioContext ctx) const;
 
         void logicTick(sm::GlobalParameterLookup& globalParameters, player::TransportControl& globalTransport,

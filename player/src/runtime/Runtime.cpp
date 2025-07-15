@@ -17,9 +17,11 @@ namespace runtime
             switch (state)
             {
                 case player::STARTING:
+                    transport.setState(player::PLAYING);
                 case player::PLAYING:
                     collectFreeInstances.startTimer(500);
                 case player::STOPPING:
+                    transport.setState(player::STOPPED);
                     break;
                 case player::STOPPED:
                     collectFreeInstances.stopTimer();
