@@ -114,6 +114,7 @@ target_sources("${LIBRARY_TARGET}"
         PRIVATE
             ${SourceFiles}
             src/runtime/Runtime.cpp
+        src/api/MessageThreadManager.hpp
 )
 
 set_property(TARGET ${LIBRARY_TARGET} PROPERTY CXX_STANDARD 20)
