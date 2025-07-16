@@ -23,7 +23,7 @@ namespace player
     ElementInstancePtr ElementInstanceManager::addInstance(const ElementInstancePtr& element)
     {
         // tODO: look into reusing identical instances
-        // std::lock_guard lock(activeMutex);
+        std::lock_guard lock(activeMutex);
         return queue.emplace(element);
     }
 
@@ -34,14 +34,13 @@ namespace player
 
     void ElementInstanceManager::clear()
     {
-        // std::lock_guard lock(activeMutex);
+        std::lock_guard lock(activeMutex);
         active.clear();
     }
 
     void ElementInstanceManager::freeReleased()
     {
-        // std::lock_guard lock(activeMutex);
-        // int prev = active.size();
+        std::lock_guard lock(activeMutex);
         std::erase_if(active, [](const auto& e)
         {
             return e->canBeFreed();
@@ -66,22 +65,28 @@ namespace player
         audioContext = {};
     }
 
-    void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill, instance::ListenerInstance listenerInstance)
+    void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &mainAccumulator, instance::ListenerInstance listenerInstance)
     {
+        accumulator.clear();
+
         if (stagedHandoff != NULL_SAMPLE)
         {
-            // std::lock_guard lock(activeMutex);
+            // Use a different buffer, as the main one is not meant to be cleared.
+            const juce::AudioSourceChannelInfo accumulatorInfo{&accumulator, mainAccumulator.startSample, mainAccumulator.numSamples};
+
+            // TODO: stop locking the audio thread!!!!!
+            std::lock_guard lock(activeMutex);
 
             // Generate the block using current elements
             for (auto& instance : active)
             {
-                instance->getNextAudioBlock(bufferToFill);
+                instance->getNextAudioBlock(accumulatorInfo);
             }
 
             // Clear the end of the buffer
-            auto startSample = bufferToFill.startSample + stagedHandoff;
-            auto numSamples = bufferToFill.numSamples - startSample;
-            bufferToFill.buffer->clear(startSample, numSamples);
+            auto startSample = accumulatorInfo.startSample + stagedHandoff;
+            auto numSamples = accumulatorInfo.numSamples - startSample;
+            accumulatorInfo.buffer->clear(startSample, numSamples);
 
             // Remove finished elements
             std::erase_if(active, [](const auto& e) { return e->canBeFreed(); });
@@ -94,21 +99,25 @@ namespace player
             }
 
             // Fill the remaining portion of the buffer
-            juce::AudioSourceChannelInfo info2{bufferToFill.buffer, startSample, numSamples};
+            juce::AudioSourceChannelInfo info2{accumulatorInfo.buffer, startSample, numSamples};
             for (auto& instance : active)
             {
                 instance->getNextAudioBlock(info2);
             }
 
             stagedHandoff = NULL_SAMPLE;
+
+            // Add the sliced and spliced audio into the main acumulator
+            mainAccumulator.buffer->addFrom(0, mainAccumulator.startSample, *accumulatorInfo.buffer, 0, accumulatorInfo.startSample, accumulatorInfo.numSamples);
+            mainAccumulator.buffer->addFrom(1, mainAccumulator.startSample, *accumulatorInfo.buffer, 1, accumulatorInfo.startSample, accumulatorInfo.numSamples);
         }
         else
         {
             // TODO: Ensure that this thread can always acquire the lock
-            // std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
+            std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
             for (auto& instance : active)
             {
-                instance->getNextAudioBlock(bufferToFill);
+                instance->getNextAudioBlock(mainAccumulator);
             }
         }
 
@@ -130,8 +139,11 @@ namespace player
         // Linear
         // ???
 
-        bufferToFill.buffer->applyGain(0, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, leftGain);
-        bufferToFill.buffer->applyGain(1, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, rightGain);
+        mainAccumulator.buffer->applyGain(0, mainAccumulator.startSample, mainAccumulator.startSample + mainAccumulator.numSamples, leftGain);
+        mainAccumulator.buffer->applyGain(1, mainAccumulator.startSample, mainAccumulator.startSample + mainAccumulator.numSamples, rightGain);
+
+        // bufferToFille.buffer->copyFrom(0, bufferToFille.startSample, *accumulatorInfo.buffer, 0, bufferToFille.startSample, bufferToFille.numSamples);
+        // bufferToFille.buffer->copyFrom(1, bufferToFille.startSample, *accumulatorInfo.buffer, 1, bufferToFille.startSample, bufferToFille.numSamples);
 
         // TODO tracks/buses
     }

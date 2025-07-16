@@ -30,7 +30,7 @@ namespace player
 
         void prepareToPlay(AudioContext context);
         void releaseResources();
-        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill, instance::ListenerInstance listenerInstance);
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &mainAccumulator, instance::ListenerInstance listenerInstance);
 
         [[nodiscard]] AudioContext getAudioContext() const { return audioContext; }
 
