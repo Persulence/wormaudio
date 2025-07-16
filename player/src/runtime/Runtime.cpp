@@ -35,15 +35,11 @@ namespace runtime
         disconnect();
     }
 
-    static int number = 0;
-
     event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)
     {
         auto instance = event->instantiate();
 
-        if (number < 1)
-            instance->prepareToPlay(audioContext);
-
+        instance->prepareToPlay(audioContext);
         addInstance(instance);
 
         number += 1;
