@@ -42,7 +42,6 @@ namespace runtime
         instance->prepareToPlay(audioContext);
         addInstance(instance);
 
-        number += 1;
         return instance;
     }
 
@@ -141,9 +140,6 @@ namespace runtime
         int i = 0;
         for (const auto& instance : instances)
         {
-            if (i >= 1)
-                break;
-
             instance->logicTick(parameters, transport, info);
             i++;
         }
