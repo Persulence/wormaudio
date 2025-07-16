@@ -20,7 +20,7 @@ namespace player
         auto s = std::sin(yaw);
 
         auto facing = Vec3f{s, 0, c};
-        auto up = Vec3f{0, 1, 0};
+        constexpr auto up = Vec3f{0, 1, 0};
 
         auto perpendicular = facing.cross(up);
 

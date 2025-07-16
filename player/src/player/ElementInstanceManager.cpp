@@ -4,6 +4,7 @@
 
 #include "ElementInstanceManager.hpp"
 
+#include <instance/ListenerInstance.hpp>
 #include <juce_audio_basics/juce_audio_basics.h>
 
 #include "instance/spatial.hpp"
@@ -52,12 +53,12 @@ namespace player
         // }
     }
 
-    void ElementInstanceManager::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
+    void ElementInstanceManager::prepareToPlay(AudioContext context)
     {
-        audioContext = {samplesPerBlockExpected, sampleRate};
+        audioContext = context;
 
         // TODO: channels
-        accumulator = juce::AudioSampleBuffer(2, samplesPerBlockExpected);
+        accumulator = juce::AudioSampleBuffer(2, context.samplesPerBlock);
     }
 
     void ElementInstanceManager::releaseResources()
@@ -65,7 +66,7 @@ namespace player
         audioContext = {};
     }
 
-    void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
+    void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill, instance::ListenerInstance listenerInstance)
     {
         if (stagedHandoff != NULL_SAMPLE)
         {
@@ -111,15 +112,11 @@ namespace player
             }
         }
 
-        // TODO: TESTING ONLY
-        // auto soundPos = instance::Vec3f{1, 0, 0}; // South, so left channel
-        // auto soundPos = instance::Vec3f{0, 0, 0};
-
         auto soundPos = position;
-        auto listener = instance::Vec3f{0, 0, 0};
+        auto listenerPos = listenerInstance.position;
 
-        float result = earDistance(soundPos, listener, std::numbers::pi, properties.maxDistance);
-        float distance = (soundPos - listener).abs();
+        float result = earDistance(soundPos, listenerPos, listenerInstance.yaw, properties.maxDistance);
+        float distance = (soundPos - listenerPos).abs();
 
         float attenuation = properties.attenuate(distance);
 
@@ -131,6 +128,7 @@ namespace player
         float rightGain = std::sin(theta) * c * attenuation;
 
         // Linear
+        // ???
 
         bufferToFill.buffer->applyGain(0, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, leftGain);
         bufferToFill.buffer->applyGain(1, bufferToFill.startSample, bufferToFill.startSample + bufferToFill.numSamples, rightGain);

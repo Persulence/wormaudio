@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <instance/ListenerInstance.hpp>
 #include <juce_audio_basics/juce_audio_basics.h>
 
 #include "instance/instance.hpp"
@@ -16,7 +17,7 @@ namespace player
 {
     using namespace element;
 
-    class ElementInstanceManager : public juce::AudioSource
+    class ElementInstanceManager
     {
     public:
         ElementInstanceManager(const instance::Vec3f& position, const event::EventProperties& properties);
@@ -27,9 +28,9 @@ namespace player
         void clear();
         void freeReleased();
 
-        void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
-        void releaseResources() override;
-        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
+        void prepareToPlay(AudioContext context);
+        void releaseResources();
+        void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill, instance::ListenerInstance listenerInstance);
 
         [[nodiscard]] AudioContext getAudioContext() const { return audioContext; }
 

@@ -11,8 +11,9 @@
 #include "juce_audio_basics/juce_audio_basics.h"
 #include "juce_core/juce_core.h"
 
-#include  "AudioEntryPoint.hpp"
+#include "AudioEntryPoint.hpp"
 #include "event/EventInstance.hpp"
+#include "instance/ListenerInstance.hpp"
 
 namespace runtime
 {
@@ -45,6 +46,9 @@ namespace runtime
         void releaseResources() override;
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
 
+        void setListenerPosition(const instance::Vec3f position) { listener.position = position; }
+        void setListenerYaw(const float yaw) { listener.yaw = yaw; }
+
     private:
         std::vector<event::EventInstance::Ptr> instances;
         sm::GlobalParameterLookup parameters;
@@ -59,6 +63,8 @@ namespace runtime
         SimpleTimer collectFreeInstances;
 
         player::Sample samplesPast{};
+
+        instance::ListenerInstance listener;
 
         void logicTick();
     };
