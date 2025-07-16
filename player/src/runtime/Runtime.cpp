@@ -110,20 +110,14 @@ namespace runtime
             // auto logicFuture = std::async(std::launch::async, [this]{ logicTick(); });
             logicTick();
 
-            int i = 0;
             for (auto& event : instances)
             {
-                if (i >= 1)
-                    break;
-
                 auto& elements = event->getElements();
                 elements.getNextAudioBlock(bufferToFill, listener);
 
                 // Happens after sample generation to allow handoff
                 // TODO: make this async
                 elements.freeReleased();
-
-                i++;
             }
 
             // logicFuture.get();

@@ -49,6 +49,7 @@ namespace event
         std::unique_ptr<automation::AutomationTableInstance> automationInstance;
         StateMachineInstance stateManager;
         std::unique_ptr<player::ElementInstanceManager> elementManager;
+        player::TransportCallback::Listener transportListener;
 
         instance::Vec3f position;
         instance::Vec3f velocity;

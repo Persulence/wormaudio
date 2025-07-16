@@ -52,6 +52,7 @@ namespace event
             if (state == start)
             {
                 currentState = &stateEntry;
+                startState = &stateEntry;
             }
         }
     }
@@ -105,8 +106,13 @@ namespace event
         }
     }
 
+    void StateMachineInstance::restart()
+    {
+        currentState = startState;
+    }
+
     StateEntry& StateMachineInstance::getOrCreateEntry(std::unordered_map<Handle<StateDef>, StateEntry *> &map,
-            Handle<StateDef> state)
+                                                       Handle<StateDef> state)
     {
         StateEntry* entry;
         if (const auto it = map.find(state); it != map.end())

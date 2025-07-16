@@ -43,6 +43,7 @@ namespace event
     class StateMachineInstance
     {
         StateEntry* currentState = nullptr;
+        StateEntry* startState = nullptr;
         std::vector<std::unique_ptr<StateEntry>> entries;
 
     public:
@@ -53,6 +54,8 @@ namespace event
         bool logicTick(sm::EventParameterLookup& parameters, element::ElementInstanceContext& context, player::TransportControl& transport,
                        const LogicTickInfo& info);
         void stop() const;
+
+        void restart();
 
     private:
         StateEntry& getOrCreateEntry(std::unordered_map<resource::Handle<sm::StateDef>, StateEntry*>& map, resource::Handle<sm::StateDef> state);

@@ -23,8 +23,7 @@ namespace player
     ElementInstancePtr ElementInstanceManager::addInstance(const ElementInstancePtr& element)
     {
         // tODO: look into reusing identical instances
-        std::lock_guard lock(activeMutex);
-        // active.insert(element);
+        // std::lock_guard lock(activeMutex);
         return queue.emplace(element);
     }
 
@@ -35,13 +34,13 @@ namespace player
 
     void ElementInstanceManager::clear()
     {
-        std::lock_guard lock(activeMutex);
+        // std::lock_guard lock(activeMutex);
         active.clear();
     }
 
     void ElementInstanceManager::freeReleased()
     {
-        std::lock_guard lock(activeMutex);
+        // std::lock_guard lock(activeMutex);
         // int prev = active.size();
         std::erase_if(active, [](const auto& e)
         {
@@ -71,7 +70,7 @@ namespace player
     {
         if (stagedHandoff != NULL_SAMPLE)
         {
-            std::lock_guard lock(activeMutex);
+            // std::lock_guard lock(activeMutex);
 
             // Generate the block using current elements
             for (auto& instance : active)
@@ -106,7 +105,7 @@ namespace player
         else
         {
             // TODO: Ensure that this thread can always acquire the lock
-            std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
+            // std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
             for (auto& instance : active)
             {
                 instance->getNextAudioBlock(bufferToFill);
