@@ -35,21 +35,30 @@ namespace runtime
         disconnect();
     }
 
+    static int number = 0;
+
     event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)
     {
         auto instance = event->instantiate();
-        instances.push_back(instance);
-        instance->prepareToPlay(audioContext);
+
+        if (number < 1)
+            instance->prepareToPlay(audioContext);
+
+        addInstance(instance);
+
+        number += 1;
         return instance;
     }
 
     void Runtime::addInstance(const event::EventInstance::Ptr &instance)
     {
+        std::lock_guard lock{instancesMutex};
         instances.push_back(instance);
     }
 
     void Runtime::clearInstances()
     {
+        std::lock_guard lock{instancesMutex};
         for (auto& instance : instances)
         {
             instance->stopInternal();
@@ -101,18 +110,28 @@ namespace runtime
         }
         else
         {
-            // TODO: look into making this async
+            std::lock_guard lock{instancesMutex};
+
+            // auto logicFuture = std::async(std::launch::async, [this]{ logicTick(); });
             logicTick();
 
+            int i = 0;
             for (auto& event : instances)
             {
+                if (i >= 1)
+                    break;
+
                 auto& elements = event->getElements();
                 elements.getNextAudioBlock(bufferToFill, listener);
 
                 // Happens after sample generation to allow handoff
                 // TODO: make this async
                 elements.freeReleased();
+
+                i++;
             }
+
+            // logicFuture.get();
         }
 
         samplesPast += audioContext.samplesPerBlock;
@@ -123,13 +142,14 @@ namespace runtime
         // player::Seconds blockBegin = static_cast<player::Seconds>(samplesPast * audioContext.sampleDuration);
         auto info = event::LogicTickInfo{audioContext, samplesPast};
 
-        // Is it really a big deal if the cleanup thread acquires this before the frame process?
-        // To avoid complications, I'm going to say probably not.
-        std::lock_guard lock{instancesMutex};
-
+        int i = 0;
         for (const auto& instance : instances)
         {
+            if (i >= 1)
+                break;
+
             instance->logicTick(parameters, transport, info);
+            i++;
         }
 
     }
