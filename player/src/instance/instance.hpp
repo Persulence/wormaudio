@@ -5,6 +5,12 @@
 #pragma once
 #include <cmath>
 
+// Allow overriding the type in the build system
+// Someone might want to use floats instead of doubles for more speed at less precision
+#ifndef WORMAUDIO_COORDINATE_TYPE
+#define WORMAUDIO_COORDINATE_TYPE double
+#endif
+
 namespace instance
 {
     template<typename T>
@@ -86,5 +92,5 @@ namespace instance
         }
     };
 
-    using Vec3f = Vec3<float>;
+    using Vec3f = Vec3<WORMAUDIO_COORDINATE_TYPE>;
 }
