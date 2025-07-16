@@ -27,7 +27,7 @@ namespace player
         // Scalar project onto the listener's 'ear axis'
         // Divide by max distance to get a value between -1 and 1 when within listening range
         // Clamp to be safe
-        auto scalar = std::clamp(to.abs() * std::cos(perpendicular.angleTo(to)) / maxDistance, -1.f, 1.f);
+        auto scalar = std::clamp(to.abs() * std::cos(perpendicular.angleTo(to)) / maxDistance, -1.0, 1.0);
 
         if (std::isnan(scalar))
             return 0;
