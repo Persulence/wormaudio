@@ -39,5 +39,15 @@ namespace sm
         {
             return *instances.at(name);
         }
+
+        parameter::ParameterInstance* getChecked(std::string name)
+        {
+            if (const auto it = instances.find(name); it != instances.end())
+            {
+                return it->second.get();
+            }
+
+            return nullptr;
+        }
     };
 }
