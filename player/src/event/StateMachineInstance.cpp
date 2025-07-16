@@ -22,6 +22,11 @@ namespace event
     StateMachineInstance::StateMachineInstance(const std::vector<Handle<StateDef>> &states, const Handle<StateDef> &start)
     {
         // TODO: simple handling for single-state instances
+        // if (states.size() == 3)
+        // {
+        //     auto transitions = start->getTransitions();
+        //     StateEntry* startEntry = entries.emplace_back(std::make_unique<StateEntry>(createNodeInstance(start), start->getTransitions())).get();
+        // }
 
         // This abomination copies and converts the event graph into another graph.
         // Slightly concerned by the use of raw pointers.
