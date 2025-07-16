@@ -10,7 +10,16 @@ namespace event
         parent(std::move(parent_)),
         automationInstance(std::make_unique<automation::AutomationTableInstance>(parent->getAutomation())),
         stateManager(StateMachineInstance(parent->getDefinition()->getStates(), parent->getDefinition()->getStart())),
-        elementManager(std::make_unique<player::ElementInstanceManager>(position, parent->getProperties())) {}
+        elementManager(std::make_unique<player::ElementInstanceManager>(position, parent->getProperties()))
+    {
+        transport.signal.setup(&transportListener, [this](auto state)
+        {
+            if (state == player::STARTING)
+            {
+                stateManager.restart();
+            }
+        });
+    }
 
     void EventInstance::prepareToPlay(player::AudioContext ctx) const
     {
