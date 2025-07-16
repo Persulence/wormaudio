@@ -38,10 +38,24 @@ namespace ui
             float f = 5;
             const float h = getHeight() - f;
 
+            bool invalid = false;
             float value = properties.attenuate(0);
+
+            if (std::isnan(value))
+            {
+                value = 1;
+                invalid = true;
+            }
+
             for (int i = 1; i < points + 1; i++)
             {
                 float newValue = properties.attenuate(i * distIncrement);
+
+                if (std::isnan(newValue))
+                {
+                    invalid = true;
+                    newValue = 1;
+                }
 
                 const Line l{(i - 1) * xIncrement, (1 - value) * h + f,
                     i * xIncrement, (1 - newValue) * h + f};
@@ -53,10 +67,11 @@ namespace ui
 
             PathStrokeType type = PathStrokeType{plotThickness};
 
+            g.setColour(invalid ? Colours::red : Colours::black);
             g.strokePath(path, type, AffineTransform{});
         }
 
-        int getDesiredHeight() const override
+        [[nodiscard]] int getDesiredHeight() const override
         {
             return 2 * settings::browserEntryHeight;
         }
@@ -78,6 +93,7 @@ namespace ui
                 {"None", player::Attenuation::NONE},
                 {"Linear", player::Attenuation::LINEAR},
                 {"Linear Rolloff", player::Attenuation::LINEAR_ROLLOFF},
+                {"Parabolic", player::Attenuation::PARABOLIC},
                 {"Inverse Distance", player::Attenuation::INVERSE_DISTANCE}
             },
             &eventDef->properties.attenuation));

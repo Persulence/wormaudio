@@ -17,6 +17,7 @@ namespace player
         NONE,
         LINEAR,
         LINEAR_ROLLOFF,
+        PARABOLIC,
         INVERSE_DISTANCE,
     };
 
@@ -37,6 +38,13 @@ namespace player
             {
                 // Clamp the result as it drops below 0 when rolloff > 1
                 return 1 - std::clamp(rolloff * (distance - minDistance) / (maxDistance - minDistance), 0.f, 1.f);
+            }
+            case Attenuation::PARABOLIC:
+            {
+                distance = std::clamp(distance, minDistance, maxDistance);
+                const float linear = 1 - (distance - minDistance) / (maxDistance - minDistance);
+                // Subtract 1 from rolloff so that it is in the range [-1 1]
+                return linear * (1 + (rolloff - 1) * (linear - 1));
             }
             case Attenuation::INVERSE_DISTANCE:
             {
