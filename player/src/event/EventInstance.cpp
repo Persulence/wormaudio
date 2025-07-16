@@ -14,7 +14,7 @@ namespace event
 
     void EventInstance::prepareToPlay(player::AudioContext ctx) const
     {
-        elementManager->prepareToPlay(ctx.samplesPerBlock, ctx.sampleRate);
+        elementManager->prepareToPlay({ctx.samplesPerBlock, ctx.sampleRate});
     }
 
     void EventInstance::logicTick(sm::GlobalParameterLookup &globalParameters,
