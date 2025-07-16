@@ -50,15 +50,17 @@ namespace runtime
         void setListenerYaw(const float yaw) { listener.yaw = yaw; }
 
     private:
-        std::vector<event::EventInstance::Ptr> instances;
-        sm::GlobalParameterLookup parameters;
-
         struct SimpleTimer : juce::Timer
         {
             void timerCallback() override { callback(); }
 
             std::function<void()> callback;
         };
+
+        std::vector<event::EventInstance::Ptr> instances;
+        std::mutex instancesMutex;
+
+        sm::GlobalParameterLookup parameters;
 
         SimpleTimer collectFreeInstances;
 

@@ -60,7 +60,8 @@ namespace runtime
 
     void Runtime::pruneInstances()
     {
-        std::ranges::remove_if(instances, [](auto& i){ return i->canFree(); });
+        std::lock_guard lock{instancesMutex};
+        std::erase_if(instances, [](auto& i){ return i->canFree(); });
     }
 
     void Runtime::connectToDevice()
@@ -121,6 +122,11 @@ namespace runtime
     {
         // player::Seconds blockBegin = static_cast<player::Seconds>(samplesPast * audioContext.sampleDuration);
         auto info = event::LogicTickInfo{audioContext, samplesPast};
+
+        // Is it really a big deal if the cleanup thread acquires this before the frame process?
+        // To avoid complications, I'm going to say probably not.
+        std::lock_guard lock{instancesMutex};
+
         for (const auto& instance : instances)
         {
             instance->logicTick(parameters, transport, info);
