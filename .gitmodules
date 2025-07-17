@@ -7,8 +7,8 @@
 [submodule "lib/Cereal-Optional-NVP"]
 	path = lib/Cereal-Optional-NVP
 	url = https://github.com/Enhex/Cereal-Optional-NVP/
-[submodule "neepsound-godot"]
-	path = neepsound-godot
+[submodule "wormaudio-godot"]
+	path = wormaudio-godot
 	url = git@gh-persulence:/Persulence/wormaudio-godot
 [submodule "wormaudio-java"]
 	path = wormaudio-java
