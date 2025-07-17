@@ -17,16 +17,16 @@ int main()
         binding::MessageThreadManager::claimMessageThread();
     }};
 
-    std::unique_ptr<binding::NRuntime> runtime;
+    std::unique_ptr<binding::WARuntime> runtime;
     std::shared_ptr<event::EventInstance> eventInstance;
 
     juce::MessageManager::callAsync([&scope, &runtime]
     {
         // std::cout << "Allocating runtime\n";
-        runtime = std::make_unique<binding::NRuntime>();
+        runtime = std::make_unique<binding::WARuntime>();
         runtime->connectToDevice();
 
-        binding::NSystem system = binding::NSystem::load("test_system/test_system.proj");
+        binding::WASystem system = binding::WASystem::load("test_system/test_system.proj");
         auto def = system.getEventDef("music");
         auto eventInstance = runtime->instantiate(def.value());
         runtime->setState(player::PLAYING);

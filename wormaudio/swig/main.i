@@ -20,7 +20,7 @@
 
 // Nullable typemaps
 JOPT(OptionalString, std::string)
-JOPT(OptionalString, binding::NEventDef)
+JOPT(OptionalString, binding::WASoundDef)
 
 %include "util.i"
 
@@ -36,16 +36,16 @@ JOPT(OptionalString, binding::NEventDef)
 EXPOSE(binding)
 EXPOSE(binding::sanityCheck)
 
-EXPOSE(binding::NEventDef)
-EXPOSE(binding::NEventDef::~NEventDef)
-EXPOSE(binding::NEventDef::instantiate)
+EXPOSE(binding::WASoundDef)
+EXPOSE(binding::WASoundDef::~WASoundDef)
+EXPOSE(binding::WASoundDef::instantiate)
 
-EXPOSE(binding::NSystem)
-EXPOSE(binding::NSystem::~NSystem)
-EXPOSE(binding::NSystem::load)
-EXPOSE(binding::NSystem::getEventDef)
+EXPOSE(binding::WASystem)
+EXPOSE(binding::WASystem::~WASystem)
+EXPOSE(binding::WASystem::load)
+EXPOSE(binding::WASystem::getEventDef)
 
-%javaexception("java.io.IOException") binding::NSystem::load {
+%javaexception("java.io.IOException") binding::WASystem::load {
     try
     {
         $action

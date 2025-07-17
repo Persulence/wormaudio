@@ -19,7 +19,7 @@ namespace binding
     }
 
 
-    NSystem NSystem::load(const std::string &path)
+    WASystem WASystem::load(const std::string &path)
     {
         std::filesystem::path mainFilePath = path;
         resource::Handle<resource::Project> project = resource::make<resource::Project>(
@@ -29,6 +29,6 @@ namespace binding
 
         resource::readStructure(project, mainFilePath);
 
-        return NSystem{project};
+        return WASystem{project};
     }
 }

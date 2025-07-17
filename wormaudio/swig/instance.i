@@ -17,6 +17,8 @@
 
 IGNORE_ALL
 
+
+%rename("WASoundInstance") event::EventInstance;
 EXPOSE1 event;
 EXPOSE1 event::EventInstance;
 EXPOSE1 event::~EventInstance;

@@ -37,21 +37,15 @@ namespace binding
         DISABLE_MOVE(MessageThreadManager);
 
         juce::ScopedJuceInitialiser_GUI scope{};
-
-        // std::thread messageThread = std::thread{[]
-        // {
-        //     juce::MessageManager::getInstance()->setCurrentThreadAsMessageThread();
-        //     juce::MessageManager::getInstance()->runDispatchLoop();
-        // }};
     };
 
-    class NRuntime : WrapperBase
+    class WARuntime : WrapperBase
     {
     public:
-        NRuntime();
-        ~NRuntime() = default;
+        WARuntime();
+        ~WARuntime() = default;
 
-        std::shared_ptr<event::EventInstance> instantiate(const binding::NEventDef &def) const;
+        std::shared_ptr<event::EventInstance> instantiate(const binding::WASoundDef &def) const;
         void connectToDevice() const;
         void disconnect() const;
 
