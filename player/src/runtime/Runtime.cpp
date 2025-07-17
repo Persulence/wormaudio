@@ -38,16 +38,14 @@ namespace runtime
     event::EventInstance::Ptr Runtime::instantiate(const resource::Handle<event::EventDef> &event)
     {
         auto instance = event->instantiate();
-
-        instance->prepareToPlay(audioContext);
         addInstance(instance);
-
         return instance;
     }
 
     void Runtime::addInstance(const event::EventInstance::Ptr &instance)
     {
         std::lock_guard lock{instancesMutex};
+        instance->prepareToPlay(audioContext);
         instances.push_back(instance);
     }
 

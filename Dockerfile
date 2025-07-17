@@ -6,7 +6,7 @@ RUN apt-get update && \
 
 COPY lib /app/lib
 COPY player /app/player
-COPY src /app/src
+COPY wormaudio-editor/src /app/src
 #COPY res /app/res
 #COPY CMakeLists.txt /app
 
