@@ -12,6 +12,7 @@
 #include "menu/MainMenuModel.hpp"
 #include "runtime/Runtime.hpp"
 #include "scene/MainSceneComponent.hpp"
+#include "scene/SplashMainComponent.hpp"
 
 using namespace juce;
 

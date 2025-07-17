@@ -36,7 +36,7 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 # or
 #add_subdirectory(lib/JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
-add_subdirectory(../player wormaudio)
+add_subdirectory(../wormaudio wormaudio)
 
 # If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
 # to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
@@ -82,7 +82,7 @@ add_executable(${GUI_TARGET})
 target_include_directories(${GUI_TARGET}
         PUBLIC
         ../JuceLibraryCode
-        ../player/src
+        ../wormaudio/src
         src
 #            lib/JUCE/modules
 )

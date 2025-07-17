@@ -9,7 +9,6 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 
 #include "editor/Editor.hpp"
-#include "../../player/src/util/WrappedValue.hpp"
 #include "canvas/InspectorSelectionManager.hpp"
 #include "inspector/InspectorRoot.hpp"
 #include "widget/SliderWidget.hpp"
