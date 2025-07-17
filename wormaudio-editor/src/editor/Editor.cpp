@@ -91,7 +91,10 @@ namespace editor
 
         instance->transport.signal.setup(this, [this](auto state)
         {
-            setState(state, true);
+            MessageManager::callAsync([this, state]
+            {
+                setState(state, true);
+            });
         });
 
         instance->transport.setState(player::STARTING);
