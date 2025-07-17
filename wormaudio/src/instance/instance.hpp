@@ -16,9 +16,9 @@ namespace instance
     template<typename T>
     struct Vec3
     {
-        float x = 0;
-        float y = 0;
-        float z = 0;
+        WORMAUDIO_COORDINATE_TYPE x = 0;
+        WORMAUDIO_COORDINATE_TYPE y = 0;
+        WORMAUDIO_COORDINATE_TYPE z = 0;
 
         Vec3 operator+(const Vec3& o) const
         {
