@@ -6,11 +6,7 @@
 
 #include "command/Commands.hpp"
 #include "UiMainComponent.hpp"
-#include "util/Data.hpp"
-#include "../player/src/instance/spatial.hpp"
 #include "theme/MainLookAndFeel.hpp"
-#include "scene/SplashMainComponent.hpp"
-#include "window/SplashWindow.hpp"
 
 
 //==============================================================================

@@ -5,7 +5,7 @@ RUN apt-get update && \
     apt-get install -y build-essential cmake pkg-config swig openjdk-21-jdk default-jdk ninja-build libfreetype-dev
 
 COPY lib /app/lib
-COPY player /app/player
+COPY wormaudio /app/player
 COPY wormaudio-editor/src /app/src
 #COPY res /app/res
 #COPY CMakeLists.txt /app
