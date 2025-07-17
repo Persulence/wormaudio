@@ -84,8 +84,8 @@ message(STATUS "Java source dir: " ${java_source_dir})
 
 add_custom_command(TARGET ${JAVA_SWIG_TARGET}
         POST_BUILD
-            # TODO: FOR TESTING
-            COMMAND cp ${WORMAUDIO_OUTPUT_DIR}/*.slib ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/resources/native/ # TODO
+            # TODO: I DON'T KNOW HOW TO DO THIS PROPERLY HELP PLEASE ARGH
+            COMMAND cp -p ${WORMAUDIO_OUTPUT_DIR}/*.slib ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/resources/native/ # TODO
 #            COMMAND ../../../compile_java.sh ${java_source_dir} ${WORMAUDIO_API_DIR}/java ${JAR_NAME}.jar
 #            COMMAND ${CMAKE_COMMAND} -E copy ${WORMAUDIO_API_DIR}/java/${JAR_NAME}.jar ${WORMAUDIO_OUTPUT_DIR}/../../../java_test/
             COMMAND cp -r ${java_source_dir}/*.java ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/java/com/wormaudio/wormaudio/generated

@@ -46,65 +46,35 @@ public:
     }
 };
 
-// class NoClass
-// {
-// public:
-//     NoClass() = default;
-//     void thing()
-//     {
-//         std::cout << "NoClass: thing!" << "\n";
-//     }
-//     ~NoClass() = default;
-// };
-
-// inline void freeFunction(NoClass& nc)
-// {
-//     nc.thing();
-// }
-
-
-
 namespace binding
 {
-    class NSystem;
-    class NEventDef;
+    class WASystem;
+    class WASoundDef;
 
-    // class NEventInstance : WrapperBase
-    // {
-    //     std::shared_ptr<event::EventInstance> instance;
-    //
-    // public:
-    //     explicit NEventInstance(std::shared_ptr<event::EventInstance> instance_): instance(std::move(instance_)) {};
-    //
-    //     ~NEventInstance()
-    //     {
-    //     }
-    // };
-
-    class NEventDef : WrapperBase
+    class WASoundDef : WrapperBase
     {
     private:
         friend class NEventInstance;
-        friend class NSystem;
-        friend class NRuntime;
+        friend class WASystem;
+        friend class WARuntime;
 
         resource::Handle<event::EventDef> eventDef;
 
-        explicit NEventDef(resource::Handle<event::EventDef> eventDef_): eventDef(std::move(eventDef_))
+        explicit WASoundDef(resource::Handle<event::EventDef> eventDef_): eventDef(std::move(eventDef_))
         {
         }
     };
 
-    class NSystem : WrapperBase
+    class WASystem : WrapperBase
     {
     public:
-        static NSystem load(const std::string& path);
+        static WASystem load(const std::string& path);
 
-        [[nodiscard]] binding::Nullable<NEventDef> getEventDef(const std::string& name) const
+        [[nodiscard]] binding::Nullable<WASoundDef> getEventDef(const std::string& name) const
         {
             if (const auto ret = project->getEvent(name))
             {
-                return NEventDef{*ret};
+                return WASoundDef{*ret};
             }
 
             return {};
@@ -113,21 +83,9 @@ namespace binding
     private:
         resource::Handle<resource::Project> project;
 
-        explicit NSystem(decltype(project) project_): project(std::move(project_))
+        explicit WASystem(decltype(project) project_): project(std::move(project_))
         {
 
         }
     };
 }
-
-// inline NSoundInstance::NSoundInstance(const NEventDef *parent):
-//     parent(parent)
-// {
-//     std::cout << "NSoundInstance created\n";
-//     instance = parent->eventDef->instantiate();
-// }
-//
-// inline NSoundInstance NEventDef::instantiate() const
-// {
-//     return NSoundInstance{this};
-// }

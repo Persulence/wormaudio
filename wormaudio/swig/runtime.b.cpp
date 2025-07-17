@@ -6,27 +6,27 @@
 
 namespace binding
 {
-    NRuntime::NRuntime()
+    WARuntime::WARuntime()
     {
         backing = std::make_unique<runtime::Runtime>();
     }
 
-    std::shared_ptr<event::EventInstance> NRuntime::instantiate(const NEventDef &def) const
+    std::shared_ptr<event::EventInstance> WARuntime::instantiate(const WASoundDef &def) const
     {
         return backing->instantiate(def.eventDef);
     }
 
-    void NRuntime::connectToDevice() const
+    void WARuntime::connectToDevice() const
     {
         backing->connectToDevice();
     }
 
-    void NRuntime::disconnect() const
+    void WARuntime::disconnect() const
     {
         backing->disconnect();
     }
 
-    void NRuntime::setState(player::TransportState state) const
+    void WARuntime::setState(player::TransportState state) const
     {
         backing->transport.setState(state);
     }

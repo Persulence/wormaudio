@@ -15,13 +15,13 @@
 //IGNORE_ALL
 
 //EXPOSE1 binding;
-////EXPOSE1 binding::NRuntime;
-//EXPOSE1 binding::NRuntime::NRuntime;
-//EXPOSE1 binding::NRuntime::~NRuntime;
-//EXPOSE1 binding::NRuntime::connectToDevice;
-//EXPOSE1 binding::NRuntime::disconnect;
-//EXPOSE1 binding::NRuntime::instantiate;
-//EXPOSE1 binding::NRuntime::instantiate;
+////EXPOSE1 binding::WARuntime;
+//EXPOSE1 binding::WARuntime::WARuntime;
+//EXPOSE1 binding::WARuntime::~WARuntime;
+//EXPOSE1 binding::WARuntime::connectToDevice;
+//EXPOSE1 binding::WARuntime::disconnect;
+//EXPOSE1 binding::WARuntime::instantiate;
+//EXPOSE1 binding::WARuntime::instantiate;
 
 %typemap(javacode) binding::MessageThreadManager %{
 %}

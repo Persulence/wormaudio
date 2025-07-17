@@ -9,17 +9,17 @@
 // Wrapper classes
 namespace binding
 {
-    // class NEventDef;
+    // class WASoundDef;
     //
     // class NSoundInstance
     // {
     // public:
-    //     NEventDef *parent;
+    //     WASoundDef *parent;
     //
-    //     explicit NSoundInstance(NEventDef* parent);
+    //     explicit NSoundInstance(WASoundDef* parent);
     // };
     //
-    // class NEventDef
+    // class WASoundDef
     // {
     //     resource::Handle<event::EventDef> eventDef;
     // public:
@@ -29,7 +29,7 @@ namespace binding
     //     }
     // };
     //
-    // inline NSoundInstance::NSoundInstance(NEventDef *parent):
+    // inline NSoundInstance::NSoundInstance(WASoundDef *parent):
     //     parent(parent)
     // {
     //
