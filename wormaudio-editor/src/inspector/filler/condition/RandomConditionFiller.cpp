@@ -4,15 +4,14 @@
 
 #include "RandomConditionFiller.hpp"
 
+#include "transition/condition/ConditionPropertyFiller.hpp"
 #include "panel/MyPropertyPanel.hpp"
 
 namespace ui
 {
-    RandomConditionFiller::RandomConditionFiller(condition::RandomCondition &condition_):
-        condition(condition_)
-    {
-
-    }
+    RandomConditionFiller::RandomConditionFiller(condition::RandomCondition &condition_, int index):
+        ConditionPropertyFiller(index),
+        condition(condition_) {}
 
     void RandomConditionFiller::initProperties()
     {

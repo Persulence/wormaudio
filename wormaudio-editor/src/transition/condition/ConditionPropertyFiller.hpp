@@ -13,6 +13,13 @@ namespace ui
     class ConditionPropertyFiller : public PropertyFiller
     {
     public:
-        static std::unique_ptr<PropertyFiller> create(condition::Condition& condition);
+        explicit ConditionPropertyFiller(int index) : index(index) {}
+
+        static std::unique_ptr<PropertyFiller> create(condition::Condition & condition, int index);
+
+        void mouseDown(const juce::MouseEvent &event) override;
+
+    protected:
+        int index;
     };
 }

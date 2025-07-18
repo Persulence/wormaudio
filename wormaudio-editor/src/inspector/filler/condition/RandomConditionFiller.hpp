@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include "property/PropertyFiller.hpp"
 #include "state/condition/RandomCondition.hpp"
+#include "transition/condition/ConditionPropertyFiller.hpp"
 
 namespace ui
 {
-    class RandomConditionFiller : public PropertyFiller
+    class RandomConditionFiller : public ConditionPropertyFiller
     {
     public:
-        explicit RandomConditionFiller(condition::RandomCondition& condition_);
+        RandomConditionFiller(condition::RandomCondition &condition_, int index);
 
         void initProperties() override;
 

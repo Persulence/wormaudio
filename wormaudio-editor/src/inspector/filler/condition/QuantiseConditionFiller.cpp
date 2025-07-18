@@ -8,10 +8,9 @@
 
 namespace ui
 {
-    QuantiseConditionFiller::QuantiseConditionFiller(condition::QuantiseCondition &condition_):
-        condition(condition_)
-    {
-    }
+    QuantiseConditionFiller::QuantiseConditionFiller(condition::QuantiseCondition &condition_, int index):
+        ConditionPropertyFiller(index),
+        condition(condition_) {}
 
     void QuantiseConditionFiller::initProperties()
     {

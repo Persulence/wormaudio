@@ -12,7 +12,8 @@ namespace ui
 {
     using namespace condition;
 
-    TimeConditionFiller::TimeConditionFiller(TimeCondition &condition_):
+    TimeConditionFiller::TimeConditionFiller(TimeCondition &condition_, int index):
+        ConditionPropertyFiller(index),
         condition(condition_)
     {
         setHeader(std::make_unique<SectionHeader>("Time delay"));

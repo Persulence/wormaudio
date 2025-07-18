@@ -22,6 +22,7 @@ namespace ui
 
         void addCondition(condition::Condition&& condition);
 
+        void removeConditionFiller(int index);
 
         // void refresh();
     };

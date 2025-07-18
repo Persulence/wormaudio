@@ -6,12 +6,9 @@
 
 namespace ui
 {
-    AllElementsDoneConditionFiller::AllElementsDoneConditionFiller(
-            condition::AllElementsDoneCondition &condition):
-        condition(condition)
-    {
-
-    }
+    AllElementsDoneConditionFiller::AllElementsDoneConditionFiller(condition::AllElementsDoneCondition &condition, int index):
+        ConditionPropertyFiller(index),
+        condition(condition) {}
 
     void AllElementsDoneConditionFiller::initProperties()
     {
