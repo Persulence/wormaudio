@@ -20,6 +20,9 @@ namespace event
 {
     class EventInstance
     {
+        DISABLE_COPY(EventInstance)
+        DISABLE_MOVE(EventInstance)
+
     public:
         using Ptr = std::shared_ptr<EventInstance>;
 
