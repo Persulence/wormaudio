@@ -120,7 +120,7 @@ namespace runtime
             // auto logicFuture = std::async(std::launch::async, [this]{ logicTick(); });
             logicTick();
 
-            for (auto& event : instances)
+            for (const auto& event : instances)
             {
                 auto& elements = event->getElements();
                 elements.getNextAudioBlock(bufferToFill, listener);
