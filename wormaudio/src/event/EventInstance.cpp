@@ -18,6 +18,12 @@ namespace event
             {
                 stateManager.restart();
             }
+
+            if (state == player::STOPPING)
+            {
+                transport.setState(player::STOPPED);
+                stopInternal();
+            }
         });
     }
 
@@ -64,6 +70,7 @@ namespace event
     void EventInstance::markFreed()
     {
         freed = true;
+        juce::Logger::writeToLog("Freed");
     }
 
     void EventInstance::stopInternal() const
