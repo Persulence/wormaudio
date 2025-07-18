@@ -10,7 +10,7 @@ namespace ui
     class TimeConditionFiller : public ConditionPropertyFiller
     {
     public:
-        explicit TimeConditionFiller(condition::TimeCondition& condition_);
+        TimeConditionFiller(condition::TimeCondition &condition_, int index);
 
         void initProperties() override;
 

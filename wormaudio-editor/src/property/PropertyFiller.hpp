@@ -14,7 +14,7 @@ namespace ui
     class PropertyFiller : public PropertyMember
     {
     public:
-        struct  SectionHeader : public juce::Label
+        struct SectionHeader : public juce::Label
         {
             explicit SectionHeader(const std::string &name_);
 

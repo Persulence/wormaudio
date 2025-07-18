@@ -16,7 +16,8 @@ namespace ui
     class QuantiseConditionFiller : public ConditionPropertyFiller
     {
     public:
-        explicit QuantiseConditionFiller(condition::QuantiseCondition& condition_);
+        QuantiseConditionFiller(condition::QuantiseCondition &condition_, int index);
+
         void initProperties() override;
 
     private:

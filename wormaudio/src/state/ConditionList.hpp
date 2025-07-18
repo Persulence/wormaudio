@@ -47,6 +47,7 @@ namespace condition
         ConditionList() = default;
 
         void insertCondition(Condition condition);
+        void removeCondition();
 
         [[nodiscard]] player::Sample test(const sm::EventParameterLookup& parameters, const event::LogicTickInfo &info, const sm::StateInstance& currentState) const;
 

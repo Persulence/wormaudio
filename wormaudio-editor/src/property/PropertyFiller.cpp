@@ -139,6 +139,7 @@ namespace ui
     void PropertyFiller::setHeader(std::unique_ptr<SectionHeader> header_)
     {
         header = std::move(header_);
+        header->addMouseListener(this, true);
         addAndMakeVisible(header.get());
         resized();
     }

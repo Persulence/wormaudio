@@ -36,9 +36,11 @@ namespace ui
                 {"AND", ConditionBoolOperator::AND}
             }, &conditionList.op));
 
-        for (auto& condition : conditionList.conditions)
+        // for (auto& condition : conditionList.conditions)
+        for (int i = 0; i < conditionList.conditions.size(); i++)
         {
-            auto child = ConditionPropertyFiller::create(condition);
+            auto& condition = conditionList.conditions.at(i);
+            auto child = ConditionPropertyFiller::create(condition, i);
             add(std::shared_ptr(std::move(child)));
         }
     }
@@ -76,6 +78,12 @@ namespace ui
     void ConditionListPropertyFiller::addCondition(Condition&& condition)
     {
         conditionList.insertCondition(std::move(condition));
+        refresh();
+    }
+
+    void ConditionListPropertyFiller::removeConditionFiller(const int index)
+    {
+        conditionList.conditions.erase(conditionList.conditions.begin() + index);
         refresh();
     }
 }

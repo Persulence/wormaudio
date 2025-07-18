@@ -117,7 +117,8 @@ namespace ui
     }
 
 
-    ComparisonConditionPropertyFiller::ComparisonConditionPropertyFiller(ComparisonCondition &condition_):
+    ComparisonConditionPropertyFiller::ComparisonConditionPropertyFiller(ComparisonCondition &condition_, int index):
+        ConditionPropertyFiller(index),
         condition(condition_)
     {
         setHeader(std::make_unique<SectionHeader>("Comparison"));

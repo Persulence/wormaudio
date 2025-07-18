@@ -38,7 +38,8 @@ namespace ui
     {
 
     public:
-        explicit ComparisonConditionPropertyFiller(condition::ComparisonCondition& condition_);
+        ComparisonConditionPropertyFiller(ComparisonCondition &condition_, int index);
+
         void initProperties() override;
 
         condition::ComparisonCondition &condition;
