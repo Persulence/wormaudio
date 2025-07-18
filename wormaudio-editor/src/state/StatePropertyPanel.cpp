@@ -11,14 +11,6 @@ namespace ui
 {
     using namespace juce;
 
-    void StatePropertyPanel::paint(Graphics &g)
-    {
-        // if (auto shared = parent.lock())
-        // {
-        //     g.drawText(shared->getState()->getName(), getLocalBounds(), juce::Justification::centred, true);
-        // }
-    }
-
     void StatePropertyPanel::resized()
     {
         FlexBox box;

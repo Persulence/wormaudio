@@ -28,13 +28,12 @@ namespace ui
         std::vector<std::shared_ptr<ElementRegionWidget>> elements;
 
     public:
-        StatePropertyPanel(std::weak_ptr<StateNodeWidget> parent_):
+        explicit StatePropertyPanel(std::weak_ptr<StateNodeWidget> parent_):
             parent(std::move(parent_))
         {
             update();
         }
 
-        void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
 
