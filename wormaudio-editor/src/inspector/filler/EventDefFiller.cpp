@@ -118,10 +118,10 @@ namespace ui
             attenuationPreview->repaint();
         };
 
-        auto& falloff = add(std::make_unique<SliderPropertyWidget>("Rolloff"));
-        falloff.slider.setRange(0, 2, 0.01);
-        falloff.slider.setValue(eventDef->properties.falloff, false);
-        falloff.slider.onChanged.setup(&falloffListener, [this](auto val)
+        auto& rolloff = add(std::make_unique<SliderPropertyWidget>("Rolloff"));
+        rolloff.slider.setRange(0, 2, 0.01);
+        rolloff.slider.setValue(eventDef->properties.falloff, false);
+        rolloff.slider.onChanged.setup(&falloffListener, [this](auto val)
         {
             eventDef->properties.falloff = val;
             attenuationPreview->repaint();

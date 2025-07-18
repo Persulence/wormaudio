@@ -38,6 +38,7 @@ namespace automation
     enum class Unit
     {
         NONE,
+        FACTOR,
         DBFS,
         HZ,
     };

@@ -22,15 +22,19 @@ namespace element
         player::LeanSamplePlayer player;
 
         Random random;
-        bool loop;
+        const bool loop;
+
+        const float pitchRandom;
+        float pitch{1};
 
     public:
         explicit ChoiceElementInstance(const player::AudioContext &context_, PropertyInstanceContainer properties_,
                                        std::vector<ElementSampleBuffer::Ptr> buffers_,
-                                       const bool _loop
+                                       const bool _loop,
+                                       const float pitchRandom
                                        ) :
-            ElementInstance(context_), properties(std::move(properties_)), buffers(std::move(buffers_)), loop(_loop)
-        {
+            ElementInstance(context_), properties(std::move(properties_)), buffers(std::move(buffers_)), loop(_loop),
+            pitchRandom(pitchRandom) {
 
         }
 
@@ -38,7 +42,14 @@ namespace element
         {
             if (buffers.size() > 0)
             {
+                if (pitchRandom > 0)
+                {
+                    pitch = 1 + (random.nextFloat() * 2 - 1) * pitchRandom;
+                }
+
                 const int idx = random.nextInt(static_cast<int>(buffers.size()));
+
+                player.setPitch(pitch);
                 player.setBuffer(buffers[idx]);
 
                 player.changeState(player::PLAYING);
@@ -53,7 +64,6 @@ namespace element
 
         void getNextAudioBlock(const AudioSourceChannelInfo &bufferToAdd) override
         {
-            // TODO continuous sound when clip ends mid-block
             if (loop && player.getState() == player::STOPPED)
             {
                 start();
@@ -75,15 +85,14 @@ namespace element
         return {};
     }
 
-    ElementInstancePtr ChoiceElement::createInstance(player::AudioContext audioContext,
-                                                     AutomationRegistryInstance &automation)
+    ElementInstancePtr ChoiceElement::createInstance(player::AudioContext audioContext, AutomationRegistryInstance &automation)
     {
         cacheBuffers();
 
         return std::make_shared<ChoiceElementInstance>(
             audioContext,
             automation.getContainer(shared_from_this()),
-            cachedBuffers, loop.getValue());
+            cachedBuffers, loop.getValue(), pitchRandom.getValue());
     }
 
     std::string ChoiceElement::getName()

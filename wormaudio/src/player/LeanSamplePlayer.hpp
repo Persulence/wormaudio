@@ -29,6 +29,8 @@ namespace player
 
         float gain = 1;
 
+        float speed{1};
+
     public:
         bool loop;
 
@@ -104,6 +106,8 @@ namespace player
                 }
             }
         }
+
+        void setPitch(const float pitch) { speed = 1 / pitch; }
     };
 
 }
