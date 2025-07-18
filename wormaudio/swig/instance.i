@@ -32,7 +32,7 @@ EXPOSE1 event::EventInstance::transport;
 UNIGNORE_ALL
 
 %inline %{
-void setInstancePos(std::shared_ptr<event::EventInstance> instance, float x, float y, float z)
+void setInstancePos(std::shared_ptr<event::EventInstance> instance, WORMAUDIO_COORDINATE_TYPE x, WORMAUDIO_COORDINATE_TYPE y, WORMAUDIO_COORDINATE_TYPE z)
 {
     instance->setPosition({x, y, z});
 }

@@ -26,6 +26,21 @@ namespace binding
         backing->disconnect();
     }
 
+    void WARuntime::setListenerPosition(double x, double y, double z) const
+    {
+        backing->setListenerPosition(instance::Vec3f{x, y, z});
+    }
+
+    void WARuntime::setListenerYaw(float yaw) const
+    {
+        backing->setListenerYaw(yaw);
+    }
+
+    void WARuntime::clearInstances() const
+    {
+        backing->clearInstances();
+    }
+
     void WARuntime::setState(player::TransportState state) const
     {
         backing->transport.setState(state);
