@@ -26,31 +26,67 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
     auto outputSamplesRemaining = bufferToFill.numSamples;
     auto outputSamplesOffset = bufferToFill.startSample;
 
-    float speed = 1.5;
+    float speed = 1;
 
-    int samplesThisTime = bufferToFill.numSamples;
+    // Buffer length and apparrent length
+    const int N = buffer->getNumSamples();
+    const int N1 = N / speed;
 
-    int N = buffer->getNumSamples();
-
-    for (auto channel = 0; channel < numOutputChannels; ++channel)
+    while (outputSamplesRemaining > 0)
     {
-        for (int i = 0; i < samplesThisTime; ++i)
-        {
-            int n = position + i;
-            float n2f = std::fmod(static_cast<float>(n) * speed, N);
-            int n20 = static_cast<int>(std::floor(n2f));
-            int n21 = (n20 + 1) % N;
-            delta = n2f - n20;
+        int sourceSamplesRemaining = N1 - position;
 
-            float sample = std::lerp(
-                buffer->getSample(channel % numBufferChannels, n20),
-                buffer->getSample(channel % numBufferChannels, n21),
-                delta);
-            bufferToFill.buffer->addSample(channel, outputSamplesOffset + i, sample);
+        int samplesThisTime = std::min(outputSamplesRemaining, sourceSamplesRemaining);
+
+        if (juce::approximatelyEqual(speed, 1.f))
+        {
+            for (auto channel = 0; channel < numOutputChannels; ++channel)
+            {
+                bufferToFill.buffer->addFrom(channel,
+                                             outputSamplesOffset,
+                                             ref,
+                                             channel % numBufferChannels,
+                                             position,
+                                             samplesThisTime,
+                                             gain);
+            }
+        }
+        else
+        {
+            for (auto channel = 0; channel < numOutputChannels; ++channel)
+            {
+                for (int i = 0; i < samplesThisTime; ++i)
+                {
+                    int n = position + i;
+                    float n2f = std::fmod(static_cast<float>(n) * speed, N);
+                    int n20 = static_cast<int>(std::floor(n2f));
+                    int n21 = (n20 + 1) % N;
+                    delta = n2f - n20;
+
+                    float sample = std::lerp(
+                        buffer->getSample(channel % numBufferChannels, n20),
+                        buffer->getSample(channel % numBufferChannels, n21),
+                        delta);
+                    bufferToFill.buffer->addSample(channel, outputSamplesOffset + i, sample);
+                }
+            }
+        }
+
+        outputSamplesRemaining -= samplesThisTime;
+        outputSamplesOffset += samplesThisTime;
+        position = position + samplesThisTime;
+
+        if (position == N1)
+        {
+            position = 0;
+            if (!loop)
+            {
+                transportState = STOPPED;
+                break;
+            }
         }
     }
 
-    position += std::floor(static_cast<float>(samplesThisTime));
 
     // position += samplesThisTime;
     // if (position >= buffer->getNumSamples())
