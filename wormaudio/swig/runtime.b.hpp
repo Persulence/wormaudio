@@ -48,6 +48,10 @@ namespace binding
         std::shared_ptr<event::EventInstance> instantiate(const binding::WASoundDef &def) const;
         void connectToDevice() const;
         void disconnect() const;
+        void setListenerPosition(double x, double y, double z) const;
+        void setListenerYaw(float yaw) const;
+
+        void clearInstances() const;
 
         void setState(player::TransportState state) const;
 

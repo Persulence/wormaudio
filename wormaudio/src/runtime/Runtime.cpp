@@ -23,6 +23,7 @@ namespace runtime
                 case player::STOPPING:
                 case player::STOPPED:
                     collectFreeInstances.stopTimer();
+                    clearInstances();
                     break;
                 default: ;
             }
