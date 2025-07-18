@@ -26,7 +26,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
     auto outputSamplesRemaining = bufferToFill.numSamples;
     auto outputSamplesOffset = bufferToFill.startSample;
 
-    float pitch = 1;
+    float speed = 1.5;
 
     int samplesThisTime = bufferToFill.numSamples;
 
@@ -37,22 +37,11 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
         for (int i = 0; i < samplesThisTime; ++i)
         {
             int n = position + i;
-            float n2f = std::fmod(static_cast<float>(n) / pitch, N);
+            float n2f = std::fmod(static_cast<float>(n) * speed, N);
             int n20 = static_cast<int>(std::floor(n2f));
             int n21 = (n20 + 1) % N;
             delta = n2f - n20;
 
-            if (n >= buffer->getNumSamples())
-            {
-                int ooo = 1;
-            }
-
-            // REMOVE
-            int _n20 = n % N;
-            int _n21 = (n + 1) % N;
-            // delta = 0;
-
-            // float sample = ref.getSample(channel % numBufferChannels, n20) * gain;
             float sample = std::lerp(
                 buffer->getSample(channel % numBufferChannels, n20),
                 buffer->getSample(channel % numBufferChannels, n21),
@@ -61,15 +50,19 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
         }
     }
 
-    position += samplesThisTime;
-    if (position >= buffer->getNumSamples())
-    {
-        // transportState = STOPPED;
-        // position = 0;
-        position = (position + samplesThisTime) % N;
-    }
+    position += std::floor(static_cast<float>(samplesThisTime));
 
-    // position += std::floor(static_cast<float>(samplesThisTime) * pitch);
+    // position += samplesThisTime;
+    // if (position >= buffer->getNumSamples())
+    // {
+    //     transportState = STOPPED;
+    //     position = 0;
+    // }
+
+    // position = (position + samplesThisTime) % N;
+
+
+    // Normal
 
     // while (outputSamplesRemaining > 0)
     // {
