@@ -41,6 +41,11 @@ namespace binding
         backing->clearInstances();
     }
 
+    int WARuntime::getInstanceCount() const
+    {
+        return backing->getInstances().size();
+    }
+
     void WARuntime::setState(player::TransportState state) const
     {
         backing->transport.setState(state);

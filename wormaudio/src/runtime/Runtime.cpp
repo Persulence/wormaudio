@@ -50,6 +50,11 @@ namespace runtime
         instances.push_back(instance);
     }
 
+    const std::vector<event::EventInstance::Ptr>& Runtime::getInstances()
+    {
+        return instances;
+    }
+
     void Runtime::clearInstances()
     {
         std::lock_guard lock{instancesMutex};
@@ -65,6 +70,12 @@ namespace runtime
     {
         std::lock_guard lock{instancesMutex};
         std::erase_if(instances, [](auto& i){ return i->canFree(); });
+
+        // juce::Logger::writeToLog("Current instance count after prune: " + std::to_string(instances.size()));
+        // for (auto& i : instances)
+        // {
+        //     juce::Logger::writeToLog(std::format("canFree: {}", i->canFree()));
+        // }
     }
 
     void Runtime::connectToDevice()
