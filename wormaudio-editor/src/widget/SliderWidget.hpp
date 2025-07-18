@@ -7,6 +7,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include "signal/Signal.hpp"
+#include "util/component/MyLabel.hpp"
 
 namespace ui
 {
@@ -20,18 +21,22 @@ namespace ui
         Value dragValue{};
         Value increment{};
 
+        MyLabel<Value> label;
+
     public:
         using C = signal_event::Callback<Value>;
         C::Signal onChanged;
 
-        SliderWidget() = default;
+        SliderWidget();
 
         void setRange(Value min_, Value max_, Value increment_);
         void setValue(Value value, bool notify);
 
         void mouseDown(const juce::MouseEvent &event) override;
         void mouseDrag(const juce::MouseEvent &event) override;
+        void mouseUp(const juce::MouseEvent &event) override;
         void paint(juce::Graphics &g) override;
+        void resized() override;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderWidget)
 

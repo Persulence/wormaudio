@@ -6,6 +6,15 @@
 
 namespace ui
 {
+    SliderWidget::SliderWidget():
+        label(parse::parseFloat)
+    {
+        addAndMakeVisible(label);
+        label.addMouseListener(this, true);
+
+        label.listen(&onChanged);
+    }
+
     void SliderWidget::setRange(const Value min_, const Value max_, const Value increment_)
     {
         min = min_;
@@ -16,6 +25,8 @@ namespace ui
     void SliderWidget::setValue(Value value, bool notify)
     {
         current = value;
+        label.setTextParse(value);
+
         if (notify)
             onChanged.emit(current);
     }
@@ -35,13 +46,27 @@ namespace ui
         const auto dx = event.getDistanceFromDragStartX();
         if (event.mods.isLeftButtonDown())
         {
-            const Value sensitivity = 0.05;
-            snapValue(dragValue + sensitivity * dx);
+            const Value sensitivity = 0.005;
+            float range = std::abs(max - min);
+            event.source.enableUnboundedMouseMovement(true);
+            snapValue(dragValue + range * sensitivity * dx);
         }
         else if (event.mods.isRightButtonDown())
         {
             mouseDownValue(event);
         }
+    }
+
+    void SliderWidget::mouseUp(const MouseEvent &event)
+    {
+        event.source.enableUnboundedMouseMovement(false);
+    }
+
+    void SliderWidget::mouseDownValue(const juce::MouseEvent &event)
+    {
+        const auto bounds = getLocalBounds();
+        const double f = (event.x - bounds.getX()) / static_cast<double>(bounds.getWidth());
+        snapValue(min + f * (max - min));
     }
 
     void SliderWidget::paint(juce::Graphics &g)
@@ -52,19 +77,17 @@ namespace ui
 
         g.setColour(juce::Colours::red);
         g.fillRoundedRectangle(rect, 5);
-        g.setColour(juce::Colours::white);
-        auto w = getWidth();
-        g.drawText(juce::String{current}, getX(), getY(), getWidth(), getHeight(), juce::Justification::centred, true);
+        // g.setColour(juce::Colours::white);
+        // auto w = getWidth();
+        // g.drawText(juce::String{current}, getX(), getY(), getWidth(), getHeight(), juce::Justification::centred, true);
 
         g.setColour(juce::Colours::black);
         g.drawRoundedRectangle(bounds, 5, 1);
     }
 
-    void SliderWidget::mouseDownValue(const juce::MouseEvent &event)
+    void SliderWidget::resized()
     {
-        const auto bounds = getLocalBounds();
-        const double f = (event.x - bounds.getX()) / static_cast<double>(bounds.getWidth());
-        snapValue(min + f * (max - min));
+        label.setBounds(getLocalBounds());
     }
 
     void SliderWidget::snapValue(Value value)

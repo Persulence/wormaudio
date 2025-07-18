@@ -10,7 +10,6 @@
 
 namespace ui
 {
-
     template <typename T>
     class MyLabel : public juce::Label, juce::Label::Listener
     {
@@ -25,6 +24,14 @@ namespace ui
             parse(parse_), toString(std::move(toString_))
         {
 
+        }
+
+        void listen(typename signal_event::Callback<T>::Signal* signal)
+        {
+            signal->setup(&extraListener, [this](auto val)
+            {
+                setText(toString(val), juce::dontSendNotification);
+            });
         }
 
         void setData(util::Data<T> data_)
@@ -47,8 +54,14 @@ namespace ui
             data.setValue(parse(labelThatHasChanged->getText().toStdString()));
         }
 
+        void setTextParse(T value)
+        {
+            setText(toString(value), juce::dontSendNotification);
+        }
+
     private:
         typename util::Data<T>::Listener listener;
+        typename signal_event::Callback<T>::Listener extraListener;
         util::Data<T> data{{}};
     };
 }
