@@ -18,12 +18,12 @@
 IGNORE_ALL
 
 
-%rename("WASoundInstance") event::EventInstance;
 EXPOSE1 event;
 EXPOSE1 event::EventInstance;
 EXPOSE1 event::~EventInstance;
 EXPOSE1 event::EventInstance::setState;
 EXPOSE1 event::EventInstance::transport;
+%rename("WASoundInstance") event::EventInstance;
 %feature("immutable", "1") event::EventInstance::transport;
 
 %include "event/EventInstance.hpp"
