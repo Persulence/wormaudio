@@ -70,7 +70,6 @@ namespace event
     void EventInstance::markFreed()
     {
         freed = true;
-        juce::Logger::writeToLog("Freed");
     }
 
     void EventInstance::stopInternal() const

@@ -24,8 +24,6 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
     auto outputSamplesRemaining = bufferToFill.numSamples;
     auto outputSamplesOffset = bufferToFill.startSample;
 
-    float speed = 1;
-
     // Buffer length and apparent length
     const int N = buffer->getNumSamples();
     const int N1 = N / speed;

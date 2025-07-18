@@ -25,12 +25,14 @@ namespace element
     {
     public:
         util::Data<bool> loop{false};
+        util::Data<float> pitchRandom{0};
+        // automation::Property pitch{automation::createProperty("pitch", 1, automation::Unit::FACTOR)};
 
         ChoiceElement() = default;
 
         [[nodiscard]] std::vector<std::shared_ptr<::automation::PropertyDef>> getProperties() override;
 
-        [[nodiscard]] ElementInstancePtr createInstance(::player::AudioContext,
+        [[nodiscard]] ElementInstancePtr createInstance(player::AudioContext,
                 automation::AutomationRegistryInstance &automation) override;
 
         std::string getName() override;
@@ -54,17 +56,17 @@ namespace element
             ar(
                 cereal::make_nvp("base", cereal::base_class<Element>(this)),
                 cereal::make_nvp("loop", loop),
+                cereal::make_nvp("pitch_random", pitchRandom),
                 cereal::make_nvp("clips", clips)
             );
         }
 
         INTERNAL_SPLIT_LOAD
         {
-            ar(
-                cereal::make_nvp("base", cereal::base_class<Element>(this)),
-                cereal::make_nvp("loop", loop),
-                cereal::make_nvp("clips", clips)
-            );
+            ar(cereal::make_nvp("base", cereal::base_class<Element>(this)));
+            ar(cereal::make_nvp("loop", loop));
+            cereal::make_optional_nvp(ar, "pitch_random", pitchRandom);
+            ar(cereal::make_nvp("clips", clips));
         }
     };
 }

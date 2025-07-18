@@ -5,6 +5,7 @@
 #include "ElementInspectorFiller.hpp"
 
 #include "panel/MyPropertyPanel.hpp"
+#include "panel/SliderPropertyWidget.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
 
@@ -38,6 +39,7 @@ namespace ui
         class ChoiceImpl : public PropertyFiller
         {
             ChoiceElement& element;
+            SliderWidget::C::Listener randomPitchListener;
 
         public:
             explicit ChoiceImpl(ChoiceElement &element) :
@@ -49,6 +51,13 @@ namespace ui
             void initProperties() override
             {
                 add(std::make_shared<BoolDataPropertyWidget>("Loop", element.loop));
+                auto& randomPitch = add(std::make_shared<SliderPropertyWidget>("Random Pitch"));
+                randomPitch.slider.setRange(0.f, 0.9f, 0.05);
+                randomPitch.slider.setValue(element.pitchRandom.getValue(), false);
+                randomPitch.slider.onChanged.setup(&randomPitchListener, [this](auto val)
+                {
+                    element.pitchRandom = val;
+                });
             }
         };
     }
