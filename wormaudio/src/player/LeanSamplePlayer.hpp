@@ -25,6 +25,7 @@ namespace player
         AudioContext audioContext;
 
         int position{0};
+        float delta{0};
 
         float gain = 1;
 
