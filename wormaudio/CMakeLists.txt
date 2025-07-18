@@ -51,7 +51,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 # Linking to JUCE should bypass EXCLUDE_FROM_ALL for build.
 add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build EXCLUDE_FROM_ALL)
 
-add_subdirectory(swig)
+add_subdirectory(swig EXCLUDE_FROM_ALL)
 
 # This command sets cxx_std_17 somewhere. We're using C++20, so this can't be used.
 #juce_add_gui_app(${LIBRARY_TARGET}
