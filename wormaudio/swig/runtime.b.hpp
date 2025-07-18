@@ -53,6 +53,8 @@ namespace binding
 
         void clearInstances() const;
 
+        int getInstanceCount() const;
+
         void setState(player::TransportState state) const;
 
     private:

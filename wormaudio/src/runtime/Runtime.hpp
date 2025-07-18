@@ -29,16 +29,22 @@ namespace runtime
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Runtime)
 
         Runtime();
+
         ~Runtime() override;
 
         void connectToDevice();
+
         void disconnect();
 
         // void setupParameters(std::shared_ptr<event::ParameterList> list);
+
         sm::GlobalParameterLookup &getParameters();
 
         event::EventInstance::Ptr instantiate(const resource::Handle<event::EventDef> &event);
+
         void addInstance(const event::EventInstance::Ptr &instance);
+
+        const std::vector<event::EventInstance::Ptr> &getInstances();
         void clearInstances();
         void pruneInstances();
 

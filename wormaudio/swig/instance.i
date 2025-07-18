@@ -23,6 +23,9 @@ EXPOSE1 event::EventInstance;
 EXPOSE1 event::~EventInstance;
 EXPOSE1 event::EventInstance::setState;
 EXPOSE1 event::EventInstance::transport;
+EXPOSE1 event::EventInstance::markFreed;
+EXPOSE1 event::EventInstance::canFree;
+%rename("markDone") event::EventInstance::markFreed;
 %rename("WASoundInstance") event::EventInstance;
 %feature("immutable", "1") event::EventInstance::transport;
 
