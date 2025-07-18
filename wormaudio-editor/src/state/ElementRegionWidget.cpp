@@ -10,7 +10,9 @@
 #include "automation/AutomationTable.hpp"
 #include "automation/Mapping.hpp"
 #include "browser/FileDragSource.hpp"
+#include "canvas/InspectorSelectionManager.hpp"
 #include "editor/Editor.hpp"
+#include "inspector/filler/ElementInspectorFiller.hpp"
 #include "resource/ChoiceElement.hpp"
 
 #include "resource/ClipElement.hpp"
@@ -20,12 +22,12 @@ namespace ui
     using namespace juce;
     using namespace element;
 
-    class Impl : public Component
+    class ElementRegionImpl : public Component
     {
 
     };
 
-    class ClipImpl : public Impl
+    class ClipImpl : public ElementRegionImpl
     {
     public:
         explicit ClipImpl(resource::Handle<ClipElement> element_) :
@@ -82,7 +84,7 @@ namespace ui
         resource::Handle<ClipElement> element;
     };
 
-    class ChoiceImpl : public Impl, public DragAndDropTarget
+    class ChoiceImpl : public ElementRegionImpl, public DragAndDropTarget
     {
     public:
         explicit ChoiceImpl(resource::Handle<ChoiceElement> element_) :
@@ -134,6 +136,14 @@ namespace ui
             }
         }
 
+        void mouseDown(const MouseEvent &event) override
+        {
+            if (auto manager = findParentComponentOfClass<InspectorSelectionManager>())
+            {
+                manager->select(SimpleSelectionTarget::of(std::make_unique<ElementInspectorFiller>(event::ElementHandle{element})));
+            }
+        }
+
     private:
         resource::Handle<ChoiceElement> element;
 
@@ -171,7 +181,7 @@ namespace ui
         return std::make_unique<ImplType>(std::dynamic_pointer_cast<ElementType>(h.ptr));\
     });
 
-    static std::unordered_map<std::type_index, std::function<std::unique_ptr<Impl>(event::ElementHandle)>> map;
+    static std::unordered_map<std::type_index, std::function<std::unique_ptr<ElementRegionImpl>(event::ElementHandle)>> map;
 
     static auto _clip = THING(ClipElement, ClipImpl)
     static auto _choice = THING(ChoiceElement, ChoiceImpl)
