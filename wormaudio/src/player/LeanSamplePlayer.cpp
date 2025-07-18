@@ -14,13 +14,11 @@ LeanSamplePlayer::LeanSamplePlayer(asset::ElementSampleBuffer::Ptr buffer_, bool
 
 void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
 {
-    const auto& ref = *buffer;
-
-    auto numBufferChannels = ref.getNumChannels();
-    // if (transportState != PLAYING || numBufferChannels == 0)
-    // {
-        // return;
-    // }
+    auto numBufferChannels = buffer->getNumChannels();
+    if (transportState != PLAYING || numBufferChannels == 0)
+    {
+        return;
+    }
 
     auto numOutputChannels = bufferToFill.buffer->getNumChannels();
     auto outputSamplesRemaining = bufferToFill.numSamples;
@@ -28,7 +26,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
 
     float speed = 1;
 
-    // Buffer length and apparrent length
+    // Buffer length and apparent length
     const int N = buffer->getNumSamples();
     const int N1 = N / speed;
 
@@ -44,7 +42,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
             {
                 bufferToFill.buffer->addFrom(channel,
                                              outputSamplesOffset,
-                                             ref,
+                                             *buffer,
                                              channel % numBufferChannels,
                                              position,
                                              samplesThisTime,
@@ -86,53 +84,4 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
             }
         }
     }
-
-
-    // position += samplesThisTime;
-    // if (position >= buffer->getNumSamples())
-    // {
-    //     transportState = STOPPED;
-    //     position = 0;
-    // }
-
-    // position = (position + samplesThisTime) % N;
-
-
-    // Normal
-
-    // while (outputSamplesRemaining > 0)
-    // {
-    //     auto refSamplesRemaining = buffer->getNumSamples() - position;
-    //     auto samplesThisTime = juce::jmin(outputSamplesRemaining, refSamplesRemaining);
-    //     for (auto channel = 0; channel < numOutputChannels; ++channel)
-    //     {
-    //         // bufferToFill.buffer->addFrom(channel,
-    //         //                              outputSamplesOffset,
-    //         //                              ref,
-    //         //                              channel % numBufferChannels,
-    //         //                              position,
-    //         //                              samplesThisTime,
-    //         //                              gain);
-    //
-    //         for (int i = 0; i < samplesThisTime; ++i)
-    //         {
-    //             bufferToFill.buffer->addSample(channel, outputSamplesOffset + i,
-    //                 ref.getSample(channel % numBufferChannels, position + i) * gain);
-    //         }
-    //     }
-    //
-    //     outputSamplesRemaining -= samplesThisTime;
-    //     outputSamplesOffset += samplesThisTime;
-    //     position += samplesThisTime;
-    //
-    //     if (position == ref.getNumSamples())
-    //     {
-    //         position = 0;
-    //         if (!loop)
-    //         {
-    //             transportState = STOPPED;
-    //             break;
-    //         }
-    //     }
-    // }
 }
