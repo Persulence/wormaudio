@@ -7,11 +7,11 @@ on:
       - '*.md'
 
 jobs:
-  lint:
-    name: 🧹 Lint / 📜 C++
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+#  lint:
+#    name: 🧹 Lint / 📜 C++
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
 
   build:
     strategy:
@@ -32,6 +32,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
 
       - name: Checkout
         uses: actions/checkout@v3
