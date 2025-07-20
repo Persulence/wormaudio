@@ -9,7 +9,7 @@
 	url = https://github.com/Enhex/Cereal-Optional-NVP/
 [submodule "wormaudio-godot"]
 	path = wormaudio-godot
-	url = git@gh-persulence:/Persulence/wormaudio-godot
+	url = git@github.com:/Persulence/wormaudio-godot
 [submodule "wormaudio-java"]
 	path = wormaudio-java
-	url = git@gh-persulence:/Persulence/wormaudio-java
+	url = git@github.com:/Persulence/wormaudio-java
