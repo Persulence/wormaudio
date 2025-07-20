@@ -1,0 +1,86 @@
+name: Build Editor
+
+on:
+  push:
+    paths-ignore:
+      - '.gitignore'
+      - '*.md'
+
+jobs:
+  lint:
+    name: 🧹 Lint / 📜 C++
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+#        build_type: ['Debug', 'Release']
+        build_type: ['Debug']
+        config:
+          - { name: '🍏 macOS Clang', os: macos-latest }
+          - { name: '🐧 Linux GCC', os: ubuntu-latest }
+          - { name: '🪟 Windows MSVC', os: windows-latest }
+
+    name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Dependencies (macOS)
+        if: matrix.config.os == 'macos-latest'
+        run: brew install ninja
+
+      - name: Install Dependencies (Linux)
+        if: matrix.config.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+
+      - name: Install Dependencies (Windows)
+        if: matrix.config.os == 'windows-latest'
+        run: |
+          choco upgrade ninja
+
+      - name: Setup MSVC (Windows)
+        if: matrix.config.os == 'windows-latest'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure
+        run: >
+          mkdir build-editor
+
+          cmake
+          -B build-editor
+          -G "Ninja"
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
+          .
+
+      - name: Build
+        run: cmake --target build_editor --build build-editor
+
+      - name: Install
+        run: cmake --target build_editor --install build-editor
+
+      - name: Upload artifact (Debug)
+        if: matrix.build_type == 'Debug'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-Debug
+          path: |
+            ${{ github.workspace }}/install-${{ matrix.build_type }}/*
+
+      - name: Upload artifact (Release)
+        if: matrix.build_type == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-Release
+          path: |
+            ${{ github.workspace }}/install-${{ matrix.build_type }}/*
