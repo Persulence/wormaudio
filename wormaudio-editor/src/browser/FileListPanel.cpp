@@ -34,7 +34,7 @@ namespace ui
     void HeaderWidget::paint(Graphics &g)
     {
         g.setColour(Colours::wheat);
-        auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
+        auto iconBounds = juce::Rectangle<int>{0, 0, getHeight(), getHeight()};
         iconBounds.reduce(4, 4);
 
         if (!icon.isNull())
@@ -79,7 +79,7 @@ namespace ui
             g.setColour(Colours::darkblue);
             g.fillRect(getLocalBounds());
         }
-        auto iconBounds = Rectangle{0, 0, getHeight(), getHeight()};
+        auto iconBounds = juce::Rectangle<int>{0, 0, getHeight(), getHeight()};
         iconBounds.reduce(4, 4);
         // g.fillRect(iconBounds);
         if (!icon.isNull())
