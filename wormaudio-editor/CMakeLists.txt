@@ -206,3 +206,4 @@ set_target_properties(${GUI_TARGET} PROPERTIES
 
 #install(TARGETS ${GUI_TARGET}
 #    DESTINATION ${CMAKE_INSTALL_DIR}/bin)
+message(STATUS "Editor install prefix: ${CMAKE_INSTALL_PREFIX}")
