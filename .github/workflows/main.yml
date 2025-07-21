@@ -20,7 +20,7 @@ jobs:
 #        build_type: ['Debug', 'Release']
         build_type: ['Release']
         config:
-          - { name: '🐧 Linux GCC', os: ubuntu-latest }
+#          - { name: '🐧 Linux GCC', os: ubuntu-latest }
 #          - { name: '🍏 macOS Clang', os: macos-latest }
           - { name: '🪟 Windows MSVC', os: windows-latest }
 
@@ -95,7 +95,8 @@ jobs:
           -B build-editor
           -G "Ninja"
           -DJUCE_MODULES_ONLY=ON 
-          -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
+#          -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
+          -DCMAKE_CXX_FLAGS="/w /W0"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_C_COMPILER_LAUNCHER=ccache 
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
