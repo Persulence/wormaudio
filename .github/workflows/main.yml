@@ -95,6 +95,7 @@ jobs:
           -B build-editor
           -G "Ninja"
           -DJUCE_MODULES_ONLY=ON 
+          -DDISABLE_WARNINGS=TRUE
           -DCMAKE_CXX_FLAGS="/w /W0"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_C_COMPILER_LAUNCHER=ccache 
