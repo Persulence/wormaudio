@@ -171,7 +171,7 @@ target_link_libraries(${LIBRARY_TARGET}
         juce::juce_audio_basics
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags
+#        juce::juce_recommended_warning_flags
 )
 
 file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${WORMAUDIO_LIB_DIR}/JUCE/*.cpp  ${WORMAUDIO_LIB_DIR}/JUCE/*.mm ${WORMAUDIO_LIB_DIR}/JUCE/*.r)
