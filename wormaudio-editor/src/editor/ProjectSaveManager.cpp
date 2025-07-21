@@ -58,14 +58,14 @@ namespace editor
             && path.extension() == resource::FILE_EXTENSION)
         {
             // Overwrite existing project
-            return path;
+            return path.string();
         }
         else
         {
             // Assume a folder with the project's name and put the project file inside that.
-            std::string name = path.filename();
+            std::string name = path.filename().string();
             // return path.append("/").append(name).append(resource::FILE_EXTENSION);
-            return path / (name.append(resource::FILE_EXTENSION));
+            return (path / fs::path{name.append(resource::FILE_EXTENSION)}).string();
         }
     }
 
