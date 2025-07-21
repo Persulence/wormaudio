@@ -49,9 +49,9 @@ namespace parameter
         Type type;
     };
 
-    constexpr ParameterType ParameterType::DISCRETE{0, "discrete"};
-    constexpr ParameterType ParameterType::CONTINUOUS{1, "continuous"};
-    constexpr ParameterType ParameterType::ENUM{2, "enum"};
+    constexpr inline ParameterType ParameterType::DISCRETE{0, "discrete"};
+    constexpr inline ParameterType ParameterType::CONTINUOUS{1, "continuous"};
+    constexpr inline ParameterType ParameterType::ENUM{2, "enum"};
 
     bool isValidName(const std::string &name);
     ParameterValue parseValue(const std::string& text);
