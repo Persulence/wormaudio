@@ -49,7 +49,7 @@ namespace parameter
         Type type;
     };
 
-    constexpr  ParameterType ParameterType::DISCRETE{0, "discrete"};
+    constexpr ParameterType ParameterType::DISCRETE{0, "discrete"};
     constexpr ParameterType ParameterType::CONTINUOUS{1, "continuous"};
     constexpr ParameterType ParameterType::ENUM{2, "enum"};
 
