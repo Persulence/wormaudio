@@ -84,7 +84,7 @@ jobs:
 
       - name: Set variables (Windows)
         if: matrix.config.os == 'ubuntu-latest'
-        run: echo "CXX_FLAGS=-std=c++20 -w" >> $GITHUB_ENV
+        run: echo "CXX_FLAGS="-std=c++20 -w"" >> $GITHUB_ENV
 
       - name: Configure
         run: >
