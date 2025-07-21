@@ -11,9 +11,9 @@
 
 set(LIBRARY_TARGET wormaudio)
 
-#if ()
-add_compile_options(-fPIC)
-#endif ()
+if (NOT MSVC)
+    add_compile_options(-fPIC)
+endif ()
 
 cmake_minimum_required(VERSION 3.25)
 
