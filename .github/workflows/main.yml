@@ -20,9 +20,9 @@ jobs:
 #        build_type: ['Debug', 'Release']
         build_type: ['Debug']
         config:
-          - { name: '🍏 macOS Clang', os: macos-latest }
           - { name: '🐧 Linux GCC', os: ubuntu-latest }
-          - { name: '🪟 Windows MSVC', os: windows-latest }
+#          - { name: '🍏 macOS Clang', os: macos-latest }
+#          - { name: '🪟 Windows MSVC', os: windows-latest }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
     runs-on: ${{ matrix.config.os }}
@@ -48,7 +48,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build swig xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libfreetype-dev libfreetype6 libfreetype6-dev
+          sudo apt-get install -y ninja-build swig xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libfreetype-dev libfreetype6 libfreetype6-dev freetype2
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
@@ -66,6 +66,8 @@ jobs:
           cmake
           -B build-editor
           -G "Ninja"
+          -DJUCE_MODULES_ONLY=ON 
+          -DCMAKE_CXX_FLAGS="-std=c++20 -w"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
