@@ -95,13 +95,13 @@ jobs:
           -B build-editor
           -G "Ninja"
           -DJUCE_MODULES_ONLY=ON 
-#          -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
           -DCMAKE_CXX_FLAGS="/w /W0"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_C_COMPILER_LAUNCHER=ccache 
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
+      #          -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
 #          -DCMAKE_CXX_COMPILER=${{ steps.install_cc.outputs.cxx }}
 #          -DCMAKE_C_COMPILER=${{ steps.install_cc.outputs.cc }}
 
