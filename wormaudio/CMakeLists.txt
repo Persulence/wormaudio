@@ -213,7 +213,7 @@ set_source_files_properties(
 # It is not recommended to enable unity build in CMakeLists.txt, but I was having trouble getting it to work.
 #set_property(TARGET ${LIBRARY_TARGET} PROPERTY UNITY_BUILD ON)
 set_target_properties(${LIBRARY_TARGET} PROPERTIES
-        UNITY_BUILD ON
+#        UNITY_BUILD ON
         UNITY_BUILD_MODE BATCH
         UNITY_BUILD_BATCH_SIZE 10
 )

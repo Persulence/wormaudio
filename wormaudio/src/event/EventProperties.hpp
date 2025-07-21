@@ -5,6 +5,7 @@
 #pragma once
 
 #include "instance/spatial.hpp"
+#include "util/serialization_util.hpp"
 
 namespace event
 {
