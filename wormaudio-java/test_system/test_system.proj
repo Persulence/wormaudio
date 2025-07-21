@@ -1,0 +1,1315 @@
+{
+    "value0": {
+        "cereal_class_version": 0,
+        "global_parameters": {
+            "polymorphic_id": 1073741824,
+            "ptr_wrapper": {
+                "id": 2147483649,
+                "data": {
+                    "cereal_class_version": 0,
+                    "value0": [
+                        {
+                            "polymorphic_id": 1073741824,
+                            "ptr_wrapper": {
+                                "id": 2147483650,
+                                "data": {
+                                    "index": 1,
+                                    "data": {
+                                        "cereal_class_version": 0,
+                                        "value0": {
+                                            "cereal_class_version": 0,
+                                            "value0": {
+                                                "cereal_class_version": 0,
+                                                "ptr": {
+                                                    "ptr_wrapper": {
+                                                        "id": 2147483651,
+                                                        "data": {
+                                                            "cereal_class_version": 0,
+                                                            "object": "end"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "min": {
+                                            "cereal_class_version": 0,
+                                            "ptr": {
+                                                "ptr_wrapper": {
+                                                    "id": 2147483652,
+                                                    "data": {
+                                                        "cereal_class_version": 0,
+                                                        "object": 0.0
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "max": {
+                                            "ptr": {
+                                                "ptr_wrapper": {
+                                                    "id": 2147483653,
+                                                    "data": {
+                                                        "object": 1.0
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "polymorphic_id": 1073741824,
+                            "ptr_wrapper": {
+                                "id": 2147483654,
+                                "data": {
+                                    "index": 0,
+                                    "data": {
+                                        "cereal_class_version": 0,
+                                        "value0": {
+                                            "value0": {
+                                                "ptr": {
+                                                    "ptr_wrapper": {
+                                                        "id": 2147483655,
+                                                        "data": {
+                                                            "object": "tension"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "min": {
+                                            "ptr": {
+                                                "ptr_wrapper": {
+                                                    "id": 2147483656,
+                                                    "data": {
+                                                        "object": -60.0
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "max": {
+                                            "ptr": {
+                                                "ptr_wrapper": {
+                                                    "id": 2147483657,
+                                                    "data": {
+                                                        "object": 0.0
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "events": [
+            {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483658,
+                    "data": {
+                        "cereal_class_version": 0,
+                        "name": {
+                            "ptr": {
+                                "ptr_wrapper": {
+                                    "id": 2147483659,
+                                    "data": {
+                                        "object": "music"
+                                    }
+                                }
+                            }
+                        },
+                        "definition": {
+                            "polymorphic_id": 1073741824,
+                            "ptr_wrapper": {
+                                "id": 2147483660,
+                                "data": {
+                                    "cereal_class_version": 0,
+                                    "start": {
+                                        "polymorphic_id": 1073741824,
+                                        "ptr_wrapper": {
+                                            "id": 2147483661,
+                                            "data": {
+                                                "cereal_class_version": 0,
+                                                "name": {
+                                                    "ptr": {
+                                                        "ptr_wrapper": {
+                                                            "id": 2147483662,
+                                                            "data": {
+                                                                "object": "START"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "flags": {
+                                                    "cereal_class_version": 0,
+                                                    "type": 0
+                                                },
+                                                "elements": [],
+                                                "transitions": [
+                                                    {
+                                                        "polymorphic_id": 1073741824,
+                                                        "ptr_wrapper": {
+                                                            "id": 2147483663,
+                                                            "data": {
+                                                                "cereal_class_version": 0,
+                                                                "conditions": {
+                                                                    "ptr_wrapper": {
+                                                                        "valid": 1,
+                                                                        "data": {
+                                                                            "cereal_class_version": 0,
+                                                                            "conditions": [],
+                                                                            "operator": 0
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "nextState": {
+                                                                    "locked_ptr": {
+                                                                        "polymorphic_id": 1073741824,
+                                                                        "ptr_wrapper": {
+                                                                            "id": 2147483664,
+                                                                            "data": {
+                                                                                "name": {
+                                                                                    "ptr": {
+                                                                                        "ptr_wrapper": {
+                                                                                            "id": 2147483665,
+                                                                                            "data": {
+                                                                                                "object": "intro"
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "flags": {
+                                                                                    "type": 1
+                                                                                },
+                                                                                "elements": [
+                                                                                    {
+                                                                                        "cereal_class_version": 0,
+                                                                                        "ptr": {
+                                                                                            "polymorphic_id": 2147483649,
+                                                                                            "polymorphic_name": "element::ClipElement",
+                                                                                            "ptr_wrapper": {
+                                                                                                "id": 2147483666,
+                                                                                                "data": {
+                                                                                                    "cereal_class_version": 0,
+                                                                                                    "value0": {
+                                                                                                        "cereal_class_version": 0,
+                                                                                                        "volume": {
+                                                                                                            "ptr_wrapper": {
+                                                                                                                "id": 2147483667,
+                                                                                                                "data": {
+                                                                                                                    "cereal_class_version": 0,
+                                                                                                                    "id": "volume",
+                                                                                                                    "default_value": 0.0,
+                                                                                                                    "unit": 1
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    },
+                                                                                                    "asset": {
+                                                                                                        "ptr_wrapper": {
+                                                                                                            "id": 2147483668,
+                                                                                                            "data": {
+                                                                                                                "cereal_class_version": 0,
+                                                                                                                "file": "intro_1.wav",
+                                                                                                                "settings": 2
+                                                                                                            }
+                                                                                                        }
+                                                                                                    },
+                                                                                                    "loop": {
+                                                                                                        "cereal_class_version": 0,
+                                                                                                        "ptr": {
+                                                                                                            "ptr_wrapper": {
+                                                                                                                "id": 2147483669,
+                                                                                                                "data": {
+                                                                                                                    "cereal_class_version": 0,
+                                                                                                                    "object": false
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "ptr": {
+                                                                                            "polymorphic_id": 1,
+                                                                                            "ptr_wrapper": {
+                                                                                                "id": 2147483670,
+                                                                                                "data": {
+                                                                                                    "value0": {
+                                                                                                        "volume": {
+                                                                                                            "ptr_wrapper": {
+                                                                                                                "id": 2147483671,
+                                                                                                                "data": {
+                                                                                                                    "id": "volume",
+                                                                                                                    "default_value": 0.0,
+                                                                                                                    "unit": 1
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    },
+                                                                                                    "asset": {
+                                                                                                        "ptr_wrapper": {
+                                                                                                            "id": 2147483672,
+                                                                                                            "data": {
+                                                                                                                "file": "intro_2.wav",
+                                                                                                                "settings": 2
+                                                                                                            }
+                                                                                                        }
+                                                                                                    },
+                                                                                                    "loop": {
+                                                                                                        "ptr": {
+                                                                                                            "ptr_wrapper": {
+                                                                                                                "id": 2147483673,
+                                                                                                                "data": {
+                                                                                                                    "object": false
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "ptr": {
+                                                                                            "polymorphic_id": 1,
+                                                                                            "ptr_wrapper": {
+                                                                                                "id": 2147483674,
+                                                                                                "data": {
+                                                                                                    "value0": {
+                                                                                                        "volume": {
+                                                                                                            "ptr_wrapper": {
+                                                                                                                "id": 2147483675,
+                                                                                                                "data": {
+                                                                                                                    "id": "volume",
+                                                                                                                    "default_value": 0.0,
+                                                                                                                    "unit": 1
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    },
+                                                                                                    "asset": {
+                                                                                                        "ptr_wrapper": {
+                                                                                                            "id": 2147483676,
+                                                                                                            "data": {
+                                                                                                                "file": "intro_3.wav",
+                                                                                                                "settings": 2
+                                                                                                            }
+                                                                                                        }
+                                                                                                    },
+                                                                                                    "loop": {
+                                                                                                        "ptr": {
+                                                                                                            "ptr_wrapper": {
+                                                                                                                "id": 2147483677,
+                                                                                                                "data": {
+                                                                                                                    "object": false
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "transitions": [
+                                                                                    {
+                                                                                        "polymorphic_id": 1073741824,
+                                                                                        "ptr_wrapper": {
+                                                                                            "id": 2147483678,
+                                                                                            "data": {
+                                                                                                "conditions": {
+                                                                                                    "ptr_wrapper": {
+                                                                                                        "valid": 1,
+                                                                                                        "data": {
+                                                                                                            "conditions": [
+                                                                                                                {
+                                                                                                                    "index": 1,
+                                                                                                                    "data": {
+                                                                                                                        "cereal_class_version": 0,
+                                                                                                                        "value0": {
+                                                                                                                            "cereal_class_version": 0,
+                                                                                                                            "value": {
+                                                                                                                                "cereal_class_version": 0,
+                                                                                                                                "ptr": {
+                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                        "id": 2147483679,
+                                                                                                                                        "data": {
+                                                                                                                                            "cereal_class_version": 0,
+                                                                                                                                            "object": 6.857142857142857
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            },
+                                                                                                                            "type": 0,
+                                                                                                                            "useTempo": {
+                                                                                                                                "ptr": {
+                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                        "id": 2147483680,
+                                                                                                                                        "data": {
+                                                                                                                                            "object": true
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            },
+                                                                                                                            "tempo": {
+                                                                                                                                "cereal_class_version": 0,
+                                                                                                                                "timeSig": {
+                                                                                                                                    "cereal_class_version": 0,
+                                                                                                                                    "ptr": {
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 2147483681,
+                                                                                                                                            "data": {
+                                                                                                                                                "cereal_class_version": 0,
+                                                                                                                                                "object": {
+                                                                                                                                                    "cereal_class_version": 0,
+                                                                                                                                                    "numerator": 4,
+                                                                                                                                                    "denominator": 4
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                                "bpm": {
+                                                                                                                                    "ptr": {
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 2147483682,
+                                                                                                                                            "data": {
+                                                                                                                                                "object": 140.0
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        },
+                                                                                                                        "value1": 0
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "operator": 0
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "nextState": {
+                                                                                                    "locked_ptr": {
+                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                        "ptr_wrapper": {
+                                                                                                            "id": 2147483683,
+                                                                                                            "data": {
+                                                                                                                "name": {
+                                                                                                                    "ptr": {
+                                                                                                                        "ptr_wrapper": {
+                                                                                                                            "id": 2147483684,
+                                                                                                                            "data": {
+                                                                                                                                "object": "loop"
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                },
+                                                                                                                "flags": {
+                                                                                                                    "type": 1
+                                                                                                                },
+                                                                                                                "elements": [
+                                                                                                                    {
+                                                                                                                        "ptr": {
+                                                                                                                            "polymorphic_id": 1,
+                                                                                                                            "ptr_wrapper": {
+                                                                                                                                "id": 2147483685,
+                                                                                                                                "data": {
+                                                                                                                                    "value0": {
+                                                                                                                                        "volume": {
+                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                "id": 2147483686,
+                                                                                                                                                "data": {
+                                                                                                                                                    "id": "volume",
+                                                                                                                                                    "default_value": 0.0,
+                                                                                                                                                    "unit": 1
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    },
+                                                                                                                                    "asset": {
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 2147483687,
+                                                                                                                                            "data": {
+                                                                                                                                                "file": "loop_1.wav",
+                                                                                                                                                "settings": 2
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    },
+                                                                                                                                    "loop": {
+                                                                                                                                        "ptr": {
+                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                "id": 2147483688,
+                                                                                                                                                "data": {
+                                                                                                                                                    "object": false
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    },
+                                                                                                                    {
+                                                                                                                        "ptr": {
+                                                                                                                            "polymorphic_id": 1,
+                                                                                                                            "ptr_wrapper": {
+                                                                                                                                "id": 2147483689,
+                                                                                                                                "data": {
+                                                                                                                                    "value0": {
+                                                                                                                                        "volume": {
+                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                "id": 2147483690,
+                                                                                                                                                "data": {
+                                                                                                                                                    "id": "volume",
+                                                                                                                                                    "default_value": 0.0,
+                                                                                                                                                    "unit": 1
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    },
+                                                                                                                                    "asset": {
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 2147483691,
+                                                                                                                                            "data": {
+                                                                                                                                                "file": "loop_2.wav",
+                                                                                                                                                "settings": 2
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    },
+                                                                                                                                    "loop": {
+                                                                                                                                        "ptr": {
+                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                "id": 2147483692,
+                                                                                                                                                "data": {
+                                                                                                                                                    "object": false
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    },
+                                                                                                                    {
+                                                                                                                        "ptr": {
+                                                                                                                            "polymorphic_id": 1,
+                                                                                                                            "ptr_wrapper": {
+                                                                                                                                "id": 2147483693,
+                                                                                                                                "data": {
+                                                                                                                                    "value0": {
+                                                                                                                                        "volume": {
+                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                "id": 2147483694,
+                                                                                                                                                "data": {
+                                                                                                                                                    "id": "volume",
+                                                                                                                                                    "default_value": 0.0,
+                                                                                                                                                    "unit": 1
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    },
+                                                                                                                                    "asset": {
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 2147483695,
+                                                                                                                                            "data": {
+                                                                                                                                                "file": "loop_3.wav",
+                                                                                                                                                "settings": 2
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    },
+                                                                                                                                    "loop": {
+                                                                                                                                        "ptr": {
+                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                "id": 2147483696,
+                                                                                                                                                "data": {
+                                                                                                                                                    "object": false
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "transitions": [
+                                                                                                                    {
+                                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                                        "ptr_wrapper": {
+                                                                                                                            "id": 2147483697,
+                                                                                                                            "data": {
+                                                                                                                                "conditions": {
+                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                        "valid": 1,
+                                                                                                                                        "data": {
+                                                                                                                                            "conditions": [
+                                                                                                                                                {
+                                                                                                                                                    "index": 0,
+                                                                                                                                                    "data": {
+                                                                                                                                                        "cereal_class_version": 0,
+                                                                                                                                                        "left": {
+                                                                                                                                                            "cereal_class_version": 0,
+                                                                                                                                                            "value": {
+                                                                                                                                                                "index": 0,
+                                                                                                                                                                "data": {
+                                                                                                                                                                    "cereal_class_version": 0,
+                                                                                                                                                                    "paramName": "end"
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        },
+                                                                                                                                                        "right": {
+                                                                                                                                                            "value": {
+                                                                                                                                                                "index": 1,
+                                                                                                                                                                "data": {
+                                                                                                                                                                    "cereal_class_version": 0,
+                                                                                                                                                                    "value": 1.0
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        },
+                                                                                                                                                        "op": {
+                                                                                                                                                            "cereal_class_version": 0,
+                                                                                                                                                            "operator": 0
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "index": 2,
+                                                                                                                                                    "data": {
+                                                                                                                                                        "cereal_class_version": 0,
+                                                                                                                                                        "useTempo": {
+                                                                                                                                                            "ptr": {
+                                                                                                                                                                "ptr_wrapper": {
+                                                                                                                                                                    "id": 2147483698,
+                                                                                                                                                                    "data": {
+                                                                                                                                                                        "object": true
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        },
+                                                                                                                                                        "tempo": {
+                                                                                                                                                            "timeSig": {
+                                                                                                                                                                "ptr": {
+                                                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                                                        "id": 2147483699,
+                                                                                                                                                                        "data": {
+                                                                                                                                                                            "object": {
+                                                                                                                                                                                "numerator": 4,
+                                                                                                                                                                                "denominator": 4
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            },
+                                                                                                                                                            "bpm": {
+                                                                                                                                                                "ptr": {
+                                                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                                                        "id": 2147483700,
+                                                                                                                                                                        "data": {
+                                                                                                                                                                            "object": 140.0
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        },
+                                                                                                                                                        "intervalSeconds": {
+                                                                                                                                                            "ptr": {
+                                                                                                                                                                "ptr_wrapper": {
+                                                                                                                                                                    "id": 2147483701,
+                                                                                                                                                                    "data": {
+                                                                                                                                                                        "object": 3.4285714285714286
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        },
+                                                                                                                                                        "intervalBeats": {
+                                                                                                                                                            "ptr": {
+                                                                                                                                                                "ptr_wrapper": {
+                                                                                                                                                                    "id": 2147483702,
+                                                                                                                                                                    "data": {
+                                                                                                                                                                        "object": 8.0
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            ],
+                                                                                                                                            "operator": 0
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                                "nextState": {
+                                                                                                                                    "locked_ptr": {
+                                                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 2147483703,
+                                                                                                                                            "data": {
+                                                                                                                                                "name": {
+                                                                                                                                                    "ptr": {
+                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                            "id": 2147483704,
+                                                                                                                                                            "data": {
+                                                                                                                                                                "object": "end"
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                },
+                                                                                                                                                "flags": {
+                                                                                                                                                    "type": 1
+                                                                                                                                                },
+                                                                                                                                                "elements": [
+                                                                                                                                                    {
+                                                                                                                                                        "ptr": {
+                                                                                                                                                            "polymorphic_id": 1,
+                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                "id": 2147483705,
+                                                                                                                                                                "data": {
+                                                                                                                                                                    "value0": {
+                                                                                                                                                                        "volume": {
+                                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                                "id": 2147483706,
+                                                                                                                                                                                "data": {
+                                                                                                                                                                                    "id": "volume",
+                                                                                                                                                                                    "default_value": 0.0,
+                                                                                                                                                                                    "unit": 1
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    },
+                                                                                                                                                                    "asset": {
+                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                            "id": 2147483707,
+                                                                                                                                                                            "data": {
+                                                                                                                                                                                "file": "coda_1.wav",
+                                                                                                                                                                                "settings": 2
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    },
+                                                                                                                                                                    "loop": {
+                                                                                                                                                                        "ptr": {
+                                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                                "id": 2147483708,
+                                                                                                                                                                                "data": {
+                                                                                                                                                                                    "object": false
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    },
+                                                                                                                                                    {
+                                                                                                                                                        "ptr": {
+                                                                                                                                                            "polymorphic_id": 1,
+                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                "id": 2147483709,
+                                                                                                                                                                "data": {
+                                                                                                                                                                    "value0": {
+                                                                                                                                                                        "volume": {
+                                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                                "id": 2147483710,
+                                                                                                                                                                                "data": {
+                                                                                                                                                                                    "id": "volume",
+                                                                                                                                                                                    "default_value": 0.0,
+                                                                                                                                                                                    "unit": 1
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    },
+                                                                                                                                                                    "asset": {
+                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                            "id": 2147483711,
+                                                                                                                                                                            "data": {
+                                                                                                                                                                                "file": "coda_2.wav",
+                                                                                                                                                                                "settings": 2
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    },
+                                                                                                                                                                    "loop": {
+                                                                                                                                                                        "ptr": {
+                                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                                "id": 2147483712,
+                                                                                                                                                                                "data": {
+                                                                                                                                                                                    "object": false
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    },
+                                                                                                                                                    {
+                                                                                                                                                        "ptr": {
+                                                                                                                                                            "polymorphic_id": 1,
+                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                "id": 2147483713,
+                                                                                                                                                                "data": {
+                                                                                                                                                                    "value0": {
+                                                                                                                                                                        "volume": {
+                                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                                "id": 2147483714,
+                                                                                                                                                                                "data": {
+                                                                                                                                                                                    "id": "volume",
+                                                                                                                                                                                    "default_value": 0.0,
+                                                                                                                                                                                    "unit": 1
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    },
+                                                                                                                                                                    "asset": {
+                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                            "id": 2147483715,
+                                                                                                                                                                            "data": {
+                                                                                                                                                                                "file": "coda_3.wav",
+                                                                                                                                                                                "settings": 2
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    },
+                                                                                                                                                                    "loop": {
+                                                                                                                                                                        "ptr": {
+                                                                                                                                                                            "ptr_wrapper": {
+                                                                                                                                                                                "id": 2147483716,
+                                                                                                                                                                                "data": {
+                                                                                                                                                                                    "object": false
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                ],
+                                                                                                                                                "transitions": [
+                                                                                                                                                    {
+                                                                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                            "id": 2147483717,
+                                                                                                                                                            "data": {
+                                                                                                                                                                "conditions": {
+                                                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                                                        "valid": 1,
+                                                                                                                                                                        "data": {
+                                                                                                                                                                            "conditions": [
+                                                                                                                                                                                {
+                                                                                                                                                                                    "index": 4,
+                                                                                                                                                                                    "data": {
+                                                                                                                                                                                        "cereal_class_version": 0
+                                                                                                                                                                                    }
+                                                                                                                                                                                }
+                                                                                                                                                                            ],
+                                                                                                                                                                            "operator": 0
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                },
+                                                                                                                                                                "nextState": {
+                                                                                                                                                                    "locked_ptr": {
+                                                                                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                            "id": 2147483718,
+                                                                                                                                                                            "data": {
+                                                                                                                                                                                "name": {
+                                                                                                                                                                                    "ptr": {
+                                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                                            "id": 2147483719,
+                                                                                                                                                                                            "data": {
+                                                                                                                                                                                                "object": "END"
+                                                                                                                                                                                            }
+                                                                                                                                                                                        }
+                                                                                                                                                                                    }
+                                                                                                                                                                                },
+                                                                                                                                                                                "flags": {
+                                                                                                                                                                                    "type": 2
+                                                                                                                                                                                },
+                                                                                                                                                                                "elements": [],
+                                                                                                                                                                                "transitions": []
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                ]
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    },
+                                                                                                                    {
+                                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                                        "ptr_wrapper": {
+                                                                                                                            "id": 2147483720,
+                                                                                                                            "data": {
+                                                                                                                                "conditions": {
+                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                        "valid": 1,
+                                                                                                                                        "data": {
+                                                                                                                                            "conditions": [
+                                                                                                                                                {
+                                                                                                                                                    "index": 1,
+                                                                                                                                                    "data": {
+                                                                                                                                                        "value0": {
+                                                                                                                                                            "value": {
+                                                                                                                                                                "ptr": {
+                                                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                                                        "id": 2147483721,
+                                                                                                                                                                        "data": {
+                                                                                                                                                                            "object": 27.428571428571428
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            },
+                                                                                                                                                            "type": 0,
+                                                                                                                                                            "useTempo": {
+                                                                                                                                                                "ptr": {
+                                                                                                                                                                    "ptr_wrapper": {
+                                                                                                                                                                        "id": 2147483722,
+                                                                                                                                                                        "data": {
+                                                                                                                                                                            "object": true
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            },
+                                                                                                                                                            "tempo": {
+                                                                                                                                                                "timeSig": {
+                                                                                                                                                                    "ptr": {
+                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                            "id": 2147483723,
+                                                                                                                                                                            "data": {
+                                                                                                                                                                                "object": {
+                                                                                                                                                                                    "numerator": 4,
+                                                                                                                                                                                    "denominator": 4
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                },
+                                                                                                                                                                "bpm": {
+                                                                                                                                                                    "ptr": {
+                                                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                                                            "id": 2147483724,
+                                                                                                                                                                            "data": {
+                                                                                                                                                                                "object": 140.0
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        },
+                                                                                                                                                        "value1": 0
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            ],
+                                                                                                                                            "operator": 0
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                                "nextState": {
+                                                                                                                                    "locked_ptr": {
+                                                                                                                                        "polymorphic_id": 1073741824,
+                                                                                                                                        "ptr_wrapper": {
+                                                                                                                                            "id": 35
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                ]
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "end": {
+                                        "polymorphic_id": 1073741824,
+                                        "ptr_wrapper": {
+                                            "id": 70
+                                        }
+                                    },
+                                    "states": [
+                                        {
+                                            "polymorphic_id": 1073741824,
+                                            "ptr_wrapper": {
+                                                "id": 13
+                                            }
+                                        },
+                                        {
+                                            "polymorphic_id": 1073741824,
+                                            "ptr_wrapper": {
+                                                "id": 70
+                                            }
+                                        },
+                                        {
+                                            "polymorphic_id": 1073741824,
+                                            "ptr_wrapper": {
+                                                "id": 35
+                                            }
+                                        },
+                                        {
+                                            "polymorphic_id": 1073741824,
+                                            "ptr_wrapper": {
+                                                "id": 16
+                                            }
+                                        },
+                                        {
+                                            "polymorphic_id": 1073741824,
+                                            "ptr_wrapper": {
+                                                "id": 55
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "parameters": {
+                            "value0": []
+                        },
+                        "automation": {
+                            "ptr_wrapper": {
+                                "id": 2147483725,
+                                "data": {
+                                    "cereal_class_version": 0,
+                                    "value0": {
+                                        "cereal_class_version": 0
+                                    },
+                                    "links": [
+                                        {
+                                            "cereal_class_version": 0,
+                                            "value0": {
+                                                "polymorphic_id": 1073741824,
+                                                "ptr_wrapper": {
+                                                    "id": 6
+                                                }
+                                            },
+                                            "value1": {
+                                                "ptr_wrapper": {
+                                                    "id": 23
+                                                }
+                                            },
+                                            "value2": {
+                                                "cereal_class_version": 0
+                                            }
+                                        },
+                                        {
+                                            "value0": {
+                                                "polymorphic_id": 1073741824,
+                                                "ptr_wrapper": {
+                                                    "id": 6
+                                                }
+                                            },
+                                            "value1": {
+                                                "ptr_wrapper": {
+                                                    "id": 27
+                                                }
+                                            },
+                                            "value2": {}
+                                        },
+                                        {
+                                            "value0": {
+                                                "polymorphic_id": 1073741824,
+                                                "ptr_wrapper": {
+                                                    "id": 6
+                                                }
+                                            },
+                                            "value1": {
+                                                "ptr_wrapper": {
+                                                    "id": 42
+                                                }
+                                            },
+                                            "value2": {}
+                                        },
+                                        {
+                                            "value0": {
+                                                "polymorphic_id": 1073741824,
+                                                "ptr_wrapper": {
+                                                    "id": 6
+                                                }
+                                            },
+                                            "value1": {
+                                                "ptr_wrapper": {
+                                                    "id": 46
+                                                }
+                                            },
+                                            "value2": {}
+                                        },
+                                        {
+                                            "value0": {
+                                                "polymorphic_id": 1073741824,
+                                                "ptr_wrapper": {
+                                                    "id": 6
+                                                }
+                                            },
+                                            "value1": {
+                                                "ptr_wrapper": {
+                                                    "id": 62
+                                                }
+                                            },
+                                            "value2": {}
+                                        },
+                                        {
+                                            "value0": {
+                                                "polymorphic_id": 1073741824,
+                                                "ptr_wrapper": {
+                                                    "id": 6
+                                                }
+                                            },
+                                            "value1": {
+                                                "ptr_wrapper": {
+                                                    "id": 66
+                                                }
+                                            },
+                                            "value2": {}
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "element_list": {
+                            "polymorphic_id": 1073741824,
+                            "ptr_wrapper": {
+                                "id": 2147483726,
+                                "data": {
+                                    "cereal_class_version": 0,
+                                    "elements": [
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 18
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 37
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 2147483727,
+                                                    "data": {
+                                                        "value0": {
+                                                            "volume": {
+                                                                "ptr_wrapper": {
+                                                                    "id": 2147483728,
+                                                                    "data": {
+                                                                        "id": "volume",
+                                                                        "default_value": 0.0,
+                                                                        "unit": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
+                                                        "asset": {
+                                                            "ptr_wrapper": {
+                                                                "id": 39
+                                                            }
+                                                        },
+                                                        "loop": {
+                                                            "ptr": {
+                                                                "ptr_wrapper": {
+                                                                    "id": 2147483729,
+                                                                    "data": {
+                                                                        "object": false
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 57
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 22
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 26
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 41
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 45
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 61
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "ptr": {
+                                                "polymorphic_id": 1,
+                                                "ptr_wrapper": {
+                                                    "id": 65
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "automation": {
+                                        "ptr_wrapper": {
+                                            "id": 77
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "properties": {
+                            "cereal_class_version": 0,
+                            "minDistance": 0.0,
+                            "maxDistance": 10.0,
+                            "rolloff": 1.7999999523162842,
+                            "attenuation": 2
+                        }
+                    }
+                }
+            }
+        ],
+        "assets": {
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "cereal_class_version": 0,
+                    "assets": [
+                        {
+                            "key": "loop_1.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 39
+                                }
+                            }
+                        },
+                        {
+                            "key": "intro_1.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 20
+                                }
+                            }
+                        },
+                        {
+                            "key": "loop_2.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 43
+                                }
+                            }
+                        },
+                        {
+                            "key": "coda_1.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 59
+                                }
+                            }
+                        },
+                        {
+                            "key": "coda_3.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 67
+                                }
+                            }
+                        },
+                        {
+                            "key": "intro_2.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 24
+                                }
+                            }
+                        },
+                        {
+                            "key": "coda_2.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 63
+                                }
+                            }
+                        },
+                        {
+                            "key": "intro_3.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 28
+                                }
+                            }
+                        },
+                        {
+                            "key": "loop_3.wav",
+                            "value": {
+                                "ptr_wrapper": {
+                                    "id": 47
+                                }
+                            }
+                        }
+                    ],
+                    "autoCreate": true
+                }
+            }
+        }
+    }
+}
