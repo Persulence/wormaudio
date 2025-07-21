@@ -44,6 +44,6 @@ namespace asset
 
     LocalPath AssetLoader::localise(const fs::path path) const
     {
-        return fs::relative(path, assetRoot);
+        return fs::relative(path, assetRoot).string();
     }
 }
