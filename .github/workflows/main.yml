@@ -48,7 +48,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build swig xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libfreetype-dev libfreetype6 libfreetype6-dev freetype2
+          sudo apt-get install -y ninja-build swig xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libfreetype-dev libfreetype6 libfreetype6-dev libfreetype2
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
