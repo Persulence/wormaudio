@@ -31,18 +31,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          submodules: false
+          submodules: recursive
 
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: |
-            ${{ secrets.SSH_PRIVATE_KEY }}
-            ${{ secrets.WA_JAVA_KEY }}
-
-      - run: |
-          git submodule sync
-          git submodule update --init --recursive
+#      - name: Add SSH key
+#        uses: webfactory/ssh-agent@v0.9.0
+#        with:
+#          ssh-private-key: |
+#            ${{ secrets.SSH_PRIVATE_KEY }}
+#            ${{ secrets.WA_JAVA_KEY }}
 
       - name: Install Dependencies (macOS)
         if: matrix.config.os == 'macos-latest'
