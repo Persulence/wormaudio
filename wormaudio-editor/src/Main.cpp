@@ -107,15 +107,15 @@ private:
 // This macro generates the main() routine that launches the app.
 // START_JUCE_APPLICATION(Application)
 
+int main()
+{
+    return 0;
+}
+
 #if JUCE_WINDOWS
 #include <windows.h>
-int WINAPI WinMain(
-   _In_ HINSTANCE hInstance,
-   _In_opt_ HINSTANCE hPrevInstance,
-   _In_ LPSTR     lpCmdLine,
-   _In_ int       nCmdShow
-)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-
+    return 0;
 }
 #endif
