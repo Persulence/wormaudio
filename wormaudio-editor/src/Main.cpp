@@ -107,15 +107,25 @@ private:
 // This macro generates the main() routine that launches the app.
 // START_JUCE_APPLICATION(Application)
 
-int main()
-{
-    return 0;
-}
+JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wmissing-prototypes")
+JUCE_CREATE_APPLICATION_DEFINE(Application)
 
 #if JUCE_WINDOWS
-#include <windows.h>
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-    return 0;
-}
+#else
+int main(int argc, char** argv)
 #endif
+{
+   juce::JUCEApplicationBase::createInstance = &juce_CreateApplication;
+   return juce::JUCEApplicationBase::main (JUCE_MAIN_FUNCTION_ARGS);
+}
+
+JUCE_END_IGNORE_WARNINGS_GCC_LIKE
+
+// #if JUCE_WINDOWS
+// #include <windows.h>
+// int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+// {
+//     return 0;
+// }
+// #endif
