@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <utility>
+#include <string>
 
 using AutomationValue = float;
 
