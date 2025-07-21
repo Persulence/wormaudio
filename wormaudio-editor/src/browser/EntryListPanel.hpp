@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <cmath>
+#include <algorithm>
+
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "../panel/Panel.hpp"
 #include "settings/settings.hpp"
