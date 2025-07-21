@@ -46,9 +46,14 @@ jobs:
 
       - name: Install Dependencies (Linux)
         if: matrix.config.os == 'ubuntu-latest'
-        run: |
+        run: >
           sudo apt-get update
-          sudo apt-get install -y ninja-build swig alsa xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libfreetype-dev libfreetype6 libfreetype6-dev
+          
+          sudo apt-get install -y 
+          ninja-build swig alsa 
+          xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev 
+          libglu1-mesa-dev mesa-common-dev
+          libfreetype-dev libfreetype6 libfreetype6-dev
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
