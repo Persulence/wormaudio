@@ -204,6 +204,9 @@ set_target_properties(${GUI_TARGET} PROPERTIES
         UNITY_BUILD_BATCH_SIZE 10
 )
 
-#install(TARGETS ${GUI_TARGET}
-#    DESTINATION ${CMAKE_INSTALL_DIR}/bin)
+install(TARGETS ${GUI_TARGET}
+    DIRECTORIES
+        ${CMAKE_CURRENT_LIST_DIR}/res
+)
+
 message(STATUS "Editor install prefix: ${CMAKE_INSTALL_PREFIX}")
