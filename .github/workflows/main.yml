@@ -21,7 +21,7 @@ jobs:
         build_type: ['Debug']
         config:
           - { name: '🐧 Linux GCC', os: ubuntu-latest }
-#          - { name: '🍏 macOS Clang', os: macos-latest }
+          - { name: '🍏 macOS Clang', os: macos-latest }
 #          - { name: '🪟 Windows MSVC', os: windows-latest }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
@@ -60,6 +60,12 @@ jobs:
         if: matrix.config.os == 'windows-latest'
         run: |
           choco upgrade ninja swig ccache
+          
+      - name: Install compiler
+        id: install_cc
+        uses: rlalik/setup-cpp-compiler@master
+        with:
+          compiler: gcc-latest
 
       - name: Setup MSVC (Windows)
         if: matrix.config.os == 'windows-latest'
