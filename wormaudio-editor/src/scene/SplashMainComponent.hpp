@@ -20,11 +20,11 @@ namespace ui
             ProjectEntry(std::filesystem::path path_):
                 path(std::move(path_))
             {
-                std::string fileName = path.filename();
+                std::string fileName = path.filename().string();
 
                 // addAndMakeVisible(label);
                 // label.setText(juce::String{fileName} + " - " + path, juce::dontSendNotification);
-                setButtonText(juce::String{fileName} + " - " + path);
+                setButtonText(juce::String{fileName} + " - " + path.string());
 
                 onClick = [this]
                 {
