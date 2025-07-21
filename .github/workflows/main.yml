@@ -82,7 +82,7 @@ jobs:
         run: cmake --build build-editor --target build_editor
 
       - name: Install
-        run: cmake --install build-editor --target build_editor
+        run: cmake --install
 
       - name: Upload artifact (Debug)
         if: matrix.build_type == 'Debug'
