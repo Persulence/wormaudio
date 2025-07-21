@@ -61,11 +61,11 @@ jobs:
         run: |
           choco upgrade ninja swig ccache
           
-      - name: Install compiler
-        id: install_cc
-        uses: rlalik/setup-cpp-compiler@master
-        with:
-          compiler: gcc-15
+#      - name: Install compiler
+#        id: install_cc
+#        uses: rlalik/setup-cpp-compiler@master
+#        with:
+#          compiler: gcc-15
 
       - name: Setup MSVC (Windows)
         if: matrix.config.os == 'windows-latest'
@@ -84,8 +84,6 @@ jobs:
           cmake
           -B build-editor
           -G "Ninja"
-          -DCMAKE_CXX_COMPILER=${{ steps.install_cc.outputs.cxx }}
-          -DCMAKE_C_COMPILER=${{ steps.install_cc.outputs.cc }}
           -DJUCE_MODULES_ONLY=ON 
           -DCMAKE_CXX_FLAGS="-std=c++20 -w"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
@@ -93,6 +91,8 @@ jobs:
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
+#          -DCMAKE_CXX_COMPILER=${{ steps.install_cc.outputs.cxx }}
+#          -DCMAKE_C_COMPILER=${{ steps.install_cc.outputs.cc }}
 
       - name: Build
         run: cmake --build build-editor --target build_editor
