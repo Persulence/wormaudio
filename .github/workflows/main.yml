@@ -48,7 +48,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build swig
+          sudo apt-get install -y ninja-build swig xorg
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
