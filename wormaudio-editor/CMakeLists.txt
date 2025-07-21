@@ -59,7 +59,11 @@ add_subdirectory(../wormaudio wormaudio)
 
 # Works with modules
 # TODO: Ensure that necessary JUCE properties are also set
-add_executable(${GUI_TARGET})
+if (MSVC)
+    add_executable(${GUI_TARGET} WIN32 src/Main.cpp)
+else ()
+    add_executable(${GUI_TARGET})
+endif ()
 
 #target_precompile_headers(${GUI_TARGET}
 #        INTERFACE
