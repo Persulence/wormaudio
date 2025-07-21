@@ -4,6 +4,8 @@
 
 #include "ElementInstanceManager.hpp"
 
+#include <numbers>
+
 #include <instance/ListenerInstance.hpp>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_opengl/opengl/juce_gl.h>
