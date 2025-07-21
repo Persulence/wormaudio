@@ -108,6 +108,7 @@ private:
 // START_JUCE_APPLICATION(Application)
 
 #if JUCE_WINDOWS
+#include <windows.h>
 int WINAPI WinMain(
    _In_ HINSTANCE hInstance,
    _In_opt_ HINSTANCE hPrevInstance,
