@@ -44,7 +44,7 @@ namespace ui
 
         void resized() override
         {
-            const int minDim = std::min(getWidth(), getHeight());
+            const int minDim = std::min<double>(getWidth(), getHeight());
 
             selector.setBounds(
                 (getWidth() - minDim) / 2,

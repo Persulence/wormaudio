@@ -39,7 +39,7 @@ namespace ui
             int hidden = 0;
             int visible = 0;
 
-            const int offset = std::floor(entries.size() * std::min(scrollFraction, 1.0));
+            const int offset = std::floor(entries.size() * std::min<double>(scrollFraction, 1.0));
 
             int i = entryOffset;
             for (const auto& element : entries)
