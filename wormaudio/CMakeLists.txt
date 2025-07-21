@@ -27,7 +27,7 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 get_filename_component(WORMAUDIO_LIB_DIR ../lib ABSOLUTE CACHE)
 set(WORMAUDIO_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "")
 set(WORMAUDIO_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
-message(STATUS "Binary outputs will be found in: " ${WORMAUDIO_OUTPUT_DIR})
+#message(STATUS "Binary outputs will be found in: " ${WORMAUDIO_OUTPUT_DIR})
 
 set(TARGET_OS ${CMAKE_SYSTEM_NAME} CACHE INTERNAL "")
 string(TOLOWER ${TARGET_OS} TARGET_OS)
@@ -51,9 +51,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 # Linking to JUCE should bypass EXCLUDE_FROM_ALL for build.
 add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build EXCLUDE_FROM_ALL)
 
-add_subdirectory(swig EXCLUDE_FROM_ALL)
+if (WORMAUDIO_BUILD_SWIG)
+    add_subdirectory(swig EXCLUDE_FROM_ALL)
+endif()
 
-# This command sets cxx_std_17 somewhere. We're using C++20, so this can't be used.
+# This command sets cxx_std_17 somewhere. I'm using C++20, so this can't be used.
 #juce_add_gui_app(${LIBRARY_TARGET}
 #        # VERSION ...                       # Set this if the app version is different to the project version
 #        # ICON_BIG ...                      # ICON_* arguments specify a path to an image file to use as an icon
@@ -75,14 +77,6 @@ set_target_properties(${LIBRARY_TARGET}
             BUILD_WITH_INSTALL_RPATH TRUE
 #            INSTALL_RPATH_USE_LINK_PATH TRUE
 )
-
-# `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
-# into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
-# this header will be automatically added to the target. The main function of the JuceHeader is to
-# include all your JUCE module headers; if you're happy to include module headers directly, you
-# probably don't need to call this.
-
-# juce_generate_juce_header(${LIBRARY_TARGET})
 
 target_include_directories(${LIBRARY_TARGET}
         PUBLIC
