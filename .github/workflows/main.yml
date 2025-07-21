@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
 #        build_type: ['Debug', 'Release']
-        build_type: ['Debug']
+        build_type: ['Release']
         config:
           - { name: '🐧 Linux GCC', os: ubuntu-latest }
           - { name: '🍏 macOS Clang', os: macos-latest }
