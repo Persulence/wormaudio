@@ -7,3 +7,6 @@
 [submodule "lib/Cereal-Optional-NVP"]
 	path = lib/Cereal-Optional-NVP
 	url = https://github.com/Enhex/Cereal-Optional-NVP/
+[submodule "wormaudio-godot/extern/godot-cpp"]
+	path = wormaudio-godot/extern/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
