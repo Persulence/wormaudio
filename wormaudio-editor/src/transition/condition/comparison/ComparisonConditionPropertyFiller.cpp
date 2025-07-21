@@ -69,7 +69,7 @@ namespace ui
     void ComparisonPropertyWidget::resized()
     {
         std::array<Component*, 3> comps = {&left, &op, &right};
-        layout.layOutComponents(comps.begin(), comps.size(), 0, 0, getWidth(), getHeight(), false, true);
+        layout.layOutComponents(comps.data(), comps.size(), 0, 0, getWidth(), getHeight(), false, true);
     }
 
     static Operand updateOperand(std::string &text)
