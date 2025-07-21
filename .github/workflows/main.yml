@@ -65,7 +65,7 @@ jobs:
         id: install_cc
         uses: rlalik/setup-cpp-compiler@master
         with:
-          compiler: gcc-latest
+          compiler: gcc-10
 
       - name: Setup MSVC (Windows)
         if: matrix.config.os == 'windows-latest'
