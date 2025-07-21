@@ -111,6 +111,7 @@ JUCE_BEGIN_IGNORE_WARNINGS_GCC_LIKE ("-Wmissing-prototypes")
 JUCE_CREATE_APPLICATION_DEFINE(Application)
 
 #if JUCE_WINDOWS
+#include <windows.h>
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #else
 int main(int argc, char** argv)
