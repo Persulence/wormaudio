@@ -66,16 +66,15 @@ jobs:
           cmake
           -B build-editor
           -G "Ninja"
-          --target build_editor
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
 
       - name: Build
-        run: cmake --build build-editor
+        run: cmake --build build-editor --target build_editor
 
       - name: Install
-        run: cmake --install build-editor
+        run: cmake --install build-editor --target build_editor
 
       - name: Upload artifact (Debug)
         if: matrix.build_type == 'Debug'
