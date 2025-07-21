@@ -1,0 +1,5 @@
+Put libraries here
+
+They must be of the form 'wormaudio-java_<os>_<arch>.slib'
+
+Using the non-standard extension .slib regardless of operating system
