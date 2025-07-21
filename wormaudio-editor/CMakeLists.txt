@@ -160,9 +160,9 @@ target_link_libraries(${GUI_TARGET}
 #        juce::juce_opengl
         PUBLIC
         wormaudio
-#        juce::juce_recommended_config_flags
+        juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags
+#        juce::juce_recommended_warning_flags
 )
 
 file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/lib/JUCE/*.cpp  ${CMAKE_SOURCE_DIR}/lib/JUCE/*.mm ${CMAKE_SOURCE_DIR}/lib/JUCE/*.r)

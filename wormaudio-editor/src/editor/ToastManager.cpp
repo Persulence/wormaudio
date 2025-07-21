@@ -29,7 +29,7 @@ namespace ui
             ss << message;
             auto lines = std::count_if(std::istreambuf_iterator{ss}, {}, [](char c) { return c == '\n'; });
 
-            label.setBounds(0, 0, width + 10, lines * label.getFont().getHeight());
+            label.setBounds(0, 0, width + 10, static_cast<int>(lines * label.getFont().getHeight()));
             setBounds(label.getBoundsInParent());
             // setBoundsToFit(label.getBoundsInParent(), juce::Justification::centred, );
         }
