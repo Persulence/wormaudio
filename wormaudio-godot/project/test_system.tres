@@ -1,0 +1,4 @@
+[gd_resource type="WASystemResource" format=3 uid="uid://uoc2jf45hp2k"]
+
+[resource]
+path = "res://test_system/test_system.proj"

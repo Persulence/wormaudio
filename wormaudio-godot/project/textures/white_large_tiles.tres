@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://djbo4dm7anc0m"]
+
+[ext_resource type="Texture2D" uid="uid://dxdcgaopdmngl" path="res://textures/white_large_tiles.png" id="1_voojl"]
+
+[resource]
+albedo_texture = ExtResource("1_voojl")
+uv1_triplanar = true
+texture_filter = 4
