@@ -56,9 +56,6 @@ public class WormAudioContext extends MessageThreadManager
 
                 File file = extractResourceToTempFile(path);
 
-//                if (file == null)
-//                    throw new UnsatisfiedLinkError("NEEPSound: Native support for system %s %s (%s) not found".formatted(os, arch, path));
-
                 LOGGER.info("Unpacking native library for {} {} ({})", os, arch, path);
 
                 System.load(file.getAbsolutePath());
@@ -66,7 +63,7 @@ public class WormAudioContext extends MessageThreadManager
         }
         catch (UnsatisfiedLinkError | IOException e)
         {
-            LOGGER.error("NEEPSound: Native library faile to load}\n", e);
+            LOGGER.error("WormAudio: Native library faile to load}\n", e);
             System.exit(1);
         }
     }
