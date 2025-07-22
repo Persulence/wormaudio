@@ -210,6 +210,7 @@ set_target_properties(${GUI_TARGET} PROPERTIES
 
 install(TARGETS wormaudio-editor)
 
-install(DIRECTORY res DESTINATION res/)
+install(DIRECTORY res
+        DESTINATION .)
 
 message(STATUS "Editor install prefix: ${CMAKE_INSTALL_PREFIX}")
