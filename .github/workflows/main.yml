@@ -20,7 +20,7 @@ jobs:
 #        build_type: ['Debug', 'Release']
         build_type: ['Release']
         config:
-#          - { name: '🐧 Linux GCC', os: ubuntu-latest }
+          - { name: '🐧 Linux GCC', os: ubuntu-latest }
 #          - { name: '🍏 macOS Clang', os: macos-latest }
           - { name: '🪟 Windows MSVC', os: windows-latest }
 
