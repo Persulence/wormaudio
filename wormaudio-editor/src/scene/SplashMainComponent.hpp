@@ -4,6 +4,7 @@
 
 #pragma once
 #include <filesystem>
+#include <editor/Editor.hpp>
 
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "panel/BorderPanel.hpp"

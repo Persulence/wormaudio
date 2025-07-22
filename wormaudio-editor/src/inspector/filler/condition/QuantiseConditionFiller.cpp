@@ -5,6 +5,7 @@
 #include "QuantiseConditionFiller.hpp"
 
 #include "panel/MyPropertyPanel.hpp"
+#include "inspector/filler/TempoInspectorFiller.hpp"
 
 namespace ui
 {

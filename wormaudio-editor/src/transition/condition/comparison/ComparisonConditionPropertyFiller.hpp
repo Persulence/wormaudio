@@ -6,6 +6,7 @@
 
 #include "ComparisonComboBox.hpp"
 #include "../ConditionPropertyFiller.hpp"
+#include "state/condition/ComparisonCondition.hpp"
 
 namespace ui
 {
@@ -38,7 +39,7 @@ namespace ui
     {
 
     public:
-        ComparisonConditionPropertyFiller(ComparisonCondition &condition_, int index);
+        ComparisonConditionPropertyFiller(condition::ComparisonCondition &condition_, int index);
 
         void initProperties() override;
 

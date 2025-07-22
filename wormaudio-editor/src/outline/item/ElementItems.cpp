@@ -4,6 +4,8 @@
 
 #include "ElementItems.hpp"
 
+#include "editor/Editor.hpp"
+
 #include "browser/FileDragSource.hpp"
 #include "outline/SharedResourceOutlineItem.hpp"
 #include "resource/ChoiceElement.hpp"

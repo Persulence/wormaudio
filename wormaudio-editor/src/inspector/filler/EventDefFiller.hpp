@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "resource/SharedResource.hpp"
+#include "event/EventDef.hpp"
+
 #include "property/PropertyFiller.hpp"
 #include "widget/SliderWidget.hpp"
 

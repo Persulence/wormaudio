@@ -6,6 +6,8 @@
 
 namespace ui
 {
+    using namespace juce;
+
     SliderWidget::SliderWidget():
         label(parse::parseFloat)
     {
