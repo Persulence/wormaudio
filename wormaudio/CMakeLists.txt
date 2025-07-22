@@ -82,7 +82,6 @@ set_target_properties(${LIBRARY_TARGET}
 
 target_include_directories(${LIBRARY_TARGET}
         PUBLIC
-            ../JuceLibraryCode
             src
             SYSTEM ${WORMAUDIO_LIB_DIR}/cereal/include
             ${WORMAUDIO_LIB_DIR}/Cereal-Optional-NVP/include
