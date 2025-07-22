@@ -46,12 +46,16 @@ jobs:
 
       - name: Install Dependencies (Linux)
         if: matrix.config.os == 'ubuntu-latest'
-        # Disable man-db things (From https://github.com/actions/runner-images/issues/10977)
+        # Disable man-db things (From https://github.com/actions/runner-images/issues/10977
         run: >
           sudo tee /etc/dpkg/dpkg.cfg.d/01_nodoc > /dev/null << 'EOF'
+          
           path-exclude /usr/share/doc/*
+          
           path-exclude /usr/share/man/*
+          
           path-exclude /usr/share/info/*
+          
           EOF
           
           sudo apt-get update
