@@ -111,7 +111,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_C_COMPILER_LAUNCHER=ccache 
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-          --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
+          --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}-${{ matrix.name }} 
           .
       #          -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
 #          -DCMAKE_CXX_COMPILER=${{ steps.install_cc.outputs.cxx }}
