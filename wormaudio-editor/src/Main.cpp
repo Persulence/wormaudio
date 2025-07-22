@@ -2,12 +2,12 @@
 //
 // This work is licensed under CC BY-NC-SA 4.0. To view a copy of the license, visit https://creativecommons.org/licenses/by-nc-sa/4.0
 
-#include <JuceHeader.h>
+#include <juce_opengl/juce_opengl.h>
 
 #include "command/Commands.hpp"
 #include "UiMainComponent.hpp"
 #include "theme/MainLookAndFeel.hpp"
-
+#include "Version.hpp"
 
 //==============================================================================
 class Application : public juce::JUCEApplication
@@ -16,8 +16,8 @@ public:
     //==============================================================================
     Application() {}
 
-    const juce::String getApplicationName() override { return ProjectInfo::projectName; }
-    const juce::String getApplicationVersion() override { return ProjectInfo::versionString; }
+    const juce::String getApplicationName() override { return ui::Version::NAME; }
+    const juce::String getApplicationVersion() override { return ui::Version::VERSION; }
     bool moreThanOneInstanceAllowed() override { return true; }
 
     //==============================================================================
