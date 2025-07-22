@@ -203,7 +203,7 @@ set_source_files_properties(${CEREAL_HEADERS} PROPERTIES SKIP_UNITY_BUILD_INCLUS
 #set_target_properties(${GUI_TARGET} PROPERTIES UNITY_BUILD ON)
 # It is not recommended to enable unity build here, but I was having trouble getting it to work.
 set_target_properties(${GUI_TARGET} PROPERTIES
-        UNITY_BUILD ON
+#        UNITY_BUILD ON
         UNITY_BUILD_MODE BATCH
         UNITY_BUILD_BATCH_SIZE 10
 )
