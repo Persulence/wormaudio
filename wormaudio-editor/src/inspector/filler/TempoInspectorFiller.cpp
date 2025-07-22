@@ -6,6 +6,7 @@
 
 #include "inspector/widget/TimeSignatureWidget.hpp"
 #include "util/parse.hpp"
+#include "panel/MyPropertyPanel.hpp"
 
 namespace ui
 {

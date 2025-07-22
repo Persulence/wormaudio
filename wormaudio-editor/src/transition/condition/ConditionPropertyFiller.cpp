@@ -5,14 +5,13 @@
 #include "ConditionPropertyFiller.hpp"
 
 #include <variant>
-#include <variant>
 
 #include "comparison/ComparisonConditionPropertyFiller.hpp"
-#include "../../inspector/filler/condition/TimeConditionFiller.hpp"
-#include "inspector/InspectorRoot.hpp"
+#include "inspector/filler/condition/TimeConditionFiller.hpp"
 #include "inspector/filler/condition/AllElementsDoneConditionFiller.hpp"
 #include "inspector/filler/condition/QuantiseConditionFiller.hpp"
 #include "inspector/filler/condition/RandomConditionFiller.hpp"
+#include "transition/ConditionListPropertyFiller.hpp"
 
 namespace ui
 {

@@ -4,6 +4,8 @@
 
 #include "Editor.hpp"
 
+#include "juce_events/juce_events.h"
+
 #include <runtime/Runtime.hpp>
 
 #include "asset/AssetManager.hpp"
@@ -91,7 +93,7 @@ namespace editor
 
         instance->transport.signal.setup(this, [this](auto state)
         {
-            MessageManager::callAsync([this, state]
+            juce::MessageManager::callAsync([this, state]
             {
                 setState(state, true);
             });
