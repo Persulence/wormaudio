@@ -22,19 +22,19 @@
 namespace signal_event
 {
     /**
-     * Provides an automatically deleted connection to a @link Signal.
+     * Provides an automatically deleted connection to a @link SignalType.
      * The listener will keep track of the target signal and will unregister itself on destruction.
      * Can be extended by a class or instantiated as a field.
      * @tparam Args Parameters of the callback function
      */
     template <typename... Args>
-    class Listener
+    class ListenerType
     {
         using SignalCallback = std::function<void(Args...)>;
 
         class UniqueListener : public ListenerBase<Args...>
         {
-            friend class Listener;
+            friend class ListenerType;
 
         public:
             // Prevent moving or copying to ensure that the pointer held by a Signal remains valid (until destruction)
@@ -95,22 +95,22 @@ namespace signal_event
         };
 
     public:
-        Listener(): ptr(std::make_unique<UniqueListener>()) {}
+        ListenerType(): ptr(std::make_unique<UniqueListener>()) {}
 
-        Listener(Listener&&) = default;
-        Listener& operator=(Listener&&) = default;
+        ListenerType(ListenerType&&) = default;
+        ListenerType& operator=(ListenerType&&) = default;
 
         void listen(UniqueSignal<Args...>* target)
         {
             ptr->listen(target);
         }
 
-        void listen(Signal<Args...>& target)
+        void listen(SignalType<Args...>& target)
         {
             ptr->listen(target.get());
         }
 
-        void listen(Signal<Args...>& target, SignalCallback callback_)
+        void listen(SignalType<Args...>& target, SignalCallback callback_)
         {
             ptr->listen(target.get());
             setCallback(callback_);
@@ -136,20 +136,20 @@ namespace signal_event
     };
 
     /**
-     * Provides an automatically deleted connection to a @link Signal.
+     * Provides an automatically deleted connection to a @link SignalType.
      * The listener will keep track of the target signal and will unregister itself on destruction.
      * This version can listen to multiple signals.
      * Can be extended by a class or instantiated as a field.
      * @tparam Args Parameters of the callback function
      */
     template <typename... Args>
-    class MultiListener
+    class MultiListenerType
     {
         using SignalCallback = std::function<void(Args...)>;
 
         class UniqueMultiListener : public ListenerBase<Args...>
         {
-            friend class MultiListener;
+            friend class MultiListenerType;
 
         public:
             DISABLE_COPY(UniqueMultiListener)
@@ -189,19 +189,19 @@ namespace signal_event
         };
 
     public:
-        MultiListener(): ptr(std::make_unique<UniqueMultiListener>()) { }
+        MultiListenerType(): ptr(std::make_unique<UniqueMultiListener>()) { }
 
         void listen(UniqueSignal<Args...>* target)
         {
             ptr->listen(target);
         }
 
-        void listen(Signal<Args...>& target)
+        void listen(SignalType<Args...>& target)
         {
             ptr->listen(target.get());
         }
 
-        void unListen(Signal<Args...>& target)
+        void unListen(SignalType<Args...>& target)
         {
             ptr->unListen(target.get());
         }

@@ -82,7 +82,7 @@ namespace parameter
         // Some utter stupidity is necessary here because I can't design anything well
         ParameterDefBase& operator=(ParameterDefBase&& other) noexcept
         {
-            Listener::operator=(std::move(other));
+            ListenerType::operator=(std::move(other));
             std::swap(name, other.name);
             std::swap(changed, other.changed);
 
@@ -95,7 +95,7 @@ namespace parameter
         }
 
         ParameterDefBase(ParameterDefBase&& other) noexcept:
-            Listener(std::move(other)),
+            ListenerType(std::move(other)),
             name(other.name),
             changed(std::move(other.changed))
         {
