@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="MJKoui" name="NEEPSound" projectType="guiapp" useAppConfig="0"
+<JUCERPROJECT id="MJKoui" name="WormAudio" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="20">
-  <MAINGROUP id="ZMZMXJ" name="NEEPSound">
+  <MAINGROUP id="ZMZMXJ" name="WormAudio">
     <GROUP id="{D8C71E0C-BFBB-DD84-EBBF-D5028B35376C}" name="Source">
       <FILE id="eZL83F" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="rE6vM0" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
