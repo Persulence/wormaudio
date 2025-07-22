@@ -62,7 +62,8 @@ add_subdirectory(../wormaudio wormaudio)
 if (MSVC)
     add_executable(${GUI_TARGET} WIN32 src/Main.cpp)
 else ()
-    add_executable(${GUI_TARGET})
+    add_executable(${GUI_TARGET}
+            src/Version.hpp)
 endif ()
 
 #target_precompile_headers(${GUI_TARGET}
@@ -85,7 +86,6 @@ endif ()
 
 target_include_directories(${GUI_TARGET}
         PUBLIC
-        ../JuceLibraryCode
         ../wormaudio/src
         src
 #            lib/JUCE/modules
