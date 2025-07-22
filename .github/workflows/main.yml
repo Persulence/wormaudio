@@ -47,6 +47,9 @@ jobs:
       - name: Install Dependencies (Linux)
         if: matrix.config.os == 'ubuntu-latest'
         run: >
+          sudo debconf-set man-db/auto-update false
+          sudo rm /var/lib/man-db/auto-update
+          
           sudo apt-get update
           
           sudo apt-get install -y 
@@ -81,7 +84,7 @@ jobs:
       - name: Set variables (Windows)
         if: matrix.config.os == 'windows-latest'
         # /w doesn't seem to work
-        run: echo "CXX_FLAGS=/W0" >> $GITHUB_ENV
+        run: echo "CXX_FLAGS=/w /W0" >> $GITHUB_ENV
 
       - name: Set variables (Linux)
         if: matrix.config.os == 'ubuntu-latest'
@@ -96,7 +99,7 @@ jobs:
           -G "Ninja"
           -DJUCE_MODULES_ONLY=ON 
           -DDISABLE_WARNINGS=TRUE
-          -DCMAKE_CXX_FLAGS="/w /W0"
+          -DCMAKE_CXX_FLAGS=${{ env.CXX_FLAGS }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_C_COMPILER_LAUNCHER=ccache 
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
