@@ -9,6 +9,7 @@
 
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "util/GuiResources.hpp"
+#include "editor/Editor.hpp"
 
 namespace ui
 {

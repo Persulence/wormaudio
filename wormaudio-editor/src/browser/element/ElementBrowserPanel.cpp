@@ -8,6 +8,7 @@
 #include "resource/Asset.hpp"
 #include "resource/ChoiceElement.hpp"
 #include "resource/ClipElement.hpp"
+#include "editor/Editor.hpp"
 
 // #define MEMFN(fn) std::bind(&fn, this)
 // #define MEMFN(fn, arg1) [this](auto arg1){ fn(arg1); };
