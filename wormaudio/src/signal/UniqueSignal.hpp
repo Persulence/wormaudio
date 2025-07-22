@@ -9,16 +9,16 @@
 namespace signal_event
 {
     template <typename... Args>
-    class Signal;
+    class SignalType;
 
     template <typename... Args>
     class ListenerBase;
 
     template <typename... Args>
-    class Listener;
+    class ListenerType;
 
     template <typename... Args>
-    class MultiListener;
+    class MultiListenerType;
 
     /**
      * using Thing = Callback<int, int, int>;
@@ -30,9 +30,9 @@ namespace signal_event
      */
     template <typename... Args> struct Callback
     {
-        using Signal = Signal<Args...>;
-        using Listener = Listener<Args...>;
-        using MultiListener = MultiListener<Args...>;
+        using Signal = SignalType<Args...>;
+        using Listener = ListenerType<Args...>;
+        using MultiListener = MultiListenerType<Args...>;
     };
 
     template <typename... Args>

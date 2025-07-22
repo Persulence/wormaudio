@@ -20,41 +20,41 @@ namespace signal_event
      * @tparam Args Parameters of the callback function
      */
     template <typename... Args>
-    class Signal
+    class SignalType
     {
         using L = ListenerBase<Args...>;
 
     public:
         using Callback = std::function<void(Args...)>;
 
-        Signal(): ptr(std::make_unique<UniqueSignal<Args...>>()) {}
+        SignalType(): ptr(std::make_unique<UniqueSignal<Args...>>()) {}
 
         void reg(L* listener)
         {
             ptr->reg(listener);
         }
 
-        void setup(MultiListener<Args...>* listener)
+        void setup(MultiListenerType<Args...>* listener)
         {
             listener->listen(*this);
         }
 
-        void setup(Listener<Args...>* listener)
+        void setup(ListenerType<Args...>* listener)
         {
             listener->listen(*this);
         }
 
-        void setup(Listener<Args...>* listener, Callback callback_)
+        void setup(ListenerType<Args...>* listener, Callback callback_)
         {
             listener->listen(*this, callback_);
         }
 
-        void unReg(Listener<Args...>* listener)
+        void unReg(ListenerType<Args...>* listener)
         {
             ptr->unReg(listener->get());
         }
 
-        void unReg(MultiListener<Args...>* listener)
+        void unReg(MultiListenerType<Args...>* listener)
         {
             ptr->unReg(listener->get());
         }

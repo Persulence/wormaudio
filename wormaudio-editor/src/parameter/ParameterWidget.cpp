@@ -87,7 +87,7 @@ namespace ui
 
             def.min.setupListener(this);
             def.max.setupListener(this);
-            MultiListener::setCallback(rangeCallback);
+            MultiListenerType::setCallback(rangeCallback);
             rangeCallback(0);
 
             addAndMakeVisible(slider);
