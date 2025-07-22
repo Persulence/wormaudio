@@ -20,9 +20,9 @@ jobs:
 #        build_type: ['Debug', 'Release']
         build_type: ['Release']
         config:
-          - { name: '🐧 Linux GCC', os: ubuntu-latest }
-#          - { name: '🍏 macOS Clang', os: macos-latest }
-          - { name: '🪟 Windows MSVC', os: windows-latest }
+          - { name: '🐧 Linux GCC', id: 'linux', os: ubuntu-latest }
+#          - { name: '🍏 macOS Clang', id: 'macos', os: macos-latest }
+          - { name: '🪟 Windows MSVC', id: 'windows', os: windows-latest }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
     runs-on: ${{ matrix.config.os }}
@@ -127,7 +127,7 @@ jobs:
         if: matrix.build_type == 'Debug'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ matrix.name }}-Debug
+          name: ${{ github.event.repository.name }}-${{ matrix.config.id }}-Debug
           path: |
             ${{ github.workspace }}/install-${{ matrix.build_type }}/*
 
@@ -135,6 +135,6 @@ jobs:
         if: matrix.build_type == 'Release'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ matrix.config.name }}-Release
+          name: ${{ github.event.repository.name }}-${{ matrix.config.id }}-Release
           path: |
             ${{ github.workspace }}/install-${{ matrix.build_type }}/*
