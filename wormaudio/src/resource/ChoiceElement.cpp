@@ -26,17 +26,17 @@ namespace element
 
         const float pitchRandom;
         float pitch{1};
+        Element* parent;
 
     public:
-        explicit ChoiceElementInstance(const player::AudioContext &context_, PropertyInstanceContainer properties_,
+        explicit ChoiceElementInstance(Element* parent,
+                                       const player::AudioContext &context_, PropertyInstanceContainer properties_,
                                        std::vector<ElementSampleBuffer::Ptr> buffers_,
                                        const bool _loop,
                                        const float pitchRandom
-                                       ) :
+                ) :
             ElementInstance(context_), properties(std::move(properties_)), buffers(std::move(buffers_)), loop(_loop),
-            pitchRandom(pitchRandom) {
-
-        }
+            pitchRandom(pitchRandom), parent(parent) {}
 
         void start() override
         {
@@ -76,23 +76,30 @@ namespace element
         {
             return player.getState() == player::STOPPED;
         }
+
+        Element *getParent() override
+        {
+            return parent;
+        }
     };
 
     // --- ChoiceElement ---
 
-    std::vector<std::shared_ptr<PropertyDef>> ChoiceElement::getProperties()
+    std::vector<std::shared_ptr<PropertyDef> > ChoiceElement::getProperties()
     {
         return {};
     }
 
-    ElementInstancePtr ChoiceElement::createInstance(player::AudioContext audioContext, AutomationRegistryInstance &automation)
+    ElementInstancePtr ChoiceElement::createInstance(player::AudioContext audioContext,
+                                                     AutomationRegistryInstance &automation)
     {
         cacheBuffers();
 
         return std::make_shared<ChoiceElementInstance>(
-            audioContext,
-            automation.getContainer(shared_from_this()),
-            cachedBuffers, loop.getValue(), pitchRandom.getValue());
+                this,
+                audioContext,
+                automation.getContainer(shared_from_this()),
+                cachedBuffers, loop.getValue(), pitchRandom.getValue());
     }
 
     std::string ChoiceElement::getName()
@@ -111,7 +118,7 @@ namespace element
         if (dirty)
         {
             cachedBuffers.clear();
-            for (const auto& resource : clips)
+            for (const auto &resource: clips)
             {
                 cachedBuffers.push_back(resource->getAudio());
             }

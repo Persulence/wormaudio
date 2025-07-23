@@ -17,16 +17,18 @@ namespace element
         automation::PropertyInstanceContainer properties;
 
         automation::PropertyInstance::OnChanged::Listener gainListener;
+        Element *parent;
 
         // bool loop;
 
     public:
-        explicit ClipElementInstance(const player::AudioContext &context_, const asset::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_,
+        explicit ClipElementInstance(Element* parent, const player::AudioContext &context_, const asset::ElementSampleBuffer::Ptr& audio_, automation::PropertyInstanceContainer properties_,
                                      bool loop_):
             ElementInstance(context_),
             player(audio_, loop_),
-            properties(std::move(properties_))
-            // loop(loop_)
+            properties(std::move(properties_)),
+            parent(parent)
+        // loop(loop_)
         {
             player.prepareToPlay(audioContext.samplesPerBlock, audioContext.sampleRate);
 
@@ -67,6 +69,11 @@ namespace element
 
             player.getNextAudioBlock(bufferToAdd);
         }
+
+        Element* getParent() override
+        {
+            return parent;
+        }
     };
 
     // --- ClipElement ---
@@ -78,7 +85,7 @@ namespace element
     ElementInstancePtr ClipElement::createInstance(player::AudioContext context,
                                                    automation::AutomationRegistryInstance &automation)
     {
-        return std::make_shared<ClipElementInstance>(context, asset->getAudio(), automation.getContainer(shared_from_this()),
+        return std::make_shared<ClipElementInstance>(this, context, asset->getAudio(), automation.getContainer(shared_from_this()),
                                                      loop.getValue());
     }
 

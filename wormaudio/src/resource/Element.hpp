@@ -40,6 +40,10 @@ namespace element
         virtual std::string getName() = 0;
 
         ~Element() override = default;
+
+        // tODO
+        bool ignoreStateChange() const { return true; };
+
         JUCE_DECLARE_NON_COPYABLE(Element)
 
     private:

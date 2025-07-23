@@ -5,6 +5,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -111,6 +112,8 @@ namespace sm
             return std::vector<resource::ResourceHandle>{transitions.begin(), transitions.end()};
         }
 
+        void handoff(element::ElementInstanceContext &context, const StateDef *nextState);
+
     private:
         std::vector<event::ElementHandle> elements;
 
@@ -197,7 +200,7 @@ namespace sm
             return instances;
         }
 
-        void activate(element::ElementInstanceContext& context)
+        void activateAll(element::ElementInstanceContext& context)
         {
             for (auto& entry : parent->getElements())
             {
@@ -208,7 +211,7 @@ namespace sm
             }
         }
 
-        void deactivate()
+        void deactivateAll()
         {
             for (const auto& instance : instances)
             {
@@ -217,6 +220,8 @@ namespace sm
 
             instances.clear();
         }
+
+        void handoff(element::ElementInstanceContext& context, StateInstance* prevState);
 
         resource::Handle<StateDef> getParent() const
         {

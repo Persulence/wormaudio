@@ -67,7 +67,7 @@ namespace player
         audioContext = {};
     }
 
-    void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &mainAccumulator, instance::ListenerInstance listenerInstance)
+    void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &mainAccumulator, const instance::ListenerInstance &listenerInstance)
     {
         // Use a different buffer, as the main one is not meant to be cleared.
         const juce::AudioSourceChannelInfo accumulatorInfo{&accumulator, mainAccumulator.startSample, mainAccumulator.numSamples};
@@ -89,6 +89,11 @@ namespace player
             accumulatorInfo.buffer->clear(startSample, numSamples);
 
             // Remove finished elements
+            // for (auto& instance : active)
+            // {
+            //     if (instance.)
+            //     instance->stop();
+            // }
             std::erase_if(active, [](const auto& e) { return e->canBeFreed(); });
 
             // Add queued elements

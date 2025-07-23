@@ -12,6 +12,8 @@
 
 namespace element
 {
+    class Element;
+
     class ElementInstance
     {
     protected:
@@ -24,6 +26,8 @@ namespace element
             released(false)
         {
         }
+
+        virtual Element* getParent() = 0;
 
         virtual void start() = 0;
 

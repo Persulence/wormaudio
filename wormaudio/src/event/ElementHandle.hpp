@@ -66,3 +66,12 @@ namespace event
 
     };
 }
+
+template <> struct std::hash<event::ElementHandle>
+{
+    size_t operator()(const event::ElementHandle& o) const noexcept
+    {
+        constexpr auto h = std::hash<decltype(o.ptr)>{};
+        return h(o.ptr);
+    }
+};
