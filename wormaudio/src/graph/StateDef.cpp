@@ -17,14 +17,11 @@
 namespace sm
 {
     Transition1::Transition1(std::unique_ptr<condition::ConditionList> conditions_, std::weak_ptr<StateDef> nextState_):
-        conditions(std::move(conditions_)), nextState(std::move(nextState_))
-    {
-
-    }
+        conditions(std::move(conditions_)), nextState(std::move(nextState_)) {}
 
     StateDef::StateDef()
     // StateDef::StateDef(const std::shared_ptr<automation::AutomationRegistry> &registry)
-        // automation(registry)
+    // automation(registry)
     {
         // Doesn't work
         // insertTransition(std::make_shared<Transition1>(condition::ConditionList{}, shared_from_this()));
@@ -37,7 +34,8 @@ namespace sm
 
     void StateDef::removeElement(const resource::Handle<element::Element> &element)
     {
-        if (const auto it = std::ranges::find_if(elements, [&element](const auto& e){ return e.ptr == element; }); it != elements.end())
+        if (const auto it = std::ranges::find_if(elements, [&element](const auto &e) { return e.ptr == element; });
+            it != elements.end())
         {
             elements.erase(it);
         }
@@ -67,7 +65,7 @@ namespace sm
 
             // if (index > prevIndex)
             // {
-                // prevIndex += 1;
+            // prevIndex += 1;
             // }
 
             // transitions.insert(transitions.begin() + index, *pos);
@@ -75,7 +73,6 @@ namespace sm
 
             auto pos = transitions.begin();
             std::advance(pos, index);
-
 
             transitions.splice(pos, transitions, prevPos);
         }
@@ -91,17 +88,17 @@ namespace sm
         return transitionLookup.contains(this);
     }
 
-    const std::vector<event::ElementHandle> & StateDef::getElements()
+    const std::vector<event::ElementHandle> &StateDef::getElements()
     {
         return elements;
     }
 
-    const std::unordered_map<StateDef*, Transition1::Ptr>& StateDef::getTransitionLookup() const
+    const std::unordered_map<StateDef *, Transition1::Ptr> &StateDef::getTransitionLookup() const
     {
         return transitionLookup;
     }
 
-    const std::list<std::shared_ptr<Transition1>>& StateDef::getTransitions() const
+    const std::list<std::shared_ptr<Transition1> > &StateDef::getTransitions() const
     {
         return transitions;
     }
@@ -111,9 +108,102 @@ namespace sm
         return static_cast<juce::String>(name.getValue()).toStdString();
     }
 
+    // void StateDef::handoff(element::ElementInstanceContext &context, const StateDef *nextState)
+    // {
+    //     std::unordered_set<std::shared_ptr<element::Element>> set;
+    //     if (nextState)
+    //     {
+    //         for (auto& element : elements)
+    //         {
+    //             // if (element->ignoreTransition())
+    //             if (true)
+    //             {
+    //                 if (auto it = std::find(nextState->elements.begin(), nextState->elements.end(), element); it != elements.end())
+    //                 {
+    //
+    //                 }
+    //                 else
+    //                 {
+    //
+    //                 }
+    //             }
+    //         }
+    //
+    //         std::set_intersection(elements.begin(), elements.end(), nextState->elements.begin(), nextState->elements.end())
+    //     }
+    // }
+
+    void StateInstance::handoff(element::ElementInstanceContext &context, StateInstance *prevState)
+    {
+        std::unordered_set<element::Element *> retained;
+
+        if (prevState == this)
+        {
+            for (auto &instance: instances)
+            {
+                if (instance->getParent()->ignoreStateChange())
+                {
+                    // Retain play state
+                }
+                else
+                {
+                    instance->stop();
+                    instance = context.createInstance(*instance->getParent());
+                    instance->start();
+                }
+            }
+        }
+        else
+        {
+            const auto &parentElements = parent->getElements();
+            auto &prevInstances = prevState->instances;
+
+            for (auto it = prevInstances.begin(); it != prevInstances.end();)
+            {
+                // If the previous element ignores state changes and is in the current state, let it continue
+                auto &instance = *it;
+                auto instanceParent = instance->getParent();
+                if (instanceParent->ignoreStateChange())
+                {
+                    if (auto found = std::ranges::find_if(parentElements, [instanceParent](auto &e)
+                    {
+                        return e.ptr.get() == instanceParent;
+                    }); found != parentElements.end())
+                    {
+                        // Move the instance here
+                        instances.emplace_back(instance);
+                        it = prevInstances.erase(it);
+
+                        retained.emplace(instance->getParent());
+                    }
+                    else
+                    {
+                        instance->stop();
+                        ++it;
+                    }
+                }
+                else
+                {
+                    ++it;
+                }
+            }
+
+            prevState->instances.clear();
+
+            for (const auto &element: getParent()->getElements())
+            {
+                if (!retained.contains(element.ptr.get()))
+                {
+                    auto i = context.createInstance(*element);
+                    instances.emplace_back(i);
+                    i->start();
+                }
+            }
+        }
+    }
+
     std::unique_ptr<StateInstance> createNodeInstance(const std::shared_ptr<StateDef> &node)
     {
         return std::make_unique<StateInstance>(node);
     }
 }
-

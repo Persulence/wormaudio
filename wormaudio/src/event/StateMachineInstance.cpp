@@ -80,17 +80,21 @@ namespace event
 
         if (currentState != nullptr && transitionOccurred)
         {
-            if (prevState)
-                prevState->instance->deactivate();
-
             if (currentState->instance->getFlags().type == sm::END)
             {
                 transport.setState(player::STOPPED);
+                if (prevState)
+                    prevState->instance->deactivateAll();
+
                 currentState = nullptr;
                 return true;
             }
 
-            currentState->instance->activate(context);
+            if (prevState)
+                currentState->instance->handoff(context, prevState->instance.get());
+            else
+                currentState->instance->activateAll(context);
+
             onStateChange.emit(currentState->instance->getParent());
             return true;
         }
@@ -102,7 +106,7 @@ namespace event
     {
         if (currentState)
         {
-            currentState->instance->deactivate();
+            currentState->instance->deactivateAll();
         }
     }
 
