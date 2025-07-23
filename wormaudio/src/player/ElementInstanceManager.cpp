@@ -69,6 +69,8 @@ namespace player
 
     void ElementInstanceManager::getNextAudioBlock(const juce::AudioSourceChannelInfo &mainAccumulator, const instance::ListenerInstance &listenerInstance)
     {
+        accumulator.clear();
+
         // Use a different buffer, as the main one is not meant to be cleared.
         const juce::AudioSourceChannelInfo accumulatorInfo{&accumulator, mainAccumulator.startSample, mainAccumulator.numSamples};
 
@@ -114,8 +116,6 @@ namespace player
         }
         else
         {
-            accumulator.clear();
-
             // TODO: Ensure that this thread can always acquire the lock
             std::lock_guard lock(activeMutex); // Prevent the iterator from being invalidated
             for (auto& instance : active)
