@@ -32,6 +32,8 @@ namespace ui
                     element.getAsset()->getFile().getFullPathName().toStdString()}));
                 path.field.setEditable(false);
 
+                add(std::make_shared<BoolDataPropertyWidget>("Ignore state change", element.ignoreChange));
+
                 add(std::make_shared<BoolDataPropertyWidget>("Loop", element.loop));
             }
         };
@@ -51,6 +53,7 @@ namespace ui
             void initProperties() override
             {
                 add(std::make_shared<BoolDataPropertyWidget>("Loop", element.loop));
+                add(std::make_shared<BoolDataPropertyWidget>("Ignore state change", element.ignoreChange));
                 auto& randomPitch = add(std::make_shared<SliderPropertyWidget>("Random Pitch"));
                 randomPitch.slider.setRange(0.f, 0.9f, 0.05);
                 randomPitch.slider.setValue(element.pitchRandom.getValue(), false);
