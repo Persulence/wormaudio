@@ -82,4 +82,43 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
             }
         }
     }
+
+    // I've put the old code with no pitch shift here for testing
+
+    // auto& ref = *buffer;
+    //
+    // auto numOutputChannels = bufferToFill.buffer->getNumChannels();
+    // auto outputSamplesRemaining = bufferToFill.numSamples;
+    // auto outputSamplesOffset = bufferToFill.startSample;
+    //
+    // while (outputSamplesRemaining > 0)
+    // {
+    //     auto refSamplesRemaining = buffer->getNumSamples() - position;
+    //     auto samplesThisTime = juce::jmin (outputSamplesRemaining, refSamplesRemaining);
+    //     for (auto channel = 0; channel < numOutputChannels; ++channel)
+    //     {
+    //         bufferToFill.buffer->addFrom(channel,
+    //                                      outputSamplesOffset,
+    //                                      ref,
+    //                                      channel % numBufferChannels,
+    //                                      position,
+    //                                      samplesThisTime,
+    //                                      gain);
+    //     }
+    //     outputSamplesRemaining -= samplesThisTime;
+    //     outputSamplesOffset += samplesThisTime;
+    //     position += samplesThisTime;
+    //
+    //     if (position == ref.getNumSamples())
+    //     {
+    //         position = 0;
+    //         if (!loop)
+    //         {
+    //             transportState = STOPPED;
+    //             // Do nothing as this is additive
+    //             // bufferToFill.buffer->clear(outputSamplesOffset, bufferToFill.numSamples - outputSamplesOffset);
+    //             break;
+    //         }
+    //     }
+    // }
 }

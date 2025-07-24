@@ -91,9 +91,13 @@ namespace event
             }
 
             if (prevState)
+            {
                 currentState->instance->handoff(context, prevState->instance.get());
+            }
             else
+            {
                 currentState->instance->activateAll(context);
+            }
 
             onStateChange.emit(currentState->instance->getParent());
             return true;
