@@ -7,6 +7,8 @@
 #include <memory>
 
 #undef Null
+#include <util/Data.hpp>
+
 #include "util/serialization_util.hpp"
 #include "serialization/cereal_poly_archives.hpp"
 
@@ -33,6 +35,7 @@ namespace element
     {
     public:
         automation::Property volume{automation::createProperty("volume", 0, automation::Unit::DBFS)};
+        util::Data<bool> ignoreChange = true;
 
         Element() = default;
 
@@ -42,7 +45,7 @@ namespace element
         ~Element() override = default;
 
         // tODO
-        bool ignoreStateChange() const { return true; };
+        bool ignoreStateChange() const { return *ignoreChange; };
 
         JUCE_DECLARE_NON_COPYABLE(Element)
 
@@ -54,6 +57,7 @@ namespace element
             // ar(cereal::base_class<SharedResource>(this));
             // ar(cereal::base_class<PropertyProvider>(this));
             ar(cereal::make_nvp("volume", volume));
+            ar(cereal::make_nvp("ignore_state_change", ignoreChange));
         }
 
         INTERNAL_SPLIT_LOAD
@@ -61,6 +65,7 @@ namespace element
             // ar(cereal::base_class<SharedResource>(this));
             // ar(cereal::base_class<PropertyProvider>(this));
             cereal::make_optional_nvp(ar, "volume", volume);
+            cereal::make_optional_nvp(ar, "ignore_state_change", ignoreChange);
         }
     };
 }

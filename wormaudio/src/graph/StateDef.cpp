@@ -135,8 +135,6 @@ namespace sm
 
     void StateInstance::handoff(element::ElementInstanceContext &context, StateInstance *prevState)
     {
-        std::unordered_set<element::Element *> retained;
-
         if (prevState == this)
         {
             for (auto &instance: instances)
@@ -155,6 +153,7 @@ namespace sm
         }
         else
         {
+            std::unordered_set<element::Element *> retained;
             const auto &parentElements = parent->getElements();
             auto &prevInstances = prevState->instances;
 
@@ -184,6 +183,7 @@ namespace sm
                 }
                 else
                 {
+                    instance->stop();
                     ++it;
                 }
             }
