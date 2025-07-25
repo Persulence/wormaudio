@@ -40,17 +40,17 @@ namespace ui
             .add({Commands::SAVE_PROJECT, [](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.saveManager.saveAuto(editor.getProject());
+                editor.saveManager.saveAuto(editor.getProject(), editor.getState());
             }})
             .add({Commands::SAVE_PROJECT_AS, [this](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.saveManager.saveAs(editor.getProject());
+                editor.saveManager.saveAs(editor.getProject(), editor.getState());
             }})
             .add({Commands::OPEN_PROJECT, [this](auto&)
             {
                 auto& editor = editor::getInstance();
-                editor.saveManager.open();
+                editor.saveManager.open(editor.getState());
             }})
             // .add({Commands::OPEN_PROJECT_SETTINGS, [this](auto&)
             // {

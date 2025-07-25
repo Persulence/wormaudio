@@ -16,7 +16,7 @@ namespace editor
     using namespace juce;
     namespace fs = std::filesystem;
 
-    void save(const resource::Handle<resource::Project> &project, const std::filesystem::path &projectFilePath)
+    void saveSystem(const resource::Handle<resource::Project> &project, const EditorState* editorState, const std::filesystem::path &projectFilePath)
     {
         try
         {
@@ -25,6 +25,9 @@ namespace editor
             std::filesystem::create_directory(projectFolder);
 
             resource::writeStructure(project, projectFilePath);
+
+            if (editorState)
+                editorState->saveState(projectFolder, project);
 
             std::stringstream ss;
             ss << "Saved project to " << projectFilePath <<"\n";
@@ -40,15 +43,15 @@ namespace editor
         }
     }
 
-    void ProjectSaveManager::saveAuto(resource::Handle<resource::Project> project)
+    void ProjectSaveManager::saveAuto(const resource::Handle<resource::Project> &project, const EditorState &editorState)
     {
         if (lastSavedPath.empty())
         {
-            saveAs(project);
+            saveAs(project, editorState);
             return;
         }
 
-        save(project, lastSavedPath);
+        saveSystem(project, &editorState, lastSavedPath);
     }
 
     std::string validatePath(fs::path path)
@@ -93,7 +96,7 @@ namespace editor
 
                 auto project = resource::make<resource::Project>(std::make_unique<asset::AssetManager>(true));
 
-                save(project, lastSavedPath);
+                saveSystem(project, nullptr, lastSavedPath);
                 activateProject(project);
             }
 
@@ -102,7 +105,7 @@ namespace editor
         });
     }
 
-    void ProjectSaveManager::saveAs(resource::Handle<resource::Project> project)
+    void ProjectSaveManager::saveAs(resource::Handle<resource::Project> project, const EditorState& editorState)
     {
         fileChooser = std::make_unique<FileChooser>("Choose save location",
             File::getCurrentWorkingDirectory(),
@@ -114,7 +117,7 @@ namespace editor
             | FileBrowserComponent::canSelectFiles
             | FileBrowserComponent::canSelectDirectories;
 
-        fileChooser->launchAsync(flags, [this, project](const FileChooser& chooser)
+        fileChooser->launchAsync(flags, [this, project, editorState](const FileChooser& chooser)
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
@@ -124,7 +127,7 @@ namespace editor
 
                 lastSavedPath = validatePath(chosenPath);
 
-                save(project, lastSavedPath);
+                saveSystem(project, &editorState, lastSavedPath);
             }
 
             // This is concerning, but it's preventing the last file chooser from getting a static lifetime and being picked up by the JUCE leak detector.
@@ -132,7 +135,7 @@ namespace editor
         });
     }
 
-    void ProjectSaveManager::open()
+    void ProjectSaveManager::open(EditorState& editorState)
     {
         fileChooser = std::make_unique<FileChooser>("Choose project to load",
             File::getCurrentWorkingDirectory(),
@@ -141,12 +144,12 @@ namespace editor
 
         auto flags = FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles;
 
-        fileChooser->launchAsync(flags, [this](const FileChooser& chooser)
+        fileChooser->launchAsync(flags, [this, &editorState](const FileChooser& chooser)
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
                 const fs::path path = file.getFullPathName().toStdString();
-                auto project = open(path);
+                auto project = open(path, editorState);
 
                 fileChooser = nullptr;
                 activateProject(project);
@@ -159,7 +162,7 @@ namespace editor
 
     }
 
-    resource::Handle<resource::Project> ProjectSaveManager::open(const fs::path &path)
+    resource::Handle<resource::Project> ProjectSaveManager::open(const fs::path &path, EditorState& editorState)
     {
         lastSavedPath = path;
 
@@ -167,6 +170,7 @@ namespace editor
         try
         {
             resource::readStructure(project, path);
+            // TODO editorState
             return project;
         }
         catch (std::exception& e)

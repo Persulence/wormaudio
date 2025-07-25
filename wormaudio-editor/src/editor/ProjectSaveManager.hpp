@@ -7,6 +7,7 @@
 #include <string>
 #include <filesystem>
 
+#include "EditorState.hpp"
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "resource/Project.hpp"
 
@@ -17,14 +18,14 @@ namespace editor
     public:
         ProjectSaveManager() = default;
 
-        void saveAuto(resource::Handle<resource::Project> project);
+        void saveAuto(const resource::Handle<resource::Project> &project, const EditorState &editorState);
 
         void saveNewProject();
 
-        void saveAs(resource::Handle<resource::Project> project);
+        void saveAs(resource::Handle<resource::Project> project, const EditorState &editorState);
 
-        void open(); // Shows the dialogue
-        resource::Handle<resource::Project> open(const std::filesystem::path &path);
+        void open(EditorState &editorState); // Shows the dialogue
+        resource::Handle<resource::Project> open(const std::filesystem::path &path, EditorState &editorState);
 
         std::filesystem::path getAssetsFolder() const;
 

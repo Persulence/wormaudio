@@ -154,6 +154,7 @@ namespace editor
 
     void Editor::setProject(Handle<Project> project_)
     {
+        // editorState = EditorState{project}
         // Set the asset loader's root path (jank)
         asset::AssetLoader::getInstance()->setAssetRoot(saveManager.getAssetsFolder());
 

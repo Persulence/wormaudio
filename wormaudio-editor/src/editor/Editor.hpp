@@ -12,6 +12,8 @@
 #include "EditorEventInstance.hpp"
 #include "EditorParameterList.hpp"
 #include "ProjectSaveManager.hpp"
+#include "EditorState.hpp"
+
 #include "event/EventDef.hpp"
 #include "resource/Project.hpp"
 #include "state/StateMachineDefinition.hpp"
@@ -51,12 +53,15 @@ namespace editor
         EventChanged::Signal onEventChanged;
 
         ProjectSaveManager saveManager;
+        EditorState editorState;
 
         static Editor& getInstance()
         {
             static Editor instance;
             return instance;
         }
+
+        EditorState& getState() { return editorState; };
 
         [[nodiscard]] runtime::Runtime& getRuntime() const
         {
