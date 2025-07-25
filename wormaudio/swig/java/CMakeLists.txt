@@ -82,7 +82,7 @@ message(STATUS "Java source dir: " ${java_source_dir})
 #        DESTINATION ${WORMAUDIO_OUTPUT_DIR}
 #)
 
-if (WORMAUDIO_JAVA_PATH)
+if (DEFINED WORMAUDIO_JAVA_PATH)
     add_custom_command(TARGET ${JAVA_SWIG_TARGET}
             POST_BUILD
                 COMMAND echo "Copying shared library and API to java project"

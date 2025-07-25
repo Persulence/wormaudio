@@ -150,7 +150,11 @@ endif ()
 set(GODOT_CPP_SYSTEM_HEADERS ON CACHE BOOL "" FORCE)
 
 add_subdirectory(extern/godot-cpp)
-add_subdirectory(../wormaudio player)
+#message(STATUS "included: ${WORMAUDIO_INCLUDED}")
+if (NOT DEFINED WORMAUDIO_INCLUDED)
+    message(STATUS "Including player")
+    add_subdirectory(../wormaudio player)
+endif ()
 
 #set(SOURCE_FILES
 #        src/Example.hpp
