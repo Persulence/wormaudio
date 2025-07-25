@@ -13,6 +13,20 @@ namespace resource
 {
     constexpr std::string FILE_EXTENSION = ".proj";
 
+    class IOException : public std::exception
+    {
+    public:
+        explicit IOException(const std::string &message_): message(message_) {}
+
+        const char *what() const noexcept override
+        {
+            return message.c_str();
+        }
+
+    private:
+        std::string message;
+    };
+
     void writeStructure(const Handle<Project> &project, const std::filesystem::path &filePath);
     void readStructure(const Handle<Project>& project, const std::filesystem::path &filePath);
 }

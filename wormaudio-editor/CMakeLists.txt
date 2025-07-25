@@ -63,7 +63,9 @@ if (MSVC)
     add_executable(${GUI_TARGET} WIN32 src/Main.cpp)
 else ()
     add_executable(${GUI_TARGET}
-            src/Version.hpp)
+            src/Version.hpp
+            src/editor/EditorState.cpp
+            src/editor/EditorState.hpp)
 endif ()
 
 #target_precompile_headers(${GUI_TARGET}

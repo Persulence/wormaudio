@@ -30,7 +30,7 @@ namespace ui
                 onClick = [this]
                 {
                     auto& editor = editor::getInstance();
-                    const auto project = editor.saveManager.open(path);
+                    const auto project = editor.saveManager.open(path, editor.getState());
                     editor.saveManager.activateProject(project);
                 };
             }
