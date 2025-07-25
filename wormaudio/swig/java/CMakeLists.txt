@@ -82,14 +82,18 @@ message(STATUS "Java source dir: " ${java_source_dir})
 #        DESTINATION ${WORMAUDIO_OUTPUT_DIR}
 #)
 
-add_custom_command(TARGET ${JAVA_SWIG_TARGET}
-        POST_BUILD
-            # TODO: I DON'T KNOW HOW TO DO THIS PROPERLY HELP PLEASE ARGH
-            COMMAND cp -p ${WORMAUDIO_OUTPUT_DIR}/*.slib ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/resources/native/ # TODO
-#            COMMAND ../../../compile_java.sh ${java_source_dir} ${WORMAUDIO_API_DIR}/java ${JAR_NAME}.jar
-#            COMMAND ${CMAKE_COMMAND} -E copy ${WORMAUDIO_API_DIR}/java/${JAR_NAME}.jar ${WORMAUDIO_OUTPUT_DIR}/../../../java_test/
-            COMMAND cp -r ${java_source_dir}/*.java ${WORMAUDIO_OUTPUT_DIR}/../../../wormaudio-java/src/main/java/com/wormaudio/wormaudio/generated
-)
+if (WORMAUDIO_JAVA_PATH)
+    add_custom_command(TARGET ${JAVA_SWIG_TARGET}
+            POST_BUILD
+                COMMAND echo "Copying shared library and API to java project"
+                COMMAND pwd
+                # TODO: I DON'T KNOW HOW TO DO THIS PROPERLY HELP PLEASE ARGH
+                COMMAND cd ${CMAKE_SOURCE_DIR} && cp -p ${WORMAUDIO_OUTPUT_DIR}/*.slib ${WORMAUDIO_JAVA_PATH}/src/main/resources/native/ # TODO
+    #            COMMAND ../../../compile_java.sh ${java_source_dir} ${WORMAUDIO_API_DIR}/java ${JAR_NAME}.jar
+    #            COMMAND ${CMAKE_COMMAND} -E copy ${WORMAUDIO_API_DIR}/java/${JAR_NAME}.jar ${WORMAUDIO_OUTPUT_DIR}/../../../java_test/
+                COMMAND cd ${CMAKE_SOURCE_DIR} && cp -r ${java_source_dir}/*.java ${WORMAUDIO_JAVA_PATH}/src/main/java/com/wormaudio/wormaudio/generated
+    )
+endif ()
 
 add_executable(test_exec test_exec.cpp)
 target_link_libraries(test_exec PUBLIC ${JAVA_SWIG_TARGET})

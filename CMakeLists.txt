@@ -22,6 +22,12 @@ add_dependencies(build_editor
         wormaudio
         wormaudio-editor)
 
+install(TARGETS wormaudio-editor)
 
-install(TARGETS wormaudio-editor
-)
+if (${WORMAUDIO_BUILD_SWIG})
+    add_custom_target(build_swig)
+    add_dependencies(build_swig
+            wormaudio
+            wormaudio-java
+    )
+endif ()
