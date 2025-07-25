@@ -34,20 +34,15 @@ set(WORMAUDIO_API_DIR ${CMAKE_BINARY_DIR}/api CACHE INTERNAL "")
 set(TARGET_OS ${CMAKE_SYSTEM_NAME} CACHE INTERNAL "")
 string(TOLOWER ${TARGET_OS} TARGET_OS)
 set(TARGET_ARCH amd64 CACHE INTERNAL "")
-# Using an OS-independent extension '.lib'. This avoids parsing annoyance when locating the correct library.
+# Using an OS-independent extension '.slib'. This avoids parsing annoyance when locating the correct library.
 # Java doesn't seem to see jar resources ending with .lib, so I've gone for a completely new shared library extension.
+# (This might be because Windows uses .lib for static libraries)
 set(WORMAUDIO_LIBRARY_SUFFIX "_${TARGET_OS}_${TARGET_ARCH}.slib" CACHE INTERNAL "")
+
 
 # TODO: stop setting user variables
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
-
-# If you've installed JUCE somehow (via a package manager, or directly using the CMake install
-# target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
-# included JUCE directly in your source tree (perhaps as a submodule), you'll need to tell CMake to
-# include that subdirectory as part of the build.
-
-#find_package(JUCE CONFIG REQUIRED)        # If you've installed JUCE to your system
 
 # Hopefully prevent the millions of JUCE headers from appearing in the install dir.
 # Linking to JUCE should bypass EXCLUDE_FROM_ALL for build.
@@ -56,15 +51,6 @@ add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build EXCLUDE_FROM_ALL)
 if (WORMAUDIO_BUILD_SWIG)
     add_subdirectory(swig EXCLUDE_FROM_ALL)
 endif()
-
-# This command sets cxx_std_17 somewhere. I'm using C++20, so this can't be used.
-#juce_add_gui_app(${LIBRARY_TARGET}
-#        # VERSION ...                       # Set this if the app version is different to the project version
-#        # ICON_BIG ...                      # ICON_* arguments specify a path to an image file to use as an icon
-#        # ICON_SMALL ...
-#        # DOCUMENT_EXTENSIONS ...           # Specify file extensions that should be associated with this app
-#        # COMPANY_NAME ...                  # Specify the name of the app's author
-#        PRODUCT_NAME "Gui App Example")     # The name of the final executable, which can differ from the target name
 
 add_library(${LIBRARY_TARGET} STATIC)
 
@@ -137,22 +123,6 @@ target_compile_definitions(${LIBRARY_TARGET}
 )
 
 
-# If your target needs extra binary assets, you can add them here. The first argument is the name of
-# a new static library target that will include all the binary resources. There is an optional
-# `NAMESPACE` argument that can specify the namespace of the generated binary data class. Finally,
-# the SOURCES argument should be followed by a list of source files that should be built into the
-# static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
-# Conversion to binary-data will happen when your target is built.
-
-# juce_add_binary_data(GuiAppData SOURCES ...)
-
-# `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
-# we're linking our executable target to the `juce::juce_gui_extra` module. Inter-module
-# dependencies are resolved automatically, so `juce_core`, `juce_events` and so on will also be
-# linked automatically. If we'd generated a binary data target above, we would need to link to it
-# here too. This is a standard CMake command.
-
-#target_link_libraries(${LIBRARY_TARGET}
 target_link_libraries(${LIBRARY_TARGET}
         PRIVATE
 #        PUBLIC
@@ -212,9 +182,16 @@ set_source_files_properties(
 #)
 
 # It is not recommended to enable unity build in CMakeLists.txt, but I was having trouble getting it to work.
-#set_property(TARGET ${LIBRARY_TARGET} PROPERTY UNITY_BUILD ON)
 set_target_properties(${LIBRARY_TARGET} PROPERTIES
 #        UNITY_BUILD ON
         UNITY_BUILD_MODE BATCH
         UNITY_BUILD_BATCH_SIZE 10
 )
+
+#if (${WORMAUDIO_BUILD_SWIG})
+#    add_custom_target(build_swig1)
+#    add_dependencies(build_swig1
+#            wormaudio
+#            wormaudio-java
+#    )
+#endif ()
