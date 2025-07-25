@@ -123,7 +123,7 @@ namespace ui
 
         int getBorderW() const
         {
-            if (isCurrent)
+            if (isCurrent || selected)
                 return 2;
 
             return 1;
@@ -132,13 +132,13 @@ namespace ui
         juce::Colour getBorderCol() const
         {
             if (isCurrent)
-                return juce::Colours::darkblue;
+                return juce::Colours::red;
 
             if (dragEnter)
                 return juce::Colours::red;
 
             if (selected)
-                return juce::Colours::white;
+                return juce::Colours::darkblue;
 
             return juce::Colours::black;
         }
