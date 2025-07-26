@@ -117,7 +117,7 @@ namespace editor
             | FileBrowserComponent::canSelectFiles
             | FileBrowserComponent::canSelectDirectories;
 
-        fileChooser->launchAsync(flags, [this, project, editorState](const FileChooser& chooser)
+        fileChooser->launchAsync(flags, [this, project, &editorState](const FileChooser& chooser)
         {
             if (const auto file = chooser.getResult(); file != File{})
             {
@@ -170,7 +170,9 @@ namespace editor
         try
         {
             resource::readStructure(project, path);
-            // TODO editorState
+
+            editorState.loadState(path.parent_path(), project);
+
             return project;
         }
         catch (std::exception& e)

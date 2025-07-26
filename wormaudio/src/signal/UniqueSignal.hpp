@@ -66,7 +66,7 @@ namespace signal_event
             listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
         }
 
-        void emit(Args&&... args)
+        void emit(Args&&... args) const
         {
             for (auto& l : listeners)
             {
