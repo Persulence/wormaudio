@@ -110,6 +110,8 @@ namespace editor
         void setProject(resource::Handle<resource::Project> project_);
 
         void eraseElement(const resource::Handle<element::Element> & handle) const;
+
+        void eraseEvent(const std::shared_ptr<event::EventDef> &handle);
     };
 
     // Saves a handful of characters
