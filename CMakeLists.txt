@@ -13,7 +13,10 @@ endif ()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
-include(ccache)
+if (NOT DEFINED WORMAUDIO_SKIP_CCACHE)
+    message(STATUS "Using ccache")
+    include(ccache)
+endif ()
 
 set(WORMAUDIO_INCLUDED TRUE)
 add_subdirectory(wormaudio-editor EXCLUDE_FROM_ALL)
