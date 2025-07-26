@@ -268,7 +268,7 @@ namespace ui
         for (auto& node : stateNodes)
         {
             const auto pos = node->getPosition();
-            data.nodes.insert({node->getState()->getName(), {pos.x, pos.y}});
+            data.nodes.insert({node->getState()->getUUID(), {pos.x, pos.y}});
         }
 
         return data;
@@ -278,11 +278,10 @@ namespace ui
     {
         for (auto& node : stateNodes)
         {
-            const auto name = node->getState()->getName();
-            if (const auto it = data.nodes.find(name); it != data.nodes.end())
+            if (const auto it = data.nodes.find(node->getState()->getUUID()); it != data.nodes.end())
             {
-                const auto& nodeData = it->second;
-                node->setTopLeftPosition(nodeData.x, nodeData.y);
+                const auto& [x, y] = it->second;
+                node->setTopLeftPosition(x, y);
             }
         }
     }

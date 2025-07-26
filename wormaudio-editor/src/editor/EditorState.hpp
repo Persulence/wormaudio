@@ -29,7 +29,7 @@ namespace editor
 
     struct SoundCanvasData
     {
-        std::unordered_map<std::string, StateNodeData> nodes;
+        std::unordered_map<resource::UUID, StateNodeData> nodes;
 
         INTERNAL_SERIALIZE
         {
@@ -55,7 +55,7 @@ namespace editor
         static std::filesystem::path getCanvasStateFile(const std::filesystem::path &projectDir);
 
     private:
-        std::unordered_map<juce::Uuid, SoundCanvasData> canvasData;
+        std::unordered_map<resource::UUID, SoundCanvasData> canvasData;
 
         FRIEND_CEREAL
         INTERNAL_SPLIT_SAVE

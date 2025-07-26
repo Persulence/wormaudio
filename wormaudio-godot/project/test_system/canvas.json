@@ -1,0 +1,135 @@
+{
+    "value0": {
+        "cereal_class_version": 0,
+        "canvas_data": [
+            {
+                "key": {
+                    "data": "bec9a4c1533d43f2bca4af4c929e2acb"
+                },
+                "value": {
+                    "cereal_class_version": 0,
+                    "nodes": [
+                        {
+                            "key": {
+                                "data": "0b8de14bf77d4c9b95bbee90edb580dc"
+                            },
+                            "value": {
+                                "cereal_class_version": 0,
+                                "x": 655,
+                                "y": 35
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "a99b203681ef4c9da490896dce30b032"
+                            },
+                            "value": {
+                                "x": 178,
+                                "y": 301
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "d502dc6d9a3e47d1a458028d06812b66"
+                            },
+                            "value": {
+                                "x": 491,
+                                "y": 280
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "447189114e7547789bd4dfaad0060ebc"
+                            },
+                            "value": {
+                                "x": 846,
+                                "y": 94
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "c06fcc9bfe1f47b5bbd69b4035ebadf1"
+                            },
+                            "value": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "key": {
+                    "data": "f0e4247108d640faac9e89518a491848"
+                },
+                "value": {
+                    "nodes": [
+                        {
+                            "key": {
+                                "data": "520b860827344967bdeb521820acb66e"
+                            },
+                            "value": {
+                                "x": 418,
+                                "y": 89
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "19157f440ba3480eab2b6e8a7ef27134"
+                            },
+                            "value": {
+                                "x": 910,
+                                "y": 94
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "734e820a28ca4b14ae665fca4ba46347"
+                            },
+                            "value": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "key": {
+                    "data": "9b36563192204060a3521a9350fb6f66"
+                },
+                "value": {
+                    "nodes": [
+                        {
+                            "key": {
+                                "data": "24776c9543bc479385257269e1315080"
+                            },
+                            "value": {
+                                "x": 401,
+                                "y": 73
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "e9baf5d91eb44adf929f4490e2c3f57c"
+                            },
+                            "value": {
+                                "x": 799,
+                                "y": 88
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "f697dabdc5d34a0d9f1c8b7255df4132"
+                            },
+                            "value": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
