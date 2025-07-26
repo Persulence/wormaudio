@@ -42,20 +42,23 @@ namespace sm
         FRIEND_CEREAL
         INTERNAL_SERIALIZE
         {
+            using namespace cereal;
             ar(
-                cereal::make_nvp("conditions", conditions),
-                cereal::make_nvp("nextState", nextState)
+                make_nvp("conditions", conditions),
+                make_nvp("nextState", nextState)
                 );
         }
 
         LOAD_AND_CONSTRUCT(Transition1)
         {
+            using namespace cereal;
+
             decltype(conditions) conditions;
             decltype(nextState) nextState;
 
             ar(
-                cereal::make_nvp("conditions", conditions),
-                cereal::make_nvp("nextState", nextState)
+                make_nvp("conditions", conditions),
+                make_nvp("nextState", nextState)
                 );
 
             construct(std::move(conditions), nextState);
@@ -81,7 +84,7 @@ namespace sm
 
     // For now only one state type
 
-    class StateDef : public resource::SharedResource, public std::enable_shared_from_this<StateDef>
+    class StateDef : public resource::SharedResource, public resource::Identifiable, public std::enable_shared_from_this<StateDef>
     {
     public:
         // using Ptr = :Handle<StateDef>;
@@ -141,31 +144,37 @@ namespace sm
 
         INTERNAL_SERIALIZE
         {
+            using namespace cereal;
+            make_optional_nvp(ar, "identifiable", base_class<Identifiable>(this));
             ar(
-                cereal::make_nvp("name", name),
-                cereal::make_nvp("flags", flags),
-                cereal::make_nvp("elements", elements),
-                cereal::make_nvp("transitions", transitions)
+                make_nvp("name", name),
+                make_nvp("flags", flags),
+                make_nvp("elements", elements),
+                make_nvp("transitions", transitions)
                 );
         }
 
         LOAD_AND_CONSTRUCT(StateDef)
         {
+            using namespace cereal;
+
             decltype(name) name;
             decltype(flags) flags;
             decltype(elements) elements;
             decltype(transitions) transitions;
 
             ar(
-                cereal::make_nvp("name", name),
-                cereal::make_nvp("flags", flags),
-                cereal::make_nvp("elements", elements),
-                cereal::make_nvp("transitions", transitions)
+                make_nvp("name", name),
+                make_nvp("flags", flags),
+                make_nvp("elements", elements),
+                make_nvp("transitions", transitions)
                 );
 
             construct(elements, transitions);
             construct->name = *name;
             construct->flags = flags;
+
+            ar(make_nvp("identifiable", base_class<Identifiable>(construct.ptr())));
         }
     };
 
