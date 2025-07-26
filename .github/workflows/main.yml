@@ -1,4 +1,4 @@
-name: Build Editor
+name: Build Editor + Godot
 
 on:
   push:
@@ -21,8 +21,8 @@ jobs:
         build_type: ['Release']
         config:
           - { name: '🐧 Linux GCC', id: 'linux', os: ubuntu-latest }
-#          - { name: '🍏 macOS Clang', id: 'macos', os: macos-latest }
           - { name: '🪟 Windows MSVC', id: 'windows', os: windows-latest }
+#          - { name: '🍏 macOS Clang', id: 'macos', os: macos-latest }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
     runs-on: ${{ matrix.config.os }}
@@ -117,8 +117,11 @@ jobs:
 #          -DCMAKE_CXX_COMPILER=${{ steps.install_cc.outputs.cxx }}
 #          -DCMAKE_C_COMPILER=${{ steps.install_cc.outputs.cc }}
 
-      - name: Build
+      - name: Build Editor
         run: cmake --build build-editor --target build_editor
+
+      - name: Build Godot Integration
+        run: cmake --build build-editor --target build_godot
 
       - name: Install
         run: cmake --install build-editor
