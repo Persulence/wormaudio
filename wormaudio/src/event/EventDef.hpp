@@ -31,7 +31,7 @@ namespace event
 
         static resource::Handle<EventDef> create()
         {
-            return std::make_shared<EventDef>( std::make_unique<automation::AutomationTable>(), "Event");
+            return std::make_shared<EventDef>( std::make_unique<automation::AutomationTable>(), "Sound Def");
         }
 
         const resource::Handle<sm::StateMachineDefinition>& getDefinition()

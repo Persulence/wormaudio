@@ -40,7 +40,7 @@ namespace ui
             if (event.mods.isRightButtonDown())
             {
                 PopupMenu menu;
-                menu.addItem("New Sound Event", [this]
+                menu.addItem("New Sound Def", [this]
                 {
                     resource::Handle<event::EventDef> eventDef = event::EventDef::create();
                     resource->addEvent(eventDef);

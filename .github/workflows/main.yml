@@ -21,7 +21,7 @@ jobs:
         build_type: ['Release']
         config:
           - { name: '🐧 Linux GCC', id: 'linux', os: ubuntu-latest }
-#          - { name: '🪟 Windows MSVC', id: 'windows', os: windows-latest }
+          - { name: '🪟 Windows MSVC', id: 'windows', os: windows-latest }
 #          - { name: '🍏 macOS Clang', id: 'macos', os: macos-latest }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
