@@ -42,8 +42,10 @@ namespace ui
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::DEL.id, KeyPress{KeyPress::deleteKey});
         Commands::getInstance().getKeyMappings()->addKeyPress(Commands::RENAME.id, KeyPress{KeyPress::F2Key});
 
+        auto& editor = editor::getInstance();
+
         // Listen for runtime state changes
-        editor::getInstance().onStateChange.setup(&stateChangeListener, [this](const auto& newState)
+        editor.onStateChange.setup(&stateChangeListener, [this](const auto& newState)
         {
             if (currentState)
             {
@@ -58,14 +60,14 @@ namespace ui
             }
         });
 
-        editor::getInstance().onEventChanged.setup(&eventChangedListener, [this]
+        editor.onEventChanged.setup(&eventChangedListener, [this]
         {
-            auto& editor = editor::getInstance();
+            auto& editor1 = editor::getInstance();
 
             // Save node positions
-            editor.getState().saveCanvas(currentEvent, saveNodePositions());
+            editor1.getState().saveCanvas(currentEvent, saveNodePositions());
 
-            currentEvent = editor.getEvent();
+            currentEvent = editor1.getEvent();
 
             stateNodes.clear();
             stateToNode.clear();
@@ -73,6 +75,11 @@ namespace ui
             fillNodes();
 
             connectionManager->refreshTransitionWidgets();
+        });
+
+        editor.getState().beforeSave.setup(&beforeSaveListener, [this]
+        {
+            editor::getInstance().getState().saveCanvas(currentEvent, saveNodePositions());
         });
     }
 
@@ -243,6 +250,17 @@ namespace ui
         }
     }
 
+    void StateCanvasPanel::fillNodes()
+    {
+        for (auto& state : currentEvent->getDefinition()->getStates())
+        {
+            addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
+        }
+
+        if (const auto found = editor::getInstance().getState().getCanvas(currentEvent))
+            readNodePositions(*found);
+    }
+
     editor::SoundCanvasData StateCanvasPanel::saveNodePositions() const
     {
         editor::SoundCanvasData data;
@@ -267,17 +285,6 @@ namespace ui
                 node->setTopLeftPosition(nodeData.x, nodeData.y);
             }
         }
-    }
-
-    void StateCanvasPanel::fillNodes()
-    {
-        for (auto& state : currentEvent->getDefinition()->getStates())
-        {
-            addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
-        }
-
-        if (const auto found = editor::getInstance().getState().getCanvas(currentEvent))
-            readNodePositions(*found);
     }
 
     // ApplicationCommandTarget * StateCanvasPanel::getNextCommandTarget()

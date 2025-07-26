@@ -11,6 +11,8 @@ namespace editor
 {
     void EditorState::saveState(std::filesystem::path projectDir, resource::Handle<resource::Project> project) const
     {
+        beforeSave.emit();
+
         {
             const auto filePath = getCanvasStateFile(projectDir);
             std::fstream ostream{filePath, std::ios::out};

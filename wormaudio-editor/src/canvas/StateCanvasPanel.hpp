@@ -35,6 +35,7 @@ namespace ui
         std::shared_ptr<StateNodeWidget> currentState;
 
         editor::EventChanged::Listener eventChangedListener;
+        editor::BeforeEditorStateSave::Listener beforeSaveListener;
 
     public:
         StateCanvasPanel();
@@ -59,8 +60,8 @@ namespace ui
         void renameSelectedNode() const;
 
     private:
+        void fillNodes();
         editor::SoundCanvasData saveNodePositions() const;
         void readNodePositions(const editor::SoundCanvasData& data) const;
-        void fillNodes();
     };
 }

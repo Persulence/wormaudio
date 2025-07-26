@@ -14,6 +14,7 @@
 
 namespace editor
 {
+    using BeforeEditorStateSave = signal_event::Callback<>;
 
     struct StateNodeData
     {
@@ -40,6 +41,8 @@ namespace editor
     {
     public:
         static constexpr std::string CANVAS_FILENAME = "canvas.json";
+
+        BeforeEditorStateSave::Signal beforeSave;
 
         void saveState(std::filesystem::path projectDir, const resource::Handle<resource::Project> project) const;
         void loadState(std::filesystem::path projectDir, const resource::Handle<resource::Project> project);

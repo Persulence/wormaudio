@@ -64,7 +64,7 @@ namespace signal_event
             ptr->unReg(listener);
         }
 
-        void emit(Args... args)
+        void emit(Args... args) const
         {
             ptr->emit(std::forward<Args>(args)...);
         }
