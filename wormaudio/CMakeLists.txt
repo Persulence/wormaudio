@@ -48,6 +48,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 # Linking to JUCE should bypass EXCLUDE_FROM_ALL for build.
 add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build EXCLUDE_FROM_ALL)
 
+#set(UUID_SYSTEM_GENERATOR ON)
+#add_subdirectory(${WORMAUDIO_LIB_DIR}/stduuid stduuid)
+
 if (WORMAUDIO_BUILD_SWIG)
     add_subdirectory(swig EXCLUDE_FROM_ALL)
 endif()
@@ -71,6 +74,7 @@ target_include_directories(${LIBRARY_TARGET}
             src
             SYSTEM ${WORMAUDIO_LIB_DIR}/cereal/include
             ${WORMAUDIO_LIB_DIR}/Cereal-Optional-NVP/include
+#            ${WORMAUDIO_LIB_DIR}/stduuid/include/
         INTERFACE
             $<TARGET_PROPERTY:${LIBRARY_TARGET},INCLUDE_DIRECTORIES>
 
@@ -112,6 +116,7 @@ target_compile_features(${LIBRARY_TARGET}
 
 target_compile_definitions(${LIBRARY_TARGET}
         PUBLIC
+#            UUID_SYSTEM_GENERATOR=ON
             # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
             JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_gui_app` call
             JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
@@ -141,6 +146,7 @@ target_link_libraries(${LIBRARY_TARGET}
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
 #        juce::juce_recommended_warning_flags
+#        stduuid
 )
 
 file(GLOB_RECURSE JUCE_SOURCES CONFIGURE_DEPENDS ${WORMAUDIO_LIB_DIR}/JUCE/*.cpp  ${WORMAUDIO_LIB_DIR}/JUCE/*.mm ${WORMAUDIO_LIB_DIR}/JUCE/*.r)
