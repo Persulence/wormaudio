@@ -132,7 +132,9 @@ add_subdirectory(templates)
 
 # ccache
 # Turns on ccache if found
-include(ccache)
+if (NOT DEFINED WORMAUDIO_SKIP_CCACHE)
+    include(ccache)
+endif ()
 
 # Formatting
 # Adds a custom target to format all the code at once
