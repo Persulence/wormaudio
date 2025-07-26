@@ -98,7 +98,8 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         # -fexceptions is necessary as cereal uses exceptions but godot doesn't like them
         # I'll find a way to get rid of it eventually
-        run: echo "CXX_FLAGS="-fexceptions -std=c++20 -w"" >> $GITHUB_ENV
+        # Hopefully -flto=auto will allow parallel jobs
+        run: echo "CXX_FLAGS="-fexceptions -flto=auto -std=c++20 -w"" >> $GITHUB_ENV
 
       - name: Configure
         run: >
