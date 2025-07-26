@@ -96,7 +96,9 @@ jobs:
 
       - name: Set variables (Linux)
         if: matrix.config.os == 'ubuntu-latest'
-        run: echo "CXX_FLAGS="-std=c++20 -w"" >> $GITHUB_ENV
+        # -fexceptions is necessary as cereal uses exceptions but godot doesn't like them
+        # I'll find a way to get rid of it eventually
+        run: echo "CXX_FLAGS="-fexceptions -std=c++20 -w"" >> $GITHUB_ENV
 
       - name: Configure
         run: >
