@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <cereal/types/unordered_map.hpp>
+#include "serialization/juce_uuid.hpp"
 
 #include "resource/Project.hpp"
 
@@ -51,17 +52,17 @@ namespace editor
         static std::filesystem::path getCanvasStateFile(const std::filesystem::path &projectDir);
 
     private:
-        std::unordered_map<resource::Handle<event::EventDef>, SoundCanvasData> canvasData;
+        std::unordered_map<juce::Uuid, SoundCanvasData> canvasData;
 
         FRIEND_CEREAL
         INTERNAL_SPLIT_SAVE
         {
-            // cereal::make_optional_nvp(ar, "canvas_data", canvasData);
+            cereal::make_optional_nvp(ar, "canvas_data", canvasData);
         }
 
         INTERNAL_SPLIT_LOAD
         {
-            // cereal::make_optional_nvp(ar, "canvas_data", canvasData);
+            cereal::make_optional_nvp(ar, "canvas_data", canvasData);
         }
     };
 }

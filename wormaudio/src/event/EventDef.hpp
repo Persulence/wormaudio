@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "juce_data_structures/juce_data_structures.h"
+// #include "uuid.h"
 
 #include "ElementList.hpp"
 #include "EventProperties.hpp"
@@ -14,6 +15,8 @@
 #include "automation/AutomationTable.hpp"
 #include "state/StateMachineDefinition.hpp"
 #include "resource/SharedResource.hpp"
+
+#include "serialization/juce_uuid.hpp"
 
 namespace event
 {
@@ -35,6 +38,8 @@ namespace event
         {
             return definition;
         }
+
+        const juce::Uuid& getUuid() { return uuid; }
 
         ParameterList& getParameters()
         {
@@ -67,6 +72,9 @@ namespace event
         util::Data<std::string> nameValue() { return name; }
 
     private:
+        // TODO: Give all SharedResources a unique, serialised ID
+        juce::Uuid uuid;
+
         resource::Handle<sm::StateMachineDefinition> definition;
 
         // Per-event parameters
@@ -83,6 +91,7 @@ namespace event
 
         INTERNAL_SERIALIZE
         {
+            cereal::make_optional_nvp(ar, "uuid", uuid);
             ar(
                 cereal::make_nvp("name", name),
                 cereal::make_nvp("definition", definition),

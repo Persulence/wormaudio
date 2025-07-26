@@ -44,12 +44,12 @@ namespace editor
 
     void EditorState::saveCanvas(const resource::Handle<event::EventDef>& sound, SoundCanvasData&& data)
     {
-        canvasData.insert_or_assign(sound, data);
+        canvasData.insert_or_assign(sound->getUuid(), data);
     }
 
     std::optional<SoundCanvasData> EditorState::getCanvas(const resource::Handle<event::EventDef>& sound)
     {
-        if (const auto it = canvasData.find(sound); it != canvasData.end())
+        if (const auto it = canvasData.find(sound->getUuid()); it != canvasData.end())
         {
             return it->second;
         }

@@ -13,6 +13,7 @@
 namespace event
 {
     EventDef::EventDef(std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name_):
+        uuid(juce::Uuid{}),
         definition(std::make_shared<sm::StateMachineDefinition>()),
         automation(std::move(automationTable)),
         elementList(resource::make<ElementList>(automation))
