@@ -93,8 +93,8 @@ target_include_directories(${GUI_TARGET}
 #            lib/JUCE/modules
 )
 
-include(CMakePrintHelpers)
-cmake_print_properties(TARGETS ${GUI_TARGET} PROPERTIES INCLUDE_DIRECTORIES)
+#include(CMakePrintHelpers)
+#cmake_print_properties(TARGETS ${GUI_TARGET} PROPERTIES INCLUDE_DIRECTORIES)
 
 #file(GLOB_RECURSE ModuleFiles
 #        CONFIGURE_DEPENDS
