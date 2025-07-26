@@ -150,6 +150,7 @@ namespace editor
         project = nullptr;
         instance = nullptr;
         event = nullptr;
+        editorState.clear();
     }
 
     void Editor::setProject(Handle<Project> project_)

@@ -42,7 +42,27 @@ namespace editor
         }
     }
 
-    std::filesystem::path EditorState::getCanvasStateFile(const std::filesystem::path &projectDir) const
+    void EditorState::saveCanvas(const resource::Handle<event::EventDef>& sound, SoundCanvasData&& data)
+    {
+        canvasData.insert_or_assign(sound, data);
+    }
+
+    std::optional<SoundCanvasData> EditorState::getCanvas(const resource::Handle<event::EventDef>& sound)
+    {
+        if (const auto it = canvasData.find(sound); it != canvasData.end())
+        {
+            return it->second;
+        }
+
+        return {};
+    }
+
+    void EditorState::clear()
+    {
+        canvasData.clear();
+    }
+
+    std::filesystem::path EditorState::getCanvasStateFile(const std::filesystem::path &projectDir)
     {
         return projectDir / std::filesystem::path{CANVAS_FILENAME};
     }
