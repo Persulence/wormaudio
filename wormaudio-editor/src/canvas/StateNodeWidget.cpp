@@ -166,10 +166,14 @@ namespace ui
         {
             dragger.startDraggingComponent(this, event);
             toFront(false);
-            auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>();
-            if (selectionManager != nullptr)
+
+            if (const auto selectionManager = findParentComponentOfClass<CanvasSelectionManager>(); selectionManager != nullptr)
             {
                 selectionManager->select(shared_from_this());
+            }
+            if (const auto manager = findParentComponentOfClass<InspectorSelectionManager>())
+            {
+                manager->deselectAll();
             }
         }
         else if (event.mods.isRightButtonDown())
