@@ -41,6 +41,12 @@ namespace ui
             return ptr;
         }
 
+        bool remove() override
+        {
+            editor::getInstance().eraseEvent(resource);
+            return true;
+        }
+
         void itemClicked(const MouseEvent& e) override
         {
             if (e.mods.isRightButtonDown())
@@ -49,7 +55,7 @@ namespace ui
 
                 menu.addItem("Remove", [this]
                 {
-                    ToastManager::getInstance().addMessage("Not implemented", ToastManager::WARNING);
+                    remove();
                 });
 
                 menu.showMenuAsync(PopupMenu::Options{});

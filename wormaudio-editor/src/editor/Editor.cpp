@@ -187,4 +187,14 @@ namespace editor
 
         event->getElements().unReg(handle);
     }
+
+    void Editor::eraseEvent(const Handle<event::EventDef>& handle)
+    {
+        project->removeEvent(handle);
+
+        if (!project->events.empty())
+            setCurrentEvent(project->events.at(0), true);
+        else
+            setCurrentEvent(project->addEvent(event::EventDef::create()), true);
+    }
 }

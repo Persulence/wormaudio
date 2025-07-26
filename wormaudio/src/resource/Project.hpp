@@ -30,10 +30,15 @@ namespace resource
 
         std::vector<ResourceHandle> getChildResources() override;
 
-        Handle<event::EventDef> addEvent(Handle<event::EventDef> event)
+        Handle<event::EventDef> addEvent(Handle<event::EventDef> handle)
         {
-            events.push_back(event);
-            return event;
+            events.push_back(handle);
+            return handle;
+        }
+
+        void removeEvent(const Handle<event::EventDef> &handle)
+        {
+            std::erase(events, handle);
         }
 
         std::optional<Handle<event::EventDef>> getEvent(const std::string& name)
