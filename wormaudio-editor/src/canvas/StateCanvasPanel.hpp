@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <editor/EditorState.hpp>
+
 #include "StateNodeWidget.hpp"
 #include "canvas/CanvasConnectionManager.hpp"
 #include "../panel/Panel.hpp"
@@ -26,7 +28,7 @@ namespace ui
         CanvasConnectionManager::Ptr connectionManager{};
 
         // TODO: temporary
-        std::shared_ptr<sm::StateMachineDefinition> definition;
+        resource::Handle<event::EventDef> currentEvent;
 
         sm::OnStateChange::Listener stateChangeListener;
 
@@ -56,9 +58,9 @@ namespace ui
 
         void renameSelectedNode() const;
 
-        // ApplicationCommandTarget * getNextCommandTarget() override;
-        // void getAllCommands(juce::Array<int> &commands) override;
-        // void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result) override;
-        // bool perform(const InvocationInfo &info) override;
+    private:
+        editor::SoundCanvasData saveNodePositions() const;
+        void readNodePositions(const editor::SoundCanvasData& data) const;
+        void fillNodes();
     };
 }

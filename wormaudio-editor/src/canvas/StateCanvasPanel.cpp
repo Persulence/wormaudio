@@ -18,12 +18,9 @@ namespace ui
 {
     StateCanvasPanel::StateCanvasPanel():
         connectionManager(std::make_shared<CanvasConnectionManager>(&stateNodes, stateToNode)),
-        definition(editor::Editor::getInstance().getEvent()->getDefinition())
+        currentEvent(editor::getInstance().getEvent())
     {
-        for (auto& state : definition->getStates())
-        {
-            addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
-        }
+        fillNodes();
 
         addAndMakeVisible(connectionManager.get());
         connectionManager->toBack();
@@ -63,15 +60,17 @@ namespace ui
 
         editor::getInstance().onEventChanged.setup(&eventChangedListener, [this]
         {
-            definition = editor::getInstance().getEvent()->getDefinition();
+            auto& editor = editor::getInstance();
+
+            // Save node positions
+            editor.getState().saveCanvas(currentEvent, saveNodePositions());
+
+            currentEvent = editor.getEvent();
 
             stateNodes.clear();
             stateToNode.clear();
 
-            for (auto& state : definition->getStates())
-            {
-                addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
-            }
+            fillNodes();
 
             connectionManager->refreshTransitionWidgets();
         });
@@ -94,7 +93,7 @@ namespace ui
     {
         auto state = std::make_shared<sm::StateDef>();
 
-        definition->insert(state);
+        currentEvent->getDefinition()->insert(state);
 
         // const auto centre = getLocalBounds().getCentre();
         return addNode(StateNodeWidget::create(state, connectionManager, pos));
@@ -107,7 +106,7 @@ namespace ui
 
         auto state = node->getState();
 
-        definition->remove(state);
+        currentEvent->getDefinition()->remove(state);
 
         removeChildComponent(node.get());
         if (const auto in = std::ranges::find(stateNodes, node); in != stateNodes.end())
@@ -242,6 +241,43 @@ namespace ui
             if (const auto shared = manager->getCurrent<StateNodeWidget>())
                 shared->rename();
         }
+    }
+
+    editor::SoundCanvasData StateCanvasPanel::saveNodePositions() const
+    {
+        editor::SoundCanvasData data;
+
+        for (auto& node : stateNodes)
+        {
+            const auto pos = node->getPosition();
+            data.nodes.insert({node->getState()->getName(), {pos.x, pos.y}});
+        }
+
+        return data;
+    }
+
+    void StateCanvasPanel::readNodePositions(const editor::SoundCanvasData &data) const
+    {
+        for (auto& node : stateNodes)
+        {
+            const auto name = node->getState()->getName();
+            if (const auto it = data.nodes.find(name); it != data.nodes.end())
+            {
+                const auto& nodeData = it->second;
+                node->setTopLeftPosition(nodeData.x, nodeData.y);
+            }
+        }
+    }
+
+    void StateCanvasPanel::fillNodes()
+    {
+        for (auto& state : currentEvent->getDefinition()->getStates())
+        {
+            addNode(StateNodeWidget::create(state, connectionManager, Point(0, 0)));
+        }
+
+        if (const auto found = editor::getInstance().getState().getCanvas(currentEvent))
+            readNodePositions(*found);
     }
 
     // ApplicationCommandTarget * StateCanvasPanel::getNextCommandTarget()
