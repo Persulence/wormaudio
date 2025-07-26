@@ -244,6 +244,12 @@ namespace ui
                     cornerPos = {x, y};
                 }
             }
+            else if (state->flags.type == sm::END)
+            {
+                // Position END some way to the right so that it doesn't overlap with START.
+                // Janky, but better than nothing.
+                cornerPos = {400, 0};
+            }
 
             const auto node = addNode(StateNodeWidget::create(state, connectionManager, cornerPos));
         }
