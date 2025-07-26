@@ -29,9 +29,29 @@ namespace ui
             ss << message;
             auto lines = std::count_if(std::istreambuf_iterator{ss}, {}, [](char c) { return c == '\n'; });
 
+            // ???
+            if (lines == 0)
+                lines = 1;
+
+            lines++;
+
             label.setBounds(0, 0, width + 10, static_cast<int>(lines * label.getFont().getHeight()));
             setBounds(label.getBoundsInParent());
-            // setBoundsToFit(label.getBoundsInParent(), juce::Justification::centred, );
+
+            label.setFont(label.getFont().withStyle(juce::Font::FontStyleFlags::bold));
+
+            switch (type)
+            {
+                case ToastManager::INFO:
+                    label.setColour(label.textColourId, juce::Colours::white);
+                    break;
+                case ToastManager::WARNING:
+                    label.setColour(label.textColourId, juce::Colours::orange);
+                    break;
+                case ToastManager::ERROR:
+                    label.setColour(label.textColourId, juce::Colours::red);
+                    break;
+            }
         }
 
         void paint(juce::Graphics &g) override

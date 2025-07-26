@@ -107,12 +107,18 @@ namespace ui
     {
         std::lock_guard lock{toastMutex};
 
+        int yOffset = 0;
+        for (auto& t : toasts)
+        {
+            yOffset += t->getHeight() + 5;
+        }
+
         auto& added = toasts.emplace_back(std::move(toast));
         addAndMakeVisible(*added);
         added->setAlwaysOnTop(true);
 
         int offset = 30;
-        auto p = getLocalBounds().getTopRight() + Point{-offset, offset};
+        auto p = getLocalBounds().getTopRight() + Point{-offset, offset + yOffset};
         added->setTopRightPosition(p);
     }
 
