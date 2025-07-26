@@ -4,6 +4,8 @@
 
 #include "OutlineTypes.hpp"
 
+#include <editor/ToastManager.hpp>
+
 #include "OutlineItemComponent.hpp"
 #include "SharedResourceOutlineItem.hpp"
 #include "browser/FileDragSource.hpp"
@@ -37,6 +39,21 @@ namespace ui
             ptr->label.setData(resource->nameValue());
 
             return ptr;
+        }
+
+        void itemClicked(const MouseEvent& e) override
+        {
+            if (e.mods.isRightButtonDown())
+            {
+                PopupMenu menu;
+
+                menu.addItem("Remove", [this]
+                {
+                    ToastManager::getInstance().addMessage("Not implemented", ToastManager::WARNING);
+                });
+
+                menu.showMenuAsync(PopupMenu::Options{});
+            }
         }
 
         void itemSelectionChanged(bool isNowSelected) override
