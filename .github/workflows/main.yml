@@ -109,6 +109,7 @@ jobs:
           -G "Ninja"
           -DJUCE_MODULES_ONLY=ON 
           -DDISABLE_WARNINGS=TRUE
+          -DWORMAUDIO_SKIP_CCACHE
           -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_C_COMPILER_LAUNCHER=ccache 
