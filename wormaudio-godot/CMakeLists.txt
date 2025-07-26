@@ -87,6 +87,12 @@ set_target_properties(${PROJECT_NAME}
             INSTALL_RPATH "${CMAKE_INSTALL_RPATH};."
 )
 
+set(GODOTCPP_DISABLE_EXCEPTIONS OFF)
+
+#target_compile_options(${PROJECT_NAME}
+#    $<${DISABLE_EXCEPTIONS}:$<${NOT_MSVC}:-fno-exceptions>>
+#)
+
 if (NOT DEFINED CMAKE_DEBUG_POSTFIX)
     set_target_properties(${PROJECT_NAME}
             PROPERTIES

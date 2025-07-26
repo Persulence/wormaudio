@@ -8,9 +8,6 @@
 
 #include "runtime/Runtime.hpp"
 
-#include "Example.hpp"
-#include "GDExtensionTemplate.hpp"
-
 #include <memory>
 
 #include "WormAudioGodot.hpp"
@@ -69,15 +66,6 @@ namespace
         ClassDB::register_class<wa::WATransport>();
         ClassDB::register_class<wa::WASoundDef>();
         ClassDB::register_class<wa::WASoundInstance>();
-
-        // TODO: remove examples
-        godot::ClassDB::register_class<GDExtensionTemplate>();
-        godot::ClassDB::register_class<ExampleRef>();
-        godot::ClassDB::register_class<ExampleMin>();
-        godot::ClassDB::register_class<Example>();
-        godot::ClassDB::register_class<ExampleNode3D>();
-        godot::ClassDB::register_class<ExampleVirtual>(true);
-        godot::ClassDB::register_abstract_class<ExampleAbstract>();
     }
 
     /// @brief Called by Godot to let us do any cleanup.
