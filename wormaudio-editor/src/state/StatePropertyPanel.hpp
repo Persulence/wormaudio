@@ -32,8 +32,10 @@ namespace ui
             parent(std::move(parent_))
         {
             update();
+            bg = juce::Colours::darkgrey;
         }
 
+        void paint(juce::Graphics &g) override;
         void resized() override;
         void mouseDown(const juce::MouseEvent &event) override;
 

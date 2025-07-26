@@ -19,12 +19,18 @@ namespace ui
         CanvasSelectionManager::ChangeCallback::Listener onSelect;
         CanvasSelectionManager::ChangeCallback::Listener onDeselectAll;
 
+        juce::Label helpText;
+
     public:
         explicit BottomInspectorPanel(CanvasSelectionManager& parent):
             selectionManager(parent)
         {
             onSelect.listen(selectionManager.onSelect, [this]{ updateSelection(); });
             onDeselectAll.listen(selectionManager.onDeselectAll, [this]{ updateSelection(); });
+
+            addAndMakeVisible(helpText);
+            helpText.setJustificationType(juce::Justification::centred);
+            helpText.setText("Select a node", juce::dontSendNotification);
         }
 
         void updateSelection()
@@ -40,18 +46,19 @@ namespace ui
                 configComponent = shared->createConfig();
                 addAndMakeVisible(configComponent.get());
                 configComponent->setBounds(getLocalBounds());
+                helpText.setVisible(false);
                 repaint();
             }
             else
             {
                 configComponent = nullptr;
+                helpText.setVisible(true);
             }
         }
 
         void paint(juce::Graphics &g) override
         {
             paintBackground(g);
-            // paintBorder(g);
         }
 
         void resized() override
@@ -60,6 +67,8 @@ namespace ui
             {
                 configComponent->setBounds(getLocalBounds());
             }
+
+            helpText.setBounds(getLocalBounds());
         }
     };
 }

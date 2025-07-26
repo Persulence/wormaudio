@@ -11,6 +11,11 @@ namespace ui
 {
     using namespace juce;
 
+    void StatePropertyPanel::paint(juce::Graphics& g)
+    {
+        paintBackground(g);
+    }
+
     void StatePropertyPanel::resized()
     {
         FlexBox box;
