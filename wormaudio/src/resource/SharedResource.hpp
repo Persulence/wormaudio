@@ -8,6 +8,8 @@
 #include <vector>
 
 #include "util/serialization_util.hpp"
+#include "cereal_optional_nvp.h"
+#include "serialization/juce_uuid.hpp"
 
 namespace resource
 {
@@ -41,4 +43,23 @@ namespace resource
         }
     };
 
+    // UUID implementation will be changed when JUCE is removed.
+    using UUID = juce::Uuid;
+
+    class Identifiable
+    {
+    public:
+        Identifiable(): uuid(UUID{}) {}
+
+        UUID getUUID() { return uuid; };
+
+    private:
+        UUID uuid;
+
+        FRIEND_CEREAL
+        INTERNAL_SERIALIZE
+        {
+            cereal::make_optional_nvp(ar, "uuid", uuid);
+        }
+    };
 }

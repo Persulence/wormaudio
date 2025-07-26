@@ -22,7 +22,7 @@ namespace event
 {
     class EventInstance;
 
-    class EventDef : public resource::SharedResource, public std::enable_shared_from_this<EventDef>
+    class EventDef : public resource::SharedResource, public resource::Identifiable, public std::enable_shared_from_this<EventDef>
     {
     public:
         EventProperties properties;
@@ -38,8 +38,6 @@ namespace event
         {
             return definition;
         }
-
-        const juce::Uuid& getUuid() { return uuid; }
 
         ParameterList& getParameters()
         {
@@ -72,9 +70,6 @@ namespace event
         util::Data<std::string> nameValue() { return name; }
 
     private:
-        // TODO: Give all SharedResources a unique, serialised ID
-        juce::Uuid uuid;
-
         resource::Handle<sm::StateMachineDefinition> definition;
 
         // Per-event parameters
@@ -91,13 +86,15 @@ namespace event
 
         INTERNAL_SERIALIZE
         {
-            cereal::make_optional_nvp(ar, "uuid", uuid);
+            using namespace cereal;
+
+            make_optional_nvp(ar, "base", cereal::base_class<Identifiable>(this));
             ar(
-                cereal::make_nvp("name", name),
-                cereal::make_nvp("definition", definition),
-                cereal::make_nvp("parameters", parameters),
-                cereal::make_nvp("automation", automation),
-                cereal::make_nvp("element_list", elementList)
+                make_nvp("name", name),
+                make_nvp("definition", definition),
+                make_nvp("parameters", parameters),
+                make_nvp("automation", automation),
+                make_nvp("element_list", elementList)
                 );
 
             cereal::make_optional_nvp(ar, "properties", properties);

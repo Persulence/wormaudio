@@ -5,6 +5,8 @@
 #include "EditorState.hpp"
 
 #include <fstream>
+
+#include "ToastManager.hpp"
 #include "resource/serialization.hpp"
 
 namespace editor
@@ -26,6 +28,8 @@ namespace editor
 
     void EditorState::loadState(std::filesystem::path projectDir, resource::Handle<resource::Project> project)
     {
+        // Catch exceptions here as the editor data is not essential for a project to be loaded.
+        try
         {
             const auto filePath = getCanvasStateFile(projectDir);
             std::fstream istream{filePath, std::ios::in};
@@ -42,16 +46,21 @@ namespace editor
 
             istream.close();
         }
+        catch (std::exception& e)
+        {
+            clear();
+            ui::ToastManager::getInstance().addMessage(std::format("Failed to load node canvas data: {}", e.what()), ui::ToastManager::WARNING);
+        }
     }
 
     void EditorState::saveCanvas(const resource::Handle<event::EventDef>& sound, SoundCanvasData&& data)
     {
-        canvasData.insert_or_assign(sound->getUuid(), data);
+        canvasData.insert_or_assign(sound->getUUID(), data);
     }
 
     std::optional<SoundCanvasData> EditorState::getCanvas(const resource::Handle<event::EventDef>& sound)
     {
-        if (const auto it = canvasData.find(sound->getUuid()); it != canvasData.end())
+        if (const auto it = canvasData.find(sound->getUUID()); it != canvasData.end())
         {
             return it->second;
         }
