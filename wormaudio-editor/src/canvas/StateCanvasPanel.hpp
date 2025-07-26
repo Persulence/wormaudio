@@ -62,6 +62,6 @@ namespace ui
     private:
         void fillNodes();
         editor::SoundCanvasData saveNodePositions() const;
-        void readNodePositions(const editor::SoundCanvasData& data) const;
+        // void readNodePositions(const editor::SoundCanvasData& data) const;
     };
 }
