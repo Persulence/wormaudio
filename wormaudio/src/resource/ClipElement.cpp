@@ -48,12 +48,12 @@ namespace element
             released = true;
         }
 
-        [[nodiscard]] bool isDone() const override
+        bool isDone() const override
         {
             return player.getState() == player::STOPPED;
         }
 
-        [[nodiscard]] bool canBeFreed() const override
+        bool canBeFreed() const override
         {
             return isDone() && ElementInstance::canBeFreed();
         }
