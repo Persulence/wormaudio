@@ -118,7 +118,6 @@ namespace ui
     class ParameterDefItem : public SharedResourceItem<parameter::ParameterDef>
     {
     public:
-
         explicit ParameterDefItem(const Handle<parameter::ParameterDef> &resource) :
             SharedResourceItem(resource) {}
 
@@ -145,6 +144,15 @@ namespace ui
                     parent->deselectAll();
                 }
             }
+        }
+
+        bool remove() override
+        {
+            MessageManager::callAsync([r = resource]
+            {
+                editor::getInstance().eraseGlobalParameter(r);
+            });
+            return true;
         }
     };
 
