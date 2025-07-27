@@ -197,4 +197,10 @@ namespace editor
         else
             setCurrentEvent(project->addEvent(event::EventDef::create()), true);
     }
+
+    void Editor::eraseGlobalParameter(const parameter::Parameter &parameter)
+    {
+        globalParameters->remove(parameter);
+        // parametersChanged.emit();
+    }
 }

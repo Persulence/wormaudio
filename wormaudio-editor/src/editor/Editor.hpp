@@ -31,6 +31,9 @@ namespace editor
 
         resource::Handle<resource::Project> project;
         EditorEventInstance::Ptr instance;
+
+        // This is a delegate to the current project's parameter list.
+        // Use this variable when adding and removing parameters.
         std::unique_ptr<EditorParameterList> globalParameters;
         sm::OnStateChange::Listener stateListener;
 
@@ -112,6 +115,8 @@ namespace editor
         void eraseElement(const resource::Handle<element::Element> & handle) const;
 
         void eraseEvent(const std::shared_ptr<event::EventDef> &handle);
+
+        void eraseGlobalParameter(const parameter::Parameter& parameter);
     };
 
     // Saves a handful of characters

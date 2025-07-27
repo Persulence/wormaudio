@@ -5,6 +5,7 @@
 #include "ParameterWidget.hpp"
 
 #include <utility>
+#include <widget/BaseElementWidget.hpp>
 
 #include "juce_gui_basics/juce_gui_basics.h"
 
@@ -208,6 +209,18 @@ namespace ui
         if (auto manager = findParentComponentOfClass<InspectorSelectionManager>())
         {
             manager->select(shared_from_this());
+        }
+
+        if (event.eventComponent == &label && event.mods.isRightButtonDown())
+        {
+            PopupMenu menu;
+
+            menu.addItem("Delete", [this]
+            {
+                editor::Editor::getInstance().eraseGlobalParameter(parameter);
+            });
+
+            menu.showMenuAsync(PopupMenu::Options{});
         }
 
         // if (event.mods.isRightButtonDown())
