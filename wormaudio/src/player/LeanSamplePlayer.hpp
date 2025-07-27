@@ -20,7 +20,6 @@ namespace player
         asset::ElementSampleBuffer::Ptr buffer;
         juce::AudioFormatManager formatManager;
         TransportState transportState{STOPPED};
-        TransportCallback1 transportCallback{[](TransportState){}};
 
         AudioContext audioContext;
 
@@ -73,39 +72,7 @@ namespace player
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) override;
 
-        void setTransportCallback(TransportCallback1 callback) override
-        {
-            transportCallback = callback;
-        }
-
-        void changeState(TransportState state) override
-        {
-            switch (state)
-            {
-                case STARTING:
-                {
-                    transportState = PLAYING;
-                    transportCallback(transportState);
-                    break;
-                }
-                case STOPPING:
-                {
-                    transportState = STOPPED;
-                    transportCallback(transportState);
-                    break;
-                }
-                case PLAYING:
-                {
-                    transportState = PLAYING;
-                    break;
-                }
-                case STOPPED:
-                {
-                    transportState = STOPPED;
-                    break;
-                }
-            }
-        }
+        void changeState(TransportState state) override;
 
         void setPitch(const float pitch) { speed = 1 / pitch; }
     };

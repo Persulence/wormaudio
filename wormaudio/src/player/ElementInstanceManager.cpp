@@ -128,11 +128,11 @@ namespace player
         auto listenerPos = listenerInstance.position;
 
         float result = earDistance(soundPos, listenerPos, listenerInstance.yaw, properties.maxDistance);
-        float distance = (soundPos - listenerPos).abs();
+        float distance = static_cast<float>((soundPos - listenerPos).abs());
 
         float attenuation = properties.attenuate(distance);
 
-        float theta = (result + 1.f) * std::numbers::pi / 4;
+        float theta = (result + 1.f) * static_cast<float>(std::numbers::pi / 4);
 
         // Constant power
         constexpr float c = 1.4142; // Makes centre pan equivalent to listening to both channels with unity gain.
