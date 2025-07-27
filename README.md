@@ -75,8 +75,10 @@ I intend to distribute WormAudio under AGPLv3 with dynamic linking exceptions fo
 ### Other
 
 - Removal of JUCE from the runtime.
-- Buses
-- Live mixing
+- Add buses.
+- Add a mechanism for live mixing.
+- Add non-global parameters.
+- Enum type parameters.
 - Configurable transition crossfades.
 - Automatic click removal.
 - Migrate the editor GUI from JUCE widgets to Qt.
