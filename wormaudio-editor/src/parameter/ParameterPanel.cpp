@@ -79,10 +79,11 @@ namespace ui
             {
                 addNewParameter(std::make_shared<ParameterDef>(DiscreteParameterDef{0, 10, "p"}));
             });
-            menu.addItem("New enum parameter", [this]
-            {
-                addNewParameter(std::make_shared<ParameterDef>(EnumParameterDef::createDefault("p")));
-            });
+            // TODO: enum parameters
+            // menu.addItem("New enum parameter", [this]
+            // {
+            //     addNewParameter(std::make_shared<ParameterDef>(EnumParameterDef::createDefault("p")));
+            // });
 
             menu.showMenuAsync(PopupMenu::Options{});
         }
