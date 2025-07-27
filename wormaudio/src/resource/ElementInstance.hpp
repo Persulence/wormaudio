@@ -35,7 +35,7 @@ namespace element
 
         virtual bool isDone() const = 0;
 
-        [[nodiscard]] bool canBeFreed() const
+        virtual bool canBeFreed() const
         {
             return released;
         }

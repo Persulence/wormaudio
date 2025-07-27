@@ -44,19 +44,24 @@ namespace element
 
         void stop() override
         {
-            // player.changeState(player::STOPPED);
+            player.changeState(player::STOPPING);
             released = true;
         }
 
-        bool isDone() const override
+        [[nodiscard]] bool isDone() const override
         {
             return player.getState() == player::STOPPED;
+        }
+
+        [[nodiscard]] bool canBeFreed() const override
+        {
+            return isDone() && ElementInstance::canBeFreed();
         }
 
         void playSound()
         {
             // std::cout << "Playing sound from a " << typeid(this).name() << "!\n";
-            player.changeState(player::PLAYING);
+            player.changeState(player::STARTING);
         }
 
         void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToAdd) override
@@ -68,6 +73,7 @@ namespace element
             // }
 
             player.getNextAudioBlock(bufferToAdd);
+            // if (player.getState() == player::STOPPED)
         }
 
         Element* getParent() override

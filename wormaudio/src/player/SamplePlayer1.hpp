@@ -18,7 +18,7 @@ namespace player
     public:
         virtual void setFile(juce::File&& file) = 0;
         virtual void changeState(TransportState state) = 0;
-        virtual void setTransportCallback(TransportCallback1 callback) = 0;
+        // virtual void setTransportCallback(TransportCallback1 callback) = 0;
     };
 
     class SamplePlayer1 : public SamplePlayer, juce::ChangeListener
@@ -37,7 +37,7 @@ namespace player
             transportSource.addChangeListener(this);
         }
 
-        void setTransportCallback(TransportCallback1 callback) override
+        void setTransportCallback(TransportCallback1 callback)
         {
             changeCallback = std::move(callback);
         }

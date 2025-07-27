@@ -15,7 +15,7 @@ LeanSamplePlayer::LeanSamplePlayer(asset::ElementSampleBuffer::Ptr buffer_, bool
 void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
 {
     auto numBufferChannels = buffer->getNumChannels();
-    if (transportState != PLAYING || numBufferChannels == 0)
+    if (transportState == STOPPED || numBufferChannels == 0)
     {
         return;
     }
@@ -26,7 +26,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
 
     // Buffer length and apparent length
     const int N = buffer->getNumSamples();
-    const int N1 = N / speed;
+    const int N1 = static_cast<int>(static_cast<float>(N) / speed);
 
     while (outputSamplesRemaining > 0)
     {
@@ -36,28 +36,61 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
 
         if (juce::approximatelyEqual(speed, 1.f))
         {
-            for (auto channel = 0; channel < numOutputChannels; ++channel)
+            if (transportState == STARTING)
             {
-                bufferToFill.buffer->addFrom(channel,
-                                             outputSamplesOffset,
-                                             *buffer,
-                                             channel % numBufferChannels,
-                                             position,
-                                             samplesThisTime,
-                                             gain);
+                for (auto channel = 0; channel < numOutputChannels; ++channel)
+                {
+                    bufferToFill.buffer->addFromWithRamp(channel,
+                                                 outputSamplesOffset,
+                                                 buffer->getReadPointer(channel % numBufferChannels) + position,
+                                                 samplesThisTime,
+                                                 0, gain);
+                }
+
+                transportState = PLAYING;
+            }
+            if (transportState == STOPPING)
+            {
+                for (auto channel = 0; channel < numOutputChannels; ++channel)
+                {
+                    bufferToFill.buffer->addFromWithRamp(channel,
+                                                 outputSamplesOffset,
+                                                 buffer->getReadPointer(channel % numBufferChannels) + position,
+                                                 samplesThisTime,
+                                                 gain, 0);
+                }
+
+                transportState = STOPPED;
+            }
+            else
+            {
+                for (auto channel = 0; channel < numOutputChannels; ++channel)
+                {
+                    bufferToFill.buffer->addFrom(channel,
+                                                 outputSamplesOffset,
+                                                 *buffer,
+                                                 channel % numBufferChannels,
+                                                 position,
+                                                 samplesThisTime,
+                                                 gain);
+                }
             }
         }
         else
         {
+            // TODO: START AND STOP FADES
             for (auto channel = 0; channel < numOutputChannels; ++channel)
             {
                 for (int i = 0; i < samplesThisTime; ++i)
                 {
+                    // Magical interpolation that actually works
+                    // No antialiasing filter in sight
+
                     int n = position + i;
-                    float n2f = std::fmod(static_cast<float>(n) * speed, N);
-                    int n20 = static_cast<int>(std::floor(n2f));
-                    int n21 = (n20 + 1) % N;
-                    delta = n2f - n20;
+                    const float n2f = std::fmod(static_cast<float>(n) * speed, static_cast<float>(N));
+                    const int n20 = static_cast<int>(std::floor(n2f));
+                    const int n21 = (n20 + 1) % N;
+                    delta = n2f - static_cast<float>(n20);
 
                     float sample = std::lerp(
                         buffer->getSample(channel % numBufferChannels, n20),
@@ -121,4 +154,31 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
     //         }
     //     }
     // }
+}
+
+void LeanSamplePlayer::changeState(TransportState state)
+{
+    switch (state)
+    {
+        case STARTING:
+        {
+            transportState = STARTING;
+            break;
+        }
+        case STOPPING:
+        {
+            transportState = STOPPED;
+            break;
+        }
+        case PLAYING:
+        {
+            transportState = PLAYING;
+            break;
+        }
+        case STOPPED:
+        {
+            transportState = STOPPED;
+            break;
+        }
+    }
 }
