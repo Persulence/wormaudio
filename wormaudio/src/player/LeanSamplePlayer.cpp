@@ -34,22 +34,23 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
 
         int samplesThisTime = std::min(outputSamplesRemaining, sourceSamplesRemaining);
 
+        float startGain = gain;
+        float endGain = gain;
+
+        if (transportState == STARTING)
+        {
+            startGain = 0;
+            transportState = PLAYING;
+        }
+
+        if (transportState == STOPPING)
+        {
+            endGain = 0;
+            transportState = STOPPED;
+        }
+
         if (juce::approximatelyEqual(speed, 1.f))
         {
-            float startGain = gain;
-            float endGain = gain;
-
-            if (transportState == STARTING)
-            {
-                startGain = 0;
-                transportState = PLAYING;
-            }
-
-            if (transportState == STOPPING)
-            {
-                endGain = 0;
-                transportState = STOPPED;
-            }
 
             for (auto channel = 0; channel < numOutputChannels; ++channel)
             {
@@ -62,9 +63,10 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
         }
         else
         {
-            // TODO: START AND STOP FADES
             for (auto channel = 0; channel < numOutputChannels; ++channel)
             {
+                float sampleGain = startGain;
+                float gainIncrement = (endGain - startGain) / samplesThisTime;
                 for (int i = 0; i < samplesThisTime; ++i)
                 {
                     // Magical interpolation that actually works
@@ -76,11 +78,13 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
                     const int n21 = (n20 + 1) % N;
                     delta = n2f - static_cast<float>(n20);
 
-                    float sample = std::lerp(
+                    float sample = sampleGain * std::lerp(
                         buffer->getSample(channel % numBufferChannels, n20),
                         buffer->getSample(channel % numBufferChannels, n21),
                         delta);
                     bufferToFill.buffer->addSample(channel, outputSamplesOffset + i, sample);
+
+                    sampleGain += gainIncrement;
                 }
             }
         }
