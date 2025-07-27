@@ -52,13 +52,13 @@ namespace element
                 player.setPitch(pitch);
                 player.setBuffer(buffers[idx]);
 
-                player.changeState(player::PLAYING);
+                player.changeState(player::STARTING);
             }
         }
 
         void stop() override
         {
-            // player.changeState(player::STOPPED);
+            player.changeState(player::STOPPING);
             released = true;
         }
 
@@ -75,6 +75,11 @@ namespace element
         bool isDone() const override
         {
             return player.getState() == player::STOPPED;
+        }
+
+        bool canBeFreed() const override
+        {
+            return isDone() && ElementInstance::canBeFreed();
         }
 
         Element *getParent() override
