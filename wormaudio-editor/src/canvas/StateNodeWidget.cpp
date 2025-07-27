@@ -9,8 +9,9 @@
 #include "StateNodeWidget.hpp"
 #include "juce_graphics/juce_graphics.h"
 #include "CanvasConnectionManager.hpp"
-#include "../browser/element/ElementDragSource.hpp"
+#include "browser/element/ElementDragSource.hpp"
 #include "state/StatePropertyPanel.hpp"
+#include "canvas/InspectorSelectionManager.hpp"
 
 
 namespace ui
