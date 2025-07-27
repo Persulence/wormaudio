@@ -58,6 +58,11 @@ namespace ui
                     remove();
                 });
 
+                menu.addItem("Clear all automation", [this]
+                {
+                    resource->getAutomation().clear();
+                });
+
                 menu.showMenuAsync(PopupMenu::Options{});
             }
         }

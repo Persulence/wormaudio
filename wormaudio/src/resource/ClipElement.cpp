@@ -32,7 +32,9 @@ namespace element
         {
             player.prepareToPlay(audioContext.samplesPerBlock, audioContext.sampleRate);
 
+            // TODO: ACCESS THESE WITH PROPER KEYS, NOT MAGIC NUMBERS AAARGH
             properties.instances[0]->onChanged.setup(&gainListener, [this](auto val) { player.setGainDb(val); });
+            properties.instances[1]->onChanged.setup(&gainListener, [this](auto val) { player.setSpeed(val); });
         }
 
         ~ClipElementInstance() override = default;

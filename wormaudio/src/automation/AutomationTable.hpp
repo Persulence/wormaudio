@@ -32,6 +32,8 @@ namespace automation
     public:
         JUCE_DECLARE_NON_COPYABLE(AutomationTable)
 
+        void clear();
+
         explicit AutomationTable()
         {
 
