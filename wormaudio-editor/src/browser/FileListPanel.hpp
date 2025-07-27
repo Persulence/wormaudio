@@ -9,6 +9,9 @@
 
 namespace ui
 {
+    // Hopefully matches all formats supported by JUCE
+    constexpr inline const char* AUDIO_FILE_EXTENSIONS = "*.wav;*.aiff;*.flac;*.ogg;*.mp3;*.wma";
+
     class HeaderWidget : public juce::Component
     {
         juce::Image icon;

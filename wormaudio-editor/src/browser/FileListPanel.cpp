@@ -130,7 +130,7 @@ namespace ui
         EntryListPanel(1),
         header(font),
         updateThread("update files"),
-        filter(WildcardFileFilter{"*", "*", "Some files?"})
+        filter(WildcardFileFilter{AUDIO_FILE_EXTENSIONS, "*", "Audio files"})
     {
 
         addAndMakeVisible(header);
