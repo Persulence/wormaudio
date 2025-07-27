@@ -6,6 +6,11 @@
 
 namespace automation
 {
+    void AutomationTable::clear()
+    {
+        links.clear();
+    }
+
     void AutomationTable::setup(const AutomationLink& link)
     {
         links.push_back(link);

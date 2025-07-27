@@ -48,22 +48,43 @@ namespace ui
             g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
         }
 
+        PopupMenu createParametersSubmenu(const std::vector<Parameter>& parameters, std::function<void(const Parameter&)> f)
+        {
+            PopupMenu menu;
+
+            for (const auto& parameter : parameters)
+            {
+                menu.addItem({parameter->getName()}, [parameter, f] { f(parameter); });
+            }
+
+            return menu;
+        }
+
         void mouseDown(const MouseEvent &event) override
         {
+            if (auto manager = findParentComponentOfClass<InspectorSelectionManager>())
+            {
+                manager->select(SimpleSelectionTarget::of(std::make_unique<ElementInspectorFiller>(event::ElementHandle{element})));
+            }
+
             if (event.mods.isRightButtonDown())
             {
                 auto& editor = editor::Editor::getInstance();
 
+                const auto& parameters = editor.getEditorParameters().getParameters();
+
                 // Menu for selecting a parameter
-                PopupMenu parameters;
-                for (const auto& parameter : editor.getEditorParameters().getParameters())
+                const PopupMenu volumeMenu = createParametersSubmenu(parameters, [this, &editor](auto& p)
                 {
-                    parameters.addItem({parameter->getName()}, [this, &editor, parameter]
-                    {
-                        const automation::AutomationLink link{parameter, element->volume, automation::MappingFunction{}};
-                        editor.getEvent()->getAutomation().setup(link);
-                    });
-                }
+                    const automation::AutomationLink link{p, element->volume, automation::MappingFunction{}};
+                    editor.getEvent()->getAutomation().setup(link);
+                });
+
+                const PopupMenu speedMenu = createParametersSubmenu(parameters, [this, &editor](auto& p)
+                {
+                    const automation::AutomationLink link{p, element->speed, automation::MappingFunction{}};
+                    editor.getEvent()->getAutomation().setup(link);
+                });
 
                 PopupMenu menu;
 
@@ -74,7 +95,9 @@ namespace ui
                         parent->removeElement(element);
                     }
                 });
-                menu.addSubMenu("Automate volume", parameters);
+
+                menu.addSubMenu("Automate volume", volumeMenu);
+                menu.addSubMenu("Automate speed", speedMenu);
 
                 menu.showMenuAsync(PopupMenu::Options{});
             }

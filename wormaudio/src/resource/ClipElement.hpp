@@ -18,6 +18,7 @@ namespace element
     class ClipElement : public Element, public std::enable_shared_from_this<ClipElement>
     {
     public:
+        automation::Property speed{automation::createProperty("speed", 0, automation::Unit::FACTOR)};
         util::Data<bool> loop{false};
 
         explicit ClipElement(asset::AssetHandle resource_);
@@ -30,7 +31,7 @@ namespace element
 
         std::vector<automation::Property> getProperties() override
         {
-            return {volume};
+            return {volume, speed};
         }
 
     private:
@@ -41,18 +42,16 @@ namespace element
 
         INTERNAL_SPLIT_SAVE
         {
-            ar(
-                cereal::base_class<Element>(this),
-                CEREAL_NVP(asset), CEREAL_NVP(loop)
-                );
+            ar(cereal::base_class<Element>(this));
+            ar(cereal::make_nvp("speed", speed));
+            ar(CEREAL_NVP(asset), CEREAL_NVP(loop));
         }
 
         INTERNAL_SPLIT_LOAD
         {
-            ar(
-                cereal::base_class<Element>(this),
-                CEREAL_NVP(asset), CEREAL_NVP(loop)
-                );
+            ar(cereal::base_class<Element>(this));
+            cereal::make_optional_nvp(ar, "speed", speed);
+            ar(CEREAL_NVP(asset), CEREAL_NVP(loop));
         }
     };
 }

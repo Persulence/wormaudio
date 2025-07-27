@@ -4,6 +4,8 @@
 
 #include "LeanSamplePlayer.hpp"
 
+#include <cassert>
+
 using namespace player;
 
 LeanSamplePlayer::LeanSamplePlayer(asset::ElementSampleBuffer::Ptr buffer_, bool loop_):
@@ -82,6 +84,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
                         buffer->getSample(channel % numBufferChannels, n20),
                         buffer->getSample(channel % numBufferChannels, n21),
                         delta);
+                    assert(outputSamplesOffset + i < bufferToFill.buffer->getNumSamples());
                     bufferToFill.buffer->addSample(channel, outputSamplesOffset + i, sample);
 
                     sampleGain += gainIncrement;

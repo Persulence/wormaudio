@@ -74,7 +74,15 @@ namespace player
 
         void changeState(TransportState state) override;
 
-        void setPitch(const float pitch) { speed = 1 / pitch; }
+        void setPitch(const float pitchFactor)
+        {
+            // Why did I think that speed and pitch were inversely proportional?
+            // What is wrong with me?
+
+            setSpeed(pitchFactor);
+        }
+
+        void setSpeed(const float speed_) { speed = std::clamp(speed_, 0.05f, 20.f); }
     };
 
 }
