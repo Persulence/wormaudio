@@ -36,44 +36,28 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
 
         if (juce::approximatelyEqual(speed, 1.f))
         {
+            float startGain = gain;
+            float endGain = gain;
+
             if (transportState == STARTING)
             {
-                for (auto channel = 0; channel < numOutputChannels; ++channel)
-                {
-                    bufferToFill.buffer->addFromWithRamp(channel,
-                                                 outputSamplesOffset,
-                                                 buffer->getReadPointer(channel % numBufferChannels) + position,
-                                                 samplesThisTime,
-                                                 0, gain);
-                }
-
+                startGain = 0;
                 transportState = PLAYING;
             }
+
             if (transportState == STOPPING)
             {
-                for (auto channel = 0; channel < numOutputChannels; ++channel)
-                {
-                    bufferToFill.buffer->addFromWithRamp(channel,
-                                                 outputSamplesOffset,
-                                                 buffer->getReadPointer(channel % numBufferChannels) + position,
-                                                 samplesThisTime,
-                                                 gain, 0);
-                }
-
+                endGain = 0;
                 transportState = STOPPED;
             }
-            else
+
+            for (auto channel = 0; channel < numOutputChannels; ++channel)
             {
-                for (auto channel = 0; channel < numOutputChannels; ++channel)
-                {
-                    bufferToFill.buffer->addFrom(channel,
-                                                 outputSamplesOffset,
-                                                 *buffer,
-                                                 channel % numBufferChannels,
-                                                 position,
-                                                 samplesThisTime,
-                                                 gain);
-                }
+                bufferToFill.buffer->addFromWithRamp(channel,
+                                                     outputSamplesOffset,
+                                                     buffer->getReadPointer(channel % numBufferChannels) + position,
+                                                     samplesThisTime,
+                                                     startGain, endGain);
             }
         }
         else
@@ -167,7 +151,7 @@ void LeanSamplePlayer::changeState(TransportState state)
         }
         case STOPPING:
         {
-            transportState = STOPPED;
+            transportState = STOPPING;
             break;
         }
         case PLAYING:

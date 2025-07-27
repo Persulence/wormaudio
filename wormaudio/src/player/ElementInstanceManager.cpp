@@ -88,14 +88,9 @@ namespace player
             // Clear the end of the buffer
             auto startSample = accumulatorInfo.startSample + stagedHandoff;
             auto numSamples = accumulatorInfo.numSamples - startSample;
-            accumulatorInfo.buffer->clear(startSample, numSamples);
+            // accumulatorInfo.buffer->clear(startSample, numSamples);
 
             // Remove finished elements
-            // for (auto& instance : active)
-            // {
-            //     if (instance.)
-            //     instance->stop();
-            // }
             std::erase_if(active, [](const auto& e) { return e->canBeFreed(); });
 
             // Add queued elements
