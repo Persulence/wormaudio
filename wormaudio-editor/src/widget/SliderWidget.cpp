@@ -50,7 +50,7 @@ namespace ui
         {
             const Value sensitivity = 0.005;
             float range = std::abs(max - min);
-            event.source.enableUnboundedMouseMovement(true);
+            // event.source.enableUnboundedMouseMovement(true);
             snapValue(dragValue + range * sensitivity * dx);
         }
         else if (event.mods.isRightButtonDown())
