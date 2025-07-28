@@ -43,13 +43,13 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
 
         if (transportState == STARTING)
         {
-            startGain = 0;
+            // startGain = 0;
             transportState = PLAYING;
         }
 
         if (transportState == STOPPING)
         {
-            endGain = 0;
+            // endGain = 0;
             transportState = STOPPED;
         }
 
