@@ -87,3 +87,4 @@ I intend to distribute WormAudio under AGPLv3 with dynamic linking exceptions fo
 - Inline effects (algorithmic reverb, delay, distortion, etc).
 - Support speaker configurations other than stereo.
 - Move wormaudio-godot and wormaudio-java into separate repositories that can be built independently.
+- Rebrand. Worms are not the most marketable animals.
