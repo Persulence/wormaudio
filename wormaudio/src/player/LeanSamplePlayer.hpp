@@ -29,6 +29,7 @@ namespace player
         float gain = 1;
 
         float speed{1};
+        float n1;
 
     public:
         bool loop;
@@ -82,7 +83,7 @@ namespace player
             setSpeed(pitchFactor);
         }
 
-        void setSpeed(const float speed_) { speed = std::clamp(speed_, 0.05f, 20.f); }
+        void setSpeed(const float speed_);
     };
 
 }
