@@ -16,7 +16,7 @@ namespace ui
         canvas.setBounds(canvas.calculateBounds());
 
         // Get middle clicks for panning
-        canvas.addMouseListener(this, false);
+        canvas.addMouseListener(this, true);
 
         // Set background colour. This will appear behind nodes.
         bg = Colours::darkgrey;
