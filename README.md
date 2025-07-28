@@ -51,7 +51,7 @@ Build wormaudio with `-DWORMAUDIO_JAVA_PATH=<path_to_wormaudio-java>` to automat
 
 The majority of this project is dual licensed under AGPLv3 and a custom proprietary license.
 
-This is because the project depends on JUCE, which was a terrible idea. JUCE is dual-licensed under AGPLv3 and the JUCE 8 license. The major consequences of this are as follows:
+This is because the project depends on JUCE. JUCE is dual-licensed under AGPLv3 and the JUCE 8 license. The major consequences of this are as follows:
 
 - AGPLv3 does not allow the software to link to incompatibly licensed code. 
 - The right to distribute software built with JUCE under its commercial license is non-transferrable.

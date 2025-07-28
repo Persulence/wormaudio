@@ -25,6 +25,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
     auto numOutputChannels = bufferToFill.buffer->getNumChannels();
     auto outputSamplesRemaining = bufferToFill.numSamples;
     auto outputSamplesOffset = bufferToFill.startSample;
+    assert(outputSamplesOffset >= 0);
 
     // Buffer length and apparent length
     const int N = buffer->getNumSamples();
@@ -33,6 +34,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
     while (outputSamplesRemaining > 0)
     {
         int sourceSamplesRemaining = N1 - position;
+        assert(sourceSamplesRemaining >= 0);
 
         int samplesThisTime = std::min(outputSamplesRemaining, sourceSamplesRemaining);
 
@@ -84,7 +86,8 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
                         buffer->getSample(channel % numBufferChannels, n20),
                         buffer->getSample(channel % numBufferChannels, n21),
                         delta);
-                    assert(outputSamplesOffset + i < bufferToFill.buffer->getNumSamples());
+                    // assert(outputSamplesOffset + i < bufferToFill.buffer->getNumSamples());
+                    // assert(juce::isPositiveAndBelow(outputSamplesOffset + i, bufferToFill.buffer->getNumSamples()));
                     bufferToFill.buffer->addSample(channel, outputSamplesOffset + i, sample);
 
                     sampleGain += gainIncrement;
@@ -95,6 +98,7 @@ void LeanSamplePlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buf
         outputSamplesRemaining -= samplesThisTime;
         outputSamplesOffset += samplesThisTime;
         position = position + samplesThisTime;
+        // assert(outputSamplesOffset >= 0);
 
         if (position == N1)
         {
@@ -172,4 +176,17 @@ void LeanSamplePlayer::changeState(TransportState state)
             break;
         }
     }
+}
+
+void LeanSamplePlayer::setSpeed(const float speed_)
+{
+    float nextSpeed = std::clamp(speed_, 0.05f, 20.f);
+
+    // Adjust position
+    const int N = buffer->getNumSamples();
+    const float prevN1 = N / speed;
+    const float nextN1 = N / nextSpeed;
+    position = static_cast<int>((static_cast<float>(position) / prevN1) * nextN1);
+    speed = nextSpeed;
+    n1 = nextN1;
 }
