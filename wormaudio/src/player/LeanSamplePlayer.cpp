@@ -186,7 +186,12 @@ void LeanSamplePlayer::setSpeed(const float speed_)
     const int N = buffer->getNumSamples();
     const float prevN1 = N / speed;
     const float nextN1 = N / nextSpeed;
-    position = static_cast<int>((static_cast<float>(position) / prevN1) * nextN1);
+
+    if (prevN1 > 0)
+        position = static_cast<int>((static_cast<float>(position) / prevN1) * nextN1);
+    else
+        position = 0;
+
     speed = nextSpeed;
     n1 = nextN1;
 }
