@@ -22,12 +22,12 @@ namespace resource
     std::vector<ResourceHandle> Project::getChildResources()
     {
         std::vector<ResourceHandle> result;
+        result.push_back(globalParameters);
+
         for (auto& event : events)
         {
             result.push_back(event);
         }
-
-        result.push_back(globalParameters);
 
         return result;
     }
