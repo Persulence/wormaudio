@@ -44,7 +44,7 @@ namespace ui
             g.setColour(Colours::mediumpurple);
             g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
-            g.setColour(Colours::black);
+            g.setColour(Colours::white);
             g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
         }
 
@@ -139,7 +139,7 @@ namespace ui
             g.setColour(Colours::green);
             g.drawRoundedRectangle(reduced, cornerSize, thickness);
 
-            g.setColour(Colours::black);
+            g.setColour(Colours::white);
             g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
         }
 

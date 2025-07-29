@@ -45,7 +45,7 @@ namespace ui
 
         g.setFont(font);
 
-        g.setColour(Colours::black);
+        g.setColour(getLookAndFeel().findColour(juce::Label::textColourId));
         auto folderText = "up";
         int nameTextW = font.getStringWidth(folderText);
         g.drawText(folderText, getHeight() + 10, 0, nameTextW, getHeight(), Justification::centred);
@@ -89,7 +89,7 @@ namespace ui
         }
 
         g.setFont(font);
-        g.setColour(selected ? Colours::white : Colours::black);
+        g.setColour(selected ? Colours::black : getLookAndFeel().findColour(juce::Label::textColourId));
         auto nameText = file.getFileName();
         int nameTextW = font.getStringWidth(nameText);
         g.drawText(nameText, getHeight() + 10, 0, nameTextW, getHeight(), Justification::centred);
