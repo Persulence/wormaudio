@@ -89,7 +89,7 @@ namespace ui
         }
 
         g.setFont(font);
-        g.setColour(selected ? Colours::black : getLookAndFeel().findColour(juce::Label::textColourId));
+        g.setColour(selected ? Colours::white : getLookAndFeel().findColour(juce::Label::textColourId));
         auto nameText = file.getFileName();
         int nameTextW = font.getStringWidth(nameText);
         g.drawText(nameText, getHeight() + 10, 0, nameTextW, getHeight(), Justification::centred);
