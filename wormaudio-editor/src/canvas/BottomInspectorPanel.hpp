@@ -30,7 +30,7 @@ namespace ui
 
             addAndMakeVisible(helpText);
             helpText.setJustificationType(juce::Justification::centred);
-            helpText.setText("Select a node", juce::dontSendNotification);
+            helpText.setText("No node selected", juce::dontSendNotification);
         }
 
         void updateSelection()

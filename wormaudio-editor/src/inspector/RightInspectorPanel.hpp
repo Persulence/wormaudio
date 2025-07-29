@@ -17,6 +17,7 @@ namespace ui
 
         std::mutex configMutex;
         std::shared_ptr<Component> configComponent;
+        juce::Label helpText;
 
     public:
         explicit RightInspectorPanel(InspectorSelectionManager &manager):
@@ -24,6 +25,10 @@ namespace ui
         {
             onSelect.listen(manager.onSelect, [this]{ updateSelection(); });
             onDeselectAll.listen(manager.onDeselectAll, [this]{ updateSelection(); });
+
+            addAndMakeVisible(helpText);
+            helpText.setJustificationType(juce::Justification::centred);
+            helpText.setText("No item selected", juce::dontSendNotification);
         }
 
         void updateSelection()
@@ -39,11 +44,13 @@ namespace ui
                 configComponent = shared->createConfig();
                 addAndMakeVisible(configComponent.get());
                 configComponent->setBounds(getLocalBounds());
+                helpText.setVisible(false);
                 repaint();
             }
             else
             {
                 configComponent = nullptr;
+                helpText.setVisible(true);
             }
         }
 
@@ -58,6 +65,8 @@ namespace ui
             {
                 configComponent->setBounds(getLocalBounds());
             }
+
+            helpText.setBounds(getLocalBounds());
         }
 
     private:
