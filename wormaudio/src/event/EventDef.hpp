@@ -29,11 +29,6 @@ namespace event
 
         EventDef(std::unique_ptr<automation::AutomationTable> automationTable, const std::string &name);
 
-        static resource::Handle<EventDef> create()
-        {
-            return std::make_shared<EventDef>( std::make_unique<automation::AutomationTable>(), "Sound Def");
-        }
-
         const resource::Handle<sm::StateMachineDefinition>& getDefinition()
         {
             return definition;
@@ -100,4 +95,9 @@ namespace event
             cereal::make_optional_nvp(ar, "properties", properties);
         }
     };
+
+    static resource::Handle<EventDef> createEventDef()
+    {
+        return std::make_shared<EventDef>( std::make_unique<automation::AutomationTable>(), "Sound Def");
+    }
 }

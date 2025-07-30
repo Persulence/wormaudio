@@ -29,6 +29,7 @@ endif ()
 # NOTE: CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT SHOULD be true
 # for "/usr/local", but for some reason it is not on my machine.
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT OR CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
+    message(STATUS "wormaudio-godot: Setting install prefix to ptorject dir")
     set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_SOURCE_DIR}/project/addons")
 endif ()
 

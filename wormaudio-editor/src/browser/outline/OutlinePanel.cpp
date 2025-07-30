@@ -45,7 +45,7 @@ namespace ui
                 PopupMenu menu;
                 menu.addItem("New Sound Def", [this]
                 {
-                    resource::Handle<event::EventDef> eventDef = event::EventDef::create();
+                    resource::Handle<event::EventDef> eventDef = event::createEventDef();
                     resource->addEvent(eventDef);
                     editor::getInstance().setCurrentEvent(eventDef, true);
 
