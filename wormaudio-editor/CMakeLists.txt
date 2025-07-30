@@ -7,10 +7,6 @@ set(CMAKE_CXX_FLAGS_DEBUG
 
 cmake_minimum_required(VERSION 3.25)
 
-# The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
-# `project()` command. `project()` sets up some helpful variables that describe source/binary
-# directories, and the current project version. This is a standard CMake command.
-
 project(GUI_APP_EXAMPLE VERSION 0.0.1)
 
 # Causes problems (can't remember what problems), but we're not using modules anyway.
