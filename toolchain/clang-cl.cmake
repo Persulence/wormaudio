@@ -1,8 +1,8 @@
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_SYSTEM_PROCESSOR amd64)
 
-set(CMAKE_C_COMPILER clang-cl-xwin)
-set(CMAKE_CXX_COMPILER clang-cl-xwin)
+set(CMAKE_C_COMPILER clang-cl)
+set(CMAKE_CXX_COMPILER clang-cl)
 set(CMAKE_AR llvm-lib)
 set(CMAKE_LINKER lld-link)
 set(CMAKE_MT llvm-mt)
