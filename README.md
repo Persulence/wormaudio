@@ -1,6 +1,6 @@
 # WormAudio
 
-WormAudio is a game audio middleware 
+WormAudio is a game audio middleware .
 
 It allows adaptive sounds to be designed in a graphical editor and distributed in a format that can be deployed to multiple game engines.
 
@@ -8,8 +8,13 @@ It is in the early stages of development and **not is ready for production use**
 
 ## Features
 
+- Editor GUI for designing adaptive sounds
 - Java API
 - GDScript API
+
+## Downloads 
+
+<https://github.com/Persulence/wormaudio/releases>
 
 ## Structure
 
@@ -30,22 +35,42 @@ This component also optionally generates a Java API and an accompanying shared l
 
 ### wormaudio-editor
 
-This is the GUI editor component.
+
+This is the GUI editor component. There is a top-level target for building the editor:
 
 
+#### Linux
+
+Dependencies on a debian-based system:
+
+```
+swig
+alsa libasound2-dev
+xorg libx11-dev x11-xserver-utils libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev 
+libglu1-mesa-dev mesa-common-dev
+libfreetype-dev libfreetype6 libfreetype6-dev libfontconfig1-dev
+```
+
+#### Build and Install
+
+```
+mkdir build && mkdir install && cd build
+cmake -DCMAKE_BUILD_TYPE=Release --install-prefix=../install ..
+cmake --build . --target build_editor
+cmake install .
+```
 
 ### wormaudio-java 
 
-This 
+This contains Java API. It is a Gradle project and does not have a top-level cmake target.
 
-This gradle project and does not have a top-level cmake target.
-
-
-Platform-specific shared libraries must be moved together into src/main/resources/native. The current build configuration does not support cross-compilation, so libraries must be compiled on the target operating system and moved into the java project manually.
+Platform-specific shared libraries must be moved together into `src/main/resources/native`. The current build configuration does not support cross-compilation, so libraries must be compiled on the target operating system and moved into the java project manually.
 
 Build wormaudio with `-DWORMAUDIO_JAVA_PATH=<path_to_wormaudio-java>` to automatically copy the API files and the shared library.
 
 ### wormaudio-godot
+
+This is a [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/index.html).
 
 ## Licensing
 

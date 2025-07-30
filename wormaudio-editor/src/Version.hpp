@@ -10,6 +10,6 @@ namespace ui
     namespace Version
     {
         constexpr auto NAME = "WormAudio Editor";
-        constexpr auto VERSION = "0.0.1";
+        constexpr auto VERSION = "0.1.0";
     }
 }

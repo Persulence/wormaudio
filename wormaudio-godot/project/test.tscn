@@ -38,6 +38,7 @@ unique_name_in_owner = true
 
 [node name="music_emitter" type="Node3D" parent="system/world"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -8)
+visible = false
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="system/world/music_emitter"]
 
