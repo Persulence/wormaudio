@@ -18,7 +18,7 @@ It is in the early stages of development and **not is ready for production use**
 
 ## Videos
 
-<p><iframe width="560" height="315" src="https://www.youtube.com/embed/BaaW4TYNxQs" title="" frameBorder="0"   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowFullScreen><br>Powered by <a href="https://youtubeembedcode.com">how to embed youtube video</a> and <a href=“https://tandblekningbutiken.se/"tandblekning bäst i test</a></iframe></p>
+[![Weapon sound demo](https://img.youtube.com/vi/BaaW4TYNxQs/maxresdefault.jpg)](https://youtu.be/BaaW4TYNxQs)
 
 ## Structure
 
