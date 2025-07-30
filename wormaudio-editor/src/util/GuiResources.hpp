@@ -21,6 +21,11 @@ namespace ui
 
     inline std::unordered_map<std::string, std::string> extensionIcons = {
         {".wav", resourcePath("icon/audio.png")},
+        {".flac", resourcePath("icon/audio.png")},
+        {".aiff", resourcePath("icon/audio.png")},
+        {".ogg", resourcePath("icon/audio.png")},
+        {".mp3", resourcePath("icon/audio.png")},
+        {".wma", resourcePath("icon/audio.png")},
     };
 
     inline juce::Image getIcon(const std::string& path)
@@ -30,7 +35,6 @@ namespace ui
 
     inline juce::Image getFileIcon(const juce::File& file)
     {
-
         if (file.isDirectory())
         {
             return juce::ImageCache::getFromFile(loadResource("icon/folder.png"));
