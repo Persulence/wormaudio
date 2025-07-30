@@ -1,14 +1,3 @@
-# Example GUI App CMakeLists.txt
-
-# To get started on a new GUI app, copy this entire folder (containing this file and C++ sources) to
-# a convenient location, and then start making modifications. For other examples of CMakeLists for
-# GUI apps, check `extras/Projucer` and `examples/DemoRunner` in the JUCE repo.
-
-# The first line of any CMake project should be a call to `cmake_minimum_required`, which checks
-# that the installed CMake will be able to understand the following CMakeLists, and ensures that
-# CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
-# information can be found in the CMake docs.
-
 set(LIBRARY_TARGET wormaudio)
 
 if (NOT MSVC)
@@ -16,10 +5,6 @@ if (NOT MSVC)
 endif ()
 
 cmake_minimum_required(VERSION 3.25)
-
-# The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
-# `project()` command. `project()` sets up some helpful variables that describe source/binary
-# directories, and the current project version. This is a standard CMake command.
 
 project(PLAYER_LIBRARY VERSION 0.0.1)
 
@@ -105,13 +90,6 @@ set_property(TARGET ${LIBRARY_TARGET} PROPERTY CXX_STANDARD 20)
 target_compile_features(${LIBRARY_TARGET}
     PUBLIC
     cxx_std_20)
-
-# `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
-# project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
-# of compile definitions to switch certain features on/off, so if there's a particular feature you
-# need that's not on by default, check the module header for the correct flag to set here. These
-# definitions will be visible both to your code, and also the JUCE module code, so for new
-# definitions, pick unique names that are unlikely to collide! This is a standard CMake command.
 
 target_compile_definitions(${LIBRARY_TARGET}
         PUBLIC
