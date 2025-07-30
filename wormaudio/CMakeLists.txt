@@ -30,7 +30,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${WORMAUDIO_OUTPUT_DIR})
 
 # Hopefully prevent the millions of JUCE headers from appearing in the install dir.
 # Linking to JUCE should bypass EXCLUDE_FROM_ALL for build.
-add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE build EXCLUDE_FROM_ALL)
+add_subdirectory(${WORMAUDIO_LIB_DIR}/JUCE juce)
 
 #set(UUID_SYSTEM_GENERATOR ON)
 #add_subdirectory(${WORMAUDIO_LIB_DIR}/stduuid stduuid)
