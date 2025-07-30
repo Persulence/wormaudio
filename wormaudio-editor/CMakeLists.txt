@@ -37,6 +37,8 @@ target_include_directories(${GUI_TARGET}
 #            lib/JUCE/modules
 )
 
+add_subdirectory(data)
+
 #include(CMakePrintHelpers)
 #cmake_print_properties(TARGETS ${GUI_TARGET} PROPERTIES INCLUDE_DIRECTORIES)
 
@@ -86,6 +88,7 @@ target_link_libraries(${GUI_TARGET}
 #        juce::juce_gui_extra
 #        juce::juce_opengl
         PUBLIC
+        ${GUI_TARGET}-data
         wormaudio
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags

@@ -26,6 +26,8 @@ namespace ui
 
         // ElementColours& getColour(Element);
 
+        juce::Typeface::Ptr getTypefaceForFont(const juce::Font &) override;
+
         void drawPopupMenuBackground(juce::Graphics &, int width, int height) override;
         void drawComboBox(juce::Graphics& g, int width, int height, bool, int, int, int, int, juce::ComboBox& box) override;
         bool areLinesDrawnForTreeView(juce::TreeView &) override;

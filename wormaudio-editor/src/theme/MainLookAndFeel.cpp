@@ -3,6 +3,7 @@
 // This work is licensed under CC BY-NC-SA 4.0. To view a copy of the license, visit https://creativecommons.org/licenses/by-nc-sa/4.0
 
 #include "MainLookAndFeel.hpp"
+#include "BinaryData.h"
 
 using namespace ui;
 using namespace juce;
@@ -10,6 +11,8 @@ using namespace juce;
 MainLookAndFeel::MainLookAndFeel()
 {
     using namespace juce;
+
+    setDefaultSansSerifTypefaceName("Liberation Sans");
 
     Colour fg = Colours::white;
     Colour bg = Colours::grey;
@@ -31,6 +34,20 @@ MainLookAndFeel::MainLookAndFeel()
 
     setColour(TextButton::buttonColourId, darkRed);
     setColour(TextButton::buttonOnColourId, bgDark);
+}
+
+juce::Typeface::Ptr MainLookAndFeel::getTypefaceForFont(const juce::Font &font)
+{
+    if (font.getStyleFlags() & Font::FontStyleFlags::bold)
+    {
+        static Typeface::Ptr typeface = Typeface::createSystemTypefaceFor(BinaryData::DejaVuSansBold_ttf, BinaryData::DejaVuSansBold_ttfSize);
+        return typeface;
+    }
+    else
+    {
+        static Typeface::Ptr typeface = Typeface::createSystemTypefaceFor(BinaryData::DejaVuSans_ttf, BinaryData::DejaVuSans_ttfSize);
+        return typeface;
+    }
 }
 
 void MainLookAndFeel::drawPopupMenuBackground(Graphics &graphics, int width, int height)
