@@ -16,6 +16,10 @@ It is in the early stages of development and **not is ready for production use**
 
 <https://github.com/Persulence/wormaudio/releases>
 
+## Videos
+
+[](https://www.youtube.com/watch?v=BaaW4TYNxQs)
+
 ## Structure
 
 WormAudio consists of a runtime library, a GUI editor and example APIs for Java and GDScript.
