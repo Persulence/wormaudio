@@ -6,6 +6,9 @@ It allows adaptive sounds to be designed in a graphical editor and distributed i
 
 It is in the early stages of development and **not is ready for production use**.
 
+> [!CAUTION]
+> WormAudio is in the early stages of development and is not ready for production use.
+
 ## Features
 
 - Editor GUI for designing adaptive sounds
@@ -18,7 +21,7 @@ It is in the early stages of development and **not is ready for production use**
 
 ## Videos
 
-[![Weapon sound demo](https://img.youtube.com/vi/BaaW4TYNxQs/maxresdefault.jpg)](https://youtu.be/BaaW4TYNxQs)
+[![Weapon sound demo](https://img.youtube.com/vi/BaaW4TYNxQs/0.jpg)](https://youtu.be/BaaW4TYNxQs)
 
 ## Structure
 
