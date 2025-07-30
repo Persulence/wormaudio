@@ -29,6 +29,8 @@ add_custom_target(build_editor
 )
 
 install(TARGETS wormaudio-editor)
+install(DIRECTORY wormaudio-editor/res
+    DESTINATION .)
 
 add_custom_target(build_godot
     DEPENDS

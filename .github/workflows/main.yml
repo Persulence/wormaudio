@@ -1,4 +1,4 @@
-name: Build Editor + Godot
+name: Build Editor
 
 on:
   push:

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <format>
+
 #include "juce_core/juce_core.h"
 
 namespace ui
@@ -31,6 +33,24 @@ namespace ui
     inline juce::Image getIcon(const std::string& path)
     {
         return juce::ImageCache::getFromFile(loadResource(path));
+
+        auto file = loadResource(path);
+
+        auto hashCode = file.hashCode64();
+        auto image = juce::ImageCache::getFromHashCode(hashCode);
+
+        if (image.isNull())
+        {
+            image = juce::ImageFileFormat::loadFrom(file);
+            if (image == juce::Image{})
+            {
+                juce::Logger::writeToLog(std::format("Failed to load icon {}", path));
+            }
+
+            juce::ImageCache::addImageToCache(image, hashCode);
+        }
+
+        return image;
     }
 
     inline juce::Image getFileIcon(const juce::File& file)
