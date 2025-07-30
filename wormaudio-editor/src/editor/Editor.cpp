@@ -170,7 +170,7 @@ namespace editor
         if (!project->events.empty())
             setCurrentEvent(project->events.at(0), false);
         else
-            setCurrentEvent(project->addEvent(event::EventDef::create()), false);
+            setCurrentEvent(project->addEvent(event::createEventDef()), false);
 
         onProjectRefreshed.emit();
 
@@ -195,7 +195,7 @@ namespace editor
         if (!project->events.empty())
             setCurrentEvent(project->events.at(0), true);
         else
-            setCurrentEvent(project->addEvent(event::EventDef::create()), true);
+            setCurrentEvent(project->addEvent(event::createEventDef()), true);
     }
 
     void Editor::eraseGlobalParameter(const parameter::Parameter &parameter)

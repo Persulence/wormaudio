@@ -22,6 +22,18 @@ namespace ui
     using namespace juce;
     using namespace element;
 
+    PopupMenu createParametersSubmenu(const std::vector<parameter::Parameter>& parameters, std::function<void(const parameter::Parameter&)> f)
+    {
+        PopupMenu menu;
+
+        for (const auto& parameter : parameters)
+        {
+            menu.addItem({parameter->getName()}, [parameter, f] { f(parameter); });
+        }
+
+        return menu;
+    }
+
     class ElementRegionImpl : public Component
     {
 
@@ -46,18 +58,6 @@ namespace ui
 
             g.setColour(Colours::white);
             g.drawText(element->getName(), getLocalBounds().withTrimmedLeft(10).toFloat(), Justification::centredLeft, true);
-        }
-
-        PopupMenu createParametersSubmenu(const std::vector<Parameter>& parameters, std::function<void(const Parameter&)> f)
-        {
-            PopupMenu menu;
-
-            for (const auto& parameter : parameters)
-            {
-                menu.addItem({parameter->getName()}, [parameter, f] { f(parameter); });
-            }
-
-            return menu;
         }
 
         void mouseDown(const MouseEvent &event) override
