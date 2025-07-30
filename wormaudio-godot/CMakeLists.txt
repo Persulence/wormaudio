@@ -105,7 +105,7 @@ endif ()
 add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_SOURCE_DIR}/support_files"
+            "${CMAKE_CURRENT_LIST_DIR}/support_files"
             ${BUILD_OUTPUT_DIR}
 )
 
@@ -130,7 +130,7 @@ install(TARGETS ${PROJECT_NAME}
 )
 
 # Copy over support files
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/support_files/"
+install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/support_files/"
         DESTINATION ${INSTALL_DIR}
             PATTERN ".*" EXCLUDE
 )
@@ -213,6 +213,7 @@ target_link_libraries(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME}
         PRIVATE
             HOT_RELOAD_ENABLED=1
+            TYPED_METHOD_BIND=1 # For clang-cl (compiling for windows)
 )
 
 add_custom_target(install_${PROJECT_NAME}

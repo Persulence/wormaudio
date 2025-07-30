@@ -42,13 +42,11 @@ This component also optionally generates a Java API and an accompanying shared l
 
 ### wormaudio-editor
 
-
-This is the GUI editor component. There is a top-level target for building the editor:
-
+This is the GUI editor component. There is a top-level cmake target for building the editor (`build_editor`)
 
 #### Linux
 
-Dependencies on a debian-based system:
+Dependencies on a debian-based system (Some may be missing):
 
 ```
 swig
@@ -67,6 +65,9 @@ cmake --build . --target build_editor
 cmake install .
 ```
 
+> ![NOTE]
+> Move the `install` directory to wherever you wish. Installing to system directories is not currently supported.
+
 ### wormaudio-java 
 
 This contains Java API. It is a Gradle project and does not have a top-level cmake target.
@@ -77,7 +78,11 @@ Build wormaudio with `-DWORMAUDIO_JAVA_PATH=<path_to_wormaudio-java>` to automat
 
 ### wormaudio-godot
 
-This is a [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/index.html).
+This is a [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/index.html) that provides GDScript bindings for WormAudio.
+
+There is a top-level cmake target for this component (`build_godot`).
+
+
 
 ## Licensing
 

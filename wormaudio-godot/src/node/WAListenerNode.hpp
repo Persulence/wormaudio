@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <numbers>
 #include <godot_cpp/classes/node3d.hpp>
 
 namespace wa
