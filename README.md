@@ -18,7 +18,7 @@ It is in the early stages of development and **not is ready for production use**
 
 ## Videos
 
-![Weapon sound demo](https://www.youtube.com/watch?v=BaaW4TYNxQs)
+[![Weapon sound demo](https://www.youtube.com/watch?v=BaaW4TYNxQs)
 
 ## Structure
 
