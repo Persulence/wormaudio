@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Thomas Paley-Menzies
+
 set(LIBRARY_TARGET wormaudio)
 
 if (NOT MSVC)
