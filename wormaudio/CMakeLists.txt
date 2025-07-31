@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Persulence
+
 set(LIBRARY_TARGET wormaudio)
 
 if (NOT MSVC)
