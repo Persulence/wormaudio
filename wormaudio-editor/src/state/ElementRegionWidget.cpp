@@ -172,6 +172,34 @@ namespace ui
             {
                 manager->select(SimpleSelectionTarget::of(std::make_unique<ElementInspectorFiller>(event::ElementHandle{element})));
             }
+
+            if (event.mods.isRightButtonDown())
+            {
+                auto& editor = editor::Editor::getInstance();
+
+                const auto& parameters = editor.getEditorParameters().getParameters();
+
+                // Menu for selecting a parameter
+                const PopupMenu volumeMenu = createParametersSubmenu(parameters, [this, &editor](auto& p)
+                {
+                    const automation::AutomationLink link{p, element->volume, automation::MappingFunction{}};
+                    editor.getEvent()->getAutomation().setup(link);
+                });
+
+                PopupMenu menu;
+
+                menu.addItem("Remove", [this]
+                {
+                    if (const auto parent = findParentComponentOfClass<StatePropertyPanel>())
+                    {
+                        parent->removeElement(element);
+                    }
+                });
+
+                menu.addSubMenu("Automate volume", volumeMenu);
+
+                menu.showMenuAsync(PopupMenu::Options{});
+            }
         }
 
     private:
