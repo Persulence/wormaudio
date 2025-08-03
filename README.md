@@ -5,7 +5,8 @@ WormAudio is a game audio middleware .
 It allows adaptive sounds to be designed in a graphical editor and distributed in a format that can be deployed to multiple game engines.
 
 > [!CAUTION]
-> WormAudio is in the early stages of development and is not ready for production use.
+> WormAudio is in the early stages of development and is not ready for substantial use. 
+> Future versions will not be backwards compatible.
 
 ## Features
 
