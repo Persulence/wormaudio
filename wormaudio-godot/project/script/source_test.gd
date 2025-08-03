@@ -1,9 +1,9 @@
 extends Node3D
 
 var instance
-
+2
 func _ready():
-	#instantiate_sound()
+	instantiate_sound()
 	pass
 
 func _physics_process(_delta: float) -> void:
