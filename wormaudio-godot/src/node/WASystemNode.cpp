@@ -52,8 +52,11 @@ namespace wa
         if (!system)
         {
             system = loadSystem();
-            WormAudioGodot::getInstance().getRuntime().getParameters().refresh(*system->globalParameters);
-            system->getAssetManager().preprocess();
+            if (system)
+            {
+                WormAudioGodot::getInstance().getRuntime().getParameters().refresh(*system->globalParameters);
+                system->getAssetManager().preprocess();
+            }
         }
 
         return system;
