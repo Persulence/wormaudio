@@ -144,11 +144,26 @@ namespace wa
                      "get_event_name");
     }
 
+    template <typename T> T* findNodeInParents(godot::Node* node)
+    {
+        while (node)
+        {
+            if (auto found = dynamic_cast<T*>(node))
+            {
+                return found;
+            }
+
+            node = node->get_parent();
+        }
+
+        return nullptr;
+    }
+
     WASystemNode* WASourceNode::getSystemNode()
     {
         if (!systemNodeCache)
         {
-            if (auto node = dynamic_cast<WASystemNode*>(get_node_or_null(godot::NodePath{"%system"})))
+            if (const auto node = findNodeInParents<WASystemNode>(this))
             {
                 systemNodeCache = node;
             }
