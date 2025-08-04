@@ -46,12 +46,13 @@ script = ExtResource("2_ykrsh")
 
 [node name="character" type="Node3D" parent="system/world"]
 
-[node name="Character" parent="system/world/character" instance=ExtResource("2_8uh7m")]
+[node name="Character" parent="system/world/character" node_paths=PackedStringArray("system") instance=ExtResource("2_8uh7m")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3, 0, -4)
 footstep_distance = 1.5
 running_footstep_distance = 2.0
 mouse_sensitivity = 0.2
 default_reticle = ""
+system = NodePath("../../..")
 
 [node name="WAListenerNode" type="WAListenerNode" parent="system/world/character/Character/Head" index="3"]
 script = ExtResource("3_ppyta")
