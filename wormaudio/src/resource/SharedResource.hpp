@@ -56,6 +56,8 @@ namespace resource
     public:
         Identifiable(): uuid(UUID{}) {}
 
+        virtual ~Identifiable() = default;
+
         UUID getUUID() { return uuid; };
 
     private:

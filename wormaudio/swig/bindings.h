@@ -31,6 +31,9 @@
 // A base that provides leak detection so that we can hopefully detect java silliness.
 class WrapperBase
 {
+public:
+    virtual ~WrapperBase() = default;
+
 private:
     NS_LEAK_DETECTOR(WrapperBase)
 };
