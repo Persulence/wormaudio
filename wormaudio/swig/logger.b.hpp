@@ -19,7 +19,7 @@ namespace binding
     {
     public:
         LoggerAdaptor() = default;
-        ~LoggerAdaptor() override
+        virtual ~LoggerAdaptor() override
         {
             // Hopefully this class's lifetime will be managed by the target language
             juce::Logger::setCurrentLogger(nullptr);
