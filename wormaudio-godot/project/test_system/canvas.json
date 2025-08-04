@@ -4,17 +4,152 @@
         "canvas_data": [
             {
                 "key": {
-                    "data": "bec9a4c1533d43f2bca4af4c929e2acb"
+                    "data": "e59ca56c4f8a460788801c5b47ea8745"
                 },
                 "value": {
                     "cereal_class_version": 0,
                     "nodes": [
                         {
                             "key": {
-                                "data": "0b8de14bf77d4c9b95bbee90edb580dc"
+                                "data": "29a743191df24906904d76350cc14722"
                             },
                             "value": {
                                 "cereal_class_version": 0,
+                                "x": 374,
+                                "y": 328
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "c1022b8ac93047c09f96b4dcdd28d3ab"
+                            },
+                            "value": {
+                                "x": 642,
+                                "y": 78
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "d77dffe312144da78ef39cffcb623686"
+                            },
+                            "value": {
+                                "x": 203,
+                                "y": 70
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "1988777f93b74475af10c6a698b68882"
+                            },
+                            "value": {
+                                "x": 429,
+                                "y": 77
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "96ae4c97238e42d1b07e80af4ae8f491"
+                            },
+                            "value": {
+                                "x": 949,
+                                "y": 220
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "abd3b634a5ae4f97aed582a495b83e56"
+                            },
+                            "value": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "key": {
+                    "data": "9b36563192204060a3521a9350fb6f66"
+                },
+                "value": {
+                    "nodes": [
+                        {
+                            "key": {
+                                "data": "f697dabdc5d34a0d9f1c8b7255df4132"
+                            },
+                            "value": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "e9baf5d91eb44adf929f4490e2c3f57c"
+                            },
+                            "value": {
+                                "x": 799,
+                                "y": 88
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "24776c9543bc479385257269e1315080"
+                            },
+                            "value": {
+                                "x": 401,
+                                "y": 73
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "key": {
+                    "data": "f0e4247108d640faac9e89518a491848"
+                },
+                "value": {
+                    "nodes": [
+                        {
+                            "key": {
+                                "data": "734e820a28ca4b14ae665fca4ba46347"
+                            },
+                            "value": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "19157f440ba3480eab2b6e8a7ef27134"
+                            },
+                            "value": {
+                                "x": 910,
+                                "y": 94
+                            }
+                        },
+                        {
+                            "key": {
+                                "data": "520b860827344967bdeb521820acb66e"
+                            },
+                            "value": {
+                                "x": 418,
+                                "y": 89
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "key": {
+                    "data": "bec9a4c1533d43f2bca4af4c929e2acb"
+                },
+                "value": {
+                    "nodes": [
+                        {
+                            "key": {
+                                "data": "0b8de14bf77d4c9b95bbee90edb580dc"
+                            },
+                            "value": {
                                 "x": 655,
                                 "y": 35
                             }
@@ -49,78 +184,6 @@
                         {
                             "key": {
                                 "data": "c06fcc9bfe1f47b5bbd69b4035ebadf1"
-                            },
-                            "value": {
-                                "x": 0,
-                                "y": 0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "key": {
-                    "data": "f0e4247108d640faac9e89518a491848"
-                },
-                "value": {
-                    "nodes": [
-                        {
-                            "key": {
-                                "data": "520b860827344967bdeb521820acb66e"
-                            },
-                            "value": {
-                                "x": 418,
-                                "y": 89
-                            }
-                        },
-                        {
-                            "key": {
-                                "data": "19157f440ba3480eab2b6e8a7ef27134"
-                            },
-                            "value": {
-                                "x": 910,
-                                "y": 94
-                            }
-                        },
-                        {
-                            "key": {
-                                "data": "734e820a28ca4b14ae665fca4ba46347"
-                            },
-                            "value": {
-                                "x": 0,
-                                "y": 0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "key": {
-                    "data": "9b36563192204060a3521a9350fb6f66"
-                },
-                "value": {
-                    "nodes": [
-                        {
-                            "key": {
-                                "data": "24776c9543bc479385257269e1315080"
-                            },
-                            "value": {
-                                "x": 401,
-                                "y": 73
-                            }
-                        },
-                        {
-                            "key": {
-                                "data": "e9baf5d91eb44adf929f4490e2c3f57c"
-                            },
-                            "value": {
-                                "x": 799,
-                                "y": 88
-                            }
-                        },
-                        {
-                            "key": {
-                                "data": "f697dabdc5d34a0d9f1c8b7255df4132"
                             },
                             "value": {
                                 "x": 0,
