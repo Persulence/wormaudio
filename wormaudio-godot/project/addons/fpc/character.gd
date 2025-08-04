@@ -248,6 +248,7 @@ func handle_movement(delta, input_dir):
 	
 	update_footsteps(delta)
 
+@export var system : WASystemNode
 var footstep: WASoundInstance
 
 func update_footsteps(delta: float):
@@ -269,7 +270,6 @@ func update_footsteps(delta: float):
 
 func play_footstep():
 	if (footstep == null):
-		var system: WASystemNode = get_node("%system")
 		var def = system.get_sound_def("footstep-1")
 		footstep = WARuntime.instantiate(def)
 		#instance.mark_done()
@@ -278,7 +278,6 @@ func play_footstep():
 	footstep.set_state(WATransport.STARTING)
 
 func play_footstep_sound(name: String):
-	var system: WASystemNode = get_node("%system")
 	var def = system.get_sound_def(name)
 	
 	var instance = WARuntime.instantiate(def)

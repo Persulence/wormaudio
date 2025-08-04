@@ -1,7 +1,7 @@
 extends Node3D
 
 var instance
-2
+
 func _ready():
 	instantiate_sound()
 	pass
