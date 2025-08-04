@@ -13,6 +13,7 @@
 #include "WARuntime.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 #include <state/Parameter.hpp>
 
 #include "WormAudioGodot.hpp"
@@ -36,6 +37,7 @@ namespace wa
 
     WASoundInstance* WARuntime::instantiate(const WASoundDef *def)
     {
+        assert(def);
         return memnew(WASoundInstance{WormAudioGodot::getInstance().getRuntime().instantiate(def->getBacking())});
     }
 
