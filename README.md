@@ -8,9 +8,19 @@ It allows adaptive sounds to be designed in a graphical editor and distributed i
 > WormAudio is currently a proof of concept and is not ready for substantial use. 
 > Future versions will not be backwards compatible.
 
+> [!NOTE]
+> WormAudio currently only supports Windows and Linux on x86_64 architectures.
+
 ## Features
 
-- Editor GUI for designing adaptive sounds
+- Editor GUI 
+- Adaptive sound definition using visually represented state machines
+- Many options for state transition logic, such as quantisation and random.
+- Global parameters
+- Simple automation
+- Stereo spatial audio with multiple attenuation functions
+
+
 - Java API
 - GDScript API
 
@@ -74,6 +84,18 @@ cmake install .
 
 > ![NOTE]
 > Move the `install` directory to wherever you wish. Installing to system directories is not currently supported.
+> 
+### wormaudio-godot
+
+This is a [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/index.html) that provides GDScript bindings for WormAudio.
+
+There is a top-level cmake target for this component (`build_godot`).
+
+#### Installing
+
+To install, unzip the extension and place it in your Godot project's `addons` folder.
+
+In the Godot editor, from the Project menu open Project Settings and navigate to the Plugins tab. Find wormaudio-godot in the list of plugins and check the Enabled box.
 
 ### wormaudio-java 
 
@@ -82,12 +104,6 @@ This contains Java API. It is a Gradle project and does not have a top-level cma
 Platform-specific shared libraries must be moved together into `src/main/resources/native`. The current build configuration does not support cross-compilation, so libraries must be compiled on the target operating system and moved into the java project manually.
 
 Build wormaudio with `-DWORMAUDIO_JAVA_PATH=<path_to_wormaudio-java>` to automatically copy the API files and the shared library.
-
-### wormaudio-godot
-
-This is a [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/index.html) that provides GDScript bindings for WormAudio.
-
-There is a top-level cmake target for this component (`build_godot`).
 
 ## Planned Features
 
