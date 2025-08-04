@@ -36,6 +36,11 @@ namespace wa
         instance->transport.setState(static_cast<player::TransportState>(state));
     }
 
+    int WASoundInstance::getState() const
+    {
+        return instance->transport.getState();
+    }
+
     void WASoundInstance::setPosition(godot::Vector3 position_) const
     {
         instance->setPosition({position_.x, position_.y, position_.z});
@@ -48,6 +53,7 @@ namespace wa
         ClassDB::bind_method(D_METHOD("mark_done"), &WASoundInstance::markFreed);
         ClassDB::bind_method(D_METHOD("can_free"), &WASoundInstance::canFree);
         ClassDB::bind_method(D_METHOD("set_state", "transport_state"), &WASoundInstance::setState);
+        ClassDB::bind_method(D_METHOD("get_state"), &WASoundInstance::getState);
         ClassDB::bind_method(D_METHOD("set_position", "position"), &WASoundInstance::setPosition);
     }
 }

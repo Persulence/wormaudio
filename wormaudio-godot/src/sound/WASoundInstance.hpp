@@ -28,6 +28,8 @@ namespace wa
 
         void setState(int state) const;
 
+        int getState() const;
+
         void setPosition(godot::Vector3 position_) const;
 
     protected:
