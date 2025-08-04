@@ -108,7 +108,6 @@ jobs:
           cmake
           -B build-editor
           -G "Ninja"
-          -DJUCE_MODULES_ONLY=ON 
           -DDISABLE_WARNINGS=TRUE
           -DWORMAUDIO_SKIP_CCACHE=TRUE
           -DCMAKE_CXX_FLAGS="${{ env.CXX_FLAGS }}"
