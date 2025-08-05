@@ -115,6 +115,7 @@ I intend to distribute WormAudio under AGPLv3 with dynamic linking exceptions fo
 - Add level meters.
 - Add buses.
 - Add a mechanism for live mixing.
+- MacOS Support.
 - Add non-global parameters.
 - Enum type parameters.
 - Configurable transition crossfades.
