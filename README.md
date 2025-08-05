@@ -28,7 +28,7 @@ WormAudio is a game middleware library for adaptive sound in video games. It all
 
 ## Videos
 
-[![WormAudio 0.1 Playlist](https://img.youtube.com/vi/BaaW4TYNxQs/0.jpg)](https://www.youtube.com/playlist?list=PLWuxGrHLmVCiRlxeiQdXLXQ6MhWES7Hx-)
+[WormAudio 0.1 Playlist](https://www.youtube.com/playlist?list=PLWuxGrHLmVCiRlxeiQdXLXQ6MhWES7Hx-)
 
 ## Structure
 
