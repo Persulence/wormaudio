@@ -1,5 +1,7 @@
 # WormAudio
 
+> A rewrite of WormAudio is in progress at <https://codeberg.org/Persulence/wormaudio-global>
+
 WormAudio is a game middleware library for adaptive sound in video games. It allows adaptive sounds to be designed in a graphical editor and distributed in a format that can be deployed to multiple game engines.
 
 > [!CAUTION]
